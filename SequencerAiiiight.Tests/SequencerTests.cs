@@ -46,7 +46,7 @@
 
         #endregion
 
-        #region Public Methods and Operators
+        #region Tests
 
         [Test]
         public void SequencerExecutesTasksInTheOrderOfTheirDispatch()
