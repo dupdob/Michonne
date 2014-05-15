@@ -52,12 +52,12 @@
         public void SequencerExecutesTasksInTheOrderOfTheirDispatch()
         {
             var sequencer = new Sequencer();
-            const int MaxNumber = 10000;
+            const int TasksNumber = 100000;
             
-            this.result = new List<int>(MaxNumber);
+            this.result = new List<int>(TasksNumber);
 
             // loads the sequencer
-            for (var i = 0; i < MaxNumber; i++)
+            for (var i = 0; i < TasksNumber; i++)
             {
                 var antiClosureSideEffectNumber = i;
                 sequencer.Dispatch(() => this.result.Add(antiClosureSideEffectNumber));
@@ -70,7 +70,7 @@
             Check.That(this.sequenceFinished.WaitOne(5 * SecondInMsec)).IsTrue();
 
             // Checks that everything was properly processed in sequence
-            for (int k = 0; k < MaxNumber; k++)
+            for (int k = 0; k < TasksNumber; k++)
             {
                 Check.That(this.result[k]).IsEqualTo(k);
             }
