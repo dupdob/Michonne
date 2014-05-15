@@ -60,13 +60,7 @@
             for (var i = 0; i < MaxNumber; i++)
             {
                 var antiClosureSideEffectNumber = i;
-                sequencer.Dispatch(() =>
-                {
-                    lock (this.syncRoot)
-                    {
-                        this.result.Add(antiClosureSideEffectNumber);
-                    }
-                });
+                sequencer.Dispatch(() => this.result.Add(antiClosureSideEffectNumber));
             }
 
             // Indicates the end of the sequence
@@ -81,8 +75,6 @@
                 Check.That(this.result[k]).IsEqualTo(k);
             }
         }
-
-        
 
         #endregion
     }
