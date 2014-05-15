@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>NFluent</id>
+    <version>1.2.0.0</version>
+    <title>NFluent, smooth your .NET TDD experience!</title>
+    <authors>Thomas PIERRAIN, Cyrille DUPUYDAUBY, Rui CARVALHO, Marc-Antoine LATOUR</authors>
+    <owners>Thomas PIERRAIN</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>http://www.n-fluent.net</projectUrl>
+    <iconUrl>https://raw.github.com/tpierrain/NFluent/master/Images/Icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>NFluent is an ergonomic check library which aims to fluent your .NET TDD experience (based on simple Check.That() check statements). NFluent aims your tests to be fluent to write (with an happy 'dot' auto completion experience), fluent to read (i.e. as close as possible to plain English expression), but also fluent to troubleshoot, in a less-error-prone way comparing to the classical .NET test frameworks. NFluent is directly, but also freely, inspired by the awesome Java FEST fluent check/reflection library (http://fest.easytesting.org/).</description>
+    <summary>NFluent is an ergonomic check library which aims to fluent your .NET TDD experience.</summary>
+    <releaseNotes>New feature(s):
+
+* Adds IsOneOfThese() check for string.
+
+* Provides a Portable Class Library version for NFluent (portable-net4+sl5+wp8+win8+MonoMac+MonoTouch+MonoAndroid)
+
+--------------
+
+Change(s):
+
+* Renames the Properties extension method on IEnumerable to Extracting. Properties is still there, but marked as obsolete.
+
+* Improves error messages for IsInstanceOf checks.
+
+* IsNull, IsNotNull, IsSameReferenceThan, IsDistinctFrom, HasFieldsWithSameValues and HasNotFieldsWithSameValues are now able to conserve the checked typed (instead of loosing it by converting it into a object).
+
+* InheritsFrom does not return a linkable check anymore (but void).
+
+--------------
+
+Bug Fixe(s):
+
+* Fixes a null ref exception for Contains on null
+
+* Fixes a null ref exception for HasFieldsWithSameValues</releaseNotes>
+    <copyright>Copyright 2013  Thomas PIERRAIN</copyright>
+    <language>en-US</language>
+    <tags>tdd bdd test fluent check checks easy nunit xunit mbunit mstestsucks</tags>
+  </metadata>
+</package>
