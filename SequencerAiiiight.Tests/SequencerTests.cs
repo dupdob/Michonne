@@ -12,6 +12,8 @@
         #region Gin and Juice (fields)
 
         private const int SecondInMsec = 1000;
+        private const int ThreeSecondsMax = 3 * SecondInMsec;
+
         private List<int> tasksOutput;
         private AutoResetEvent sequenceFinished;
 
@@ -58,7 +60,7 @@
             sequencer.Dispatch(() => this.sequenceFinished.Set()) ;
 
             // Waits for sequence completion
-            Check.That(this.sequenceFinished.WaitOne(5 * SecondInMsec)).IsTrue();
+            Check.That(this.sequenceFinished.WaitOne(ThreeSecondsMax)).IsTrue();
 
             // Checks that everything was properly processed in sequence
             for (int k = 0; k < TasksNumber; k++)
