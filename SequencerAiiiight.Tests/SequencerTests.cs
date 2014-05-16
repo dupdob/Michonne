@@ -4,29 +4,20 @@
     using System.Threading;
 
     using NFluent;
-
     using NUnit.Framework;
 
     [TestFixture]
     public class SequencerTests
     {
-        #region Constants
+        #region Gin and Juice (fields)
 
         private const int SecondInMsec = 1000;
-
-        #endregion
-
-        #region Fields
-
-        private readonly object syncRoot = new object();
-
         private List<int> result;
-
         private AutoResetEvent sequenceFinished;
 
         #endregion
 
-        #region SetUp/TearDown
+        #region Bang bang (SetUp/TearDown)
 
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
@@ -46,7 +37,7 @@
 
         #endregion
 
-        #region Tests
+        #region Mos Def (Tests)
 
         [Test]
         public void SequencerExecutesTasksInTheOrderOfTheirDispatch()
@@ -56,17 +47,17 @@
             
             this.result = new List<int>(TasksNumber);
 
-            // loads the sequencer
+            // Dispatches tasks to the sequencer
             for (var i = 0; i < TasksNumber; i++)
             {
                 var antiClosureSideEffectNumber = i;
                 sequencer.Dispatch(() => this.result.Add(antiClosureSideEffectNumber));
             }
 
-            // Indicates the end of the sequence
+            // Indicates the end of the sequence with a final task
             sequencer.Dispatch(() => this.sequenceFinished.Set()) ;
 
-            // use an autoreset event here instead
+            // Waits for sequence completion
             Check.That(this.sequenceFinished.WaitOne(5 * SecondInMsec)).IsTrue();
 
             // Checks that everything was properly processed in sequence
