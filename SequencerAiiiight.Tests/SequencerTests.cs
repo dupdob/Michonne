@@ -12,7 +12,7 @@
         #region Gin and Juice (fields)
 
         private const int SecondInMsec = 1000;
-        private List<int> result;
+        private List<int> tasksOutput;
         private AutoResetEvent sequenceFinished;
 
         #endregion
@@ -45,13 +45,13 @@
             var sequencer = new Sequencer();
             const int TasksNumber = 100000;
             
-            this.result = new List<int>(TasksNumber);
+            this.tasksOutput = new List<int>(TasksNumber);
 
             // Dispatches tasks to the sequencer
             for (var i = 0; i < TasksNumber; i++)
             {
                 var antiClosureSideEffectNumber = i;
-                sequencer.Dispatch(() => this.result.Add(antiClosureSideEffectNumber));
+                sequencer.Dispatch(() => this.tasksOutput.Add(antiClosureSideEffectNumber));
             }
 
             // Indicates the end of the sequence with a final task
@@ -63,7 +63,7 @@
             // Checks that everything was properly processed in sequence
             for (int k = 0; k < TasksNumber; k++)
             {
-                Check.That(this.result[k]).IsEqualTo(k);
+                Check.That(this.tasksOutput[k]).IsEqualTo(k);
             }
         }
 
