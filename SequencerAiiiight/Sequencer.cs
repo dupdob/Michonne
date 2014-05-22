@@ -4,8 +4,6 @@
     using System.Collections.Generic;
     using System.Threading;
 
-    
-
     /// <summary>
     /// Allows to execute tasks asynchronously, but one by one and in the same order as they have been dispatched.
     /// That means that two tasks from the same dispatcher can be executed by two different threads, but not in parallel. 
@@ -20,66 +18,71 @@
     /// </summary>
     public class Sequencer
     {
-        // TODO: clean up some code and refactor it.
-
+        // TODO: still not optimized in term of concurrency => clean up some code and refactor it.
         #region Fields
 
-        private readonly object _lock = new Object();
-
-        private readonly Queue<Action> _orderedDispatchedTasks = new Queue<Action>();
-        private readonly Queue<Action> _pendingTasks = new Queue<Action>();
-
-        private bool _isRunning;
+        private readonly object syncRoot = new object();
+        private readonly Queue<Action> orderedDispatchedTasks = new Queue<Action>();
+        private readonly Queue<Action> pendingTasks = new Queue<Action>();
+        private bool isRunning;
 
         #endregion
 
         #region Public Methods and Operators
 
+        /// <summary>
+        /// Gives a task/action to the sequencer in order to execute it in an asynchronous manner, but respecting the
+        /// order of the dispatch, and without concurrency among the sequencer's tasks.
+        /// </summary>
+        /// <param name="action"></param>
         public void Dispatch(Action action)
         {
-            SequencedTask sequencedTask = null;
-            // he he he... ;-)
-            lock (this._lock)
+            lock (this.syncRoot)
             {
-                sequencedTask = new SequencedTask(this);
-                this._orderedDispatchedTasks.Enqueue(action);
+                this.orderedDispatchedTasks.Enqueue(action);
             }
 
-            // here we queue a call to our own logic
+            // wraps the taks and dispatchs it to the thread pool (TODO: use TPL instead)
+            var sequencedTask = new SequencedTask(this);
+
+            // Run when the pool has available cpu time for us.
             ThreadPool.QueueUserWorkItem(x => sequencedTask.Execute());
         }
 
         #endregion
 
         /// <summary>
-        /// Sequenced task that has been dispatched.
+        /// Task that has been dispatched by the sequencer.
         /// </summary>
         private class SequencedTask
         {
-            private Sequencer sequencer;
+            private readonly Sequencer sequencer;
 
             public SequencedTask(Sequencer sequencer)
             {
                 this.sequencer = sequencer;
             }
 
+
+            /// <summary>
+            /// Executes this dispatched task.
+            /// </summary>
             public void Execute()
             {
-                // run when the pool has available cpu time for us.
-                Action action = null;
+                Action action;
 
-                lock (this.sequencer._lock)
+                lock (this.sequencer.syncRoot)
                 {
-                    action = this.sequencer._orderedDispatchedTasks.Dequeue(); 
+                    action = this.sequencer.orderedDispatchedTasks.Dequeue(); 
 
-                    if (this.sequencer._isRunning)
+                    if (this.sequencer.isRunning)
                     {
                         // we need to store and stop
-                        this.sequencer._pendingTasks.Enqueue(action);
+                        this.sequencer.pendingTasks.Enqueue(action);
                         return;
                     }
                     // ok, we can run
-                    this.sequencer._isRunning = true;
+                    this.sequencer.isRunning = true;
                 }
 
                 while (true)
@@ -87,15 +90,15 @@
                     // execute the next action
                     action();
                     // we check if others are available
-                    lock (this.sequencer._lock)
+                    lock (this.sequencer.syncRoot)
                     {
-                        if (this.sequencer._pendingTasks.Count == 0)
+                        if (this.sequencer.pendingTasks.Count == 0)
                         {
-                            this.sequencer._isRunning = false;
+                            this.sequencer.isRunning = false;
                             return;
                         }
                         // pop the next task
-                        action = this.sequencer._pendingTasks.Dequeue();
+                        action = this.sequencer.pendingTasks.Dequeue();
                     }
                 }
             }

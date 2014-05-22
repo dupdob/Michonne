@@ -13,14 +13,19 @@
     /// </summary>
     public class ContinuationTasksBasedSequencer
     {
-        private readonly object _lock = new object();
-        private Task _task = Task.FromResult(0);
+        private readonly object syncRoot = new object();
+        private Task task = Task.FromResult(0);
 
+        /// <summary>
+        /// Gives a task/action to the sequencer in order to execute it in an asynchronous manner, but respecting the
+        /// order of the dispatch, and without concurrency among the sequencer's tasks.
+        /// </summary>
+        /// <param name="action"></param>
         public void Dispatch(Action action)
         {
-            lock (_lock)
+            lock (this.syncRoot)
             {
-                _task = _task.ContinueWith(_ => action());
+                this.task = this.task.ContinueWith(_ => action());
             }
         }
     }
