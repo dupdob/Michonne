@@ -44,7 +44,7 @@
         [Test]
         public void SequencerExecutesTasksInTheOrderOfTheirDispatch()
         {
-            var sequencer = new Sequencer();
+            var sequencer = new ContinuationTasksBasedSequencer();
             const int TasksNumber = 100000;
             
             this.tasksOutput = new List<int>(TasksNumber);
