@@ -42,7 +42,7 @@
                 this.orderedDispatchedTasks.Enqueue(action);
             }
 
-            // wraps the taks and dispatchs it to the thread pool (TODO: use TPL instead)
+            // wraps the taks and dispatchs it to the thread pool (TODO: use TPL or I/I completion ports instead)
             var sequencedTask = new SequencedTask(this);
 
             // Run when the pool has available cpu time for us.
@@ -62,7 +62,6 @@
             {
                 this.sequencer = sequencer;
             }
-
 
             /// <summary>
             /// Executes this dispatched task.
