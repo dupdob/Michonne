@@ -2,8 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading;
-
     using SequencerAiiiight.Interfaces;
 
     /// <summary>
@@ -24,7 +22,7 @@
         #region Fields
 
         private readonly object syncRoot = new object();
-        private readonly IDispatcher dispatcher;
+        private readonly IDispatcher rootDispatcher;
         private readonly Queue<Action> orderedDispatchedTasks = new Queue<Action>();
         private readonly Queue<Action> pendingTasks = new Queue<Action>();
         private bool isRunning;
@@ -34,10 +32,10 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Sequencer"/> class.
         /// </summary>
-        /// <param name="dispatcher">The dispatcher.</param>
-        public Sequencer(IDispatcher dispatcher)
+        /// <param name="rootDispatcher">The root Dispatcher.</param>
+        public Sequencer(IDispatcher rootDispatcher)
         {
-            this.dispatcher = dispatcher;
+            this.rootDispatcher = rootDispatcher;
         }
 
         #region Public Methods and Operators
@@ -57,8 +55,8 @@
             // wraps the taks and dispatchs it to the thread pool (TODO: use TPL or I/I completion ports instead)
             var sequencedTask = new SequencedTask(this);
 
-            // Dispatches the sequenced task to the underlying dispatcher
-            this.dispatcher.Dispatch(sequencedTask.Execute);
+            // Dispatches the sequenced task to the underlying rootDispatcher
+            this.rootDispatcher.Dispatch(sequencedTask.Execute);
         }
 
         #endregion

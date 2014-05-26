@@ -2,9 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading;
-
     using NFluent;
-
     using NUnit.Framework;
 
     [TestFixture]
