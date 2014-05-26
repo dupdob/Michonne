@@ -40,8 +40,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContinuationTasksBasedSequencer.cs" />
+    <Compile Include="DotNetThreadPoolDispatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sequencer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SequencerAiiiight.Interfaces\SequencerAiiiight.Interfaces.csproj">
+      <Project>{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}</Project>
+      <Name>SequencerAiiiight.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

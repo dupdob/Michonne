@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.Threading;
 
+    using SequencerAiiiight.Interfaces;
+
     /// <summary>
     /// Allows to execute tasks asynchronously, but one by one and in the same order as they have been dispatched.
     /// That means that two tasks from the same dispatcher can be executed by two different threads, but not in parallel. 
@@ -16,17 +18,27 @@
     ///     this particular implementation of the sequencer is not a lock-free.
     /// </remarks>
     /// </summary>
-    public class Sequencer
+    public class Sequencer : ISequencer
     {
         // TODO: still not optimized in term of concurrency => clean up some code and refactor it.
         #region Fields
 
         private readonly object syncRoot = new object();
+        private readonly IDispatcher dispatcher;
         private readonly Queue<Action> orderedDispatchedTasks = new Queue<Action>();
         private readonly Queue<Action> pendingTasks = new Queue<Action>();
         private bool isRunning;
 
         #endregion
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Sequencer"/> class.
+        /// </summary>
+        /// <param name="dispatcher">The dispatcher.</param>
+        public Sequencer(IDispatcher dispatcher)
+        {
+            this.dispatcher = dispatcher;
+        }
 
         #region Public Methods and Operators
 
@@ -45,8 +57,8 @@
             // wraps the taks and dispatchs it to the thread pool (TODO: use TPL or I/I completion ports instead)
             var sequencedTask = new SequencedTask(this);
 
-            // Run when the pool has available cpu time for us.
-            ThreadPool.QueueUserWorkItem(x => sequencedTask.Execute());
+            // Dispatches the sequenced task to the underlying dispatcher
+            this.dispatcher.Dispatch(sequencedTask.Execute);
         }
 
         #endregion

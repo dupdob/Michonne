@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SequencerAiiiight", ".\SequencerAiiiight\SequencerAiiiight.csproj", "{FFDD856B-8600-4516-8F65-8BF460E96214}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SequencerAiiiight", "SequencerAiiiight\SequencerAiiiight.csproj", "{FFDD856B-8600-4516-8F65-8BF460E96214}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SequencerAiiiight.Tests", ".\SequencerAiiiight.Tests\SequencerAiiiight.Tests.csproj", "{F7D77346-0D41-41E8-8662-A6C2A0654A34}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SequencerAiiiight.Tests", "SequencerAiiiight.Tests\SequencerAiiiight.Tests.csproj", "{F7D77346-0D41-41E8-8662-A6C2A0654A34}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SequencerAiiiight.Interfaces", "SequencerAiiiight.Interfaces\SequencerAiiiight.Interfaces.csproj", "{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +21,10 @@ Global
 		{F7D77346-0D41-41E8-8662-A6C2A0654A34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7D77346-0D41-41E8-8662-A6C2A0654A34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7D77346-0D41-41E8-8662-A6C2A0654A34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
