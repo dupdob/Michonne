@@ -8,7 +8,7 @@
     /// <summary>
     /// Allow to dispatch actions/tasks for asynchronous execution through the classical .NET thread pool.
     /// </summary>
-    public class DotNetThreadPoolDispatcher : IDispatcher
+    public sealed class DotNetThreadPoolDispatcher : IDispatcher
     {
         #region Public Methods and Operators
 
