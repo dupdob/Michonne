@@ -18,13 +18,13 @@
     /// </summary>
     public class Sequencer : ISequencer
     {
-        // TODO: still not optimized in term of concurrency => clean up some code and refactor it.
+        // TODO: Get rid of the Queue, implement lock free algo, etc.
         #region Fields
 
         private readonly object syncRoot = new object();
         private readonly IDispatcher rootDispatcher;
         private readonly Queue<Action> orderedDispatchedTasks = new Queue<Action>();
-        private readonly Queue<Action> pendingTasks = new Queue<Action>();
+        private long numberOfPendingTasksWhileRunning;
         private bool isRunning;
 
         #endregion
@@ -36,6 +36,7 @@
         public Sequencer(IDispatcher rootDispatcher)
         {
             this.rootDispatcher = rootDispatcher;
+            this.numberOfPendingTasksWhileRunning = 0;
         }
 
         #region Public Methods and Operators
@@ -52,7 +53,6 @@
                 this.orderedDispatchedTasks.Enqueue(action);
             }
 
-            // wraps the taks and dispatchs it to the thread pool (TODO: use TPL or I/I completion ports instead)
             var sequencedTask = new SequencedTask(this);
 
             // Dispatches the sequenced task to the underlying rootDispatcher
@@ -62,12 +62,16 @@
         #endregion
 
         /// <summary>
-        /// Task that has been dispatched by the sequencer.
+        /// Task that has been dispatched by the sequencer and that should be executed by its root dispatcher.
         /// </summary>
         private class SequencedTask
         {
             private readonly Sequencer sequencer;
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="SequencedTask"/> class.
+            /// </summary>
+            /// <param name="sequencer">The sequencer.</param>
             public SequencedTask(Sequencer sequencer)
             {
                 this.sequencer = sequencer;
@@ -79,17 +83,17 @@
             public void Execute()
             {
                 Action action;
-
                 lock (this.sequencer.syncRoot)
                 {
-                    action = this.sequencer.orderedDispatchedTasks.Dequeue(); 
-
                     if (this.sequencer.isRunning)
                     {
                         // we need to store and stop
-                        this.sequencer.pendingTasks.Enqueue(action);
+                        this.sequencer.numberOfPendingTasksWhileRunning++;
                         return;
                     }
+                    
+                    action = this.sequencer.orderedDispatchedTasks.Dequeue(); 
+
                     // ok, we can run
                     this.sequencer.isRunning = true;
                 }
@@ -98,16 +102,21 @@
                 {
                     // execute the next action
                     action();
-                    // we check if others are available
+                    // we check if others tasks have to be executed during this round
                     lock (this.sequencer.syncRoot)
                     {
-                        if (this.sequencer.pendingTasks.Count == 0)
+                        if (this.sequencer.numberOfPendingTasksWhileRunning == 0)
                         {
                             this.sequencer.isRunning = false;
                             return;
                         }
+                        
                         // pop the next task
-                        action = this.sequencer.pendingTasks.Dequeue();
+                        if(this.sequencer.numberOfPendingTasksWhileRunning > 0)
+                        {
+                            this.sequencer.numberOfPendingTasksWhileRunning--;
+                            action = this.sequencer.orderedDispatchedTasks.Dequeue();
+                        }
                     }
                 }
             }
