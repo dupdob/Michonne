@@ -16,7 +16,7 @@
     ///     this particular implementation of the sequencer is not a lock-free.
     /// </remarks>
     /// </summary>
-    public class Sequencer : ISequencer
+    public sealed class Sequencer : ISequencer
     {
         // TODO: Get rid of the Queue, implement lock free algo, etc.
         #region Fields
@@ -64,7 +64,7 @@
         /// <summary>
         /// Task that has been dispatched by the sequencer and that should be executed by its root dispatcher.
         /// </summary>
-        private class SequencedTask
+        private sealed class SequencedTask
         {
             private readonly Sequencer sequencer;
 
