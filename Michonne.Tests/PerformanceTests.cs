@@ -50,7 +50,7 @@ namespace Michonne.Tests
             stopSignal.WaitOne();
             stopwatch.Stop();
 
-            Console.WriteLine("Sequencer: {0,-35}, Throughput: {1,10:N0} action / sec", sequencer.GetType().Name, ActionsCount / stopwatch.Elapsed.TotalSeconds);
+            Console.WriteLine("Sequencer: {0,-35}, Throughput: {1,10:N0} actions / sec", sequencer.GetType().Name, ActionsCount / stopwatch.Elapsed.TotalSeconds);
         }
 
         private static IEnumerable<ISequencer> GetSequencers()
