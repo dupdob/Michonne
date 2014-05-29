@@ -12,7 +12,7 @@
 // //   limitations under the License.
 // // </copyright>
 // // --------------------------------------------------------------------------------------------------------------------
-namespace SequencerAiiiight
+namespace Michonne
 {
     using System;
     using System.Threading.Tasks;

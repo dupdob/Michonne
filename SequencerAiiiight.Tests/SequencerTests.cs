@@ -12,10 +12,12 @@
 // //   limitations under the License.
 // // </copyright>
 // // --------------------------------------------------------------------------------------------------------------------
-namespace SequencerAiiiight.Tests
+namespace Michonne.Tests
 {
     using System.Collections.Generic;
     using System.Threading;
+
+    using Michonne;
 
     using NFluent;
 

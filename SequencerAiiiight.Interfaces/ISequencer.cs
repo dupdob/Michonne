@@ -12,7 +12,7 @@
 // //   limitations under the License.
 // // </copyright>
 // // --------------------------------------------------------------------------------------------------------------------
-namespace SequencerAiiiight.Interfaces
+namespace Michonne.Interfaces
 {
     /// <summary>
     /// Allows to execute tasks asynchronously, but one by one and in the same order as they have been dispatched.

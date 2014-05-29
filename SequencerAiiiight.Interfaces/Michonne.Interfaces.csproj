@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F7D77346-0D41-41E8-8662-A6C2A0654A34}</ProjectGuid>
+    <ProjectGuid>{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SequencerAiiiight.Tests</RootNamespace>
-    <AssemblyName>SequencerAiiiight.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>Michonne.Interfaces</RootNamespace>
+    <AssemblyName>Michonne.Interfaces</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,39 +31,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Moq">
-      <HintPath>..\SequencerAiiiight\packages\Moq.4.2.1402.2112\lib\net40\Moq.dll</HintPath>
-    </Reference>
-    <Reference Include="NFluent">
-      <HintPath>..\SequencerAiiiight\packages\NFluent.1.2.0.0\lib\net40\NFluent.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\SequencerAiiiight\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SequencerTests.cs" />
+    <Compile Include="IDispatcher.cs" />
+    <Compile Include="ISequencer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SequencerAiiiight.Interfaces\SequencerAiiiight.Interfaces.csproj">
-      <Project>{439f8a67-01b7-4109-aab2-6c0d5b02a0fa}</Project>
-      <Name>SequencerAiiiight.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SequencerAiiiight\SequencerAiiiight.csproj">
-      <Project>{ffdd856b-8600-4516-8f65-8bf460e96214}</Project>
-      <Name>SequencerAiiiight</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

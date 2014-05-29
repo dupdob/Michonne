@@ -12,7 +12,7 @@
 // //   limitations under the License.
 // // </copyright>
 // // --------------------------------------------------------------------------------------------------------------------
-namespace SequencerAiiiight.Interfaces
+namespace Michonne.Interfaces
 {
     using System;
 

@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SequencerAiiiight", "SequencerAiiiight\SequencerAiiiight.csproj", "{FFDD856B-8600-4516-8F65-8BF460E96214}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne", "SequencerAiiiight\Michonne.csproj", "{FFDD856B-8600-4516-8F65-8BF460E96214}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SequencerAiiiight.Tests", "SequencerAiiiight.Tests\SequencerAiiiight.Tests.csproj", "{F7D77346-0D41-41E8-8662-A6C2A0654A34}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Tests", "SequencerAiiiight.Tests\Michonne.Tests.csproj", "{F7D77346-0D41-41E8-8662-A6C2A0654A34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SequencerAiiiight.Interfaces", "SequencerAiiiight.Interfaces\SequencerAiiiight.Interfaces.csproj", "{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Interfaces", "SequencerAiiiight.Interfaces\Michonne.Interfaces.csproj", "{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A8DBCE1E-186B-4E85-8F39-86BD87EEC592}"
 	ProjectSection(SolutionItems) = preProject

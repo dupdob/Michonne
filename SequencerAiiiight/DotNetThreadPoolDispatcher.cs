@@ -12,12 +12,12 @@
 // //   limitations under the License.
 // // </copyright>
 // // --------------------------------------------------------------------------------------------------------------------
-namespace SequencerAiiiight
+namespace Michonne
 {
     using System;
     using System.Threading;
 
-    using SequencerAiiiight.Interfaces;
+    using Michonne.Interfaces;
 
     /// <summary>
     /// Allow to dispatch actions/tasks for asynchronous execution through the classical .NET thread pool.

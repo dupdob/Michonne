@@ -12,12 +12,12 @@
 // //   limitations under the License.
 // // </copyright>
 // // --------------------------------------------------------------------------------------------------------------------
-namespace SequencerAiiiight
+namespace Michonne
 {
     using System;
     using System.Collections.Generic;
 
-    using SequencerAiiiight.Interfaces;
+    using Michonne.Interfaces;
 
     /// <summary>
     ///     Allows to execute tasks asynchronously, but one by one and in the same order as they have been dispatched.
