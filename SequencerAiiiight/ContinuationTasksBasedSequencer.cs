@@ -30,11 +30,11 @@ namespace SequencerAiiiight
     /// </summary>
     public class ContinuationTasksBasedSequencer
     {
-        private readonly object _lock = new object();
-        private readonly TaskScheduler _taskScheduler;
+        private readonly object syncRoot = new object();
+        private readonly TaskScheduler taskScheduler;
 
-        private Task _task = Task.FromResult(0);
-        private int _pendingTaskCount;
+        private Task task = Task.FromResult(0);
+        private int pendingTaskCount;
 
         public ContinuationTasksBasedSequencer() : this(TaskScheduler.Current)
         {
@@ -44,7 +44,7 @@ namespace SequencerAiiiight
         {
             // we could need to specify a custom scheduler, in order to limit concurrency, or for testing purpose
 
-            _taskScheduler = taskScheduler;
+            this.taskScheduler = taskScheduler;
         }
 
         public event Action<Exception> Error;
@@ -53,25 +53,25 @@ namespace SequencerAiiiight
 
         public int PendingTaskCount
         {
-            get { return _pendingTaskCount; }
+            get { return this.pendingTaskCount; }
         }
 
         public void Dispatch(Action action)
         {
-            // it might be a good idea ensure _pendingTaskCount is above a max value
+            // it might be a good idea ensure pendingTaskCount is above a max value
             // when it is beyond the max we could block, discard updates, throw or do anything that seems appropriate
 
             var continuationAction = BuildContinuationAction(action);
 
-            lock (_lock)
+            lock (this.syncRoot)
             {
-                _task = _task.ContinueWith(continuationAction, _taskScheduler);
+                this.task = this.task.ContinueWith(continuationAction, this.taskScheduler);
             }
         }
 
         private Action<Task> BuildContinuationAction(Action action)
         {
-            Interlocked.Increment(ref _pendingTaskCount);
+            Interlocked.Increment(ref this.pendingTaskCount);
 
             return previousTask =>
             {
@@ -86,12 +86,12 @@ namespace SequencerAiiiight
                 }
                 catch (Exception ex)
                 {
-                    var error = Error;
+                    var error = this.Error;
                     if (error != null)
                         error(ex);
                 }
 
-                Interlocked.Decrement(ref _pendingTaskCount);
+                Interlocked.Decrement(ref this.pendingTaskCount);
             };
         }
     }
