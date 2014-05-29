@@ -46,6 +46,7 @@ namespace Michonne.Tests
                         wasRunConcurrently = true;
                         return;
                     }
+
                     try
                     {
                         Thread.SpinWait(25);

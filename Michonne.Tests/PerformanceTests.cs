@@ -18,11 +18,10 @@ namespace Michonne.Tests
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Threading;
-
     using Michonne.Interfaces;
-
     using NUnit.Framework;
 
+    // TODO: (TPI) even if microbenchmarks usually sucks ;-) let's use Vance Morrisson based microbenchmark tool here
     [TestFixture, Explicit("Manual tests")]
     public class PerformanceTests
     {
@@ -30,7 +29,6 @@ namespace Michonne.Tests
         public void MeasureThroughput()
         {
             // TestCaseSource or ValueSource would be better but it does not play well with the last R# version
-
             foreach (var sequencer in GetSequencers())
             {
                 MeasureThroughput(sequencer);
@@ -47,8 +45,8 @@ namespace Michonne.Tests
             {
                 sequencer.Dispatch(() => { });
             }
-            sequencer.Dispatch(() => stopSignal.Set());
 
+            sequencer.Dispatch(() => stopSignal.Set());
             stopSignal.WaitOne();
             stopwatch.Stop();
 

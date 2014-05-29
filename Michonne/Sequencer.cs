@@ -34,7 +34,6 @@ namespace Michonne
     public sealed class Sequencer : ISequencer
     {
         // TODO: Get rid of the Queue, implement lock free algo, etc.
-
         #region Fields
 
         private readonly Queue<Action> orderedDispatchedTasks = new Queue<Action>();
@@ -65,7 +64,7 @@ namespace Michonne
         ///     Gives a task/action to the sequencer in order to execute it in an asynchronous manner, but respecting the
         ///     order of the dispatch, and without concurrency among the sequencer's tasks.
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="action">The action to be executed</param>
         public void Dispatch(Action action)
         {
             lock (this.syncRoot)
@@ -131,6 +130,7 @@ namespace Michonne
                 {
                     // Execute the next action
                     action();
+
                     // We check if others tasks have to be executed during this round
                     lock (this.sequencer.syncRoot)
                     {

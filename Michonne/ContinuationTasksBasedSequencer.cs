@@ -1,6 +1,6 @@
 ﻿// // --------------------------------------------------------------------------------------------------------------------
 // // <copyright file="ContinuationTasksBasedSequencer.cs" company="">
-// //   Copyright 2014 Olivier COANET
+// //   Copyright 2014 Thomas PIERRAIN
 // //   Licensed under the Apache License, Version 2.0 (the "License");
 // //   you may not use this file except in compliance with the License.
 // //   You may obtain a copy of the License at
@@ -15,8 +15,9 @@
 namespace Michonne
 {
     using System;
-    using System.Threading.Tasks;
     using System.Threading;
+    using System.Threading.Tasks;
+
     using Michonne.Interfaces;
 
     /// <summary>
@@ -41,14 +42,12 @@ namespace Michonne
         public ContinuationTasksBasedSequencer(TaskScheduler taskScheduler)
         {
             // we could need to specify a custom scheduler, in order to limit concurrency, or for testing purpose
-
             this.taskScheduler = taskScheduler;
         }
 
         public event Action<Exception> Error;
 
         // so the pending task count can be controlled or monitored from the outside
-
         public int PendingTaskCount
         {
             get { return this.pendingTaskCount; }
@@ -58,8 +57,7 @@ namespace Michonne
         {
             // it might be a good idea ensure pendingTaskCount is above a max value
             // when it is beyond the max we could block, discard updates, throw or do anything that seems appropriate
-
-            var continuationAction = BuildContinuationAction(action);
+            var continuationAction = this.BuildContinuationAction(action);
 
             lock (this.syncRoot)
             {
@@ -75,7 +73,6 @@ namespace Michonne
             {
                 // tasks are not supposed to be disposed (http://blogs.msdn.com/b/pfxteam/archive/2012/03/25/10287435.aspx)
                 // but I feel more confortable doing it, because tasks are finalizable
-
                 previousTask.Dispose();
 
                 try
@@ -86,12 +83,13 @@ namespace Michonne
                 {
                     var error = this.Error;
                     if (error != null)
+                    {
                         error(ex);
+                    }
                 }
 
                 Interlocked.Decrement(ref this.pendingTaskCount);
             };
         }
     }
-
 }
