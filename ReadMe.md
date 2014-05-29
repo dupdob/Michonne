@@ -3,7 +3,7 @@
 What's Michonne?
 ==============
 
-Michonne is a library that allows you __to erradicate deadlocks within your applicative code__ by providing you composable behaviors for tasks/lambdas execution (dispatcher, sequencer, balking dispatcher, etc).
+*"No lock... no deadlock!"*  Michonne is a library that allows you __to erradicate deadlocks within your applicative code__ by providing you composable behaviors for tasks/lambdas execution that replace locks (i.e. dispatcher, sequencer, balking dispatcher, etc).
 
 Related resources
 ---------------
