@@ -14,6 +14,7 @@
 // // --------------------------------------------------------------------------------------------------------------------
 
 using System.Threading;
+using SequencerAiiiight.Interfaces;
 
 namespace SequencerAiiiight
 {
@@ -28,11 +29,10 @@ namespace SequencerAiiiight
     ///     and 
     ///     http://dupdob.wordpress.com/2014/05/14/sequencer-part-2-1/
     /// </summary>
-    public class ContinuationTasksBasedSequencer
+    public class ContinuationTasksBasedSequencer : ISequencer
     {
         private readonly object syncRoot = new object();
         private readonly TaskScheduler taskScheduler;
-
         private Task task = Task.FromResult(0);
         private int pendingTaskCount;
 

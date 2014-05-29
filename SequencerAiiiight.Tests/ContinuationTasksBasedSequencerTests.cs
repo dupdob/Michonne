@@ -18,7 +18,7 @@ namespace SequencerAiiiight.Tests
         [Test]
         public void ShouldNotRunActionsConcurrently()
         {
-            const int actionCount = 1000 * 1000;
+            const int actionCount = 200 * 1000;
 
             var dispatchLock = new object();
             var wasRunConcurrently = false;
@@ -51,7 +51,7 @@ namespace SequencerAiiiight.Tests
         [Test]
         public void ShouldRunActionsInOrder()
         {
-            const int actionCount = 1000 * 1000;
+            const int actionCount = 200 * 1000;
 
             var dispatchIndex = 0;
             var wasOutOfOrder = false;
