@@ -12,12 +12,18 @@
 // //   limitations under the License.
 // // </copyright>
 // // --------------------------------------------------------------------------------------------------------------------
+<<<<<<< HEAD:Michonne/ContinuationTasksBasedSequencer.cs
 namespace Michonne
+=======
+
+using System.Threading;
+using SequencerAiiiight.Interfaces;
+
+namespace SequencerAiiiight
+>>>>>>> 248d98fa84a801d7f023fc095879e4e0f3f7afcf:SequencerAiiiight/ContinuationTasksBasedSequencer.cs
 {
     using System;
     using System.Threading.Tasks;
-    using System.Threading;
-    using Michonne.Interfaces;
 
     /// <summary>
     /// Sequencer implementation provided by Olivier COANET on Cyrille's blog.
@@ -93,5 +99,4 @@ namespace Michonne
             };
         }
     }
-
 }
