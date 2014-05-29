@@ -12,6 +12,9 @@
 // //   limitations under the License.
 // // </copyright>
 // // --------------------------------------------------------------------------------------------------------------------
+
+using System.Threading;
+
 namespace SequencerAiiiight
 {
     using System;
@@ -27,20 +30,69 @@ namespace SequencerAiiiight
     /// </summary>
     public class ContinuationTasksBasedSequencer
     {
-        private readonly object syncRoot = new object();
-        private Task task = Task.FromResult(0);
+        private readonly object _lock = new object();
+        private readonly TaskScheduler _taskScheduler;
 
-        /// <summary>
-        /// Gives a task/action to the sequencer in order to execute it in an asynchronous manner, but respecting the
-        /// order of the dispatch, and without concurrency among the sequencer's tasks.
-        /// </summary>
-        /// <param name="action"></param>
+        private Task _task = Task.FromResult(0);
+        private int _pendingTaskCount;
+
+        public ContinuationTasksBasedSequencer() : this(TaskScheduler.Current)
+        {
+        }
+
+        public ContinuationTasksBasedSequencer(TaskScheduler taskScheduler)
+        {
+            // we could need to specify a custom scheduler, in order to limit concurrency, or for testing purpose
+
+            _taskScheduler = taskScheduler;
+        }
+
+        public event Action<Exception> Error;
+
+        // so the pending task count can be controlled or monitored from the outside
+
+        public int PendingTaskCount
+        {
+            get { return _pendingTaskCount; }
+        }
+
         public void Dispatch(Action action)
         {
-            lock (this.syncRoot)
+            // it might be a good idea ensure _pendingTaskCount is above a max value
+            // when it is beyond the max we could block, discard updates, throw or do anything that seems appropriate
+
+            var continuationAction = BuildContinuationAction(action);
+
+            lock (_lock)
             {
-                this.task = this.task.ContinueWith(_ => action());
+                _task = _task.ContinueWith(continuationAction, _taskScheduler);
             }
+        }
+
+        private Action<Task> BuildContinuationAction(Action action)
+        {
+            Interlocked.Increment(ref _pendingTaskCount);
+
+            return previousTask =>
+            {
+                // tasks are not supposed to be disposed (http://blogs.msdn.com/b/pfxteam/archive/2012/03/25/10287435.aspx)
+                // but I feel more confortable doing it, because tasks are finalizable
+
+                previousTask.Dispose();
+
+                try
+                {
+                    action();
+                }
+                catch (Exception ex)
+                {
+                    var error = Error;
+                    if (error != null)
+                        error(ex);
+                }
+
+                Interlocked.Decrement(ref _pendingTaskCount);
+            };
         }
     }
 }
