@@ -9,6 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Interfaces", "Mich
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A8DBCE1E-186B-4E85-8F39-86BD87EEC592}"
 	ProjectSection(SolutionItems) = preProject
+		Backlog.md = Backlog.md
 		LICENSE.txt = LICENSE.txt
 		ReadMe.md = ReadMe.md
 	EndProjectSection

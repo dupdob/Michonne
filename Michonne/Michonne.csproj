@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BalkingDispatcher.cs" />
     <Compile Include="ContinuationTasksBasedSequencer.cs" />
     <Compile Include="DotNetThreadPoolDispatcher.cs" />
     <Compile Include="PollingDispatcher.cs" />

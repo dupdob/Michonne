@@ -1,5 +1,5 @@
-﻿// // --------------------------------------------------------------------------------------------------------------------
-// // <copyright file="PollingDispatcher.cs" company="">
+// // --------------------------------------------------------------------------------------------------------------------
+// // <copyright file="BalkingDispatcher.cs" company="">
 // //   Copyright 2014 Thomas PIERRAIN
 // //   Licensed under the Apache License, Version 2.0 (the "License");
 // //   you may not use this file except in compliance with the License.
@@ -15,51 +15,54 @@
 namespace Michonne
 {
     using System;
-    using System.Collections.Generic;
-
     using Michonne.Interfaces;
 
     /// <summary>
-    /// Dispatcher that executes tasks/actions only on demand (i.e. when calling the ExecuteNext method). 
-    /// This may be useful with third-party constraints or for unit test purpose (to control the tasks execution).
+    /// Dispatcher that keeps only the latest dispatched task, discarding the other dispatched tasks
+    /// that couldn't have been executed.
     /// </summary>
-    public sealed class PollingDispatcher : IDispatcher
+    public sealed class BalkingDispatcher : IDispatcher
     {
         private readonly object syncRoot = new object();
-        private readonly Queue<Action> dispatchedTasks = new Queue<Action>();
+        private Action lastTask;
+        private IDispatcher rootDispatcher;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BalkingDispatcher"/> class.
+        /// </summary>
+        /// <param name="rootDispatcher">The root dispatcher.</param>
+        public BalkingDispatcher(IDispatcher rootDispatcher)
+        {
+            this.rootDispatcher = rootDispatcher;
+        }
 
         /// <summary>
         /// Dispatch an action to be executed.
         /// </summary>
         /// <param name="action">The action to be executed</param>
         /// <remarks>
-        /// The action will be executed only by the given thread that will call the ExecuteNextTask method.
+        /// Depending on the concrete implementation of the dispatcher, the action will be
+        /// executed asynchronouly (most likely) or synchronously (a few exceptions).
         /// </remarks>
         public void Dispatch(Action action)
         {
             lock (this.syncRoot)
             {
-                this.dispatchedTasks.Enqueue(action);
+                this.lastTask = action;
             }
+
+            this.rootDispatcher.Dispatch(this.ExecuteLastTask);
         }
 
-        /// <summary>
-        /// Executes the next dispatched task.
-        /// </summary>
-        public void ExecuteNextTask()
+        private void ExecuteLastTask()
         {
             Action action = null;
             lock (this.syncRoot)
             {
-                try
-                {
-                    action = this.dispatchedTasks.Dequeue();
-                }
-                catch (InvalidOperationException)
-                {
-                }
+                action = this.lastTask;
+                this.lastTask = null;
             }
-            
+
             if (action != null)
             {
                 action();
