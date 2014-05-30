@@ -27,7 +27,14 @@ namespace Michonne
     {
         private readonly object syncRoot = new object();
         private readonly Queue<Action> dispatchedTasks = new Queue<Action>();
- 
+
+        /// <summary>
+        /// Dispatch an action to be executed.
+        /// </summary>
+        /// <param name="action">The action to be executed</param>
+        /// <remarks>
+        /// The action will be executed only by the thread that will call the ExecuteNextTask method.
+        /// </remarks>
         public void Dispatch(Action action)
         {
             lock (this.syncRoot)
@@ -36,6 +43,9 @@ namespace Michonne
             }
         }
 
+        /// <summary>
+        /// Executes the next dispatched task.
+        /// </summary>
         public void ExecuteNextTask()
         {
             Action action = null;
