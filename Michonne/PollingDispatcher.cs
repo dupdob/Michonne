@@ -16,7 +16,6 @@ namespace Michonne
 {
     using System;
     using System.Collections.Generic;
-    using System.Runtime.InteropServices;
 
     using Michonne.Interfaces;
 
@@ -24,7 +23,7 @@ namespace Michonne
     /// Dispatcher that executes tasks/actions only on demand (i.e. when calling the ExecuteNext method). 
     /// This may be useful with third-party constraints or for unit test purpose (to control the tasks execution).
     /// </summary>
-    public class PollingDispatcher : IDispatcher
+    public sealed class PollingDispatcher : IDispatcher
     {
         private readonly object syncRoot = new object();
         private readonly Queue<Action> dispatchedTasks = new Queue<Action>();
