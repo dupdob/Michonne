@@ -55,7 +55,6 @@ namespace Michonne.Tests
             Check.That(this.processedValues).HasSize(3).And.ContainsExactly(3, 4, 6);
         }
 
-
         [Test]
         public void TheLastDispatchedTaskIsNotExecutedMoreThanOnce()
         {
