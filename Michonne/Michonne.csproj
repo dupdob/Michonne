@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="BalkingDispatcher.cs" />
     <Compile Include="ContinuationTasksBasedSequencer.cs" />
+    <Compile Include="DirectDispatcher.cs" />
     <Compile Include="DotNetThreadPoolDispatcher.cs" />
     <Compile Include="PollingDispatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
