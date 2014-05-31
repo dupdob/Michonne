@@ -20,8 +20,11 @@ namespace Michonne
     using Michonne.Interfaces;
 
     /// <summary>
-    /// Dispatcher that executes tasks/actions only on demand (i.e. when calling the ExecuteNext method). 
-    /// This may be useful with third-party constraints or for unit test purpose (to control the tasks execution).
+    /// Dispatcher that executes dispatched tasks/actions only on demand (i.e. when calling the
+    /// ExecuteNext method).
+    /// This dispatcher may be useful for unit testing purpose (to control your tasks execution pace)
+    /// or to deal with some third-party constraints (e.g. when you need to execute your
+    /// callbacks in their threads/message pumps).
     /// </summary>
     public sealed class PollingDispatcher : IDispatcher
     {
