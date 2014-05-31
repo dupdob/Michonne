@@ -1,6 +1,6 @@
 ![Michonne](https://github.com/tpierrain/michonne/blob/master/michonne.png?raw=true)
 
-When you have locks within your applicative code... you will have deadlock. Period. The only question you may ask is "when?"
+__When you have locks within your applicative code... you will have deadlock. Period.__ The only question you may ask is "when?"
 Same thing with API allowing you to wait without indicating any kind of timeout (e.g. [TPL](http://msdn.microsoft.com/en-us/library/dd235635.aspx)). Too bad... and too easy to shoot yourself in the foot...
 
 But how to protect your code from race conditions without using lock?!? Easy answer: let Michonne help you.
