@@ -14,13 +14,10 @@
 // // --------------------------------------------------------------------------------------------------------------------
 namespace Michonne.Tests
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading;
-
-    using Michonne;
-
     using NFluent;
-
     using NUnit.Framework;
 
     [TestFixture]
@@ -33,13 +30,6 @@ namespace Michonne.Tests
 
         #endregion
 
-        #region Fields
-
-        private AutoResetEvent sequenceFinished;
-        private List<int> tasksOutput;
-
-        #endregion
-
         #region Public Methods and Operators
 
         [Test]
@@ -48,43 +38,72 @@ namespace Michonne.Tests
             var rootDispatcher = new DotNetThreadPoolDispatcher();
             var sequencer = new Sequencer(rootDispatcher);
             const int TasksNumber = 100000;
+            var tasksOutput = new List<int>();
 
-            this.tasksOutput = new List<int>(TasksNumber);
+            using (var dispatchingFinishedEvent = new AutoResetEvent(false))
+            {
+                // Dispatches tasks to the sequencer
+                for (int i = 0; i < TasksNumber; i++)
+                {
+                    int antiClosureSideEffectNumber = i;
+                    sequencer.Dispatch(() => tasksOutput.Add(antiClosureSideEffectNumber));
+                }
 
-            // Dispatches tasks to the sequencer
-            for (int i = 0; i < TasksNumber; i++)
+                // Indicates the end of the sequence with a final task
+                sequencer.Dispatch(() => dispatchingFinishedEvent.Set());
+
+                // Waits for sequence completion
+                Check.That(dispatchingFinishedEvent.WaitOne(ThreeSecondsMax)).IsTrue();
+
+                // Checks that everything was properly processed in sequence
+                for (int k = 0; k < TasksNumber; k++)
+                {
+                    Check.That(tasksOutput[k]).IsEqualTo(k);
+                }
+            }
+        }
+
+        [Test]
+        public void DoesNotLoseAnyTaskWithTwoWriterThreadsOnTheSameSequencer()
+        {
+            var rootDispatcher = new DotNetThreadPoolDispatcher();
+            var sequencer = new Sequencer(rootDispatcher);
+            const int NumberOfWritesPerThread = 10000;
+            var tasksOutput = new List<int>();
+
+            using (var unleashThreadsEvent = new AutoResetEvent(false))
+            using (var firstWriterFinishedEvent = new AutoResetEvent(false))
+            using (var secondWriterFinishedEvent = new AutoResetEvent(false))
+            {
+                var firstWriter = new Thread(() => this.WriterRoutine(sequencer, unleashThreadsEvent, 0, NumberOfWritesPerThread, tasksOutput, firstWriterFinishedEvent));
+                firstWriter.Start();
+
+                var secondWriter = new Thread(() => this.WriterRoutine(sequencer, unleashThreadsEvent, 0, NumberOfWritesPerThread, tasksOutput, secondWriterFinishedEvent));
+                secondWriter.Start();
+
+                // ready, set, mark
+                unleashThreadsEvent.Set();
+
+                // Waits until the two writers have finished their writes
+                Check.That(firstWriterFinishedEvent.WaitOne(2 * ThreeSecondsMax) && secondWriterFinishedEvent.WaitOne(2 * ThreeSecondsMax)).IsTrue();
+
+                // Checks that no write has been missing
+                Check.That(tasksOutput).HasSize(2*NumberOfWritesPerThread);
+            }
+        }
+
+        private void WriterRoutine(Sequencer sequencer, AutoResetEvent readySetMarkEvent, int firstIndex, int lastIndex, List<int> tasksOutput, AutoResetEvent lastTaskEvent)
+        {
+            readySetMarkEvent.WaitOne(ThreeSecondsMax);
+
+            for (int i = firstIndex; i < lastIndex; i++)
             {
                 int antiClosureSideEffectNumber = i;
-                sequencer.Dispatch(() => this.tasksOutput.Add(antiClosureSideEffectNumber));
+                sequencer.Dispatch(() => tasksOutput.Add(antiClosureSideEffectNumber));
             }
 
             // Indicates the end of the sequence with a final task
-            sequencer.Dispatch(() => this.sequenceFinished.Set());
-
-            // Waits for sequence completion
-            Check.That(this.sequenceFinished.WaitOne(ThreeSecondsMax)).IsTrue();
-
-            // Checks that everything was properly processed in sequence
-            for (int k = 0; k < TasksNumber; k++)
-            {
-                Check.That(this.tasksOutput[k]).IsEqualTo(k);
-            }
-        }
-
-        [TestFixtureSetUp]
-        public void TestFixtureSetUp()
-        {
-            this.sequenceFinished = new AutoResetEvent(false);
-        }
-
-        [TestFixtureTearDown]
-        public void TestFixtureTearDown()
-        {
-            if (this.sequenceFinished != null)
-            {
-                this.sequenceFinished.Dispose();
-                this.sequenceFinished = null;
-            }
+            sequencer.Dispatch(() => lastTaskEvent.Set());
         }
 
         #endregion

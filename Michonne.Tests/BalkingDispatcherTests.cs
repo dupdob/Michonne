@@ -42,7 +42,8 @@ namespace Michonne.Tests
             
             balkingDispatcher.Dispatch( () => this.processedValues.Add(3));
             pollingRootDispatcher.ExecuteNextTask();
-
+            
+            // Should have executed only the latest task before the ExecuteNextTask
             Check.That(this.processedValues).HasSize(1).And.ContainsExactly(3);
 
             balkingDispatcher.Dispatch(() => this.processedValues.Add(4));
