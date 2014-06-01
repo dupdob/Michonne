@@ -37,20 +37,34 @@ namespace Michonne.Tests
 
         private static void MeasureThroughput(ISequencer sequencer)
         {
-            const int ActionsCount = 1000 * 1000;
+			const int ActionsCount = 1000 * 1000;
 
-            var stopSignal = new ManualResetEvent(false);
+
+			var tag = new object ();
+			var done = false;
             var stopwatch = Stopwatch.StartNew();
             for (var actionIndex = 0; actionIndex < ActionsCount; ++actionIndex)
             {
                 sequencer.Dispatch(() => { });
             }
 
-            sequencer.Dispatch(() => stopSignal.Set());
-            stopSignal.WaitOne();
-            stopwatch.Stop();
-
-            Console.WriteLine("Sequencer: {0,-35}, Throughput: {1,10:N0} actions / sec", sequencer.GetType().Name, ActionsCount / stopwatch.Elapsed.TotalSeconds);
+			sequencer.Dispatch(() => {
+				lock(tag)
+				{
+					Monitor.Pulse(tag);
+					done = true;
+					stopwatch.Stop();
+				}
+			});
+			lock (tag)
+			{
+				if (!done)
+				{
+					Monitor.Wait(tag);
+				}
+			}
+				
+			Console.WriteLine("Sequencer: {0,-35}, Throughput: {1,10:N0} actions / sec", sequencer.GetType().Name, ActionsCount / stopwatch.Elapsed.TotalSeconds);
         }
 
         private static IEnumerable<ISequencer> GetSequencers()
