@@ -48,8 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BalkingDispatcherTests.cs" />
     <Compile Include="ContinuationTasksBasedSequencerTests.cs" />
+    <Compile Include="DirectDispatcherTests.cs" />
     <Compile Include="PerformanceTests.cs" />
+    <Compile Include="PollingDispatcherTests.cs" />
     <Compile Include="SequencerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -47,12 +47,6 @@ namespace Michonne
 
         public event Action<Exception> Error;
 
-        // so the pending task count can be controlled or monitored from the outside
-        public int PendingTaskCount
-        {
-            get { return this.pendingTaskCount; }
-        }
-
         public void Dispatch(Action action)
         {
             // it might be a good idea ensure pendingTaskCount is above a max value
