@@ -55,7 +55,7 @@ namespace Michonne.Tests
 
         private static IEnumerable<ISequencer> GetSequencers()
         {
-            yield return new Sequencer(new DotNetThreadPoolDispatcher());
+            yield return new Sequencer(new DotNetThreadPoolUnitOfExecution());
             yield return new ContinuationTasksBasedSequencer();
         }
     }

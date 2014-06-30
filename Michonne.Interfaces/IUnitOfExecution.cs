@@ -1,5 +1,5 @@
 ﻿// // --------------------------------------------------------------------------------------------------------------------
-// // <copyright file="IDispatcher.cs" company="">
+// // <copyright file="IUnitOfExecution.cs" company="">
 // //   Copyright 2014 Cyrille DUPUYDAUBY, Thomas PIERRAIN
 // //   Licensed under the Apache License, Version 2.0 (the "License");
 // //   you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ namespace Michonne.Interfaces
     /// Allow to dispatch actions/tasks for execution. 
     /// A dispatcher may be whether asynchronous (more likely) or synchronous.
     /// </summary>
-    public interface IDispatcher
+    public interface IUnitOfExecution
     {
         /// <summary>
         /// Dispatch an action to be executed.

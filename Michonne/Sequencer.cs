@@ -37,7 +37,7 @@ namespace Michonne
         #region Fields
 
         private readonly Queue<Action> orderedDispatchedTasks = new Queue<Action>();
-        private readonly IDispatcher rootDispatcher;
+        private readonly IUnitOfExecution _rootUnitOfExecution;
         private readonly object syncRoot = new object();
         private bool isRunning;
         private long numberOfPendingTasksWhileRunning;
@@ -49,10 +49,10 @@ namespace Michonne
         /// <summary>
         ///     Initializes a new instance of the <see cref="Sequencer" /> class.
         /// </summary>
-        /// <param name="rootDispatcher">The root Dispatcher.</param>
-        public Sequencer(IDispatcher rootDispatcher)
+        /// <param name="_rootUnitOfExecution">The root Dispatcher.</param>
+        public Sequencer(IUnitOfExecution _rootUnitOfExecution)
         {
-            this.rootDispatcher = rootDispatcher;
+            this._rootUnitOfExecution = _rootUnitOfExecution;
             this.numberOfPendingTasksWhileRunning = 0;
         }
 
@@ -74,8 +74,8 @@ namespace Michonne
 
             var sequencedTask = new SequencedTask(this);
 
-            // Dispatches the sequenced task to the underlying rootDispatcher
-            this.rootDispatcher.Dispatch(sequencedTask.Execute);
+            // Dispatches the sequenced task to the underlying _rootUnitOfExecution
+            this._rootUnitOfExecution.Dispatch(sequencedTask.Execute);
         }
 
         #endregion

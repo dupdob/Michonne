@@ -35,8 +35,8 @@ namespace Michonne.Tests
 
         #region Fields
 
-        private AutoResetEvent sequenceFinished;
-        private List<int> tasksOutput;
+        private AutoResetEvent _sequenceFinished;
+        private List<int> _tasksOutput;
 
         #endregion
 
@@ -45,45 +45,45 @@ namespace Michonne.Tests
         [Test]
         public void SequencerExecutesTasksInTheOrderOfTheirDispatch()
         {
-            var rootDispatcher = new DotNetThreadPoolDispatcher();
+            var rootDispatcher = new DotNetThreadPoolUnitOfExecution();
             var sequencer = new Sequencer(rootDispatcher);
-            const int TasksNumber = 100000;
+            const int tasksNumber = 100000;
 
-            this.tasksOutput = new List<int>(TasksNumber);
+            this._tasksOutput = new List<int>(tasksNumber);
 
             // Dispatches tasks to the sequencer
-            for (int i = 0; i < TasksNumber; i++)
+            for (int i = 0; i < tasksNumber; i++)
             {
                 int antiClosureSideEffectNumber = i;
-                sequencer.Dispatch(() => this.tasksOutput.Add(antiClosureSideEffectNumber));
+                sequencer.Dispatch(() => this._tasksOutput.Add(antiClosureSideEffectNumber));
             }
 
             // Indicates the end of the sequence with a final task
-            sequencer.Dispatch(() => this.sequenceFinished.Set());
+            sequencer.Dispatch(() => this._sequenceFinished.Set());
 
             // Waits for sequence completion
-            Check.That(this.sequenceFinished.WaitOne(ThreeSecondsMax)).IsTrue();
+            Check.That(this._sequenceFinished.WaitOne(ThreeSecondsMax)).IsTrue();
 
             // Checks that everything was properly processed in sequence
-            for (int k = 0; k < TasksNumber; k++)
+            for (int k = 0; k < tasksNumber; k++)
             {
-                Check.That(this.tasksOutput[k]).IsEqualTo(k);
+                Check.That(this._tasksOutput[k]).IsEqualTo(k);
             }
         }
 
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
-            this.sequenceFinished = new AutoResetEvent(false);
+            this._sequenceFinished = new AutoResetEvent(false);
         }
 
         [TestFixtureTearDown]
         public void TestFixtureTearDown()
         {
-            if (this.sequenceFinished != null)
+            if (this._sequenceFinished != null)
             {
-                this.sequenceFinished.Dispose();
-                this.sequenceFinished = null;
+                this._sequenceFinished.Dispose();
+                this._sequenceFinished = null;
             }
         }
 

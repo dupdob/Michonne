@@ -1,5 +1,5 @@
 ﻿// // --------------------------------------------------------------------------------------------------------------------
-// // <copyright file="DotNetThreadPoolDispatcher.cs" company="">
+// // <copyright file="DotNetThreadPoolUnitOfExecution.cs" company="">
 // //   Copyright 2014 Thomas PIERRAIN
 // //   Licensed under the Apache License, Version 2.0 (the "License");
 // //   you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ namespace Michonne
     /// <summary>
     /// Allow to dispatch actions/tasks for asynchronous execution through the classical .NET thread pool.
     /// </summary>
-    public sealed class DotNetThreadPoolDispatcher : IDispatcher
+    public sealed class DotNetThreadPoolUnitOfExecution : IUnitOfExecution
     {
         #region Public Methods and Operators
 
