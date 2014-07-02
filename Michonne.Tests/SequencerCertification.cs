@@ -13,22 +13,6 @@ namespace Michonne.Tests
         // specify here the 
         private readonly Type _sequencerType = typeof (T);
 
-        private class SynchroCall : IUnitOfExecution
-        {
-            public int DoneTasks;
-
-            #region IUnitOfExecution Members
-
-            public void Dispatch(Action action)
-
-            {
-                action();
-                this.DoneTasks++;
-            }
-
-            #endregion
-        }
-
         [Test]
         public void Should_Support_Injection_Of_Unit_Of_Execution()
         {
@@ -60,51 +44,75 @@ namespace Michonne.Tests
         {
             var poolExec = new DotNetThreadPoolUnitOfExecution();
             var sequencer = this.BuildSequencer(poolExec);
-            var lck = new object();
-            var done = false;
-            var success = true;
+            var context = new TaskContext();
+
             // first task inject delay
-            sequencer.Dispatch(() => { lock(lck) Thread.Sleep(30);});
+            sequencer.Dispatch(() => context.Delay(20));
             // second task check non concurrence
-            sequencer.Dispatch(() =>
+            sequencer.Dispatch(() => context.Delay(20));
+            // wait for the two tasks to be executed
+
+            Check.That(context.WaitForTasks(2)).IsFalse();
+        }
+
+        private class TaskContext
+        {
+            private int _ranTasks;
+            private int _targetTaskCount;
+            private readonly object _lck = new object();
+            private bool _raceCondition;
+
+            public bool RaceCondition
             {
-                if (Monitor.TryEnter(lck))
+                get { return this._raceCondition; }
+            }
+
+            public void Delay(int timer)
+            {
+                if (Monitor.TryEnter(this._lck))
                 {
                     try
                     {
-                        done = true;
-                        Monitor.Pulse(lck);
+                        Thread.Sleep(timer);
                     }
                     finally
                     {
-                        Monitor.Exit(lck);
+                        Monitor.Exit(this._lck);
                     }
                 }
                 else
                 {
-                    success = false;
-                    done = true;
+                    this._raceCondition = true;
                 }
-            });
-            // wait for the two tasks to be executed
-            lock (lck)
-            {
-                if (!done)
+                Interlocked.Increment(ref this._ranTasks);
+                if (Monitor.TryEnter(this._lck))
                 {
-                    Check.That(Monitor.Wait(lck, 100));
+                    if (this._targetTaskCount == this._ranTasks)
+                    {
+                        Monitor.PulseAll(this._lck);
+                    }
                 }
             }
-            Check.That(done).IsTrue();
-            Check.That(success).IsTrue();
-        }
 
+            public bool WaitForTasks(int nbTasks)
+            {
+                lock (_lck)
+                {
+                    while (this._ranTasks < nbTasks)
+                    {
+                        Monitor.Wait(this._lck, 100);
+                    }
+                    return this._raceCondition;
+                }
+            }
+        }
         private ISequencer BuildSequencer(IUnitOfExecution synchExec)
         {
             var sequencer = this.Constructor.Invoke(new object[] {synchExec}) as ISequencer;
-
             Check.That(sequencer).IsNotNull();
             return sequencer;
         }
+        // this unit of exec runs task synchronously, i.e. immediately by the calling thread.
     }
 }
 

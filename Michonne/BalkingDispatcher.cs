@@ -21,17 +21,17 @@ namespace Michonne
     /// Dispatcher that keeps only the latest dispatched task, discarding the other dispatched tasks
     /// that couldn't have been executed.
     /// </summary>
-    public sealed class BalkingDispatcher : IDispatcher
+    public sealed class BalkingDispatcher : IUnitOfExecution
     {
         private readonly object syncRoot = new object();
         private Action lastTask;
-        private IDispatcher rootDispatcher;
+        private IUnitOfExecution rootDispatcher;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BalkingDispatcher"/> class.
         /// </summary>
         /// <param name="rootDispatcher">The root dispatcher.</param>
-        public BalkingDispatcher(IDispatcher rootDispatcher)
+        public BalkingDispatcher(IUnitOfExecution rootDispatcher)
         {
             this.rootDispatcher = rootDispatcher;
         }

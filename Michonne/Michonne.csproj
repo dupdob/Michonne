@@ -43,7 +43,6 @@
     <Compile Include="ContinuationTasksBasedSequencer.cs" />
     <Compile Include="DotNetThreadPoolUnitOfExecution.cs" />
     <Compile Include="DirectDispatcher.cs" />
-    <Compile Include="DotNetThreadPoolDispatcher.cs" />
     <Compile Include="PollingDispatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sequencer.cs" />

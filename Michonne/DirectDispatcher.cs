@@ -15,9 +15,9 @@
 namespace Michonne
 {
     using System;
-    using Michonne.Interfaces;
+    using Interfaces;
 
-    public sealed class DirectDispatcher : IDispatcher
+    public sealed class DirectDispatcher : IUnitOfExecution
     {
         /// <summary>
         /// Directly execute every dispatched action in a synchronous manner (in the thread of 
