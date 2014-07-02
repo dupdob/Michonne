@@ -87,9 +87,16 @@ namespace Michonne.Tests
                 Interlocked.Increment(ref this._ranTasks);
                 if (Monitor.TryEnter(this._lck))
                 {
-                    if (this._targetTaskCount == this._ranTasks)
+                    try
                     {
-                        Monitor.PulseAll(this._lck);
+                        if (this._targetTaskCount == this._ranTasks)
+                        {
+                            Monitor.PulseAll(this._lck);
+                        }
+                    }
+                    finally
+                    {
+                        Monitor.Exit(this._lck);
                     }
                 }
             }
