@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using System.Threading;
 using Michonne.Interfaces;
 using NFluent;
 using NUnit.Framework;
@@ -55,71 +54,35 @@ namespace Michonne.Tests
             Check.That(context.WaitForTasks(2)).IsFalse();
         }
 
-        private class TaskContext
+        [Test]
+        public void Should_Execute_Tasks_Sequentially()
         {
-            private int _ranTasks;
-            private int _targetTaskCount;
-            private readonly object _lck = new object();
-            private bool _raceCondition;
-
-            public bool RaceCondition
+            var poolExec = new DotNetThreadPoolUnitOfExecution();
+            var sequencer = this.BuildSequencer(poolExec);
+            var context = new TaskContext();
+            sequencer.Dispatch( () => context.Delay(20));
+            var current = 0;
+            var failed = false;
+            for (var i = 0; i < 1000; i++)
             {
-                get { return this._raceCondition; }
+                var targetCount = i;
+                sequencer.Dispatch(()=>
+                {
+                    if (targetCount != current)
+                        failed = true;
+                    current++;
+                });
             }
-
-            public void Delay(int timer)
-            {
-                if (Monitor.TryEnter(this._lck))
-                {
-                    try
-                    {
-                        Thread.Sleep(timer);
-                    }
-                    finally
-                    {
-                        Monitor.Exit(this._lck);
-                    }
-                }
-                else
-                {
-                    this._raceCondition = true;
-                }
-                Interlocked.Increment(ref this._ranTasks);
-                if (Monitor.TryEnter(this._lck))
-                {
-                    try
-                    {
-                        if (this._targetTaskCount == this._ranTasks)
-                        {
-                            Monitor.PulseAll(this._lck);
-                        }
-                    }
-                    finally
-                    {
-                        Monitor.Exit(this._lck);
-                    }
-                }
-            }
-
-            public bool WaitForTasks(int nbTasks)
-            {
-                lock (_lck)
-                {
-                    while (this._ranTasks < nbTasks)
-                    {
-                        Monitor.Wait(this._lck, 100);
-                    }
-                    return this._raceCondition;
-                }
-            }
+            Check.That(context.WaitForTasks(1)).IsFalse();
         }
+
         private ISequencer BuildSequencer(IUnitOfExecution synchExec)
         {
             var sequencer = this.Constructor.Invoke(new object[] {synchExec}) as ISequencer;
             Check.That(sequencer).IsNotNull();
             return sequencer;
         }
-        // this unit of exec runs task synchronously, i.e. immediately by the calling thread.
+       
     }
 }
 

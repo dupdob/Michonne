@@ -49,6 +49,7 @@
     <Compile Include="SequencerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SynchroCall.cs" />
+    <Compile Include="TaskContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
