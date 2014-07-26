@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Reflection;
 using Michonne.Interfaces;
 using NFluent;
@@ -68,13 +70,42 @@ namespace Michonne.Tests
                 var targetCount = i;
                 sequencer.Dispatch(()=>
                 {
+                    // we check if the task is executed at the proper rank
                     if (targetCount != current)
                         failed = true;
                     current++;
                 });
             }
             Check.That(context.WaitForTasks(1)).IsFalse();
+            Check.That(failed).IsFalse();
         }
+
+        // using a single thread unit of execution should lead to a sequential execution of Actions
+        [Test]
+        public void Sequencer_should_process_fairly()
+        {
+            var thread = new ThreadUnitOfExecution();
+            var sequencer = this.BuildSequencer(thread);
+            var context = new TaskContext();
+            sequencer.Dispatch(() => context.Delay(20));
+            var current = 0;
+            var failed = false;
+            for (var i = 0; i < 1000; i++)
+            {
+                var targetCount = i;
+                var executor = ((i%2) == 0) ? thread : (IUnitOfExecution) sequencer;
+                executor.Dispatch(() =>
+                {
+                    // we check if the task is executed at the proper rank
+                    if (targetCount != current)
+                        failed = true;
+                    current++;
+                });
+            }
+            Check.That(context.WaitForTasks(1)).IsFalse();
+            Check.That(failed).IsFalse();
+        }
+
 
         private ISequencer BuildSequencer(IUnitOfExecution synchExec)
         {
