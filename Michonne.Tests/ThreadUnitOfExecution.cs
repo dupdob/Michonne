@@ -9,7 +9,7 @@ namespace Michonne.Tests
     {
         private readonly Thread _myThread;
         private readonly Queue<Action> _tasks = new Queue<Action>(); 
-        private readonly object lck = new object();
+        private readonly object _lck = new object();
 
         public ThreadUnitOfExecution()
         {
@@ -22,10 +22,10 @@ namespace Michonne.Tests
             while (true)
             {
                 Action next;
-                lock (this.lck)
+                lock (this._lck)
                 {
                     if (this._tasks.Count == 0)
-                        Monitor.Wait(this.lck);
+                        Monitor.Wait(this._lck);
 
                     next = this._tasks.Dequeue();
                 }
@@ -39,11 +39,11 @@ namespace Michonne.Tests
 
         public void Dispatch(Action action)
         {
-            lock (this.lck)
+            lock (this._lck)
             {
                 if (this._tasks.Count == 0)
                 {
-                    Monitor.Pulse(this.lck);   
+                    Monitor.Pulse(this._lck);   
                 }
                 this._tasks.Enqueue(action);               
             }

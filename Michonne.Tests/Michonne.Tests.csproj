@@ -48,8 +48,10 @@
     <Compile Include="PollingDispatcherTests.cs" />
     <Compile Include="SequencerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Submitted Sequencers\Sequencer 1.cs" />
     <Compile Include="SynchroCall.cs" />
     <Compile Include="TaskContext.cs" />
+    <Compile Include="TaskSchedulerAdapter.cs" />
     <Compile Include="ThreadUnitOfExecution.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +66,9 @@
       <Project>{ffdd856b-8600-4516-8f65-8bf460e96214}</Project>
       <Name>Michonne</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

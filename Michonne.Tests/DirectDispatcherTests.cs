@@ -19,7 +19,10 @@
         public void DirectDispatcherExecutesTasksInTheCallerThread()
         {
             var directDispatcher = new DirectDispatcher();
-            Thread.CurrentThread.Name = "unit Test thread";
+            if (Thread.CurrentThread.Name == null)
+            {
+                Thread.CurrentThread.Name = "unit Test thread";                
+            }
             
             directDispatcher.Dispatch( () => this.executingThreadName = Thread.CurrentThread.Name);
             
