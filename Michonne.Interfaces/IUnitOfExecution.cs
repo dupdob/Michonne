@@ -27,7 +27,7 @@ namespace Michonne.Interfaces
         /// </summary>
         /// <remarks>
         ///     Depending on the concrete implementation of the dispatcher, the action will be 
-        ///     executed asynchronouly (most likely) or synchronously (a few exceptions).</remarks>
+        ///     executed asynchronously (most likely) or synchronously (a few exceptions).</remarks>
         /// <param name="action">The action to be executed</param>
         void Dispatch(Action action);
     }

@@ -12,6 +12,7 @@ namespace Michonne.Tests
     using System;
     using System.Reflection;
 
+    using Michonne.Implementation;
     using Michonne.Interfaces;
 
     using NFluent;
@@ -58,8 +59,11 @@ namespace Michonne.Tests
         #region Public Methods and Operators
 
         /// <summary>
-        /// The sequencer_should_process_fairly.
+        /// The sequencer should process tasks fairly.
         /// </summary>
+        /// <remarks>Here the underlying unit of execution is a dedicated thread. So, all tasks are processed sequentialy.
+        /// This test dispatches tasks alternatively through the sequencer or directly through the unit of execution.
+        /// Actual execution order should not be changed!</remarks>
         [Test]
         public void Sequencer_should_process_fairly()
         {
