@@ -58,6 +58,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Michonne.01\Michonne.0.1.csproj">
+      <Project>{FFDD856B-8600-4516-8F65-8BF460E96214}</Project>
+      <Name>Michonne.0.1</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Michonne.Implementation\Michonne.Implementation.csproj">
       <Project>{76D48E2E-E97D-46D1-81FC-7ABAEA8463AC}</Project>
       <Name>Michonne.Implementation</Name>
@@ -65,10 +69,6 @@
     <ProjectReference Include="..\Michonne.Interfaces\Michonne.Interfaces.csproj">
       <Project>{439f8a67-01b7-4109-aab2-6c0d5b02a0fa}</Project>
       <Name>Michonne.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Michonne\Michonne.0.1.csproj">
-      <Project>{ffdd856b-8600-4516-8f65-8bf460e96214}</Project>
-      <Name>Michonne.0.1</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
