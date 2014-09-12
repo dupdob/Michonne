@@ -1,7 +1,6 @@
 ﻿namespace PastaPricer.Tests
 {
     using NFluent;
-
     using NUnit.Framework;
 
     [TestFixture]

@@ -49,12 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
-    <Compile Include="IMarketDataProvider.cs" />
-    <Compile Include="MarketData.cs" />
-    <Compile Include="MarketDataProvider.cs" />
     <Compile Include="MarketDataProviderTests.cs" />
-    <Compile Include="PastaPricerAcceptanceTests.cs" />
+    <Compile Include="Acceptance\PastaPricerAcceptanceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

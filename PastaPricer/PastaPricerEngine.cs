@@ -1,8 +1,6 @@
-﻿namespace PastaPricer.Tests
+namespace PastaPricer
 {
     using System;
-
-    using NFluent;
 
     public class PastaPricerEngine
     {
@@ -17,7 +15,7 @@
 
         public void Start()
         {
-            this.marketDataProvider.Get("eggPrice").PriceChanged += PastaPricerEngine_PriceChanged;
+            this.marketDataProvider.Get("eggPrice").PriceChanged += this.PastaPricerEngine_PriceChanged;
         }
 
         void PastaPricerEngine_PriceChanged(object sender, EventArgs e)

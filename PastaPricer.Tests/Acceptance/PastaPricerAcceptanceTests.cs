@@ -1,4 +1,4 @@
-namespace PastaPricer.Tests
+namespace PastaPricer.Tests.Acceptance
 {
     using NSubstitute;
 
