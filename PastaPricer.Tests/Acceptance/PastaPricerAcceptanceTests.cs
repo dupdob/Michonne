@@ -8,7 +8,7 @@ namespace PastaPricer.Tests.Acceptance
     public class PastaPricerAcceptanceTests
     {
         [Test]
-        public void Should_PublishPastaPriceOnceStartedAndMarketDataIsAvailable()
+        public void Should_Publish_Pasta_Price_Once_Started_And_MarketData_Is_Available()
         {
             // Mocks instantiation
             var publisher = Substitute.For<IPastaPricerPublisher>();
