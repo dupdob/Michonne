@@ -69,7 +69,7 @@ namespace Michonne.Tests
         {
             var thread = new ThreadUnitOfExecution();
             var sequencer = this.BuildSequencer(thread);
-            var context = new TaskContext();
+            var context = new RaceConditionDetector();
 
             // we inject delay deliberately, to ensure queueing happens
             sequencer.Dispatch(() => context.Delay(20));
@@ -105,16 +105,17 @@ namespace Michonne.Tests
         {
             var poolExec = new DotNetThreadPoolUnitOfExecution();
             ISequencer sequencer = this.BuildSequencer(poolExec);
-            var context = new TaskContext();
+            var context = new RaceConditionDetector();
 
             // first task inject delay
             sequencer.Dispatch(() => context.Delay(20));
 
             // second task check non concurrence
             sequencer.Dispatch(() => context.Delay(20));
-
+            
             // wait for the two tasks to be executed
-            Check.That(context.WaitForTasks(2)).IsFalse();
+            context.WaitForTasks(2);
+            Check.That(context.RaceConditionDetected).IsFalse();
         }
 
         /// <summary>
@@ -125,7 +126,7 @@ namespace Michonne.Tests
         {
             var poolExec = new DotNetThreadPoolUnitOfExecution();
             ISequencer sequencer = this.BuildSequencer(poolExec);
-            var context = new TaskContext();
+            var context = new RaceConditionDetector();
             sequencer.Dispatch(() => context.Delay(20));
             int current = 0;
             bool failed = false;

@@ -1,23 +1,24 @@
-using System.Threading;
 
 namespace Michonne.Tests
 {
-    internal class TaskContext
+    using System.Threading;
+
+    internal class RaceConditionDetector
     {
         private int _ranTasks;
         private int _targetTaskCount;
-        private readonly object _lck = new object();
-        private bool _raceCondition;
+        private readonly object _taskExecutionLock = new object();
+        private readonly object _taskCountLock = new object();
+        private bool raceConditionDetected;
 
-        public bool 
-            RaceCondition
+        public bool RaceConditionDetected
         {
-            get { return this._raceCondition; }
+            get { return this.raceConditionDetected; }
         }
 
         public void Delay(int timer)
         {
-            if (Monitor.TryEnter(this._lck))
+            if (Monitor.TryEnter(this._taskExecutionLock))
             {
                 try
                 {
@@ -25,40 +26,40 @@ namespace Michonne.Tests
                 }
                 finally
                 {
-                    Monitor.Exit(this._lck);
+                    Monitor.Exit(this._taskExecutionLock);
                 }
             }
             else
             {
-                this._raceCondition = true;
+                this.raceConditionDetected = true;
             }
             Interlocked.Increment(ref this._ranTasks);
-            if (Monitor.TryEnter(this._lck))
+            if (Monitor.TryEnter(this._taskCountLock))
             {
                 try
                 {
                     if (this._targetTaskCount == this._ranTasks)
                     {
-                        Monitor.PulseAll(this._lck);
+                        Monitor.PulseAll(this._taskCountLock);
                     }
                 }
                 finally
                 {
-                    Monitor.Exit(this._lck);
+                    Monitor.Exit(this._taskCountLock);
                 }
             }
         }
 
         public bool WaitForTasks(int nbTasks)
         {
-            lock (this._lck)
+            lock (this._taskCountLock)
             {
                 this._targetTaskCount = nbTasks;
                 while (this._ranTasks < nbTasks)
                 {
-                    Monitor.Wait(this._lck, 100);
+                    Monitor.Wait(this._taskCountLock, 100);
                 }
-                return this._raceCondition;
+                return this.raceConditionDetected;
             }
         }
     }
