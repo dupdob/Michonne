@@ -18,7 +18,7 @@ namespace PastaPricer
             this.marketDataProvider.Get("eggPrice").PriceChanged += this.PastaPricerEngine_PriceChanged;
         }
 
-        void PastaPricerEngine_PriceChanged(object sender, EventArgs e)
+        private void PastaPricerEngine_PriceChanged(object sender, EventArgs e)
         {
             this.pastaPricerPublisher.Publish(string.Empty, 0);
         }

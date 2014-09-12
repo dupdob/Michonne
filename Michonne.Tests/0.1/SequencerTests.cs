@@ -1,17 +1,17 @@
-﻿// // --------------------------------------------------------------------------------------------------------------------
-// // <copyright file="SequencerTests.cs" company="">
-// //   Copyright 2014 Thomas PIERRAIN
-// //   Licensed under the Apache License, Version 2.0 (the "License");
-// //   you may not use this file except in compliance with the License.
-// //   You may obtain a copy of the License at
-// //       http://www.apache.org/licenses/LICENSE-2.0
-// //   Unless required by applicable law or agreed to in writing, software
-// //   distributed under the License is distributed on an "AS IS" BASIS,
-// //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// //   See the License for the specific language governing permissions and
-// //   limitations under the License.
-// // </copyright>
-// // --------------------------------------------------------------------------------------------------------------------
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SequencerTests.cs" company="No lock... no deadlock">
+//   Copyright 2014 Thomas PIERRAIN
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+//       http://www.apache.org/licenses/LICENSE-2.0
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
 namespace Michonne.Tests
 {
     using System;
@@ -68,17 +68,17 @@ namespace Michonne.Tests
         {
             var rootDispatcher = new DotNetThreadPoolUnitOfExecution();
             var sequencer = new Sequencer(rootDispatcher);
-            const int numberOfWritesPerThread = 10000;
+            const int NumberOfWritesPerThread = 10000;
             var tasksOutput = new List<int>();
 
             using (var unleashThreadsEvent = new AutoResetEvent(false))
             using (var firstWriterFinishedEvent = new AutoResetEvent(false))
             using (var secondWriterFinishedEvent = new AutoResetEvent(false))
             {
-                var firstWriter = new Thread(() => this.WriterRoutine(sequencer, unleashThreadsEvent, 0, numberOfWritesPerThread, tasksOutput, firstWriterFinishedEvent));
+                var firstWriter = new Thread(() => this.WriterRoutine(sequencer, unleashThreadsEvent, 0, NumberOfWritesPerThread, tasksOutput, firstWriterFinishedEvent));
                 firstWriter.Start();
 
-                var secondWriter = new Thread(() => this.WriterRoutine(sequencer, unleashThreadsEvent, 0, numberOfWritesPerThread, tasksOutput, secondWriterFinishedEvent));
+                var secondWriter = new Thread(() => this.WriterRoutine(sequencer, unleashThreadsEvent, 0, NumberOfWritesPerThread, tasksOutput, secondWriterFinishedEvent));
                 secondWriter.Start();
 
                 // ready, set, mark
@@ -88,7 +88,7 @@ namespace Michonne.Tests
                 Check.That(firstWriterFinishedEvent.WaitOne(2 * ThreeSecondsMax) && secondWriterFinishedEvent.WaitOne(2 * ThreeSecondsMax)).IsTrue();
 
                 // Checks that no write has been missing
-                Check.That(tasksOutput).HasSize(2*numberOfWritesPerThread);
+                Check.That(tasksOutput).HasSize(2 * NumberOfWritesPerThread);
             }
         }
 

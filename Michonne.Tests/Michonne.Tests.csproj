@@ -49,7 +49,7 @@
     <Compile Include="0.1\PollingDispatcherTests.cs" />
     <Compile Include="0.1\SequencerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Submitted Sequencers\Sequencer 1.cs" />
+    <Compile Include="Submitted Sequencers\TaskContinuationSequencer.cs" />
     <Compile Include="0.1\SynchroCall.cs" />
     <Compile Include="RaceConditionDetector.cs" />
     <Compile Include="TaskSchedulerAdapter.cs" />

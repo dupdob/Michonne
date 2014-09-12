@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SynchroCall.cs" company="No lock... no deadlock">
+// <copyright file="TaskContinuationSequencer.cs" company="No lock... no deadlock">
 //   Copyright 2014 Cyrille  DUPUYDAUBY (@Cyrdup), Thomas PIERRAIN (@tpierrain)
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -12,24 +12,32 @@
 //    limitations under the License.
 //  </copyright>
 //  --------------------------------------------------------------------------------------------------------------------
-namespace Michonne.Tests
+namespace Seq
 {
     using System;
+    using System.Threading.Tasks;
 
     using Michonne.Interfaces;
+    using Michonne.Tests;
 
-    internal class SynchroCall : IUnitOfExecution
+    public class TaskContinuationSequencer : ISequencer
     {
-        public int DoneTasks { get; private set; }
+        private readonly object _lock = new object();
+        private readonly TaskScheduler _scheduler;
+        
+        private Task _task = Task.FromResult(0);
 
-        #region IUnitOfExecution Members
+        public TaskContinuationSequencer(IUnitOfExecution executor)
+        {
+            this._scheduler = new TaskSchedulerAdapter(executor);
+        }
 
         public void Dispatch(Action action)
         {
-            action();
-            this.DoneTasks++;
+            lock (this._lock)
+            {
+                this._task = this._task.ContinueWith(_ => action(), this._scheduler);
+            }
         }
-
-        #endregion
     }
 }

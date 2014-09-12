@@ -1,6 +1,6 @@
 ﻿#region File header
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="UnitOfExecutionsFactory.cs" company="" product="Michonne">
+// <copyright file="UnitOfExecutionsFactory.cs" company="No lock... no deadlock" product="Michonne">
 //   Copyright 2014 Cyrille Dupuydauby
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -85,7 +85,7 @@ namespace Michonne.Implementation
         }
         
         /// <summary>
-        /// Gets/Sets the over allocation factor for cores.
+        /// Gets or sets the over allocation factor for cores.
         /// </summary>
         public double OverAllocationFactor { get; set; }
 

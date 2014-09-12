@@ -1,11 +1,18 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SequencerCertification.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   The sequencer certification.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SequencerCertification.cs" company="No lock... no deadlock">
+//   Copyright 2014 Cyrille  DUPUYDAUBY (@Cyrdup), Thomas PIERRAIN (@tpierrain)
+//    (@Cyrdup), Tomasz JASKULA (@tjaskula), Thomas PIERRAIN (@tpierrain)
+//    Licensed under the Apache License, Version 2.0 (the "License");
+//    you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+//        http://www.apache.org/licenses/LICENSE-2.0
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
+//  </copyright>
+//  --------------------------------------------------------------------------------------------------------------------
 
 namespace Michonne.Tests
 {
@@ -19,14 +26,12 @@ namespace Michonne.Tests
 
     using NUnit.Framework;
 
-    using Seq;
-
     /// <summary>
     /// The sequencer certification.
     /// </summary>
     /// <typeparam name="T"> type of sequencer
     /// </typeparam>
-//    [TestFixture(typeof(TaskContinuationSequencer))]
+    //// [TestFixture(typeof(TaskContinuationSequencer))]
     [TestFixture(typeof(Sequencer))]
     internal class SequencerCertification<T>
     {
@@ -61,7 +66,7 @@ namespace Michonne.Tests
         /// <summary>
         /// The sequencer should process tasks fairly.
         /// </summary>
-        /// <remarks>Here the underlying unit of execution is a dedicated thread. So, all tasks are processed sequentialy.
+        /// <remarks>Here the underlying unit of execution is a dedicated thread. So, all tasks are processed sequentially.
         /// This test dispatches tasks alternatively through the sequencer or directly through the unit of execution.
         /// Actual execution order should not be changed!</remarks>
         [Test]

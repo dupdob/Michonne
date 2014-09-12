@@ -1,24 +1,38 @@
-﻿// Provides a task scheduler that ensures a maximum concurrency level while  
-// running on top of the thread pool. 
-
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Michonne.Interfaces;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TaskSchedulerAdapter.cs" company="No lock... no deadlock">
+//   Copyright 2014 Cyrille  DUPUYDAUBY (@Cyrdup), Thomas PIERRAIN (@tpierrain)
+//    Licensed under the Apache License, Version 2.0 (the "License");
+//    you may not use this file except in compliance with the License.
+//    You may obtain a copy of the License at
+//        http://www.apache.org/licenses/LICENSE-2.0
+//    Unless required by applicable law or agreed to in writing, software
+//    distributed under the License is distributed on an "AS IS" BASIS,
+//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//    See the License for the specific language governing permissions and
+//    limitations under the License.
+//  </copyright>
+//  --------------------------------------------------------------------------------------------------------------------
 
 namespace Michonne.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    using Michonne.Interfaces;
+
     public class TaskSchedulerAdapter : TaskScheduler
     {
-        private readonly IUnitOfExecution _executor;
-        // Indicates whether the current thread is processing work items.
+        //// Indicates whether the current thread is processing work items.
         [ThreadStatic]
         private static bool _currentThreadIsProcessingItems;
+        
+        private readonly IUnitOfExecution _executor;
 
         // The list of tasks to be executed  
         private readonly LinkedList<Task> _tasks = new LinkedList<Task>(); // protected by lock(_tasks) 
-
+        
         public TaskSchedulerAdapter(IUnitOfExecution executor)
         {
             this._executor = executor;
@@ -33,7 +47,8 @@ namespace Michonne.Tests
             {
                 this._tasks.AddLast(task);
             }
-            _executor.Dispatch(() =>
+
+            this._executor.Dispatch(() =>
             {
                 Task next;
                 lock (this._tasks)
@@ -41,6 +56,7 @@ namespace Michonne.Tests
                     next = this._tasks.First.Value;
                     this._tasks.RemoveFirst();
                 }
+
                 base.TryExecuteTask(task);
             });
         }
@@ -49,23 +65,37 @@ namespace Michonne.Tests
         protected sealed override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
         {
             // If this thread isn't already processing a task, we don't support inlining 
-            if (!_currentThreadIsProcessingItems) return false;
+            if (!_currentThreadIsProcessingItems)
+            {
+                return false;
+            }
 
             // If the task was previously queued, remove it from the queue 
             if (taskWasPreviouslyQueued)
+            {
                 // Try to run the task.  
                 if (this.TryDequeue(task))
+                {
                     return base.TryExecuteTask(task);
+                }
                 else
+                {
                     return false;
+                }
+            }
             else
+            {
                 return base.TryExecuteTask(task);
+            }
         }
 
         // Attempt to remove a previously scheduled task from the scheduler.  
         protected sealed override bool TryDequeue(Task task)
         {
-            lock (this._tasks) return this._tasks.Remove(task);
+            lock (this._tasks)
+            {
+                return this._tasks.Remove(task);
+            }
         }
 
         // Gets an enumerable of the tasks currently scheduled on this scheduler.  
@@ -75,12 +105,21 @@ namespace Michonne.Tests
             try
             {
                 Monitor.TryEnter(this._tasks, ref lockTaken);
-                if (lockTaken) return this._tasks;
-                else throw new NotSupportedException();
+                if (lockTaken)
+                {
+                    return this._tasks;
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
             }
             finally
             {
-                if (lockTaken) Monitor.Exit(this._tasks);
+                if (lockTaken)
+                {
+                    Monitor.Exit(this._tasks);
+                }
             }
         }
     }

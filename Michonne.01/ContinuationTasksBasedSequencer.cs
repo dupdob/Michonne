@@ -1,17 +1,17 @@
-﻿// // --------------------------------------------------------------------------------------------------------------------
-// // <copyright file="ContinuationTasksBasedSequencer.cs" company="">
-// //   Copyright 2014 Thomas PIERRAIN
-// //   Licensed under the Apache License, Version 2.0 (the "License");
-// //   you may not use this file except in compliance with the License.
-// //   You may obtain a copy of the License at
-// //       http://www.apache.org/licenses/LICENSE-2.0
-// //   Unless required by applicable law or agreed to in writing, software
-// //   distributed under the License is distributed on an "AS IS" BASIS,
-// //   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// //   See the License for the specific language governing permissions and
-// //   limitations under the License.
-// // </copyright>
-// // --------------------------------------------------------------------------------------------------------------------
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ContinuationTasksBasedSequencer.cs" company="No lock... no deadlock">
+//   Copyright 2014 Thomas PIERRAIN
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+//       http://www.apache.org/licenses/LICENSE-2.0
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
 namespace Michonne
 {
     using System;
@@ -35,16 +35,26 @@ namespace Michonne
         private Task task = Task.FromResult(0);
         private int pendingTaskCount;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContinuationTasksBasedSequencer"/> class.
+        /// </summary>
         public ContinuationTasksBasedSequencer() : this(TaskScheduler.Current)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContinuationTasksBasedSequencer"/> class.
+        /// </summary>
+        /// <param name="taskScheduler">The task scheduler.</param>
         public ContinuationTasksBasedSequencer(TaskScheduler taskScheduler)
         {
             // we could need to specify a custom scheduler, in order to limit concurrency, or for testing purpose
             this.taskScheduler = taskScheduler;
         }
 
+        /// <summary>
+        /// Occurs when an error occurs in the task execution.
+        /// </summary>
         public event Action<Exception> Error;
 
         public void Dispatch(Action action)
