@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Tests", "Michonne.Tests\Michonne.Tests.csproj", "{F7D77346-0D41-41E8-8662-A6C2A0654A34}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Interfaces", "Michonne.Interfaces\Michonne.Interfaces.csproj", "{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}"
@@ -17,6 +15,18 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Implementation", "Michonne.Implementation\Michonne.Implementation.csproj", "{76D48E2E-E97D-46D1-81FC-7ABAEA8463AC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.0.1", "Michonne.01\Michonne.0.1.csproj", "{FFDD856B-8600-4516-8F65-8BF460E96214}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PastaPricer", "PastaPricer\PastaPricer.csproj", "{A4BE2C7F-51CB-4E20-B682-4CA255D6675E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{76D48E2E-E97D-46D1-81FC-7ABAEA8463AC} = {76D48E2E-E97D-46D1-81FC-7ABAEA8463AC}
+		{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA} = {439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PastaPricer.Tests", "PastaPricer.Tests\PastaPricer.Tests.csproj", "{8C389710-EE86-49C3-80E8-55CB81F047FF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{76D48E2E-E97D-46D1-81FC-7ABAEA8463AC} = {76D48E2E-E97D-46D1-81FC-7ABAEA8463AC}
+		{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA} = {439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +50,14 @@ Global
 		{FFDD856B-8600-4516-8F65-8BF460E96214}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFDD856B-8600-4516-8F65-8BF460E96214}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFDD856B-8600-4516-8F65-8BF460E96214}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4BE2C7F-51CB-4E20-B682-4CA255D6675E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4BE2C7F-51CB-4E20-B682-4CA255D6675E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4BE2C7F-51CB-4E20-B682-4CA255D6675E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4BE2C7F-51CB-4E20-B682-4CA255D6675E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C389710-EE86-49C3-80E8-55CB81F047FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C389710-EE86-49C3-80E8-55CB81F047FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C389710-EE86-49C3-80E8-55CB81F047FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C389710-EE86-49C3-80E8-55CB81F047FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
