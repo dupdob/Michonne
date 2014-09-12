@@ -26,7 +26,7 @@ namespace Michonne.Tests
     /// </summary>
     /// <typeparam name="T"> type of sequencer
     /// </typeparam>
-    [TestFixture(typeof(TaskContinuationSequencer))]
+//    [TestFixture(typeof(TaskContinuationSequencer))]
     [TestFixture(typeof(Sequencer))]
     internal class SequencerCertification<T>
     {
