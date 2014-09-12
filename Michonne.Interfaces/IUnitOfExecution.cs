@@ -1,5 +1,5 @@
 ﻿// // --------------------------------------------------------------------------------------------------------------------
-// // <copyright file="ISequencer.cs" company="">
+// // <copyright file="IUnitOfExecution.cs" company="">
 // //   Copyright 2014 Cyrille DUPUYDAUBY, Thomas PIERRAIN
 // //   Licensed under the Apache License, Version 2.0 (the "License");
 // //   you may not use this file except in compliance with the License.
@@ -14,15 +14,21 @@
 // // --------------------------------------------------------------------------------------------------------------------
 namespace Michonne.Interfaces
 {
+    using System;
+
     /// <summary>
-    /// Allows to execute tasks asynchronously, but one by one and in the same order as they have been dispatched.
-    /// That means that two tasks from the same dispatcher can be executed by two different threads, but NEVER in parallel. 
-    /// Sequencer requirements are presented here: 
-    ///     http://dupdob.wordpress.com/2014/05/09/the-sequencer-part-2/
-    ///     and
-    ///     http://dupdob.wordpress.com/2014/05/14/sequencer-part-2-1/
+    /// Allow to dispatch actions/tasks for execution. 
+    /// A dispatcher may be whether asynchronous (more likely) or synchronous.
     /// </summary>
-    public interface ISequencer : IUnitOfExecution
+    public interface IUnitOfExecution
     {
+        /// <summary>
+        /// Dispatch an action to be executed.
+        /// </summary>
+        /// <remarks>
+        ///     Depending on the concrete implementation of the dispatcher, the action will be 
+        ///     executed asynchronously (most likely) or synchronously (a few exceptions).</remarks>
+        /// <param name="action">The action to be executed</param>
+        void Dispatch(Action action);
     }
 }

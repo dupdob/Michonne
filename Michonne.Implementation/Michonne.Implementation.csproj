@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F7D77346-0D41-41E8-8662-A6C2A0654A34}</ProjectGuid>
+    <ProjectGuid>{76D48E2E-E97D-46D1-81FC-7ABAEA8463AC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Michonne.Tests</RootNamespace>
-    <AssemblyName>Michonne.Tests</AssemblyName>
+    <RootNamespace>Michonne.Implementation</RootNamespace>
+    <AssemblyName>Michonne.Implementation</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,49 +30,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NFluent">
-      <HintPath>..\Michonne\packages\NFluent.1.2.0.0\lib\net40\NFluent.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\Michonne\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="0.1\BalkingDispatcherTests.cs" />
-    <Compile Include="0.1\ContinuationTasksBasedSequencerTests.cs" />
-    <Compile Include="0.1\DirectDispatcherTests.cs" />
-    <Compile Include="0.1\PerformanceTests.cs" />
-    <Compile Include="ExecutionFactoryTests.cs" />
-    <Compile Include="SequencerCertification.cs" />
-    <Compile Include="0.1\PollingDispatcherTests.cs" />
-    <Compile Include="0.1\SequencerTests.cs" />
+    <Compile Include="PoolUnitOfExecution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Submitted Sequencers\Sequencer 1.cs" />
-    <Compile Include="0.1\SynchroCall.cs" />
-    <Compile Include="TaskContext.cs" />
-    <Compile Include="TaskSchedulerAdapter.cs" />
+    <Compile Include="ThreadUnitOfExecution.cs" />
+    <Compile Include="UnitOfExecutionsFactory.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Michonne.01\Michonne.0.1.csproj">
-      <Project>{FFDD856B-8600-4516-8F65-8BF460E96214}</Project>
-      <Name>Michonne.0.1</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Michonne.Implementation\Michonne.Implementation.csproj">
-      <Project>{76D48E2E-E97D-46D1-81FC-7ABAEA8463AC}</Project>
-      <Name>Michonne.Implementation</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Michonne.Interfaces\Michonne.Interfaces.csproj">
-      <Project>{439f8a67-01b7-4109-aab2-6c0d5b02a0fa}</Project>
+      <Project>{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}</Project>
       <Name>Michonne.Interfaces</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

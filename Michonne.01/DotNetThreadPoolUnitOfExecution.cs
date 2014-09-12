@@ -1,6 +1,6 @@
 ﻿// // --------------------------------------------------------------------------------------------------------------------
-// // <copyright file="ISequencer.cs" company="">
-// //   Copyright 2014 Cyrille DUPUYDAUBY, Thomas PIERRAIN
+// // <copyright file="DotNetThreadPoolUnitOfExecution.cs" company="">
+// //   Copyright 2014 Thomas PIERRAIN
 // //   Licensed under the Apache License, Version 2.0 (the "License");
 // //   you may not use this file except in compliance with the License.
 // //   You may obtain a copy of the License at
@@ -12,17 +12,32 @@
 // //   limitations under the License.
 // // </copyright>
 // // --------------------------------------------------------------------------------------------------------------------
-namespace Michonne.Interfaces
+namespace Michonne
 {
+    using System;
+    using System.Threading;
+
+    using Michonne.Interfaces;
+
     /// <summary>
-    /// Allows to execute tasks asynchronously, but one by one and in the same order as they have been dispatched.
-    /// That means that two tasks from the same dispatcher can be executed by two different threads, but NEVER in parallel. 
-    /// Sequencer requirements are presented here: 
-    ///     http://dupdob.wordpress.com/2014/05/09/the-sequencer-part-2/
-    ///     and
-    ///     http://dupdob.wordpress.com/2014/05/14/sequencer-part-2-1/
+    /// Allow to dispatch actions/tasks for asynchronous execution through the classical .NET thread pool.
     /// </summary>
-    public interface ISequencer : IUnitOfExecution
+    public sealed class DotNetThreadPoolUnitOfExecution : IUnitOfExecution
     {
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// Dispatch an action to be executed.
+        /// </summary>
+        /// <remarks>
+        ///     With this dispatcher, the action will be executed asynchronouly.
+        /// </remarks>
+        /// <param name="action">The action to be executed asynchronously.</param>
+        public void Dispatch(Action action)
+        {
+            ThreadPool.QueueUserWorkItem((_) => action());
+        }
+
+        #endregion
     }
 }
