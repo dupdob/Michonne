@@ -41,6 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IMarketDataProvider.cs" />
+    <Compile Include="IPastaPricerPublisher.cs" />
+    <Compile Include="MarketData.cs" />
+    <Compile Include="MarketDataProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
