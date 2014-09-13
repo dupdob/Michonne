@@ -15,20 +15,25 @@
 namespace PastaPricer
 {
     using System;
+    using System.Collections.Generic;
 
     public class PastaPricerEngine
     {
         private readonly IMarketDataProvider marketDataProvider;
         private readonly IPastaPricerPublisher pastaPricerPublisher;
 
-        public PastaPricerEngine(IMarketDataProvider marketDataProvider, IPastaPricerPublisher pastaPricerPublisher)
+        private readonly IEnumerable<string> pastaToBePriced;
+
+        public PastaPricerEngine(IEnumerable<string> pastaToBePriced, IMarketDataProvider marketDataProvider, IPastaPricerPublisher pastaPricerPublisher)
         {
+            this.pastaToBePriced = pastaToBePriced;
             this.marketDataProvider = marketDataProvider;
             this.pastaPricerPublisher = pastaPricerPublisher;
         }
 
         public void Start()
         {
+            // subscribes to all the marketdata we need to price the pasta we have to support
             this.marketDataProvider.Get("eggPrice").PriceChanged += this.PastaPricerEngine_PriceChanged;
         }
 

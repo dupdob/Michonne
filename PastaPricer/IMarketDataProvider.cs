@@ -14,10 +14,14 @@
 //   --------------------------------------------------------------------------------------------------------------------
 namespace PastaPricer
 {
+    using System.Collections.Generic;
+
     public interface IMarketDataProvider
     {
         void Start();
 
         MarketData Get(string assetName);
+
+        void RegisterAssets(IEnumerable<string> registeredAssetNames);
     }
 }

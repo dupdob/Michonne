@@ -14,16 +14,56 @@
 //   --------------------------------------------------------------------------------------------------------------------
 namespace PastaPricer
 {
+    using System;
+    using System.Collections.Generic;
+
     public class MarketDataProvider : IMarketDataProvider
     {
+        private Dictionary<string, MarketData> marketDatas;
+        private IEnumerable<string> registeredAssetNames;
+
+        public MarketDataProvider(IEnumerable<string> registeredAssetNames)
+        {
+            this.marketDatas = new Dictionary<string, MarketData>();
+            this.RegisterAssets(registeredAssetNames);
+        }
+
+        public void RegisterAssets(IEnumerable<string> registeredAssetNames)
+        {
+            this.registeredAssetNames = registeredAssetNames;
+            this.InstantiateMarketDataForRegisteredAssets();
+        }
+
         public void Start()
         {
-            throw new System.NotImplementedException();
+            // TODO: make it thread-safe
+            foreach (var marketData in this.marketDatas.Values)
+            {
+                marketData.Start();
+            }
+        }
+
+        private void InstantiateMarketDataForRegisteredAssets()
+        {
+            foreach (var registeredAsset in this.registeredAssetNames)
+            {
+                var marketDataForThisAsset = new MarketData();
+                this.marketDatas[registeredAsset] = marketDataForThisAsset;
+                marketDataForThisAsset.Start();
+            }
         }
 
         public MarketData Get(string assetName)
         {
-            return new MarketData();
+            //TODO: make it thread-safe
+            MarketData marketData;
+            
+            if (!this.marketDatas.TryGetValue(assetName, out marketData))
+            {
+                throw new InvalidOperationException(string.Format("Asset with name '{0}' is not registered for market data.", assetName));
+            }
+
+            return marketData;
         }
     }
 }

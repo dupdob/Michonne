@@ -26,9 +26,9 @@ namespace PastaPricer.Tests.Acceptance
         {
             // Mock and dependencies setup
             var publisher = Substitute.For<IPastaPricerPublisher>();
-            var marketDataProvider = new MarketDataProvider();
+            var marketDataProvider = new MarketDataProvider(new [] { "eggs"});
             
-            var pastaPricer = new PastaPricerEngine(marketDataProvider, publisher);
+            var pastaPricer = new PastaPricerEngine(new [] { "gnocchi"}, marketDataProvider, publisher);
             
             CheckThatNoPriceHasBeenPublished(publisher);
             

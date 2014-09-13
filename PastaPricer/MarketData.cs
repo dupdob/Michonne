@@ -15,9 +15,25 @@
 namespace PastaPricer
 {
     using System;
+    using System.Threading;
 
     public class MarketData
     {
+        private Timer timer;
+
         public event EventHandler PriceChanged;
+
+        public void Start()
+        {
+            this.timer = new Timer(delegate { this.RaiseRandomPrice(); }, null, 0, 9);
+        }
+
+        private void RaiseRandomPrice()
+        {
+            if (this.PriceChanged != null)
+            {
+                this.PriceChanged(this, EventArgs.Empty);
+            }
+        }
     }
 }

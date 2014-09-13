@@ -14,19 +14,55 @@
 //   --------------------------------------------------------------------------------------------------------------------
 namespace PastaPricer.Tests
 {
+    using System;
+    using System.Threading;
     using NFluent;
-
     using NUnit.Framework;
 
     [TestFixture]
     public class MarketDataProviderTests
     {
         [Test]
-        public void Should_Provide_MarketData_For_Eggs()
+        public void Should_provide_MarketData_for_eggs()
         {
-            var marketDataProvider = new MarketDataProvider();
+            var marketDataProvider = new MarketDataProvider(new[] { "eggs" });
 
             Check.That(marketDataProvider.Get("eggs")).IsInstanceOf<MarketData>();
+        }
+
+        [Test]
+        public void Should_return_the_same_instance_of_MarketData_from_the_same_name()
+        {
+            var marketDataProvider = new MarketDataProvider(new[] { "eggs" });
+
+            Check.That(marketDataProvider.Get("eggs")).IsSameReferenceThan(marketDataProvider.Get("eggs"));
+        }
+
+        [Test]
+        public void Should_only_get_MarketData_for_registered_assets()
+        {
+            var marketDataProvider = new MarketDataProvider(new[] { "eggs", "flour" });
+
+            Check.That(marketDataProvider.Get("flour")).IsNotNull();
+
+            Check.ThatCode(() => marketDataProvider.Get("banana")).Throws<InvalidOperationException>();
+
+            Check.That(marketDataProvider.Get("eggs")).IsNotNull();
+        }
+
+        [Test]
+        public void Should_receive_price_for_registered_assets_on_a_started_MarketDataProvider()
+        {
+            var marketDataProvider = new MarketDataProvider(new[] { "eggs", "flour" });
+
+            var priceChanged = false;
+            marketDataProvider.Get("eggs").PriceChanged += (o, args) => priceChanged = true;
+
+            marketDataProvider.Start();
+            //  TODO: get rid of this Sleep
+            Thread.Sleep(100);
+
+            Check.That(priceChanged).IsTrue();
         }
     }
 }
