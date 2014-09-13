@@ -22,7 +22,7 @@ namespace PastaPricer.Tests.Acceptance
     public class PastaPricerAcceptanceTests
     {
         [Test]
-        public void Should_Publish_Pasta_Price_Once_Started_And_When_MarketData_Is_Available()
+        public void Should_Publish_Price_Once_Started_And_When_MarketData_Is_Available()
         {
             // Mock and dependencies setup
             var publisher = Substitute.For<IPastaPricerPublisher>();
