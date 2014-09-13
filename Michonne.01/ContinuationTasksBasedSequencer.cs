@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-//  <copyright file="BalkingDispatcher.cs" company="No lock... no deadlock" product="Michonne">
+//  <copyright file="ContinuationTasksBasedSequencer.cs" company="No lock... no deadlock" product="Michonne">
 //     Copyright 2014 Olivier COANET (@ocoanet)
 //     Licensed under the Apache License, Version 2.0 (the "License");
 //     you may not use this file except in compliance with the License.
