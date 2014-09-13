@@ -1,5 +1,4 @@
 ﻿#region File header
-
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ThreadUnitOfExecution.cs" company="No lock... no deadlock" product="Michonne">
 //   Copyright 2014 Cyrille Dupuydauby
@@ -15,7 +14,6 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 #endregion
-
 namespace Michonne.Implementation
 {
     using System;
