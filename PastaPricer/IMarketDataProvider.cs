@@ -23,5 +23,7 @@ namespace PastaPricer
         MarketData Get(string assetName);
 
         void RegisterAssets(IEnumerable<string> registeredAssetNames);
+
+        void Stop();
     }
 }

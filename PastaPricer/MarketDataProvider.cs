@@ -65,5 +65,13 @@ namespace PastaPricer
 
             return marketData;
         }
+
+        public void Stop()
+        {
+            foreach (var marketData in this.marketDatas.Values)
+            {
+                marketData.Stop();
+            }
+        }
     }
 }

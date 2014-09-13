@@ -14,6 +14,8 @@
 //   --------------------------------------------------------------------------------------------------------------------
 namespace PastaPricer.Tests.Acceptance
 {
+    using System.Threading;
+
     using NSubstitute;
 
     using NUnit.Framework;
@@ -36,8 +38,10 @@ namespace PastaPricer.Tests.Acceptance
 
             CheckThatNoPriceHasBeenPublished(publisher);
 
-            // Turns on market data
+            // Turns on market data (note: make the pasta pricer start its dependencies instead?)
             marketDataProvider.Start();
+
+            Thread.Sleep(60);
 
             // It has publish a price now!
             publisher.ReceivedWithAnyArgs().Publish(string.Empty, 0);

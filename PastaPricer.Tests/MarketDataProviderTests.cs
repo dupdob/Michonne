@@ -22,6 +22,24 @@ namespace PastaPricer.Tests
     [TestFixture]
     public class MarketDataProviderTests
     {
+        private AutoResetEvent priceChangedRaisedEvent;
+
+        [TestFixtureSetUp]
+        public void TestFixtureSetUp()
+        {
+            this.priceChangedRaisedEvent = new AutoResetEvent(false);
+        }
+
+        [TestFixtureTearDown]
+        public void TestFixtureTearDown()
+        {
+            if (this.priceChangedRaisedEvent != null)
+            {
+                this.priceChangedRaisedEvent.Dispose();
+                this.priceChangedRaisedEvent = null;
+            }
+        }
+
         [Test]
         public void Should_provide_MarketData_for_eggs()
         {
@@ -51,18 +69,18 @@ namespace PastaPricer.Tests
         }
 
         [Test]
-        public void Should_receive_price_for_registered_assets_on_a_started_MarketDataProvider()
+        public void Should_receive_price_for_registered_assets_once_started()
         {
             var marketDataProvider = new MarketDataProvider(new[] { "eggs", "flour" });
-
-            var priceChanged = false;
-            marketDataProvider.Get("eggs").PriceChanged += (o, args) => priceChanged = true;
+            
+            marketDataProvider.Get("eggs").PriceChanged += (o, args) => this.priceChangedRaisedEvent.Set();
 
             marketDataProvider.Start();
-            //  TODO: get rid of this Sleep
-            Thread.Sleep(100);
 
-            Check.That(priceChanged).IsTrue();
+            var hasReceivedEvent = this.priceChangedRaisedEvent.WaitOne(100);
+
+            Check.That(hasReceivedEvent).IsTrue();
+            marketDataProvider.Stop();
         }
     }
 }

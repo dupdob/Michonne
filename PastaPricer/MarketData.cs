@@ -17,15 +17,34 @@ namespace PastaPricer
     using System;
     using System.Threading;
 
+    /// <summary>
+    /// Provides market data as event.
+    /// </summary>
+    /// <remarks>This type is thread-safe</remarks>
     public class MarketData
     {
         private Timer timer;
+        private long stopped = 0;
+
+        private readonly int timerPeriodInMsec;
 
         public event EventHandler PriceChanged;
 
+        public MarketData(int timerPeriodInMsec = 9)
+        {
+            this.timerPeriodInMsec = timerPeriodInMsec;
+        }
+
         public void Start()
         {
-            this.timer = new Timer(delegate { this.RaiseRandomPrice(); }, null, 0, 9);
+            this.timer = new Timer(delegate
+            {
+                var hasStopped = Interlocked.CompareExchange(ref this.stopped, 1, 1);
+                if (hasStopped != 1)
+                {
+                    this.RaiseRandomPrice();
+                }
+            }, null, 0, this.timerPeriodInMsec);
         }
 
         private void RaiseRandomPrice()
@@ -34,6 +53,15 @@ namespace PastaPricer
             {
                 this.PriceChanged(this, EventArgs.Empty);
             }
+        }
+
+        public void Stop()
+        {
+            // Tries to stop the action being done by the timer ASAP.
+            Interlocked.Exchange(ref this.stopped, 1);
+            // and the timer also.
+            this.timer.Change(Timeout.Infinite, Timeout.Infinite);
+            this.timer.Dispose();
         }
     }
 }

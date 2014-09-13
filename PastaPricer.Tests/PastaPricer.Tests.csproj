@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="MarketDataProviderTests.cs" />
     <Compile Include="Acceptance\PastaPricerAcceptanceTests.cs" />
+    <Compile Include="MarketDataTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
