@@ -22,10 +22,9 @@ namespace PastaPricer
         private Dictionary<string, MarketData> marketDatas;
         private IEnumerable<string> registeredAssetNames;
 
-        public MarketDataProvider(IEnumerable<string> registeredAssetNames)
+        public MarketDataProvider()
         {
             this.marketDatas = new Dictionary<string, MarketData>();
-            this.RegisterAssets(registeredAssetNames);
         }
 
         public void RegisterAssets(IEnumerable<string> registeredAssetNames)

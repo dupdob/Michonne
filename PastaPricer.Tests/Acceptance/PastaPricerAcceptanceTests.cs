@@ -24,13 +24,13 @@ namespace PastaPricer.Tests.Acceptance
     public class PastaPricerAcceptanceTests
     {
         [Test]
-        public void Should_Publish_Price_Once_Started_And_When_MarketData_Is_Available()
+        public void Should_publish_price_once_started_and_when_MarketData_is_available()
         {
             // Mock and dependencies setup
             var publisher = Substitute.For<IPastaPricerPublisher>();
-            var marketDataProvider = new MarketDataProvider(new [] { "eggs"});
-            
-            var pastaPricer = new PastaPricerEngine(new [] { "gnocchi"}, marketDataProvider, publisher);
+            var marketDataProvider = new MarketDataProvider();
+
+            var pastaPricer = new PastaPricerEngine(new[] { "gnocchi(eggs-potatoes-flour)" }, marketDataProvider, publisher);
             
             CheckThatNoPriceHasBeenPublished(publisher);
             
@@ -41,6 +41,7 @@ namespace PastaPricer.Tests.Acceptance
             // Turns on market data (note: make the pasta pricer start its dependencies instead?)
             marketDataProvider.Start();
 
+            // There should be a better solution
             Thread.Sleep(60);
 
             // It has publish a price now!
@@ -50,6 +51,34 @@ namespace PastaPricer.Tests.Acceptance
         private static void CheckThatNoPriceHasBeenPublished(IPastaPricerPublisher publisher)
         {
             publisher.DidNotReceiveWithAnyArgs().Publish(string.Empty, 0);
+        }
+
+        [Test]
+        public void Should_publish_price_for_every_registered_pasta()
+        {
+            // Mock and dependencies setup
+            var publisher = Substitute.For<IPastaPricerPublisher>();
+            var marketDataProvider = new MarketDataProvider();
+            var registeredPasta = new[]
+                                      {
+                                          "gnocchi(eggs-potatoes-flour)",
+                                          "spaghetti(eggs-flour)",
+                                          "organic spaghetti(organic eggs-flour)",
+                                          "spinach farfalle(eggs-flour-spinach)",
+                                          "tagliatelle(eggs-flour)",
+                                      };
+
+            var pastaPricer = new PastaPricerEngine(registeredPasta, marketDataProvider, publisher);
+            pastaPricer.Start();
+
+            // There should be a better solution
+            Thread.Sleep(60);
+
+            publisher.Received().Publish("gnocchi", 0);
+            publisher.Received().Publish("spaghetti", 0);
+            publisher.Received().Publish("organic spaghetti", 0);
+            publisher.Received().Publish("spinach farfalle", 0);
+            publisher.Received().Publish("tagliatelle", 0);
         }
     }
 }

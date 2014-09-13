@@ -34,6 +34,7 @@ namespace PastaPricer
         public void Start()
         {
             // subscribes to all the marketdata we need to price the pasta we have to support
+
             // ... to be done ;-)
             this.marketDataProvider.Get("eggs").PriceChanged += this.PastaPricerEngine_PriceChanged;
         }
