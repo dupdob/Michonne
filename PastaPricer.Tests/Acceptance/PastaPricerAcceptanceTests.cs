@@ -22,24 +22,30 @@ namespace PastaPricer.Tests.Acceptance
     public class PastaPricerAcceptanceTests
     {
         [Test]
-        public void Should_Publish_Pasta_Price_Once_Started_And_MarketData_Is_Available()
+        public void Should_Publish_Pasta_Price_Once_Started_And_When_MarketData_Is_Available()
         {
-            // Mocks instantiation
+            // Mock and dependencies setup
             var publisher = Substitute.For<IPastaPricerPublisher>();
             var marketDataProvider = new MarketDataProvider();
             
             var pastaPricer = new PastaPricerEngine(marketDataProvider, publisher);
             
-            publisher.DidNotReceiveWithAnyArgs().Publish(string.Empty, 0);
+            CheckThatNoPriceHasBeenPublished(publisher);
             
             pastaPricer.Start();
 
-            publisher.DidNotReceiveWithAnyArgs().Publish(string.Empty, 0);
+            CheckThatNoPriceHasBeenPublished(publisher);
 
+            // Turns on market data
             marketDataProvider.Start();
 
-            // It publishes!
+            // It has publish a price now!
             publisher.ReceivedWithAnyArgs().Publish(string.Empty, 0);
+        }
+
+        private static void CheckThatNoPriceHasBeenPublished(IPastaPricerPublisher publisher)
+        {
+            publisher.DidNotReceiveWithAnyArgs().Publish(string.Empty, 0);
         }
     }
 }
