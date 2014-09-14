@@ -54,6 +54,7 @@ namespace PastaPricer
 
         private void PastaPricerEngine_StaplePriceChanged(object sender, StaplePriceChangedEventArgs e)
         {
+            // instead of publishing staple as pasta, we should update the proper pasta agents here
             this.pastaPricerPublisher.Publish(e.StapleName, e.Price);
         }
     }
