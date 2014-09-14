@@ -23,7 +23,7 @@ namespace PastaPricer.Tests
         [Test]
         public void Should_extract_pasta_names_from_configuration()
         {
-            var pastaConfiguration = new[]
+            var pastasConfiguration = new[]
                                       {
                                           "gnocchi(eggs-potatoes-flour)",
                                           "spaghetti(eggs-flour)",
@@ -32,7 +32,7 @@ namespace PastaPricer.Tests
                                           "tagliatelle(eggs-flour)",
                                       };
 
-            var pastaParser = new PastaParser(pastaConfiguration);
+            var pastaParser = new PastaParser(pastasConfiguration);
 
             Check.That(pastaParser.Pastas).ContainsExactly("gnocchi", "spaghetti", "organic spaghetti", "spinach farfalle", "tagliatelle");
         }
@@ -40,7 +40,7 @@ namespace PastaPricer.Tests
         [Test]
         public void Should_extract_StapleNames_from_configuration()
         {
-            var pastaConfiguration = new[]
+            var pastasConfiguration = new[]
                                       {
                                           "gnocchi(eggs-potatoes-flour)",
                                           "spaghetti(eggs-flour)",
@@ -49,14 +49,14 @@ namespace PastaPricer.Tests
                                           "tagliatelle(eggs-flour)",
                                       };
 
-            var pastaParser = new PastaParser(pastaConfiguration);
+            var pastaParser = new PastaParser(pastasConfiguration);
             Check.That(pastaParser.StapleNames).ContainsExactly("eggs", "potatoes", "flour", "organic eggs", "spinach");
         }
 
         [Test]
         public void Should_provide_NeededStaples_for_every_pasta()
         {
-            var pastaConfiguration = new[]
+            var pastasConfiguration = new[]
                                       {
                                           "gnocchi(eggs-potatoes-flour)",
                                           "spaghetti(eggs-flour)",
@@ -65,7 +65,7 @@ namespace PastaPricer.Tests
                                           "tagliatelle(eggs-flour)",
                                       };
 
-            var pastaParser = new PastaParser(pastaConfiguration);
+            var pastaParser = new PastaParser(pastasConfiguration);
 
             Check.That(pastaParser.GetNeededStaplesFor("gnocchi")).ContainsExactly("eggs", "potatoes", "flour");
             Check.That(pastaParser.GetNeededStaplesFor("spinach farfalle")).ContainsExactly("eggs", "flour", "spinach");

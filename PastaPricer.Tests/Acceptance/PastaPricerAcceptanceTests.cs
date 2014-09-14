@@ -57,7 +57,7 @@ namespace PastaPricer.Tests.Acceptance
             // Mock and dependencies setup
             var publisher = Substitute.For<IPastaPricerPublisher>();
             var marketDataProvider = new MarketDataProvider();
-            var registeredPasta = new[]
+            var pastasConfiguration = new[]
                                       {
                                           "gnocchi(eggs-potatoes-flour)",
                                           "spaghetti(eggs-flour)",
@@ -66,14 +66,14 @@ namespace PastaPricer.Tests.Acceptance
                                           "tagliatelle(eggs-flour)",
                                       };
 
-            var pastaPricer = new PastaPricerEngine(registeredPasta, marketDataProvider, publisher);
+            var pastaPricer = new PastaPricerEngine(pastasConfiguration, marketDataProvider, publisher);
             pastaPricer.Start();
 
             // Turns on market data (note: make the pasta pricer start its dependencies instead?)
             marketDataProvider.Start();
 
             // A sleep?!? There should be a better way ;-)
-            Thread.Sleep(60);
+            Thread.Sleep(100);
 
             publisher.Received().Publish("gnocchi", 0);
             publisher.Received().Publish("spaghetti", 0);

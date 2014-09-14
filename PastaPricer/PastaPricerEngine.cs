@@ -20,20 +20,21 @@ namespace PastaPricer
     {
         private readonly IMarketDataProvider marketDataProvider;
         private readonly IPastaPricerPublisher pastaPricerPublisher;
-        private readonly IEnumerable<string> pastaConfiguration;
+
+        private readonly IEnumerable<string> pastasConfiguration;
 
         private Dictionary<string, PastaPricingAgent> pastaAgents = new Dictionary<string, PastaPricingAgent>(); 
 
-        public PastaPricerEngine(IEnumerable<string> pastaConfiguration, IMarketDataProvider marketDataProvider, IPastaPricerPublisher pastaPricerPublisher)
+        public PastaPricerEngine(IEnumerable<string> pastasConfiguration, IMarketDataProvider marketDataProvider, IPastaPricerPublisher pastaPricerPublisher)
         {
-            this.pastaConfiguration = pastaConfiguration;
+            this.pastasConfiguration = pastasConfiguration;
             this.marketDataProvider = marketDataProvider;
             this.pastaPricerPublisher = pastaPricerPublisher;
         }
 
         public void Start()
         {
-            var pastaParser = new PastaParser(this.pastaConfiguration);
+            var pastaParser = new PastaParser(this.pastasConfiguration);
 
             this.RegisterAllNeededStapleMarketData(pastaParser);
 
