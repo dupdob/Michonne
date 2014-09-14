@@ -1,5 +1,5 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-//  <copyright file="IMarketDataProvider.cs" company="No lock... no deadlock" product="Michonne">
+// --------------------------------------------------------------------------------------------------------------------
+//  <copyright file="PastaPricingAgent.cs" company="No lock... no deadlock" product="Michonne">
 //     Copyright 2014 Cyrille DUPUYDAUBY (@Cyrdup), Thomas PIERRAIN (@tpierrain)
 //     Licensed under the Apache License, Version 2.0 (the "License");
 //     you may not use this file except in compliance with the License.
@@ -14,14 +14,13 @@
 //   --------------------------------------------------------------------------------------------------------------------
 namespace PastaPricer
 {
-    public interface IMarketDataProvider
+    public class PastaPricingAgent
     {
-        void Start();
+        public string PastaName { get; private set; }
 
-        MarketData Get(string assetName);
-
-        void Register(string marketDataToRegister);
-
-        void Stop();
+        public PastaPricingAgent(string pastaName)
+        {
+            this.PastaName = pastaName;
+        }
     }
 }

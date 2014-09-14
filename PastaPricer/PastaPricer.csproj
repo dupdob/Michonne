@@ -45,7 +45,10 @@
     <Compile Include="IPastaPricerPublisher.cs" />
     <Compile Include="MarketData.cs" />
     <Compile Include="MarketDataProvider.cs" />
+    <Compile Include="PastaParser.cs" />
     <Compile Include="PastaPricerEngine.cs" />
+    <Compile Include="PastaPricingAgent.cs" />
+    <Compile Include="PriceChangedEventArgs.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

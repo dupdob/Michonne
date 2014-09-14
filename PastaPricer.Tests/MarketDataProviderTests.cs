@@ -24,6 +24,8 @@ namespace PastaPricer.Tests
     {
         private AutoResetEvent priceChangedRaisedEvent;
 
+        #region setup/teardown
+
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
@@ -40,11 +42,13 @@ namespace PastaPricer.Tests
             }
         }
 
+        #endregion
+
         [Test]
         public void Should_provide_MarketData_for_eggs()
         {
             var marketDataProvider = new MarketDataProvider();
-            marketDataProvider.RegisterAssets(new[] { "eggs" });
+            marketDataProvider.Register("eggs");
 
             Check.That(marketDataProvider.Get("eggs")).IsInstanceOf<MarketData>();
         }
@@ -53,7 +57,7 @@ namespace PastaPricer.Tests
         public void Should_return_the_same_instance_of_MarketData_from_the_same_name()
         {
             var marketDataProvider = new MarketDataProvider();
-            marketDataProvider.RegisterAssets(new[] { "eggs" });
+            marketDataProvider.Register("eggs");
 
             Check.That(marketDataProvider.Get("eggs")).IsSameReferenceThan(marketDataProvider.Get("eggs"));
         }
@@ -62,7 +66,8 @@ namespace PastaPricer.Tests
         public void Should_only_get_MarketData_for_registered_assets()
         {
             var marketDataProvider = new MarketDataProvider();
-            marketDataProvider.RegisterAssets(new[] { "eggs", "flour" });
+            marketDataProvider.Register("eggs");
+            marketDataProvider.Register("flour");
 
             Check.That(marketDataProvider.Get("flour")).IsNotNull();
 
@@ -75,7 +80,8 @@ namespace PastaPricer.Tests
         public void Should_receive_price_for_registered_assets_once_started()
         {
             var marketDataProvider = new MarketDataProvider();
-            marketDataProvider.RegisterAssets(new[] { "eggs", "flour" });
+            marketDataProvider.Register("eggs");
+            marketDataProvider.Register("flour");
             
             marketDataProvider.Get("eggs").PriceChanged += (o, args) => this.priceChangedRaisedEvent.Set();
 

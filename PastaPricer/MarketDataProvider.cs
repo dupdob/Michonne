@@ -20,17 +20,19 @@ namespace PastaPricer
     public class MarketDataProvider : IMarketDataProvider
     {
         private Dictionary<string, MarketData> marketDatas;
-        private IEnumerable<string> registeredAssetNames;
 
         public MarketDataProvider()
         {
             this.marketDatas = new Dictionary<string, MarketData>();
         }
 
-        public void RegisterAssets(IEnumerable<string> registeredAssetNames)
+        public void Register(string marketDataToRegister)
         {
-            this.registeredAssetNames = registeredAssetNames;
-            this.InstantiateMarketDataForRegisteredAssets();
+            // TODO: make it thread-safe
+            if (!this.marketDatas.ContainsKey(marketDataToRegister))
+            {
+                this.marketDatas.Add(marketDataToRegister, new MarketData(marketDataToRegister));
+            }
         }
 
         public void Start()
@@ -39,16 +41,6 @@ namespace PastaPricer
             foreach (var marketData in this.marketDatas.Values)
             {
                 marketData.Start();
-            }
-        }
-
-        private void InstantiateMarketDataForRegisteredAssets()
-        {
-            foreach (var registeredAsset in this.registeredAssetNames)
-            {
-                var marketDataForThisAsset = new MarketData();
-                this.marketDatas[registeredAsset] = marketDataForThisAsset;
-                marketDataForThisAsset.Start();
             }
         }
 

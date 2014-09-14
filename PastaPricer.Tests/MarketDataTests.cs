@@ -27,7 +27,7 @@ namespace PastaPricer.Tests
         public void Should_not_raise_event_after_having_called_Stop()
         {
             const int VeryAggressiveTimerIntervalForMarketDataPublicationInMsec = 1;
-            var marketData = new MarketData(VeryAggressiveTimerIntervalForMarketDataPublicationInMsec);
+            var marketData = new MarketData("eggs", VeryAggressiveTimerIntervalForMarketDataPublicationInMsec);
             
             long counter = 0;
             marketData.PriceChanged += (o, args) => counter = Interlocked.Increment(ref counter);

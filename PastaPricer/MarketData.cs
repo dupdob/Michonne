@@ -28,12 +28,15 @@ namespace PastaPricer
 
         private readonly int timerPeriodInMsec;
 
-        public event EventHandler PriceChanged;
+        public event EventHandler<PriceChangedEventArgs> PriceChanged;
 
-        public MarketData(int timerPeriodInMsec = 9)
+        public MarketData(string name, int timerPeriodInMsec = 9)
         {
+            this.Name = name;
             this.timerPeriodInMsec = timerPeriodInMsec;
         }
+
+        public string Name { get; private set; }
 
         public void Start()
         {
@@ -51,7 +54,7 @@ namespace PastaPricer
         {
             if (this.PriceChanged != null)
             {
-                this.PriceChanged(this, EventArgs.Empty);
+                this.PriceChanged(this, new PriceChangedEventArgs(this.Name, 0));
             }
         }
 
