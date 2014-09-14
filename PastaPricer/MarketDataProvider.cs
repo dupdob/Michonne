@@ -36,7 +36,7 @@ namespace PastaPricer
         /// Registers the specified staple, so that it can be started and retrieved afterwards.
         /// </summary>
         /// <param name="stapleNameToRegister">The staple name to register.</param>
-        public void Register(string stapleNameToRegister)
+        public void RegisterStaple(string stapleNameToRegister)
         {
             // TODO: make it thread-safe
             if (!this.stapleMarketDatas.ContainsKey(stapleNameToRegister))
@@ -65,14 +65,14 @@ namespace PastaPricer
         /// The <see cref="StapleMarketData" /> instance corresponding to this staple name.
         /// </returns>
         /// <exception cref="System.InvalidOperationException">When the staple is not registered yet to receive market data.</exception>
-        public StapleMarketData Get(string stapleName)
+        public StapleMarketData GetStaple(string stapleName)
         {
             // TODO: make it thread-safe
             StapleMarketData stapleMarketData;
             
             if (!this.stapleMarketDatas.TryGetValue(stapleName, out stapleMarketData))
             {
-                throw new InvalidOperationException(string.Format("Staple with name '{0}' is not registered yet for market data. Call the Register method for it before you get it.", stapleName));
+                throw new InvalidOperationException(string.Format("Staple with name '{0}' is not registered yet for market data. Call the RegisterStaple method for it before you get it.", stapleName));
             }
 
             return stapleMarketData;

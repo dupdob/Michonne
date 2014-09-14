@@ -29,13 +29,13 @@ namespace PastaPricer
         /// </summary>
         /// <param name="stapleName">StapleName of the staple.</param>
         /// <returns>The <see cref="StapleMarketData"/> instance corresponding to this staple name.</returns>
-        StapleMarketData Get(string stapleName);
+        StapleMarketData GetStaple(string stapleName);
 
         /// <summary>
         /// Registers the specified staple, so that it can be started and retrieved afterwards.
         /// </summary>
         /// <param name="stapleNameToRegister">The staple name to register.</param>
-        void Register(string stapleNameToRegister);
+        void RegisterStaple(string stapleNameToRegister);
 
         /// <summary>
         /// Stops all the registered <see cref="StapleMarketData"/> instances.

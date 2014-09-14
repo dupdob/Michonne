@@ -48,42 +48,42 @@ namespace PastaPricer.Tests
         public void Should_provide_MarketData_for_eggs()
         {
             var marketDataProvider = new MarketDataProvider();
-            marketDataProvider.Register("eggs");
+            marketDataProvider.RegisterStaple("eggs");
 
-            Check.That(marketDataProvider.Get("eggs")).IsInstanceOf<StapleMarketData>();
+            Check.That(marketDataProvider.GetStaple("eggs")).IsInstanceOf<StapleMarketData>();
         }
 
         [Test]
         public void Should_return_the_same_instance_of_MarketData_given_the_same_name()
         {
             var marketDataProvider = new MarketDataProvider();
-            marketDataProvider.Register("eggs");
+            marketDataProvider.RegisterStaple("eggs");
 
-            Check.That(marketDataProvider.Get("eggs")).IsSameReferenceThan(marketDataProvider.Get("eggs"));
+            Check.That(marketDataProvider.GetStaple("eggs")).IsSameReferenceThan(marketDataProvider.GetStaple("eggs"));
         }
 
         [Test]
         public void Should_only_get_MarketData_for_registered_assets_or_an_exception_otherwise()
         {
             var marketDataProvider = new MarketDataProvider();
-            marketDataProvider.Register("eggs");
-            marketDataProvider.Register("flour");
+            marketDataProvider.RegisterStaple("eggs");
+            marketDataProvider.RegisterStaple("flour");
 
-            Check.That(marketDataProvider.Get("flour")).IsNotNull();
+            Check.That(marketDataProvider.GetStaple("flour")).IsNotNull();
 
-            Check.ThatCode(() => marketDataProvider.Get("banana")).Throws<InvalidOperationException>();
+            Check.ThatCode(() => marketDataProvider.GetStaple("banana")).Throws<InvalidOperationException>();
 
-            Check.That(marketDataProvider.Get("eggs")).IsNotNull();
+            Check.That(marketDataProvider.GetStaple("eggs")).IsNotNull();
         }
 
         [Test]
         public void Should_receive_price_for_registered_assets_once_started()
         {
             var marketDataProvider = new MarketDataProvider();
-            marketDataProvider.Register("eggs");
-            marketDataProvider.Register("flour");
+            marketDataProvider.RegisterStaple("eggs");
+            marketDataProvider.RegisterStaple("flour");
             
-            marketDataProvider.Get("eggs").StaplePriceChanged += (o, args) => this.priceChangedRaisedEvent.Set();
+            marketDataProvider.GetStaple("eggs").StaplePriceChanged += (o, args) => this.priceChangedRaisedEvent.Set();
 
             marketDataProvider.Start();
 
