@@ -54,7 +54,7 @@ namespace PastaPricer.Tests
         }
 
         [Test]
-        public void Should_return_the_same_instance_of_MarketData_given_the_same_name()
+        public void Should_return_the_same_instance_of_MarketData_given_the_same_staple_name()
         {
             var marketDataProvider = new MarketDataProvider();
             marketDataProvider.RegisterStaple("eggs");
@@ -63,7 +63,7 @@ namespace PastaPricer.Tests
         }
 
         [Test]
-        public void Should_only_get_MarketData_for_registered_assets_or_an_exception_otherwise()
+        public void Should_only_get_MarketData_for_registered_staples_or_throw_an_exception_otherwise()
         {
             var marketDataProvider = new MarketDataProvider();
             marketDataProvider.RegisterStaple("eggs");
@@ -77,11 +77,10 @@ namespace PastaPricer.Tests
         }
 
         [Test]
-        public void Should_receive_price_for_registered_assets_once_started()
+        public void Should_receive_price_for_registered_staples_once_started()
         {
             var marketDataProvider = new MarketDataProvider();
             marketDataProvider.RegisterStaple("eggs");
-            marketDataProvider.RegisterStaple("flour");
             
             marketDataProvider.GetStaple("eggs").StaplePriceChanged += (o, args) => this.priceChangedRaisedEvent.Set();
 
