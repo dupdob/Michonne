@@ -36,19 +36,21 @@ namespace PastaPricer
         {
             var pastaParser = new PastaParser(this.pastaConfiguration);
 
-            // Instantiates pricing agents for all pastas
-            foreach (var pastaName in pastaParser.Pastas)
-            {
-                this.pastaAgents.Add(pastaName, new PastaPricingAgent(pastaName));
-
-                // TODO: register for its needed marketdata
-            }
-
             // subscribes to all the marketdata we need to price the pasta we have to support
             foreach (var marketDataName in pastaParser.StapleNames)
             {
                 this.marketDataProvider.RegisterStaple(marketDataName);
                 this.marketDataProvider.GetStaple(marketDataName).StaplePriceChanged += this.PastaPricerEngine_StaplePriceChanged;
+            }
+
+            // Instantiates pricing agents for all pastas
+            foreach (var pastaName in pastaParser.Pastas)
+            {
+                var pastaPricingAgent = new PastaPricingAgent(pastaName);
+                this.pastaAgents.Add(pastaName, pastaPricingAgent);
+
+
+                // TODO: register for its needed marketdata
             }
         }
 
