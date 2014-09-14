@@ -14,13 +14,26 @@
 //   --------------------------------------------------------------------------------------------------------------------
 namespace PastaPricer
 {
+    /// <summary>
+    /// Computes prices for a given pasta.
+    /// </summary>
     public class PastaPricingAgent
     {
-        public string PastaName { get; private set; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PastaPricingAgent"/> class.
+        /// </summary>
+        /// <param name="pastaName">Name of the pasta.</param>
         public PastaPricingAgent(string pastaName)
         {
             this.PastaName = pastaName;
         }
+
+        /// <summary>
+        /// Gets the name of the pasta to price.
+        /// </summary>
+        /// <value>
+        /// The name of the pasta to price.
+        /// </value>
+        public string PastaName { get; private set; }
     }
 }

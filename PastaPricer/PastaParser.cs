@@ -32,6 +32,22 @@ namespace PastaPricer
             this.Parse();
         }
 
+        public IEnumerable<string> Pastas
+        {
+            get
+            {
+                return this.pastaNames;
+            }
+        }
+
+        public IEnumerable<string> MarketDataNames
+        {
+            get
+            {
+                return this.marketDataNames;
+            }
+        }
+
         private void Parse()
         {
             foreach (string pastaNameAndItsNeededMarketData in this.pastaConfiguration)
@@ -49,22 +65,6 @@ namespace PastaPricer
                         this.marketDataNames.Add(marketData);
                     }
                 }
-            }
-        }
-
-        public IEnumerable<string> Pastas 
-        {
-            get
-            {
-                return this.pastaNames;
-            }
-        }
-
-        public IEnumerable<string> MarketDataNames
-        {
-            get
-            {
-                return this.marketDataNames;
             }
         }
     }

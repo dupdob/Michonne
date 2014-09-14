@@ -50,7 +50,7 @@ namespace PastaPricer.Tests.Acceptance
 
         private static void CheckThatNoPriceHasBeenPublished(IPastaPricerPublisher publisher)
         {
-            publisher.DidNotReceiveWithAnyArgs().Publish(string.Empty, 0);
+            publisher.DidNotReceiveWithAnyArgs().Publish("whatever the pasta name here", 0);
         }
 
         [Test]

@@ -14,14 +14,32 @@
 //   --------------------------------------------------------------------------------------------------------------------
 namespace PastaPricer
 {
+    /// <summary>
+    /// Provides <see cref="StapleMarketData"/> instances giving staple names.
+    /// </summary>
     public interface IMarketDataProvider
     {
+        /// <summary>
+        /// Starts all the registered <see cref="StapleMarketData"/> instances.
+        /// </summary>
         void Start();
 
-        MarketData Get(string assetName);
+        /// <summary>
+        /// Gets the <see cref="StapleMarketData"/> instance corresponding to this staple name.
+        /// </summary>
+        /// <param name="stapleName">StapleName of the staple.</param>
+        /// <returns>The <see cref="StapleMarketData"/> instance corresponding to this staple name.</returns>
+        StapleMarketData Get(string stapleName);
 
-        void Register(string marketDataToRegister);
+        /// <summary>
+        /// Registers the specified staple, so that it can be started and retrieved afterwards.
+        /// </summary>
+        /// <param name="stapleNameToRegister">The staple name to register.</param>
+        void Register(string stapleNameToRegister);
 
+        /// <summary>
+        /// Stops all the registered <see cref="StapleMarketData"/> instances.
+        /// </summary>
         void Stop();
     }
 }

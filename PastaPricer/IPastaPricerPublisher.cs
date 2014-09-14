@@ -14,6 +14,9 @@
 //   --------------------------------------------------------------------------------------------------------------------
 namespace PastaPricer
 {
+    /// <summary>
+    /// Publishes prices for pasta.
+    /// </summary>
     public interface IPastaPricerPublisher
     {
         void Publish(string pastaIdentifier, decimal price);

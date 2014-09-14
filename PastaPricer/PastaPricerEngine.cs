@@ -48,13 +48,13 @@ namespace PastaPricer
             foreach (var marketDataName in pastaParser.MarketDataNames)
             {
                 this.marketDataProvider.Register(marketDataName);
-                this.marketDataProvider.Get(marketDataName).PriceChanged += this.PastaPricerEngine_PriceChanged;
+                this.marketDataProvider.Get(marketDataName).StaplePriceChanged += this.PastaPricerEngine_StaplePriceChanged;
             }
         }
 
-        private void PastaPricerEngine_PriceChanged(object sender, PriceChangedEventArgs e)
+        private void PastaPricerEngine_StaplePriceChanged(object sender, StaplePriceChangedEventArgs e)
         {
-            this.pastaPricerPublisher.Publish(e.MarketDataName, e.Price);
+            this.pastaPricerPublisher.Publish(e.StapleName, e.Price);
         }
     }
 }

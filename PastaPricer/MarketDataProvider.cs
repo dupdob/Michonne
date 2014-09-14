@@ -17,51 +17,75 @@ namespace PastaPricer
     using System;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// Provides <see cref="StapleMarketData"/> instances giving staple names.
+    /// </summary>
     public class MarketDataProvider : IMarketDataProvider
     {
-        private Dictionary<string, MarketData> marketDatas;
+        private readonly Dictionary<string, StapleMarketData> stapleMarketDatas;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MarketDataProvider"/> class.
+        /// </summary>
         public MarketDataProvider()
         {
-            this.marketDatas = new Dictionary<string, MarketData>();
+            this.stapleMarketDatas = new Dictionary<string, StapleMarketData>();
         }
 
-        public void Register(string marketDataToRegister)
+        /// <summary>
+        /// Registers the specified staple, so that it can be started and retrieved afterwards.
+        /// </summary>
+        /// <param name="stapleNameToRegister">The staple name to register.</param>
+        public void Register(string stapleNameToRegister)
         {
             // TODO: make it thread-safe
-            if (!this.marketDatas.ContainsKey(marketDataToRegister))
+            if (!this.stapleMarketDatas.ContainsKey(stapleNameToRegister))
             {
-                this.marketDatas.Add(marketDataToRegister, new MarketData(marketDataToRegister));
+                this.stapleMarketDatas.Add(stapleNameToRegister, new StapleMarketData(stapleNameToRegister));
             }
         }
 
+        /// <summary>
+        /// Starts all the registered <see cref="StapleMarketData" /> instances.
+        /// </summary>
         public void Start()
         {
             // TODO: make it thread-safe
-            foreach (var marketData in this.marketDatas.Values)
+            foreach (var stapleMarketData in this.stapleMarketDatas.Values)
             {
-                marketData.Start();
+                stapleMarketData.Start();
             }
         }
 
-        public MarketData Get(string assetName)
+        /// <summary>
+        /// Gets the <see cref="StapleMarketData" /> instance corresponding to this staple name.
+        /// </summary>
+        /// <param name="stapleName">StapleName of the staple.</param>
+        /// <returns>
+        /// The <see cref="StapleMarketData" /> instance corresponding to this staple name.
+        /// </returns>
+        /// <exception cref="System.InvalidOperationException">When the staple is not registered yet to receive market data.</exception>
+        public StapleMarketData Get(string stapleName)
         {
-            //TODO: make it thread-safe
-            MarketData marketData;
+            // TODO: make it thread-safe
+            StapleMarketData stapleMarketData;
             
-            if (!this.marketDatas.TryGetValue(assetName, out marketData))
+            if (!this.stapleMarketDatas.TryGetValue(stapleName, out stapleMarketData))
             {
-                throw new InvalidOperationException(string.Format("Asset with name '{0}' is not registered for market data.", assetName));
+                throw new InvalidOperationException(string.Format("Staple with name '{0}' is not registered yet for market data. Call the Register method for it before you get it.", stapleName));
             }
 
-            return marketData;
+            return stapleMarketData;
         }
 
+        /// <summary>
+        /// Stops all the registered <see cref="StapleMarketData" /> instances.
+        /// </summary>
         public void Stop()
         {
-            foreach (var marketData in this.marketDatas.Values)
+            foreach (var stapleMarketData in this.stapleMarketDatas.Values)
             {
-                marketData.Stop();
+                stapleMarketData.Stop();
             }
         }
     }

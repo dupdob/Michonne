@@ -50,11 +50,11 @@ namespace PastaPricer.Tests
             var marketDataProvider = new MarketDataProvider();
             marketDataProvider.Register("eggs");
 
-            Check.That(marketDataProvider.Get("eggs")).IsInstanceOf<MarketData>();
+            Check.That(marketDataProvider.Get("eggs")).IsInstanceOf<StapleMarketData>();
         }
 
         [Test]
-        public void Should_return_the_same_instance_of_MarketData_from_the_same_name()
+        public void Should_return_the_same_instance_of_MarketData_given_the_same_name()
         {
             var marketDataProvider = new MarketDataProvider();
             marketDataProvider.Register("eggs");
@@ -63,7 +63,7 @@ namespace PastaPricer.Tests
         }
 
         [Test]
-        public void Should_only_get_MarketData_for_registered_assets()
+        public void Should_only_get_MarketData_for_registered_assets_or_an_exception_otherwise()
         {
             var marketDataProvider = new MarketDataProvider();
             marketDataProvider.Register("eggs");
@@ -83,11 +83,12 @@ namespace PastaPricer.Tests
             marketDataProvider.Register("eggs");
             marketDataProvider.Register("flour");
             
-            marketDataProvider.Get("eggs").PriceChanged += (o, args) => this.priceChangedRaisedEvent.Set();
+            marketDataProvider.Get("eggs").StaplePriceChanged += (o, args) => this.priceChangedRaisedEvent.Set();
 
             marketDataProvider.Start();
 
-            var hasReceivedEvent = this.priceChangedRaisedEvent.WaitOne(100);
+            const int TimeoutInMsec = 100;
+            var hasReceivedEvent = this.priceChangedRaisedEvent.WaitOne(TimeoutInMsec);
 
             Check.That(hasReceivedEvent).IsTrue();
             marketDataProvider.Stop();

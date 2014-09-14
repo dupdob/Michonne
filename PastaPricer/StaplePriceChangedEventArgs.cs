@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-//  <copyright file="PriceChangedEventArgs.cs" company="No lock... no deadlock" product="Michonne">
+//  <copyright file="StaplePriceChangedEventArgs.cs" company="No lock... no deadlock" product="Michonne">
 //     Copyright 2014 Cyrille DUPUYDAUBY (@Cyrdup), Thomas PIERRAIN (@tpierrain)
 //     Licensed under the Apache License, Version 2.0 (the "License");
 //     you may not use this file except in compliance with the License.
@@ -16,20 +16,36 @@ namespace PastaPricer
 {
     using System;
 
-    public class PriceChangedEventArgs : EventArgs
+    /// <summary>
+    /// Event arguments when the price of a staple changed.
+    /// </summary>
+    public class StaplePriceChangedEventArgs : EventArgs
     {
-        public string MarketDataName { get; private set; }
-        public decimal Price { get; private set; }
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="PriceChangedEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="StaplePriceChangedEventArgs"/> class.
         /// </summary>
-        /// <param name="marketDataName">Name of the market data.</param>
+        /// <param name="stapleName">StapleName of the market data.</param>
         /// <param name="price">The price.</param>
-        public PriceChangedEventArgs(string marketDataName, decimal price)
+        public StaplePriceChangedEventArgs(string stapleName, decimal price)
         {
-            this.MarketDataName = marketDataName;
+            this.StapleName = stapleName;
             this.Price = price;
         }
+
+        /// <summary>
+        /// Gets the name of the considered staple.
+        /// </summary>
+        /// <value>
+        /// The name of the considered staple.
+        /// </value>
+        public string StapleName { get; private set; }
+
+        /// <summary>
+        /// Gets the new price for the considered staple.
+        /// </summary>
+        /// <value>
+        /// The new price for the considered staple.
+        /// </value>
+        public decimal Price { get; private set; }
     }
 }
