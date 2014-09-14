@@ -38,7 +38,7 @@ namespace PastaPricer.Tests
         }
 
         [Test]
-        public void Should_extract_MarketData_from_configuration()
+        public void Should_extract_StapleNames_from_configuration()
         {
             var pastaConfiguration = new[]
                                       {
@@ -50,7 +50,25 @@ namespace PastaPricer.Tests
                                       };
 
             var pastaParser = new PastaParser(pastaConfiguration);
-            Check.That(pastaParser.MarketDataNames).ContainsExactly("eggs", "potatoes", "flour", "organic eggs", "spinach");
+            Check.That(pastaParser.StapleNames).ContainsExactly("eggs", "potatoes", "flour", "organic eggs", "spinach");
+        }
+
+        [Test]
+        public void Should_provide_NeededStaples_for_every_pasta()
+        {
+            var pastaConfiguration = new[]
+                                      {
+                                          "gnocchi(eggs-potatoes-flour)",
+                                          "spaghetti(eggs-flour)",
+                                          "organic spaghetti(organic eggs-flour)",
+                                          "spinach farfalle(eggs-flour-spinach)",
+                                          "tagliatelle(eggs-flour)",
+                                      };
+
+            var pastaParser = new PastaParser(pastaConfiguration);
+
+            Check.That(pastaParser.GetNeededStaplesFor("gnocchi")).ContainsExactly("eggs", "potatoes", "flour");
+            Check.That(pastaParser.GetNeededStaplesFor("spinach farfalle")).ContainsExactly("eggs", "flour", "spinach");
         }
     }
 }

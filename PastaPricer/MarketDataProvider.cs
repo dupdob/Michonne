@@ -18,7 +18,7 @@ namespace PastaPricer
     using System.Collections.Generic;
 
     /// <summary>
-    /// Provides <see cref="StapleMarketData"/> instances giving staple names.
+    /// Provides <see cref="StapleMarketData"/> instances for registered staple names.
     /// </summary>
     public class MarketDataProvider : IMarketDataProvider
     {

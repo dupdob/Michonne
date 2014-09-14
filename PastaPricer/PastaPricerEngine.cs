@@ -45,7 +45,7 @@ namespace PastaPricer
             }
 
             // subscribes to all the marketdata we need to price the pasta we have to support
-            foreach (var marketDataName in pastaParser.MarketDataNames)
+            foreach (var marketDataName in pastaParser.StapleNames)
             {
                 this.marketDataProvider.RegisterStaple(marketDataName);
                 this.marketDataProvider.GetStaple(marketDataName).StaplePriceChanged += this.PastaPricerEngine_StaplePriceChanged;

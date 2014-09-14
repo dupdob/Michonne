@@ -18,7 +18,7 @@ namespace PastaPricer
     using System.Threading;
 
     /// <summary>
-    /// Provides market data as events for a giving staple.
+    /// Provides market data as events for a given staple.
     /// </summary>
     /// <remarks>This type is thread-safe</remarks>
     public class StapleMarketData

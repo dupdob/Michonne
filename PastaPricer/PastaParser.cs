@@ -14,6 +14,7 @@
 //   --------------------------------------------------------------------------------------------------------------------
 namespace PastaPricer
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -24,7 +25,9 @@ namespace PastaPricer
         private readonly IEnumerable<string> pastaConfiguration;
 
         private readonly List<string> pastaNames = new List<string>();
-        private readonly List<string> marketDataNames = new List<string>();
+        private readonly List<string> stapleNames = new List<string>();
+
+        private readonly Dictionary<string, IEnumerable<string>> perPastaNeededStaples = new Dictionary<string, IEnumerable<string>>();
 
         public PastaParser(IEnumerable<string> pastaConfiguration)
         {
@@ -40,29 +43,43 @@ namespace PastaPricer
             }
         }
 
-        public IEnumerable<string> MarketDataNames
+        public IEnumerable<string> StapleNames
         {
             get
             {
-                return this.marketDataNames;
+                return this.stapleNames;
             }
+        }
+
+        /// <summary>
+        /// Gets the needed staples for a given pasta name.
+        /// </summary>
+        /// <param name="pastaName">Name of the pasta.</param>
+        /// <returns>The needed staples for this pasta.</returns>
+        public IEnumerable<string> GetNeededStaplesFor(string pastaName)
+        {
+            return this.perPastaNeededStaples[pastaName];
         }
 
         private void Parse()
         {
-            foreach (string pastaNameAndItsNeededMarketData in this.pastaConfiguration)
+            foreach (string pastaLine in this.pastaConfiguration)
             {
-                var splited = pastaNameAndItsNeededMarketData.Split('(');
-                this.pastaNames.Add(splited[0]);
+                var splited = pastaLine.Split('(');
+                var pastaName = splited[0];
+                this.pastaNames.Add(pastaName);
 
-                var pastaNeededMarketData = splited[1].TrimEnd(')');
-                var splittedMarketData = pastaNeededMarketData.Split('-');
+                var pastaNeededStaples = splited[1].TrimEnd(')');
+                var requestedStaplesForThisPasta = pastaNeededStaples.Split('-');
 
-                foreach (var marketData in splittedMarketData)
+                this.perPastaNeededStaples[pastaName] = requestedStaplesForThisPasta;
+
+                // Stores the list of all requested Staples 
+                foreach (var stapleName in requestedStaplesForThisPasta)
                 {
-                    if (!this.marketDataNames.Contains(marketData))
+                    if (!this.stapleNames.Contains(stapleName))
                     {
-                        this.marketDataNames.Add(marketData);
+                        this.stapleNames.Add(stapleName);
                     }
                 }
             }
