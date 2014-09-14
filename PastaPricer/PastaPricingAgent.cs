@@ -40,17 +40,17 @@ namespace PastaPricer
         }
 
         /// <summary>
+        /// Occurs when the price of the pasta changed.
+        /// </summary>
+        public event EventHandler<PastaPriceChangedEventArgs> PastaPriceChanged;
+
+        /// <summary>
         /// Gets the name of the pasta to price.
         /// </summary>
         /// <value>
         /// The name of the pasta to price.
         /// </value>
         public string PastaName { get; private set; }
-
-        /// <summary>
-        /// Occurs when the price of the pasta changed.
-        /// </summary>
-        public event EventHandler<PastaPriceChangedEventArgs> PastaPriceChanged;
 
         public void SubscribeToMarketData(IEnumerable<IStapleMarketData> marketDatas)
         {
@@ -60,14 +60,13 @@ namespace PastaPricer
             foreach (var stapleMarketData in this.marketDatas)
             {
                 this.marketDataToBeReceivedBeforeBeingAbleToPrice.Add(stapleMarketData.StapleName);
-                stapleMarketData.StaplePriceChanged += stapleMarketData_StaplePriceChanged;
+                stapleMarketData.StaplePriceChanged += this.StapleMarketData_StaplePriceChanged;
             }
         }
 
-        void stapleMarketData_StaplePriceChanged(object sender, StaplePriceChangedEventArgs e)
+        private void StapleMarketData_StaplePriceChanged(object sender, StaplePriceChangedEventArgs e)
         {
             // TODO: thread-safe this!
-
             if (!this.canPublishPrice)
             {
                 if (this.marketDataToBeReceivedBeforeBeingAbleToPrice.Remove(e.StapleName))

@@ -69,7 +69,7 @@ namespace PastaPricer
             }
         }
 
-        void PastaPricingAgent_PastaPriceChanged(object sender, PastaPriceChangedEventArgs e)
+        private void PastaPricingAgent_PastaPriceChanged(object sender, PastaPriceChangedEventArgs e)
         {
             this.pastaPricerPublisher.Publish(e.PastaName, e.Price);
         }
