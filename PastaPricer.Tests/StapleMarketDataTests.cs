@@ -32,7 +32,7 @@ namespace PastaPricer.Tests
 
             marketData.Start();
             
-            Thread.Sleep(20);
+            Thread.Sleep(60);
 
             Check.That(counter).IsGreaterThan(1);
 

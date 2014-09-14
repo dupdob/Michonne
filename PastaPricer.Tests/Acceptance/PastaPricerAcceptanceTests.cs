@@ -71,6 +71,9 @@ namespace PastaPricer.Tests.Acceptance
             var pastaPricer = new PastaPricerEngine(registeredPasta, marketDataProvider, publisher);
             pastaPricer.Start();
 
+            // Turns on market data (note: make the pasta pricer start its dependencies instead?)
+            marketDataProvider.Start();
+
             // There should be a better solution
             Thread.Sleep(60);
 

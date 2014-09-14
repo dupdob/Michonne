@@ -14,7 +14,6 @@
 //   --------------------------------------------------------------------------------------------------------------------
 namespace PastaPricer
 {
-    using System;
     using System.Collections.Generic;
 
     public class PastaPricerEngine
@@ -36,28 +35,43 @@ namespace PastaPricer
         {
             var pastaParser = new PastaParser(this.pastaConfiguration);
 
-            // subscribes to all the marketdata we need to price the pasta we have to support
-            foreach (var marketDataName in pastaParser.StapleNames)
-            {
-                this.marketDataProvider.RegisterStaple(marketDataName);
-                this.marketDataProvider.GetStaple(marketDataName).StaplePriceChanged += this.PastaPricerEngine_StaplePriceChanged;
-            }
+            this.RegisterAllNeededStapleMarketData(pastaParser);
 
+            this.InstantiateAndSetupPricingAgentsForAllPasta(pastaParser);
+        }
+
+        private void InstantiateAndSetupPricingAgentsForAllPasta(PastaParser pastaParser)
+        {
             // Instantiates pricing agents for all pastas
             foreach (var pastaName in pastaParser.Pastas)
             {
                 var pastaPricingAgent = new PastaPricingAgent(pastaName);
+                pastaPricingAgent.PastaPriceChanged += this.PastaPricingAgent_PastaPriceChanged;
+
                 this.pastaAgents.Add(pastaName, pastaPricingAgent);
 
+                var marketDataForThisPasta = new List<IStapleMarketData>();
+                foreach (var stapleName in pastaParser.GetNeededStaplesFor(pastaName))
+                {
+                    marketDataForThisPasta.Add(this.marketDataProvider.GetStaple(stapleName));
+                }
 
-                // TODO: register for its needed marketdata
+                pastaPricingAgent.SubscribeToMarketData(marketDataForThisPasta);
             }
         }
 
-        private void PastaPricerEngine_StaplePriceChanged(object sender, StaplePriceChangedEventArgs e)
+        private void RegisterAllNeededStapleMarketData(PastaParser pastaParser)
         {
-            // instead of publishing staple as pasta, we should update the proper pasta agents here
-            this.pastaPricerPublisher.Publish(e.StapleName, e.Price);
+            // subscribes to all the marketdata we need to price the pasta we have to support
+            foreach (var marketDataName in pastaParser.StapleNames)
+            {
+                this.marketDataProvider.RegisterStaple(marketDataName);
+            }
+        }
+
+        void PastaPricingAgent_PastaPriceChanged(object sender, PastaPriceChangedEventArgs e)
+        {
+            this.pastaPricerPublisher.Publish(e.PastaName, e.Price);
         }
     }
 }

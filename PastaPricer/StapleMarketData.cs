@@ -21,7 +21,7 @@ namespace PastaPricer
     /// Provides market data as events for a given staple.
     /// </summary>
     /// <remarks>This type is thread-safe</remarks>
-    public class StapleMarketData
+    public class StapleMarketData : IStapleMarketData
     {
         private readonly int timerPeriodInMsec;
 

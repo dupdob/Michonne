@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="IMarketDataProvider.cs" />
     <Compile Include="IPastaPricerPublisher.cs" />
+    <Compile Include="IStapleMarketData.cs" />
+    <Compile Include="PastaPriceChangedEventArgs.cs" />
     <Compile Include="StapleMarketData.cs" />
     <Compile Include="MarketDataProvider.cs" />
     <Compile Include="PastaParser.cs" />

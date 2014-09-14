@@ -14,11 +14,22 @@
 //   --------------------------------------------------------------------------------------------------------------------
 namespace PastaPricer
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Computes prices for a given pasta.
     /// </summary>
     public class PastaPricingAgent
     {
+        private IEnumerable<IStapleMarketData> marketDatas;
+
+        private decimal price;
+
+        private List<string> marketDataToBeReceivedBeforeBeingAbleToPrice;
+
+        private bool canPublishPrice;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PastaPricingAgent"/> class.
         /// </summary>
@@ -35,5 +46,49 @@ namespace PastaPricer
         /// The name of the pasta to price.
         /// </value>
         public string PastaName { get; private set; }
+
+        /// <summary>
+        /// Occurs when the price of the pasta changed.
+        /// </summary>
+        public event EventHandler<PastaPriceChangedEventArgs> PastaPriceChanged;
+
+        public void SubscribeToMarketData(IEnumerable<IStapleMarketData> marketDatas)
+        {
+            this.marketDatas = marketDatas;
+            this.marketDataToBeReceivedBeforeBeingAbleToPrice = new List<string>();
+
+            foreach (var stapleMarketData in this.marketDatas)
+            {
+                this.marketDataToBeReceivedBeforeBeingAbleToPrice.Add(stapleMarketData.StapleName);
+                stapleMarketData.StaplePriceChanged += stapleMarketData_StaplePriceChanged;
+            }
+        }
+
+        void stapleMarketData_StaplePriceChanged(object sender, StaplePriceChangedEventArgs e)
+        {
+            // TODO: thread-safe this!
+
+            if (!this.canPublishPrice)
+            {
+                if (this.marketDataToBeReceivedBeforeBeingAbleToPrice.Remove(e.StapleName))
+                {
+                    if (this.marketDataToBeReceivedBeforeBeingAbleToPrice.Count == 0)
+                    {
+                        this.canPublishPrice = true;
+                    }
+                }
+            }
+
+            if (this.canPublishPrice)
+            {
+                // Compute price
+                this.price = e.Price;
+
+                if (this.PastaPriceChanged != null)
+                {
+                    this.PastaPriceChanged(this, new PastaPriceChangedEventArgs(this.PastaName, this.price));
+                }
+            }
+        }
     }
 }
