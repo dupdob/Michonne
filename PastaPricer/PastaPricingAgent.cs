@@ -66,6 +66,7 @@ namespace PastaPricer
 
         private void StapleMarketData_StaplePriceChanged(object sender, StaplePriceChangedEventArgs e)
         {
+            // TODO: code smells => refactor this code.
             // TODO: thread-safe this!
             if (!this.canPublishPrice)
             {
@@ -83,10 +84,15 @@ namespace PastaPricer
                 // Compute price
                 this.price = e.Price;
 
-                if (this.PastaPriceChanged != null)
-                {
-                    this.PastaPriceChanged(this, new PastaPriceChangedEventArgs(this.PastaName, this.price));
-                }
+                this.RaisePastaPriceChanged(this.price);
+            }
+        }
+
+        protected virtual void RaisePastaPriceChanged(decimal newPrice)
+        {
+            if (this.PastaPriceChanged != null)
+            {
+                this.PastaPriceChanged(this, new PastaPriceChangedEventArgs(this.PastaName, newPrice));
             }
         }
     }
