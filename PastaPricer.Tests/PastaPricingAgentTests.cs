@@ -40,18 +40,17 @@ namespace PastaPricer.Tests
             // setup the pricing agent
             var pricingAgent = new PastaPricingAgent("spaghetti");
             pricingAgent.SubscribeToMarketData(new List<IStapleMarketData>() { eggsMarketDataMock, flourMarketDataMock });
-
             var pastaPriceHasChanged = false;
             pricingAgent.PastaPriceChanged += (o, args) => { pastaPriceHasChanged = true; };
 
             Check.That(pastaPriceHasChanged).IsFalse();
 
+            // Raises event for "eggs"
             eggsMarketDataMock.StaplePriceChanged += Raise.EventWith(new object(), new StaplePriceChangedEventArgs("eggs", 0));
             Check.That(pastaPriceHasChanged).IsFalse();
 
+            // Raises event for "flour" => all needed market data has been received, the price must have been published now
             flourMarketDataMock.StaplePriceChanged += Raise.EventWith(new object(), new StaplePriceChangedEventArgs("flour", 0));
-            
-            // all needed market data has been received, the price must have been published now
             Check.That(pastaPriceHasChanged).IsTrue();
         }
     }

@@ -15,9 +15,7 @@
 namespace PastaPricer.Tests.Acceptance
 {
     using System.Threading;
-
     using NSubstitute;
-
     using NUnit.Framework;
 
     [TestFixture]
@@ -41,7 +39,7 @@ namespace PastaPricer.Tests.Acceptance
             // Turns on market data (note: make the pasta pricer start its dependencies instead?)
             marketDataProvider.Start();
 
-            // There should be a better solution
+            // A sleep?!? There should be a better way ;-)
             Thread.Sleep(60);
 
             // It has publish a price now!
@@ -74,7 +72,7 @@ namespace PastaPricer.Tests.Acceptance
             // Turns on market data (note: make the pasta pricer start its dependencies instead?)
             marketDataProvider.Start();
 
-            // There should be a better solution
+            // A sleep?!? There should be a better way ;-)
             Thread.Sleep(60);
 
             publisher.Received().Publish("gnocchi", 0);
