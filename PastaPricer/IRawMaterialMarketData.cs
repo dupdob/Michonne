@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-//  <copyright file="IStapleMarketData.cs" company="No lock... no deadlock" product="Michonne">
+//  <copyright file="IRawMaterialMarketData.cs" company="No lock... no deadlock" product="Michonne">
 //     Copyright 2014 Cyrille DUPUYDAUBY (@Cyrdup), Thomas PIERRAIN (@tpierrain)
 //     Licensed under the Apache License, Version 2.0 (the "License");
 //     you may not use this file except in compliance with the License.
@@ -17,25 +17,25 @@ namespace PastaPricer
     using System;
 
     /// <summary>
-    /// Provides market data as events for a given staple.
+    /// Provides market data as events for a given raw material (e.g. eggs, flour, ...).
     /// </summary>
-    public interface IStapleMarketData
+    public interface IRawMaterialMarketData
     {
         /// <summary>
-        /// Occurs when the price of this staple changed.
+        /// Occurs when the price of this raw material changed.
         /// </summary>
-        event EventHandler<StaplePriceChangedEventArgs> StaplePriceChanged;
+        event EventHandler<RawMaterialPriceChangedEventArgs> PriceChanged;
 
         /// <summary>
-        /// Gets the name of the Staple corresponding to this <see cref="StapleMarketData"/> instance.
+        /// Gets the name of the raw material corresponding to this <see cref="RawMaterialMarketData"/> instance.
         /// </summary>
         /// <value>
-        /// The name of the Staple corresponding to this <see cref="StapleMarketData"/> instance.
+        /// The name of the raw material corresponding to this <see cref="RawMaterialMarketData"/> instance.
         /// </value>
-        string StapleName { get; }
+        string RawMaterialName { get; }
 
         /// <summary>
-        /// Starts to receive market data (and thus to raise events) for this staple.
+        /// Starts to receive market data (and thus to raise events) for this raw material.
         /// </summary>
         void Start();
     }

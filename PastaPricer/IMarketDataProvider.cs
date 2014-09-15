@@ -15,30 +15,30 @@
 namespace PastaPricer
 {
     /// <summary>
-    /// Provides <see cref="StapleMarketData"/> instances for registered staple names.
+    /// Provides <see cref="RawMaterialMarketData"/> instances for registered raw material names.
     /// </summary>
     public interface IMarketDataProvider
     {
         /// <summary>
-        /// Starts all the registered <see cref="StapleMarketData"/> instances.
+        /// Starts all the registered <see cref="RawMaterialMarketData"/> instances.
         /// </summary>
         void Start();
 
         /// <summary>
-        /// Gets the <see cref="StapleMarketData"/> instance corresponding to this staple name.
+        /// Gets the <see cref="RawMaterialMarketData"/> instance corresponding to this raw material name.
         /// </summary>
-        /// <param name="stapleName">StapleName of the staple.</param>
-        /// <returns>The <see cref="StapleMarketData"/> instance corresponding to this staple name.</returns>
-        StapleMarketData GetStaple(string stapleName);
+        /// <param name="rawMaterialName">RawMaterialName of the raw material.</param>
+        /// <returns>The <see cref="RawMaterialMarketData"/> instance corresponding to this raw material name.</returns>
+        RawMaterialMarketData GetRawMaterial(string rawMaterialName);
 
         /// <summary>
-        /// Registers the specified staple, so that it can be started and retrieved afterwards.
+        /// Registers the specified raw material, so that it can be started and retrieved afterwards.
         /// </summary>
-        /// <param name="stapleNameToRegister">The staple name to register.</param>
-        void RegisterStaple(string stapleNameToRegister);
+        /// <param name="rawMaterialNameToRegister">The raw material name to register.</param>
+        void RegisterRawMaterial(string rawMaterialNameToRegister);
 
         /// <summary>
-        /// Stops all the registered <see cref="StapleMarketData"/> instances.
+        /// Stops all the registered <see cref="RawMaterialMarketData"/> instances.
         /// </summary>
         void Stop();
     }

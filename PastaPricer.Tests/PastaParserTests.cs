@@ -38,7 +38,7 @@ namespace PastaPricer.Tests
         }
 
         [Test]
-        public void Should_extract_StapleNames_from_configuration()
+        public void Should_extract_RawMaterialNames_from_configuration()
         {
             var pastasConfiguration = new[]
                                       {
@@ -50,11 +50,11 @@ namespace PastaPricer.Tests
                                       };
 
             var pastaParser = new PastaParser(pastasConfiguration);
-            Check.That(pastaParser.StapleNames).ContainsExactly("eggs", "potatoes", "flour", "organic eggs", "spinach");
+            Check.That(pastaParser.RawMaterialNames).ContainsExactly("eggs", "potatoes", "flour", "organic eggs", "spinach");
         }
 
         [Test]
-        public void Should_provide_NeededStaples_for_every_pasta()
+        public void Should_provide_NeededRawMaterials_for_every_pasta()
         {
             var pastasConfiguration = new[]
                                       {
@@ -67,8 +67,8 @@ namespace PastaPricer.Tests
 
             var pastaParser = new PastaParser(pastasConfiguration);
 
-            Check.That(pastaParser.GetNeededStaplesFor("gnocchi")).ContainsExactly("eggs", "potatoes", "flour");
-            Check.That(pastaParser.GetNeededStaplesFor("spinach farfalle")).ContainsExactly("eggs", "flour", "spinach");
+            Check.That(pastaParser.GetNeededRawMaterialsFor("gnocchi")).ContainsExactly("eggs", "potatoes", "flour");
+            Check.That(pastaParser.GetNeededRawMaterialsFor("spinach farfalle")).ContainsExactly("eggs", "flour", "spinach");
         }
     }
 }

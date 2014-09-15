@@ -18,74 +18,74 @@ namespace PastaPricer
     using System.Collections.Generic;
 
     /// <summary>
-    /// Provides <see cref="StapleMarketData"/> instances for registered staple names.
+    /// Provides <see cref="RawMaterialMarketData"/> instances for registered raw material names.
     /// </summary>
     public class MarketDataProvider : IMarketDataProvider
     {
-        private readonly Dictionary<string, StapleMarketData> stapleMarketDatas;
+        private readonly Dictionary<string, RawMaterialMarketData> rawMaterialMarketDatas;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MarketDataProvider"/> class.
         /// </summary>
         public MarketDataProvider()
         {
-            this.stapleMarketDatas = new Dictionary<string, StapleMarketData>();
+            this.rawMaterialMarketDatas = new Dictionary<string, RawMaterialMarketData>();
         }
 
         /// <summary>
-        /// Registers the specified staple, so that it can be started and retrieved afterwards.
+        /// Registers the specified raw material, so that it can be started and retrieved afterwards.
         /// </summary>
-        /// <param name="stapleNameToRegister">The staple name to register.</param>
-        public void RegisterStaple(string stapleNameToRegister)
+        /// <param name="rawMaterialNameToRegister">The raw material name to register.</param>
+        public void RegisterRawMaterial(string rawMaterialNameToRegister)
         {
             // TODO: make it thread-safe
-            if (!this.stapleMarketDatas.ContainsKey(stapleNameToRegister))
+            if (!this.rawMaterialMarketDatas.ContainsKey(rawMaterialNameToRegister))
             {
-                this.stapleMarketDatas.Add(stapleNameToRegister, new StapleMarketData(stapleNameToRegister));
+                this.rawMaterialMarketDatas.Add(rawMaterialNameToRegister, new RawMaterialMarketData(rawMaterialNameToRegister));
             }
         }
 
         /// <summary>
-        /// Starts all the registered <see cref="StapleMarketData" /> instances.
+        /// Starts all the registered <see cref="RawMaterialMarketData" /> instances.
         /// </summary>
         public void Start()
         {
             // TODO: make it thread-safe
-            foreach (var stapleMarketData in this.stapleMarketDatas.Values)
+            foreach (var rawMaterialMarketData in this.rawMaterialMarketDatas.Values)
             {
-                stapleMarketData.Start();
+                rawMaterialMarketData.Start();
             }
         }
 
         /// <summary>
-        /// Gets the <see cref="StapleMarketData" /> instance corresponding to this staple name.
+        /// Gets the <see cref="RawMaterialMarketData" /> instance corresponding to this raw material name.
         /// </summary>
-        /// <param name="stapleName">StapleName of the staple.</param>
+        /// <param name="rawMaterialName">Name of the raw material.</param>
         /// <returns>
-        /// The <see cref="StapleMarketData" /> instance corresponding to this staple name.
+        /// The <see cref="RawMaterialMarketData" /> instance corresponding to this raw material name.
         /// </returns>
-        /// <exception cref="System.InvalidOperationException">When the staple is not registered yet to receive market data.</exception>
-        public StapleMarketData GetStaple(string stapleName)
+        /// <exception cref="System.InvalidOperationException">When the raw material is not registered yet to receive market data.</exception>
+        public RawMaterialMarketData GetRawMaterial(string rawMaterialName)
         {
             // TODO: make it thread-safe
-            StapleMarketData stapleMarketData;
+            RawMaterialMarketData rawMaterialMarketData;
             
-            if (!this.stapleMarketDatas.TryGetValue(stapleName, out stapleMarketData))
+            if (!this.rawMaterialMarketDatas.TryGetValue(rawMaterialName, out rawMaterialMarketData))
             {
-                throw new InvalidOperationException(string.Format("Staple with name '{0}' is not registered yet for market data. Call the RegisterStaple method for it before you get it.", stapleName));
+                throw new InvalidOperationException(string.Format("RawMaterial with name '{0}' is not registered yet for market data. Call the RegisterRawMaterial method for it before you get it.", rawMaterialName));
             }
 
-            return stapleMarketData;
+            return rawMaterialMarketData;
         }
 
         /// <summary>
-        /// Stops all the registered <see cref="StapleMarketData" /> instances.
+        /// Stops all the registered <see cref="RawMaterialMarketData" /> instances.
         /// </summary>
         public void Stop()
         {
-            foreach (var stapleMarketData in this.stapleMarketDatas.Values)
+            foreach (var rawMaterialMarketData in this.rawMaterialMarketDatas.Values)
             {
-                stapleMarketData.Stop();
+                rawMaterialMarketData.Stop();
             }
         }
     }

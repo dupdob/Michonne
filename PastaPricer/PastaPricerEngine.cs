@@ -36,7 +36,7 @@ namespace PastaPricer
         {
             var pastaParser = new PastaParser(this.pastasConfiguration);
 
-            this.RegisterAllNeededStapleMarketData(pastaParser);
+            this.RegisterAllNeededRawMaterialMarketData(pastaParser);
 
             this.InstantiateAndSetupPricingAgentsForAllPasta(pastaParser);
         }
@@ -51,22 +51,22 @@ namespace PastaPricer
 
                 this.pastaAgents.Add(pastaName, pastaPricingAgent);
 
-                var marketDataForThisPasta = new List<IStapleMarketData>();
-                foreach (var stapleName in pastaParser.GetNeededStaplesFor(pastaName))
+                var marketDataForThisPasta = new List<IRawMaterialMarketData>();
+                foreach (var rawMaterialName in pastaParser.GetNeededRawMaterialsFor(pastaName))
                 {
-                    marketDataForThisPasta.Add(this.marketDataProvider.GetStaple(stapleName));
+                    marketDataForThisPasta.Add(this.marketDataProvider.GetRawMaterial(rawMaterialName));
                 }
 
                 pastaPricingAgent.SubscribeToMarketData(marketDataForThisPasta);
             }
         }
 
-        private void RegisterAllNeededStapleMarketData(PastaParser pastaParser)
+        private void RegisterAllNeededRawMaterialMarketData(PastaParser pastaParser)
         {
             // subscribes to all the marketdata we need to price the pasta we have to support
-            foreach (var marketDataName in pastaParser.StapleNames)
+            foreach (var marketDataName in pastaParser.RawMaterialNames)
             {
-                this.marketDataProvider.RegisterStaple(marketDataName);
+                this.marketDataProvider.RegisterRawMaterial(marketDataName);
             }
         }
 

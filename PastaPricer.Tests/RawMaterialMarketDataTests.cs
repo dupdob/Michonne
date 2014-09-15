@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-//  <copyright file="StapleMarketDataTests.cs" company="No lock... no deadlock" product="Michonne">
+//  <copyright file="RawMaterialMarketDataTests.cs" company="No lock... no deadlock" product="Michonne">
 //     Copyright 2014 Cyrille DUPUYDAUBY (@Cyrdup), Thomas PIERRAIN (@tpierrain)
 //     Licensed under the Apache License, Version 2.0 (the "License");
 //     you may not use this file except in compliance with the License.
@@ -19,16 +19,16 @@ namespace PastaPricer.Tests
     using NUnit.Framework;
 
     [TestFixture]
-    public class StapleMarketDataTests
+    public class RawMaterialMarketDataTests
     {
         [Test]
         public void Should_not_raise_event_after_having_called_Stop()
         {
             const int VeryAggressiveTimerIntervalForMarketDataPublicationInMsec = 1;
-            var marketData = new StapleMarketData("eggs", VeryAggressiveTimerIntervalForMarketDataPublicationInMsec);
+            var marketData = new RawMaterialMarketData("eggs", VeryAggressiveTimerIntervalForMarketDataPublicationInMsec);
             
             long counter = 0;
-            marketData.StaplePriceChanged += (o, args) => counter = Interlocked.Increment(ref counter);
+            marketData.PriceChanged += (o, args) => counter = Interlocked.Increment(ref counter);
 
             marketData.Start();
             

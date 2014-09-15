@@ -48,41 +48,41 @@ namespace PastaPricer.Tests
         public void Should_provide_MarketData_for_eggs()
         {
             var marketDataProvider = new MarketDataProvider();
-            marketDataProvider.RegisterStaple("eggs");
+            marketDataProvider.RegisterRawMaterial("eggs");
 
-            Check.That(marketDataProvider.GetStaple("eggs")).IsInstanceOf<StapleMarketData>();
+            Check.That(marketDataProvider.GetRawMaterial("eggs")).IsInstanceOf<RawMaterialMarketData>();
         }
 
         [Test]
-        public void Should_return_the_same_instance_of_MarketData_given_the_same_staple_name()
+        public void Should_return_the_same_instance_of_MarketData_given_the_same_rawMaterial_name()
         {
             var marketDataProvider = new MarketDataProvider();
-            marketDataProvider.RegisterStaple("eggs");
+            marketDataProvider.RegisterRawMaterial("eggs");
 
-            Check.That(marketDataProvider.GetStaple("eggs")).IsSameReferenceThan(marketDataProvider.GetStaple("eggs"));
+            Check.That(marketDataProvider.GetRawMaterial("eggs")).IsSameReferenceThan(marketDataProvider.GetRawMaterial("eggs"));
         }
 
         [Test]
-        public void Should_only_get_MarketData_for_registered_staples_or_throw_an_exception_otherwise()
+        public void Should_only_get_MarketData_for_registered_rawMaterials_or_throw_an_exception_otherwise()
         {
             var marketDataProvider = new MarketDataProvider();
-            marketDataProvider.RegisterStaple("eggs");
-            marketDataProvider.RegisterStaple("flour");
+            marketDataProvider.RegisterRawMaterial("eggs");
+            marketDataProvider.RegisterRawMaterial("flour");
 
-            Check.That(marketDataProvider.GetStaple("flour")).IsNotNull();
+            Check.That(marketDataProvider.GetRawMaterial("flour")).IsNotNull();
 
-            Check.ThatCode(() => marketDataProvider.GetStaple("banana")).Throws<InvalidOperationException>();
+            Check.ThatCode(() => marketDataProvider.GetRawMaterial("banana")).Throws<InvalidOperationException>();
 
-            Check.That(marketDataProvider.GetStaple("eggs")).IsNotNull();
+            Check.That(marketDataProvider.GetRawMaterial("eggs")).IsNotNull();
         }
 
         [Test]
-        public void Should_receive_price_for_registered_staples_once_started()
+        public void Should_receive_price_for_registered_rawMaterials_once_started()
         {
             var marketDataProvider = new MarketDataProvider();
-            marketDataProvider.RegisterStaple("eggs");
+            marketDataProvider.RegisterRawMaterial("eggs");
             
-            marketDataProvider.GetStaple("eggs").StaplePriceChanged += (o, args) => this.priceChangedRaisedEvent.Set();
+            marketDataProvider.GetRawMaterial("eggs").PriceChanged += (o, args) => this.priceChangedRaisedEvent.Set();
 
             marketDataProvider.Start();
 

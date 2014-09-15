@@ -27,30 +27,30 @@ namespace PastaPricer.Tests
     public class PastaPricingAgentTests
     {
         [Test]
-        public void Should_publish_pasta_price_as_soon_as_all_needed_StapleMarketData_are_received()
+        public void Should_publish_pasta_price_as_soon_as_all_needed_RawMaterialMarketData_are_received()
         {
             // spaghetti(eggs-flour)
             // Prepares the marketdata mocks
-            var eggsMarketDataMock = Substitute.For<IStapleMarketData>();
-            eggsMarketDataMock.StapleName.Returns("eggs");
+            var eggsMarketDataMock = Substitute.For<IRawMaterialMarketData>();
+            eggsMarketDataMock.RawMaterialName.Returns("eggs");
 
-            var flourMarketDataMock = Substitute.For<IStapleMarketData>();
-            flourMarketDataMock.StapleName.Returns("flour");
+            var flourMarketDataMock = Substitute.For<IRawMaterialMarketData>();
+            flourMarketDataMock.RawMaterialName.Returns("flour");
             
             // setup the pricing agent
             var pricingAgent = new PastaPricingAgent("spaghetti");
-            pricingAgent.SubscribeToMarketData(new List<IStapleMarketData>() { eggsMarketDataMock, flourMarketDataMock });
+            pricingAgent.SubscribeToMarketData(new List<IRawMaterialMarketData>() { eggsMarketDataMock, flourMarketDataMock });
             var pastaPriceHasChanged = false;
             pricingAgent.PastaPriceChanged += (o, args) => { pastaPriceHasChanged = true; };
 
             Check.That(pastaPriceHasChanged).IsFalse();
 
             // Raises event for "eggs"
-            eggsMarketDataMock.StaplePriceChanged += Raise.EventWith(new object(), new StaplePriceChangedEventArgs("eggs", 0));
+            eggsMarketDataMock.PriceChanged += Raise.EventWith(new object(), new RawMaterialPriceChangedEventArgs("eggs", 0));
             Check.That(pastaPriceHasChanged).IsFalse();
 
             // Raises event for "flour" => all needed market data has been received, the price must have been published now
-            flourMarketDataMock.StaplePriceChanged += Raise.EventWith(new object(), new StaplePriceChangedEventArgs("flour", 0));
+            flourMarketDataMock.PriceChanged += Raise.EventWith(new object(), new RawMaterialPriceChangedEventArgs("flour", 0));
             Check.That(pastaPriceHasChanged).IsTrue();
         }
     }

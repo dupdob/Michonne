@@ -22,7 +22,7 @@ namespace PastaPricer
     /// </summary>
     public class PastaPricingAgent
     {
-        private IEnumerable<IStapleMarketData> marketDatas;
+        private IEnumerable<IRawMaterialMarketData> marketDatas;
 
         private decimal price;
 
@@ -52,25 +52,33 @@ namespace PastaPricer
         /// </value>
         public string PastaName { get; private set; }
 
-        public void SubscribeToMarketData(IEnumerable<IStapleMarketData> marketDatas)
+        public void SubscribeToMarketData(IEnumerable<IRawMaterialMarketData> marketDatas)
         {
             this.marketDatas = marketDatas;
             this.marketDataToBeReceivedBeforeBeingAbleToPrice = new List<string>();
 
-            foreach (var stapleMarketData in this.marketDatas)
+            foreach (var rawMaterialMarketData in this.marketDatas)
             {
-                this.marketDataToBeReceivedBeforeBeingAbleToPrice.Add(stapleMarketData.StapleName);
-                stapleMarketData.StaplePriceChanged += this.StapleMarketData_StaplePriceChanged;
+                this.marketDataToBeReceivedBeforeBeingAbleToPrice.Add(rawMaterialMarketData.RawMaterialName);
+                rawMaterialMarketData.PriceChanged += this.MarketData_PriceChanged;
             }
         }
 
-        private void StapleMarketData_StaplePriceChanged(object sender, StaplePriceChangedEventArgs e)
+        protected virtual void RaisePastaPriceChanged(decimal newPrice)
+        {
+            if (this.PastaPriceChanged != null)
+            {
+                this.PastaPriceChanged(this, new PastaPriceChangedEventArgs(this.PastaName, newPrice));
+            }
+        }
+
+        private void MarketData_PriceChanged(object sender, RawMaterialPriceChangedEventArgs e)
         {
             // TODO: code smells => refactor this code.
             // TODO: thread-safe this!
             if (!this.canPublishPrice)
             {
-                if (this.marketDataToBeReceivedBeforeBeingAbleToPrice.Remove(e.StapleName))
+                if (this.marketDataToBeReceivedBeforeBeingAbleToPrice.Remove(e.RawMaterialName))
                 {
                     if (this.marketDataToBeReceivedBeforeBeingAbleToPrice.Count == 0)
                     {
@@ -85,14 +93,6 @@ namespace PastaPricer
                 this.price = e.Price;
 
                 this.RaisePastaPriceChanged(this.price);
-            }
-        }
-
-        protected virtual void RaisePastaPriceChanged(decimal newPrice)
-        {
-            if (this.PastaPriceChanged != null)
-            {
-                this.PastaPriceChanged(this, new PastaPriceChangedEventArgs(this.PastaName, newPrice));
             }
         }
     }

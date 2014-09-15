@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-//  <copyright file="StaplePriceChangedEventArgs.cs" company="No lock... no deadlock" product="Michonne">
+//  <copyright file="RawMaterialPriceChangedEventArgs.cs" company="No lock... no deadlock" product="Michonne">
 //     Copyright 2014 Cyrille DUPUYDAUBY (@Cyrdup), Thomas PIERRAIN (@tpierrain)
 //     Licensed under the Apache License, Version 2.0 (the "License");
 //     you may not use this file except in compliance with the License.
@@ -17,34 +17,34 @@ namespace PastaPricer
     using System;
 
     /// <summary>
-    /// Event arguments when the price of a staple changed.
+    /// Event arguments when the price of a raw material changed.
     /// </summary>
-    public class StaplePriceChangedEventArgs : EventArgs
+    public class RawMaterialPriceChangedEventArgs : EventArgs
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="StaplePriceChangedEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="RawMaterialPriceChangedEventArgs"/> class.
         /// </summary>
-        /// <param name="stapleName">StapleName of the market data.</param>
-        /// <param name="price">The price.</param>
-        public StaplePriceChangedEventArgs(string stapleName, decimal price)
+        /// <param name="rawMaterialName">The name of the raw material that has changed its price.</param>
+        /// <param name="price">The new price of this raw material.</param>
+        public RawMaterialPriceChangedEventArgs(string rawMaterialName, decimal price)
         {
-            this.StapleName = stapleName;
+            this.RawMaterialName = rawMaterialName;
             this.Price = price;
         }
 
         /// <summary>
-        /// Gets the name of the considered staple.
+        /// Gets the name of the considered raw material.
         /// </summary>
         /// <value>
-        /// The name of the considered staple.
+        /// The name of the considered raw material.
         /// </value>
-        public string StapleName { get; private set; }
+        public string RawMaterialName { get; private set; }
 
         /// <summary>
-        /// Gets the new price for the considered staple.
+        /// Gets the new price for the considered raw material.
         /// </summary>
         /// <value>
-        /// The new price for the considered staple.
+        /// The new price for the considered raw material.
         /// </value>
         public decimal Price { get; private set; }
     }

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-//  <copyright file="StapleMarketData.cs" company="No lock... no deadlock" product="Michonne">
+//  <copyright file="RawMaterialMarketData.cs" company="No lock... no deadlock" product="Michonne">
 //     Copyright 2014 Cyrille DUPUYDAUBY (@Cyrdup), Thomas PIERRAIN (@tpierrain)
 //     Licensed under the Apache License, Version 2.0 (the "License");
 //     you may not use this file except in compliance with the License.
@@ -18,10 +18,10 @@ namespace PastaPricer
     using System.Threading;
 
     /// <summary>
-    /// Provides market data as events for a given staple.
+    /// Provides market data as events for a given raw material.
     /// </summary>
     /// <remarks>This type is thread-safe</remarks>
-    public class StapleMarketData : IStapleMarketData
+    public class RawMaterialMarketData : IRawMaterialMarketData
     {
         private readonly int timerPeriodInMsec;
 
@@ -29,31 +29,31 @@ namespace PastaPricer
         private long stopped = 0;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StapleMarketData"/> class.
+        /// Initializes a new instance of the <see cref="RawMaterialMarketData"/> class.
         /// </summary>
-        /// <param name="stapleName">Name of the staple.</param>
+        /// <param name="rawMaterialName">Name of the raw material.</param>
         /// <param name="timerPeriodInMsec">The timer period in milliseconds.</param>
-        public StapleMarketData(string stapleName, int timerPeriodInMsec = 9)
+        public RawMaterialMarketData(string rawMaterialName, int timerPeriodInMsec = 9)
         {
-            this.StapleName = stapleName;
+            this.RawMaterialName = rawMaterialName;
             this.timerPeriodInMsec = timerPeriodInMsec;
         }
-        
-        /// <summary>
-        /// Occurs when the price of this staple changed.
-        /// </summary>
-        public event EventHandler<StaplePriceChangedEventArgs> StaplePriceChanged;
 
         /// <summary>
-        /// Gets the name of the Staple corresponding to this <see cref="StapleMarketData"/> instance.
+        /// Occurs when the price of this raw material changed.
+        /// </summary>
+        public event EventHandler<RawMaterialPriceChangedEventArgs> PriceChanged;
+
+        /// <summary>
+        /// Gets the name of the raw material corresponding to this <see cref="RawMaterialMarketData" /> instance.
         /// </summary>
         /// <value>
-        /// The name of the Staple corresponding to this <see cref="StapleMarketData"/> instance.
+        /// The name of the raw material corresponding to this <see cref="RawMaterialMarketData" /> instance.
         /// </value>
-        public string StapleName { get; private set; }
+        public string RawMaterialName { get; private set; }
 
         /// <summary>
-        /// Starts to receive market data (and thus to raise events) for this staple.
+        /// Starts to receive market data (and thus to raise events) for this raw material.
         /// </summary>
         public void Start()
         {
@@ -72,7 +72,7 @@ namespace PastaPricer
         }
 
         /// <summary>
-        /// Stops to receive market data (and thus to raise events) for this staple.
+        /// Stops to receive market data (and thus to raise events) for this raw material.
         /// </summary>
         public void Stop()
         {
@@ -86,9 +86,9 @@ namespace PastaPricer
 
         private void RaiseRandomPrice()
         {
-            if (this.StaplePriceChanged != null)
+            if (this.PriceChanged != null)
             {
-                this.StaplePriceChanged(this, new StaplePriceChangedEventArgs(this.StapleName, 0));
+                this.PriceChanged(this, new RawMaterialPriceChangedEventArgs(this.RawMaterialName, 0));
             }
         }
     }

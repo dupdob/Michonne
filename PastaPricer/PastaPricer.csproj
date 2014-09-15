@@ -43,14 +43,14 @@
   <ItemGroup>
     <Compile Include="IMarketDataProvider.cs" />
     <Compile Include="IPastaPricerPublisher.cs" />
-    <Compile Include="IStapleMarketData.cs" />
+    <Compile Include="IRawMaterialMarketData.cs" />
     <Compile Include="PastaPriceChangedEventArgs.cs" />
-    <Compile Include="StapleMarketData.cs" />
+    <Compile Include="RawMaterialMarketData.cs" />
     <Compile Include="MarketDataProvider.cs" />
     <Compile Include="PastaParser.cs" />
     <Compile Include="PastaPricerEngine.cs" />
     <Compile Include="PastaPricingAgent.cs" />
-    <Compile Include="StaplePriceChangedEventArgs.cs" />
+    <Compile Include="RawMaterialPriceChangedEventArgs.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
