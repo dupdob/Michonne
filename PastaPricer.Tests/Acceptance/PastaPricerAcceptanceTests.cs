@@ -43,7 +43,7 @@ namespace PastaPricer.Tests.Acceptance
             Thread.Sleep(60);
 
             // It has publish a price now!
-            publisher.ReceivedWithAnyArgs().Publish(string.Empty, 0);
+            publisher.Received().Publish("gnocchi", 0);
         }
 
         private static void CheckThatNoPriceHasBeenPublished(IPastaPricerPublisher publisher)
