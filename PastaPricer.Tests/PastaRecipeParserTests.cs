@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-//  <copyright file="PastaParserTests.cs" company="No lock... no deadlock" product="Michonne">
+//  <copyright file="PastaRecipeParserTests.cs" company="No lock... no deadlock" product="Michonne">
 //     Copyright 2014 Cyrille DUPUYDAUBY (@Cyrdup), Thomas PIERRAIN (@tpierrain)
 //     Licensed under the Apache License, Version 2.0 (the "License");
 //     you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ namespace PastaPricer.Tests
     using NUnit.Framework;
 
     [TestFixture]
-    public class PastaParserTests
+    public class PastaRecipeParserTests
     {
         [Test]
         public void Should_extract_pasta_names_from_configuration()
@@ -32,7 +32,7 @@ namespace PastaPricer.Tests
                                           "tagliatelle(eggs-flour)",
                                       };
 
-            var pastaParser = new PastaParser(pastasConfiguration);
+            var pastaParser = new PastaRecipeParser(pastasConfiguration);
 
             Check.That(pastaParser.Pastas).ContainsExactly("gnocchi", "spaghetti", "organic spaghetti", "spinach farfalle", "tagliatelle");
         }
@@ -49,7 +49,7 @@ namespace PastaPricer.Tests
                                           "tagliatelle(eggs-flour)",
                                       };
 
-            var pastaParser = new PastaParser(pastasConfiguration);
+            var pastaParser = new PastaRecipeParser(pastasConfiguration);
             Check.That(pastaParser.RawMaterialNames).ContainsExactly("eggs", "potatoes", "flour", "organic eggs", "spinach");
         }
 
@@ -65,7 +65,7 @@ namespace PastaPricer.Tests
                                           "tagliatelle(eggs-flour)",
                                       };
 
-            var pastaParser = new PastaParser(pastasConfiguration);
+            var pastaParser = new PastaRecipeParser(pastasConfiguration);
 
             Check.That(pastaParser.GetNeededRawMaterialsFor("gnocchi")).ContainsExactly("eggs", "potatoes", "flour");
             Check.That(pastaParser.GetNeededRawMaterialsFor("spinach farfalle")).ContainsExactly("eggs", "flour", "spinach");

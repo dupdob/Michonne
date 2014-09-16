@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-//  <copyright file="PastaParser.cs" company="No lock... no deadlock" product="Michonne">
+//  <copyright file="PastaRecipeParser.cs" company="No lock... no deadlock" product="Michonne">
 //     Copyright 2014 Cyrille DUPUYDAUBY (@Cyrdup), Thomas PIERRAIN (@tpierrain)
 //     Licensed under the Apache License, Version 2.0 (the "License");
 //     you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ namespace PastaPricer
     /// <summary>
     /// Parser to extract pasta names and their market data dependencies from a pasta configuration.
     /// </summary>
-    public class PastaParser
+    public class PastaRecipeParser
     {
         private readonly IEnumerable<string> pastaConfiguration;
 
@@ -28,7 +28,7 @@ namespace PastaPricer
 
         private readonly Dictionary<string, IEnumerable<string>> perPastaNeededRawMaterials = new Dictionary<string, IEnumerable<string>>();
 
-        public PastaParser(IEnumerable<string> pastaConfiguration)
+        public PastaRecipeParser(IEnumerable<string> pastaConfiguration)
         {
             this.pastaConfiguration = pastaConfiguration;
             this.Parse();

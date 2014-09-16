@@ -15,6 +15,9 @@
 namespace PastaPricer.Tests.Acceptance
 {
     using System.Threading;
+
+    using Michonne.Implementation;
+
     using NSubstitute;
     using NUnit.Framework;
 
@@ -25,10 +28,12 @@ namespace PastaPricer.Tests.Acceptance
         public void Should_publish_price_once_started_and_when_MarketData_is_available()
         {
             // Mock and dependencies setup
+            var unitOfExecutionsFactory = new UnitOfExecutionsFactory();
+            
             var publisher = Substitute.For<IPastaPricerPublisher>();
             var marketDataProvider = new MarketDataProvider();
 
-            var pastaPricer = new PastaPricerEngine(new[] { "gnocchi(eggs-potatoes-flour)" }, marketDataProvider, publisher);
+            var pastaPricer = new PastaPricerEngine(unitOfExecutionsFactory.GetPool(), new[] { "gnocchi(eggs-potatoes-flour)" }, marketDataProvider, publisher);
             
             CheckThatNoPriceHasBeenPublished(publisher);
             
@@ -66,7 +71,9 @@ namespace PastaPricer.Tests.Acceptance
                                           "tagliatelle(eggs-flour)",
                                       };
 
-            var pastaPricer = new PastaPricerEngine(pastasConfiguration, marketDataProvider, publisher);
+            var unitOfExecutionsFactory = new UnitOfExecutionsFactory();
+
+            var pastaPricer = new PastaPricerEngine(unitOfExecutionsFactory.GetPool(), pastasConfiguration, marketDataProvider, publisher);
             pastaPricer.Start();
 
             // Turns on market data (note: make the pasta pricer start its dependencies instead?)

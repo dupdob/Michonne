@@ -77,7 +77,7 @@ namespace PastaPricer.Tests
         }
 
         [Test]
-        public void Should_receive_price_for_registered_rawMaterials_once_started()
+        public void Should_receive_price_for_registered_RawMaterials_once_started()
         {
             var marketDataProvider = new MarketDataProvider();
             marketDataProvider.RegisterRawMaterial("eggs");
@@ -88,7 +88,7 @@ namespace PastaPricer.Tests
 
             const int TimeoutInMsec = 100;
             var hasReceivedEvent = this.priceChangedRaisedEvent.WaitOne(TimeoutInMsec);
-
+            
             Check.That(hasReceivedEvent).IsTrue();
             marketDataProvider.Stop();
         }

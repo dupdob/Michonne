@@ -17,6 +17,9 @@ namespace PastaPricer.Tests
     using System.Collections.Generic;
     using System.Threading;
 
+    using Michonne;
+    using Michonne.Implementation;
+
     using NFluent;
 
     using NSubstitute;
@@ -38,7 +41,8 @@ namespace PastaPricer.Tests
             flourMarketDataMock.RawMaterialName.Returns("flour");
             
             // setup the pricing agent
-            var pricingAgent = new PastaPricingAgent("spaghetti");
+            var sequencer = new Sequencer(new DirectDispatcher());
+            var pricingAgent = new PastaPricingAgent(sequencer, "spaghetti");
             pricingAgent.SubscribeToMarketData(new List<IRawMaterialMarketData>() { eggsMarketDataMock, flourMarketDataMock });
             var pastaPriceHasChanged = false;
             pricingAgent.PastaPriceChanged += (o, args) => { pastaPriceHasChanged = true; };

@@ -17,11 +17,15 @@ namespace PastaPricer
     using System;
     using System.Collections.Generic;
 
+    using Michonne;
+
     /// <summary>
     /// Computes prices for a given pasta.
     /// </summary>
-    public class PastaPricingAgent
+    public sealed class PastaPricingAgent
     {
+        private readonly Sequencer sequencer;
+
         private IEnumerable<IRawMaterialMarketData> marketDatas;
 
         private decimal price;
@@ -30,19 +34,33 @@ namespace PastaPricer
 
         private bool canPublishPrice;
 
+        private EventHandler<PastaPriceChangedEventArgs> observers ;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PastaPricingAgent"/> class.
         /// </summary>
+        /// <param name="sequencer"></param>
         /// <param name="pastaName">Name of the pasta.</param>
-        public PastaPricingAgent(string pastaName)
+        public PastaPricingAgent(Sequencer sequencer, string pastaName)
         {
+            this.sequencer = sequencer;
             this.PastaName = pastaName;
         }
 
         /// <summary>
         /// Occurs when the price of the pasta changed.
         /// </summary>
-        public event EventHandler<PastaPriceChangedEventArgs> PastaPriceChanged;
+        public event EventHandler<PastaPriceChangedEventArgs> PastaPriceChanged
+        {
+            add
+            {
+                this.sequencer.Dispatch(()=>this.observers+= value);
+            }
+            remove
+            {
+                this.sequencer.Dispatch(()=>this.observers-= value);
+            }
+        }
 
         /// <summary>
         /// Gets the name of the pasta to price.
@@ -64,36 +82,38 @@ namespace PastaPricer
             }
         }
 
-        protected virtual void RaisePastaPriceChanged(decimal newPrice)
+        private void RaisePastaPriceChanged(decimal newPrice)
         {
-            if (this.PastaPriceChanged != null)
+            if(this.observers!= null)
             {
-                this.PastaPriceChanged(this, new PastaPriceChangedEventArgs(this.PastaName, newPrice));
+                this.observers(this, new PastaPriceChangedEventArgs(this.PastaName, newPrice));
             }
         }
 
         private void MarketData_PriceChanged(object sender, RawMaterialPriceChangedEventArgs e)
         {
-            // TODO: code smells => refactor this code.
-            // TODO: thread-safe this!
-            if (!this.canPublishPrice)
+            this.sequencer.Dispatch(() =>
             {
-                if (this.marketDataToBeReceivedBeforeBeingAbleToPrice.Remove(e.RawMaterialName))
+                // TODO: code smells => refactor this code.
+                if (!this.canPublishPrice)
                 {
-                    if (this.marketDataToBeReceivedBeforeBeingAbleToPrice.Count == 0)
+                    if (this.marketDataToBeReceivedBeforeBeingAbleToPrice.Remove(e.RawMaterialName))
                     {
-                        this.canPublishPrice = true;
+                        if (this.marketDataToBeReceivedBeforeBeingAbleToPrice.Count == 0)
+                        {
+                            this.canPublishPrice = true;
+                        }
                     }
                 }
-            }
 
-            if (this.canPublishPrice)
-            {
-                // Compute price
-                this.price = e.Price;
+                if (this.canPublishPrice)
+                {
+                    // Compute price
+                    this.price = e.Price;
 
-                this.RaisePastaPriceChanged(this.price);
-            }
+                    this.RaisePastaPriceChanged(this.price);
+                }    
+            });
         }
     }
 }

@@ -16,17 +16,24 @@ namespace PastaPricer
 {
     using System.Collections.Generic;
 
+    using Michonne;
+    using Michonne.Implementation;
+    using Michonne.Interfaces;
+
     public class PastaPricerEngine
     {
         private readonly IMarketDataProvider marketDataProvider;
         private readonly IPastaPricerPublisher pastaPricerPublisher;
 
+        private readonly IUnitOfExecution unitOfExecution;
+
         private readonly IEnumerable<string> pastasConfiguration;
 
         private Dictionary<string, PastaPricingAgent> pastaAgents = new Dictionary<string, PastaPricingAgent>(); 
 
-        public PastaPricerEngine(IEnumerable<string> pastasConfiguration, IMarketDataProvider marketDataProvider, IPastaPricerPublisher pastaPricerPublisher)
+        public PastaPricerEngine(IUnitOfExecution unitOfExecution, IEnumerable<string> pastasConfiguration, IMarketDataProvider marketDataProvider, IPastaPricerPublisher pastaPricerPublisher)
         {
+            this.unitOfExecution = unitOfExecution;
             this.pastasConfiguration = pastasConfiguration;
             this.marketDataProvider = marketDataProvider;
             this.pastaPricerPublisher = pastaPricerPublisher;
@@ -34,25 +41,27 @@ namespace PastaPricer
 
         public void Start()
         {
-            var pastaParser = new PastaParser(this.pastasConfiguration);
+            var pastaRecipeParser = new PastaRecipeParser(this.pastasConfiguration);
 
-            this.RegisterAllNeededRawMaterialMarketData(pastaParser);
+            this.RegisterAllNeededRawMaterialMarketData(pastaRecipeParser);
 
-            this.InstantiateAndSetupPricingAgentsForAllPasta(pastaParser);
+            this.InstantiateAndSetupPricingAgentsForAllPasta(pastaRecipeParser);
         }
 
-        private void InstantiateAndSetupPricingAgentsForAllPasta(PastaParser pastaParser)
+        private void InstantiateAndSetupPricingAgentsForAllPasta(PastaRecipeParser pastaRecipeParser)
         {
             // Instantiates pricing agents for all pastas
-            foreach (var pastaName in pastaParser.Pastas)
+            foreach (var pastaName in pastaRecipeParser.Pastas)
             {
-                var pastaPricingAgent = new PastaPricingAgent(pastaName);
+                var sequencerForThisPasta = new Sequencer(this.unitOfExecution);
+                var pastaPricingAgent = new PastaPricingAgent(sequencerForThisPasta, pastaName);
+
                 pastaPricingAgent.PastaPriceChanged += this.PastaPricingAgent_PastaPriceChanged;
 
                 this.pastaAgents.Add(pastaName, pastaPricingAgent);
 
                 var marketDataForThisPasta = new List<IRawMaterialMarketData>();
-                foreach (var rawMaterialName in pastaParser.GetNeededRawMaterialsFor(pastaName))
+                foreach (var rawMaterialName in pastaRecipeParser.GetNeededRawMaterialsFor(pastaName))
                 {
                     marketDataForThisPasta.Add(this.marketDataProvider.GetRawMaterial(rawMaterialName));
                 }
@@ -61,10 +70,10 @@ namespace PastaPricer
             }
         }
 
-        private void RegisterAllNeededRawMaterialMarketData(PastaParser pastaParser)
+        private void RegisterAllNeededRawMaterialMarketData(PastaRecipeParser pastaRecipeParser)
         {
             // subscribes to all the marketdata we need to price the pasta we have to support
-            foreach (var marketDataName in pastaParser.RawMaterialNames)
+            foreach (var marketDataName in pastaRecipeParser.RawMaterialNames)
             {
                 this.marketDataProvider.RegisterRawMaterial(marketDataName);
             }
