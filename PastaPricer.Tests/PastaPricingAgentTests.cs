@@ -57,5 +57,12 @@ namespace PastaPricer.Tests
             flourMarketDataMock.PriceChanged += Raise.EventWith(new object(), new RawMaterialPriceChangedEventArgs("flour", 0));
             Check.That(pastaPriceHasChanged).IsTrue();
         }
+
+        [Test]
+        public void Should_Compute_price_from_market_data_inputs()
+        {
+            // flour
+            // 
+        }
     }
 }

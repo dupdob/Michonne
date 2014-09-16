@@ -13,9 +13,9 @@ Pasta Pricer
 ------------
 
 + Expected attributes:
-	+ vertical scalability
-	+ sequencer
-	+ event-driven
+	+ vertical scalability - done
+	+ sequencer - done
+	+ event-driven - done
 	
 	+ code 'presentability'
 	+ conflation
