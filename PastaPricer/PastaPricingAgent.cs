@@ -18,13 +18,15 @@ namespace PastaPricer
     using System.Collections.Generic;
 
     using Michonne;
+    using Michonne.Implementation;
+    using Michonne.Interfaces;
 
     /// <summary>
     /// Computes prices for a given pasta.
     /// </summary>
     public sealed class PastaPricingAgent
     {
-        private readonly Sequencer sequencer;
+        private readonly ISequencer sequencer;
 
         private IEnumerable<IRawMaterialMarketData> marketDatas;
 
@@ -41,7 +43,7 @@ namespace PastaPricer
         /// </summary>
         /// <param name="sequencer"></param>
         /// <param name="pastaName">Name of the pasta.</param>
-        public PastaPricingAgent(Sequencer sequencer, string pastaName)
+        public PastaPricingAgent(ISequencer sequencer, string pastaName)
         {
             this.sequencer = sequencer;
             this.PastaName = pastaName;

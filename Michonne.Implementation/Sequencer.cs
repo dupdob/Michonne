@@ -12,10 +12,11 @@
 //     limitations under the License.
 //   </copyright>
 //   --------------------------------------------------------------------------------------------------------------------
-namespace Michonne
+namespace Michonne.Implementation
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
 
     using Michonne.Interfaces;
 
@@ -37,7 +38,7 @@ namespace Michonne
         #region Fields
 
         private readonly Queue<Action> orderedDispatchedTasks = new Queue<Action>();
-        private readonly IUnitOfExecution _rootUnitOfExecution;
+        private readonly IUnitOfExecution rootUnitOfExecution;
         private readonly object syncRoot = new object();
         private bool isRunning;
         private long numberOfPendingTasksWhileRunning;
@@ -49,10 +50,10 @@ namespace Michonne
         /// <summary>
         ///     Initializes a new instance of the <see cref="Sequencer" /> class.
         /// </summary>
-        /// <param name="_rootUnitOfExecution">The root Dispatcher.</param>
-        public Sequencer(IUnitOfExecution _rootUnitOfExecution)
+        /// <param name="rootUnitOfExecution">The root Dispatcher.</param>
+        public Sequencer(IUnitOfExecution rootUnitOfExecution)
         {
-            this._rootUnitOfExecution = _rootUnitOfExecution;
+            this.rootUnitOfExecution = rootUnitOfExecution;
             this.numberOfPendingTasksWhileRunning = 0;
         }
 
@@ -72,85 +73,53 @@ namespace Michonne
                 this.orderedDispatchedTasks.Enqueue(action);
             }
 
-            var sequencedTask = new SequencedTask(this);
-
-            // Dispatches the sequenced task to the underlying _rootUnitOfExecution
-            this._rootUnitOfExecution.Dispatch(sequencedTask.Execute);
+            // Dispatches the sequenced task to the underlying rootUnitOfExecution
+            this.rootUnitOfExecution.Dispatch(this.Execute);
         }
 
-        #endregion
-
         /// <summary>
-        ///     Task that has been dispatched by the sequencer and that should be executed by its root dispatcher.
+        ///     Executes this dispatched task.
         /// </summary>
-        private sealed class SequencedTask
+        private void Execute()
         {
-            #region Fields
-
-            private readonly Sequencer sequencer;
-
-            #endregion
-
-            #region Constructors and Destructors
-
-            /// <summary>
-            ///     Initializes a new instance of the <see cref="SequencedTask" /> class.
-            /// </summary>
-            /// <param name="sequencer">The sequencer.</param>
-            public SequencedTask(Sequencer sequencer)
+            Action action;
+            lock (this.syncRoot)
             {
-                this.sequencer = sequencer;
+                if (this.isRunning)
+                {
+                    // We need to store and stop
+                    this.numberOfPendingTasksWhileRunning++;
+                    return;
+                }
+
+                // Ok, we can run
+                action = this.orderedDispatchedTasks.Dequeue();
+                this.isRunning = true;
             }
 
-            #endregion
-
-            #region Public Methods and Operators
-
-            /// <summary>
-            ///     Executes this dispatched task.
-            /// </summary>
-            public void Execute()
+            while (true)
             {
-                Action action;
-                lock (this.sequencer.syncRoot)
+                // Execute the next action
+                action();
+
+                // We check if others tasks have to be executed during this round
+                lock (this.syncRoot)
                 {
-                    if (this.sequencer.isRunning)
+                    if (this.numberOfPendingTasksWhileRunning == 0)
                     {
-                        // We need to store and stop
-                        this.sequencer.numberOfPendingTasksWhileRunning++;
+                        this.isRunning = false;
                         return;
                     }
 
-                    // Ok, we can run
-                    action = this.sequencer.orderedDispatchedTasks.Dequeue();
-                    this.sequencer.isRunning = true;
-                }
-
-                while (true)
-                {
-                    // Execute the next action
-                    action();
-
-                    // We check if others tasks have to be executed during this round
-                    lock (this.sequencer.syncRoot)
+                    // Pop the next task we are allowed to execute now (for fairness with dispatcher's other tasks)
+                    if (this.numberOfPendingTasksWhileRunning > 0)
                     {
-                        if (this.sequencer.numberOfPendingTasksWhileRunning == 0)
-                        {
-                            this.sequencer.isRunning = false;
-                            return;
-                        }
-
-                        // Pop the next task we are allowed to execute now (for fairness with dispatcher's other tasks)
-                        if (this.sequencer.numberOfPendingTasksWhileRunning > 0)
-                        {
-                            this.sequencer.numberOfPendingTasksWhileRunning--;
-                            action = this.sequencer.orderedDispatchedTasks.Dequeue();
-                        }
+                        this.numberOfPendingTasksWhileRunning--;
+                        action = this.orderedDispatchedTasks.Dequeue();
                     }
                 }
             }
-
-            #endregion
         }
+        #endregion
     }
 }

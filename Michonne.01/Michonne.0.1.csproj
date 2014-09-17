@@ -45,7 +45,6 @@
     <Compile Include="DirectDispatcher.cs" />
     <Compile Include="PollingDispatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sequencer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Michonne.Interfaces\Michonne.Interfaces.csproj">

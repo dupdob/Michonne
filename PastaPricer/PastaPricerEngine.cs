@@ -16,7 +16,6 @@ namespace PastaPricer
 {
     using System.Collections.Generic;
 
-    using Michonne;
     using Michonne.Implementation;
     using Michonne.Interfaces;
 
@@ -53,7 +52,7 @@ namespace PastaPricer
             // Instantiates pricing agents for all pastas
             foreach (var pastaName in pastaRecipeParser.Pastas)
             {
-                var sequencerForThisPasta = new Sequencer(this.unitOfExecution);
+                var sequencerForThisPasta = this.unitOfExecution.BuildSequencer();
                 var pastaPricingAgent = new PastaPricingAgent(sequencerForThisPasta, pastaName);
 
                 pastaPricingAgent.PastaPriceChanged += this.PastaPricingAgent_PastaPriceChanged;

@@ -19,6 +19,7 @@ namespace Michonne.Tests
     using System.Diagnostics;
     using System.Threading;
 
+    using Michonne.Implementation;
     using Michonne.Interfaces;
 
     using NUnit.Framework;

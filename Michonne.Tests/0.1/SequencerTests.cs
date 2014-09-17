@@ -17,6 +17,8 @@ namespace Michonne.Tests
     using System.Collections.Generic;
     using System.Threading;
 
+    using Michonne.Implementation;
+
     using NFluent;
 
     using NUnit.Framework;
