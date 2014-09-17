@@ -27,8 +27,19 @@ namespace Michonne.Implementation
     {
         #region Fields
 
-        private readonly object lck  = new object();
+        /// <summary>
+        /// private lock.
+        /// </summary>
+        private readonly object synchRoot  = new object();
+
+        /// <summary>
+        /// Thread executing the work.
+        /// </summary>
         private readonly Thread myThread;
+
+        /// <summary>
+        /// Tasks to be executed.
+        /// </summary>
         private readonly Queue<Action> tasks = new Queue<Action>();
 
         #endregion
@@ -56,11 +67,11 @@ namespace Michonne.Implementation
         /// </param>
         public void Dispatch(Action action)
         {
-            lock (this.lck)
+            lock (this.synchRoot)
             {
                 if (this.tasks.Count == 0)
                 {
-                    Monitor.Pulse(this.lck);
+                    Monitor.Pulse(this.synchRoot);
                 }
 
                 this.tasks.Enqueue(action);
@@ -102,11 +113,11 @@ namespace Michonne.Implementation
             while (true)
             {
                 Action next;
-                lock (this.lck)
+                lock (this.synchRoot)
                 {
                     if (this.tasks.Count == 0)
                     {
-                        Monitor.Wait(this.lck);
+                        Monitor.Wait(this.synchRoot);
                     }
 
                     next = this.tasks.Dequeue();

@@ -16,7 +16,6 @@ namespace Michonne.Implementation
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
 
     using Michonne.Interfaces;
 
@@ -36,11 +35,29 @@ namespace Michonne.Implementation
     {
         // TODO: Get rid of the Queue, implement lock free algo, etc.
         #region Fields
-
+        /// <summary>
+        /// In charge of maintaining task order
+        /// </summary>
         private readonly Queue<Action> orderedDispatchedTasks = new Queue<Action>();
+        
+        /// <summary>
+        /// Underlying unit of execution that will actually execute tasks.
+        /// </summary>
         private readonly IUnitOfExecution rootUnitOfExecution;
+        
+        /// <summary>
+        /// private lock
+        /// </summary>
         private readonly object syncRoot = new object();
+
+        /// <summary>
+        /// Set to true when tasks are being executed.
+        /// </summary>
         private bool isRunning;
+
+        /// <summary>
+        /// Number of tasks to be executed (to prevent unfair draining of tasks).
+        /// </summary>
         private long numberOfPendingTasksWhileRunning;
 
         #endregion
