@@ -48,7 +48,7 @@ namespace PastaPricer.Tests.Acceptance
             Thread.Sleep(60);
 
             // It has publish a price now!
-            publisher.Received().Publish("gnocchi", 0);
+            publisher.Received().Publish("gnocchi", 0.50m);
         }
 
         private static void CheckThatNoPriceHasBeenPublished(IPastaPricerPublisher publisher)
@@ -81,11 +81,11 @@ namespace PastaPricer.Tests.Acceptance
 
             // A sleep?!? There should be a better way ;-)
             Thread.Sleep(100);
-         
-            publisher.Received().Publish("gnocchi", 0);
+
+            publisher.Received().Publish("gnocchi", 0.5m);
             publisher.Received().Publish("spaghetti", 0);
             publisher.Received().Publish("organic spaghetti", 0);
-            publisher.Received().Publish("spinach farfalle", 0);
+            publisher.Received().Publish("spinach farfalle", 0.5m);
             publisher.Received().Publish("tagliatelle", 0);
         }
     }
