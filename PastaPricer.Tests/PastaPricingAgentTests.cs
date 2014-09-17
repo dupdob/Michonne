@@ -62,7 +62,6 @@ namespace PastaPricer.Tests
         public void Should_Compute_price_from_market_data_inputs()
         {
             // flour
-            // 
         }
     }
 }

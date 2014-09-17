@@ -44,6 +44,7 @@
     <Compile Include="IMarketDataProvider.cs" />
     <Compile Include="IPastaPricerPublisher.cs" />
     <Compile Include="IRawMaterialMarketData.cs" />
+    <Compile Include="PastaCalculator.cs" />
     <Compile Include="PastaPriceChangedEventArgs.cs" />
     <Compile Include="RawMaterialMarketData.cs" />
     <Compile Include="MarketDataProvider.cs" />

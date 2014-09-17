@@ -34,12 +34,12 @@ namespace PastaPricer
 
         private bool canPublishPrice;
 
-        private EventHandler<PastaPriceChangedEventArgs> observers ;
+        private EventHandler<PastaPriceChangedEventArgs> pastaPriceChangedObservers;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PastaPricingAgent"/> class.
         /// </summary>
-        /// <param name="sequencer"></param>
+        /// <param name="sequencer">The sequencer to use for this agent (sequencer: race condition killer).</param>
         /// <param name="pastaName">Name of the pasta.</param>
         public PastaPricingAgent(Sequencer sequencer, string pastaName)
         {
@@ -50,15 +50,17 @@ namespace PastaPricer
         /// <summary>
         /// Occurs when the price of the pasta changed.
         /// </summary>
+        /// <remarks>The event subscription is thread-safe thanks to the instance's sequencer.</remarks>
         public event EventHandler<PastaPriceChangedEventArgs> PastaPriceChanged
         {
             add
             {
-                this.sequencer.Dispatch(()=>this.observers+= value);
+                this.sequencer.Dispatch(() => this.pastaPriceChangedObservers += value);
             }
+
             remove
             {
-                this.sequencer.Dispatch(()=>this.observers-= value);
+                this.sequencer.Dispatch(() => this.pastaPriceChangedObservers -= value);
             }
         }
 
@@ -84,12 +86,20 @@ namespace PastaPricer
 
         private void RaisePastaPriceChanged(decimal newPrice)
         {
-            if(this.observers!= null)
+            if (this.pastaPriceChangedObservers != null)
             {
-                this.observers(this, new PastaPriceChangedEventArgs(this.PastaName, newPrice));
+                this.pastaPriceChangedObservers(this, new PastaPriceChangedEventArgs(this.PastaName, newPrice));
             }
         }
 
+        /// <summary>
+        /// Handles the PriceChanged event of the subscribed MarketData instances.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RawMaterialPriceChangedEventArgs"/> instance containing the event data.</param>
+        /// <remarks>
+        /// This call back will be dispatched into the agent's sequencer. Thus, it is thread-safe.
+        /// </remarks>
         private void MarketData_PriceChanged(object sender, RawMaterialPriceChangedEventArgs e)
         {
             this.sequencer.Dispatch(() =>
