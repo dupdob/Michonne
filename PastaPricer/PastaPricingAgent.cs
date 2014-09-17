@@ -16,6 +16,7 @@ namespace PastaPricer
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using Michonne;
 
@@ -36,6 +37,10 @@ namespace PastaPricer
 
         private EventHandler<PastaPriceChangedEventArgs> pastaPriceChangedObservers;
 
+        private readonly IDictionary<RawMaterialRole, decimal> rawMaterialLatestPrices;
+
+        private int numberOfRawMaterialInvolved;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PastaPricingAgent"/> class.
         /// </summary>
@@ -43,6 +48,7 @@ namespace PastaPricer
         /// <param name="pastaName">Name of the pasta.</param>
         public PastaPricingAgent(Sequencer sequencer, string pastaName)
         {
+            this.rawMaterialLatestPrices = new Dictionary<RawMaterialRole, decimal>();
             this.sequencer = sequencer;
             this.PastaName = pastaName;
         }
@@ -74,6 +80,8 @@ namespace PastaPricer
 
         public void SubscribeToMarketData(IEnumerable<IRawMaterialMarketData> marketDatas)
         {
+            this.numberOfRawMaterialInvolved = marketDatas.Count();
+
             this.marketDatas = marketDatas;
             this.marketDataToBeReceivedBeforeBeingAbleToPrice = new List<string>();
 
@@ -104,25 +112,47 @@ namespace PastaPricer
         {
             this.sequencer.Dispatch(() =>
             {
-                // TODO: code smells => refactor this code.
-                if (!this.canPublishPrice)
+                RawMaterialRole role;
+                switch (e.RawMaterialName)
                 {
-                    if (this.marketDataToBeReceivedBeforeBeingAbleToPrice.Remove(e.RawMaterialName))
-                    {
-                        if (this.marketDataToBeReceivedBeforeBeingAbleToPrice.Count == 0)
-                        {
-                            this.canPublishPrice = true;
-                        }
-                    }
+                    case "flour":
+                        role =RawMaterialRole.Flour;
+                        break;
+                    case "eggs":
+                    case "organic eggs":
+                        role =RawMaterialRole.Egg;
+                        break;
+                    case "tomato":
+                    case "potatoes":
+                    case "spinach":
+                        role =RawMaterialRole.Flavor;
+                        break;
+                    default:
+                        throw new ApplicationException(e.RawMaterialName+" unknown ingredient");
+                }
+                // Keeps the last value for this raw material
+                this.rawMaterialLatestPrices[role] = e.Price;
+
+                if (this.rawMaterialLatestPrices.Count < this.numberOfRawMaterialInvolved)
+                {
+                    return;
+                }
+                
+                // Compute price
+                var pastaCalculator = new PastaCalculator();
+
+                if (this.numberOfRawMaterialInvolved == 3)
+                {
+                    this.price = pastaCalculator.Compute(this.rawMaterialLatestPrices[RawMaterialRole.Flour],
+                        this.rawMaterialLatestPrices[RawMaterialRole.Egg],
+                        this.rawMaterialLatestPrices[RawMaterialRole.Flavor]);
+                }
+                else
+                {
+                    this.price = 0;
                 }
 
-                if (this.canPublishPrice)
-                {
-                    // Compute price
-                    this.price = e.Price;
-
-                    this.RaisePastaPriceChanged(this.price);
-                }    
+                this.RaisePastaPriceChanged(this.price);
             });
         }
     }

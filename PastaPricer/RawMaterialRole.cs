@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-//  <copyright file="PastaCalculator.cs" company="No lock... no deadlock" product="Michonne">
+//  <copyright file="RawMaterialRole.cs" company="No lock... no deadlock" product="Michonne">
 //     Copyright 2014 Cyrille DUPUYDAUBY (@Cyrdup), Thomas PIERRAIN (@tpierrain)
 //     Licensed under the Apache License, Version 2.0 (the "License");
 //     you may not use this file except in compliance with the License.
@@ -14,17 +14,22 @@
 //   --------------------------------------------------------------------------------------------------------------------
 namespace PastaPricer
 {
-    using System;
-
     /// <summary>
-    /// Calculator for pasta prices.
+    /// Raw materials role in the recipe.
     /// </summary>
-    public class PastaCalculator
+    public enum RawMaterialRole
     {
-        // TODO: make it static with functions only
-        public decimal Compute(decimal flourPrice, decimal eggsPrice, decimal flavorPrice = 0m)
-        {
-            return Math.Round(0.5m + flourPrice + ((1 / 4m) * eggsPrice) + ((1 / 10m) * flavorPrice), 2);
-        }
+        /// <summary>
+        /// Main ingredient.
+        /// </summary>
+        Flour,
+        /// <summary>
+        /// Some eggs (optional)
+        /// </summary>
+        Egg,
+        /// <summary>
+        /// Used to give specific taste/color
+        /// </summary>
+        Flavor
     }
 }
