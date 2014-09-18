@@ -55,6 +55,14 @@ namespace Michonne.Implementation
             this.myThread.Start();
         }
 
+        /// <summary>
+        /// Finalizes an instance of the <see cref="ThreadUnitOfExecution"/> class. 
+        /// Destructor.
+        /// </summary>
+        ~ThreadUnitOfExecution()
+        {
+            this.Dispose(false);
+        }
         #endregion
 
         #region Public Methods and Operators
@@ -101,6 +109,7 @@ namespace Michonne.Implementation
             this.Dispatch(null);
             if (disposing)
             {
+                GC.SuppressFinalize(this);
                 this.myThread.Join(500);
             }
         }

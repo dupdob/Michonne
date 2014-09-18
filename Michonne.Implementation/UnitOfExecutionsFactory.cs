@@ -108,12 +108,7 @@ namespace Michonne.Implementation
         public IUnitOfExecution GetPool()
         {
             // we use all remaining threads
-            if (this.poolUnitOfExecution == null)
-            {
-                this.poolUnitOfExecution = new PoolUnitOfExecution();
-            }
-
-            return this.poolUnitOfExecution;
+            return this.poolUnitOfExecution ?? (this.poolUnitOfExecution = new PoolUnitOfExecution());
         }
 
         /// <summary>

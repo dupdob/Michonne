@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Tests", "Michonne.Tests\Michonne.Tests.csproj", "{F7D77346-0D41-41E8-8662-A6C2A0654A34}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Interfaces", "Michonne.Interfaces\Michonne.Interfaces.csproj", "{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}"
@@ -26,6 +28,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PastaPricer.Tests", "PastaP
 	ProjectSection(ProjectDependencies) = postProject
 		{76D48E2E-E97D-46D1-81FC-7ABAEA8463AC} = {76D48E2E-E97D-46D1-81FC-7ABAEA8463AC}
 		{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA} = {439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{12754141-CD15-41CF-811E-65D3B0554AFE}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
 Global
