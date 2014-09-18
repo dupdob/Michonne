@@ -30,7 +30,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PastaPricer.Tests", "PastaP
 		{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA} = {439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{12754141-CD15-41CF-811E-65D3B0554AFE}"
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{57071A0C-2ED8-4B21-B8A2-F402553281BF}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
