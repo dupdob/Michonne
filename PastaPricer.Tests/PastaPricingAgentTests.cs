@@ -59,10 +59,43 @@ namespace PastaPricer.Tests
         }
 
         [Test]
-        public void Should_Compute_price_from_market_data_inputs()
+        public void Should_Compute_expected_price_from_known_market_data_inputs()
         {
-            // flour
-            // 
+            // Check.That(pastaCalculator.Compute(flourPrice: 1.3m, eggsPrice: 2.4m, flavorPrice: 1.2m)).IsEqualTo(2.52m);
+
+            // spaghetti(eggs-flour)
+            // Prepares the marketdata mocks
+            var eggsMarketDataMock = Substitute.For<IRawMaterialMarketData>();
+            eggsMarketDataMock.RawMaterialName.Returns("eggs");
+
+            var flourMarketDataMock = Substitute.For<IRawMaterialMarketData>();
+            flourMarketDataMock.RawMaterialName.Returns("flour");
+            
+            var tomatoMarketDataMock = Substitute.For<IRawMaterialMarketData>();
+            tomatoMarketDataMock.RawMaterialName.Returns("tomato");
+
+            // setup the pricing agent
+            var sequencer = new Sequencer(new DirectDispatcher());
+            var pricingAgent = new PastaPricingAgent(sequencer, "tomato spaghetti");
+            pricingAgent.SubscribeToMarketData(new List<IRawMaterialMarketData>() { eggsMarketDataMock, flourMarketDataMock, tomatoMarketDataMock });
+            var publishedPastaPrice = 0m;
+            pricingAgent.PastaPriceChanged += (o, args) => { publishedPastaPrice = args.Price; };
+
+            Check.That(publishedPastaPrice).IsEqualTo(0);
+
+            // Raises event for "eggs"
+            eggsMarketDataMock.PriceChanged += Raise.EventWith(new object(), new RawMaterialPriceChangedEventArgs("eggs", 2.4m));
+            Check.That(publishedPastaPrice).IsEqualTo(0);
+
+            // Raises event for "tomato"
+            tomatoMarketDataMock.PriceChanged += Raise.EventWith(new object(), new RawMaterialPriceChangedEventArgs("tomato", 1.2m));
+            Check.That(publishedPastaPrice).IsEqualTo(0);
+
+            // Raises event for "flour" => all needed market data has been received, the price must have been published now
+            flourMarketDataMock.PriceChanged += Raise.EventWith(new object(), new RawMaterialPriceChangedEventArgs("flour", 1.3m));
+
+            const decimal ExpectedPastaPrice = 2.52m;
+            Check.That(publishedPastaPrice).IsEqualTo(ExpectedPastaPrice);
         }
     }
 }

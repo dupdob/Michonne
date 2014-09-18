@@ -1,5 +1,5 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-//  <copyright file="PastaCalculatorTests.cs" company="No lock... no deadlock" product="Michonne">
+// --------------------------------------------------------------------------------------------------------------------
+//  <copyright file="RawMaterialRole.cs" company="No lock... no deadlock" product="Michonne">
 //     Copyright 2014 Cyrille DUPUYDAUBY (@Cyrdup), Thomas PIERRAIN (@tpierrain)
 //     Licensed under the Apache License, Version 2.0 (the "License");
 //     you may not use this file except in compliance with the License.
@@ -12,22 +12,24 @@
 //     limitations under the License.
 //   </copyright>
 //   --------------------------------------------------------------------------------------------------------------------
-
-namespace PastaPricer.Tests
+namespace PastaPricer
 {
-    using NFluent;
-
-    using NUnit.Framework;
-
-    [TestFixture]
-    public class PastaCalculatorTests
+    /// <summary>
+    /// Raw materials role in the recipe.
+    /// </summary>
+    public enum RawMaterialRole
     {
-        [Test]
-        public void Should_compute_expected_price()
-        {
-            var pastaCalculator = new PastaCalculator();
-            Check.That(pastaCalculator.Compute(flourPrice: 1.3m, eggsPrice: 2.4m, flavorPrice: 1.2m)).IsEqualTo(2.52m);
-            Check.That(pastaCalculator.Compute(flourPrice: 1.9m, eggsPrice: 2.4m, flavorPrice: 1.2m)).IsEqualTo(3.12m);
-        }
+        /// <summary>
+        /// Main ingredient.
+        /// </summary>
+        Flour,
+        /// <summary>
+        /// Some eggs (optional)
+        /// </summary>
+        Egg,
+        /// <summary>
+        /// Used to give specific taste/color
+        /// </summary>
+        Flavor
     }
 }
