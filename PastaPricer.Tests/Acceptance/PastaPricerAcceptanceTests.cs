@@ -83,10 +83,10 @@ namespace PastaPricer.Tests.Acceptance
             Thread.Sleep(100);
 
             publisher.Received().Publish("gnocchi", 0.5m);
-            publisher.Received().Publish("spaghetti", 0);
-            publisher.Received().Publish("organic spaghetti", 0);
+            publisher.Received().Publish("spaghetti", 0.5m);
+            publisher.Received().Publish("organic spaghetti", 0.5m);
             publisher.Received().Publish("spinach farfalle", 0.5m);
-            publisher.Received().Publish("tagliatelle", 0);
+            publisher.Received().Publish("tagliatelle", 0.5m);
         }
     }
 }

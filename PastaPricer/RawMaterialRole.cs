@@ -23,10 +23,12 @@ namespace PastaPricer
         /// Main ingredient.
         /// </summary>
         Flour,
+
         /// <summary>
         /// Some eggs (optional)
         /// </summary>
         Egg,
+
         /// <summary>
         /// Used to give specific taste/color
         /// </summary>
