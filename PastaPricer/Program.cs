@@ -33,7 +33,10 @@ namespace PastaPricer
             Console.WriteLine("Welcome to the pasta pricer. Type Enter to stop market data inputs.");
 
             var publisher = new ConsolePublisher();
+
             var marketDataProvider = new AggresiveMarketDataProvider();
+            const bool ConflationEnabled = true;
+
             //var marketDataProvider = new MarketDataProvider();
             var pastasConfiguration = new[]
                                       {
@@ -46,7 +49,7 @@ namespace PastaPricer
 
             var unitOfExecutionsFactory = new UnitOfExecutionsFactory();
 
-            var pastaPricer = new PastaPricerEngine(unitOfExecutionsFactory.GetPool(), pastasConfiguration, marketDataProvider, publisher);
+            var pastaPricer = new PastaPricerEngine(unitOfExecutionsFactory.GetPool(), pastasConfiguration, marketDataProvider, publisher, ConflationEnabled);
             pastaPricer.Start();
 
             // Turns on market data (note: make the pasta pricer start its dependencies instead?)

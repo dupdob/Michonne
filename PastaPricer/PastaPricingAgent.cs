@@ -18,6 +18,7 @@ namespace PastaPricer
     using System.Collections.Generic;
     using System.Linq;
 
+    using Michonne;
     using Michonne.Interfaces;
 
     /// <summary>
@@ -31,6 +32,10 @@ namespace PastaPricer
         /// The sequencer.
         /// </summary>
         private readonly ISequencer sequencer;
+
+        private readonly IUnitOfExecution eggBalkingDispatcher;
+        private readonly IUnitOfExecution flourBalkingDispatcher;
+        private readonly IUnitOfExecution flavorBalkingDispatcher;
 
         /// <summary>
         /// The egg price.
@@ -75,14 +80,30 @@ namespace PastaPricer
         /// Initializes a new instance of the <see cref="PastaPricingAgent"/> class.
         /// </summary>
         /// <param name="sequencer">
-        /// The sequencer to use for this agent (sequencer: race condition killer).
+        ///     The sequencer to use for this agent (sequencer: race condition killer).
         /// </param>
         /// <param name="pastaName">
-        /// Name of the pasta.
+        ///     Name of the pasta.
         /// </param>
-        public PastaPricingAgent(ISequencer sequencer, string pastaName)
+        /// <param name="conflationEnabled"></param>
+        public PastaPricingAgent(ISequencer sequencer, string pastaName, bool conflationEnabled = false)
         {
             this.sequencer = sequencer;
+
+            if (conflationEnabled)
+            {
+                // Balking is required
+                this.eggBalkingDispatcher = new BalkingDispatcher(this.sequencer);
+                this.flourBalkingDispatcher = new BalkingDispatcher(this.sequencer);
+                this.flavorBalkingDispatcher = new BalkingDispatcher(this.sequencer);    
+            }
+            else
+            {
+                this.eggBalkingDispatcher = this.sequencer;
+                this.flourBalkingDispatcher = this.sequencer;
+                this.flavorBalkingDispatcher = this.sequencer;
+            }
+            
             this.PastaName = pastaName;
         }
 
@@ -197,7 +218,7 @@ namespace PastaPricer
         /// </param>
         private void MarketData_EggPriceChanged(object sender, RawMaterialPriceChangedEventArgs e)
         {
-            this.sequencer.Dispatch(
+            this.eggBalkingDispatcher.Dispatch(
                 () =>
                     {
                         this.eggPrice = e.Price;
@@ -216,7 +237,7 @@ namespace PastaPricer
         /// </param>
         private void MarketData_FlavorPriceChanged(object sender, RawMaterialPriceChangedEventArgs e)
         {
-            this.sequencer.Dispatch(
+            this.flavorBalkingDispatcher.Dispatch(
                 () =>
                     {
                         this.flavorPrice = e.Price;
@@ -235,7 +256,7 @@ namespace PastaPricer
         /// </param>
         private void MarketData_FlourPriceChanged(object sender, RawMaterialPriceChangedEventArgs e)
         {
-            this.sequencer.Dispatch(
+            this.flourBalkingDispatcher.Dispatch(
                 () =>
                     {
                         this.flourPrice = e.Price;

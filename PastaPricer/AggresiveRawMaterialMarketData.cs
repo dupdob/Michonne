@@ -10,6 +10,7 @@
     public class AggresiveRawMaterialMarketData : IRawMaterialMarketData
     {
         private readonly int timerPeriodInMsec;
+        private static Random seed = new Random(1);
 
         private Timer timer;
         private long stopped = 0;
@@ -77,7 +78,8 @@
         {
             if (this.PriceChanged != null)
             {
-                this.PriceChanged(this, new RawMaterialPriceChangedEventArgs(this.RawMaterialName, 0));
+                decimal randomPrice = seed.Next(1, 200) / 100m;
+                this.PriceChanged(this, new RawMaterialPriceChangedEventArgs(this.RawMaterialName, randomPrice));
             }
         }
     }
