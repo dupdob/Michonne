@@ -10,6 +10,9 @@
     public class AggresiveRawMaterialMarketData : IRawMaterialMarketData
     {
         private readonly int timerPeriodInMsec;
+
+        private readonly int aggressionFactor;
+
         private static Random seed = new Random(1);
 
         private Timer timer;
@@ -20,10 +23,11 @@
         /// </summary>
         /// <param name="rawMaterialName">Name of the raw material.</param>
         /// <param name="timerPeriodInMsec">The timer period in milliseconds.</param>
-        public AggresiveRawMaterialMarketData(string rawMaterialName, int timerPeriodInMsec = 9)
+        public AggresiveRawMaterialMarketData(string rawMaterialName, int timerPeriodInMsec = 9, int aggressionFactor = 300)
         {
             this.RawMaterialName = rawMaterialName;
             this.timerPeriodInMsec = timerPeriodInMsec;
+            this.aggressionFactor = aggressionFactor;
         }
 
         /// <summary>
@@ -50,7 +54,7 @@
                     var hasStopped = Interlocked.CompareExchange(ref this.stopped, 1, 1);
                     if (hasStopped != 1)
                     {
-                        for (var i = 0; i < 1000; i++)
+                        for (var i = 0; i < this.aggressionFactor; i++)
                         {
                             decimal randomPrice = seed.Next(1, 20) / 10m;
                             this.RaisePrice(randomPrice);

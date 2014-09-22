@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="AggresiveMarketDataProvider.cs" />
     <Compile Include="AggresiveRawMaterialMarketData.cs" />
+    <Compile Include="ConsolePastaPricerPublisher.cs" />
     <Compile Include="IMarketDataProvider.cs" />
     <Compile Include="IPastaPricerPublisher.cs" />
     <Compile Include="IRawMaterialMarketData.cs" />

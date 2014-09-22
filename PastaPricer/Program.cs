@@ -15,7 +15,6 @@
 namespace PastaPricer
 {
     using System;
-    using System.Threading;
 
     using Michonne.Implementation;
 
@@ -30,11 +29,16 @@ namespace PastaPricer
         /// <param name="args">The arguments.</param>
         public static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to the pasta pricer. Type Enter to stop market data inputs.");
+            Console.WriteLine("Welcome to the pasta pricer (powered by the Michonne library).");
+            Console.WriteLine("   Type 'Enter' to start market data inputs.");
+            Console.WriteLine("   Then type 'Enter' again, to stop market data inputs.");
 
-            var publisher = new ConsolePublisher();
+            Console.ReadLine();
+            Console.ForegroundColor = ConsoleColor.DarkGray;
 
-            var marketDataProvider = new AggresiveMarketDataProvider();
+            var publisher = new ConsolePastaPricerPublisher();
+
+            var marketDataProvider = new AggresiveMarketDataProvider(aggressionFactor: 10, timerPeriodInMsec:2);
             const bool ConflationEnabled = false;
 
             //var marketDataProvider = new MarketDataProvider();
@@ -52,52 +56,24 @@ namespace PastaPricer
             var pastaPricer = new PastaPricerEngine(unitOfExecutionsFactory.GetPool(), pastasConfiguration, marketDataProvider, publisher, ConflationEnabled);
             pastaPricer.Start();
 
-            // Turns on market data (note: make the pasta pricer start its dependencies instead?)
+            // Turns on market data
             marketDataProvider.Start();
 
-            // A sleep?!? There should be a better way ;-)
             Console.ReadLine();
-            
+
+            Console.WriteLine("----------------\nMarket data is stopping.\n----------------\n");
+
             marketDataProvider.Stop();
             publisher.CountPublish();
 
-            Console.WriteLine("Stopping market data. Type Enter to exit.");
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine("----------------\nMarket data stopped. Wait a while, and type 'Enter' to exit.\n----------------\n");
 
             Console.ReadLine();
 
             Console.WriteLine("{0} late prices have been published since we stopped the market data.", publisher.PublicationCounter);
 
-            Console.WriteLine("Type Enter to exit.");
-        }
-    }
-
-    public class ConsolePublisher : IPastaPricerPublisher
-    {
-        private volatile bool startCounting;
-
-        private long publicationCounter;
-
-        public long PublicationCounter
-        {
-            get
-            {
-                return Interlocked.Read(ref this.publicationCounter);
-            }
-        }
-
-        public void Publish(string pastaIdentifier, decimal price)
-        {
-            if (this.startCounting)
-            {
-                Interlocked.Increment(ref this.publicationCounter);
-            }
-
-            Console.WriteLine("{0} = {1} €", pastaIdentifier, price);
-        }
-
-        public void CountPublish()
-        {
-            this.startCounting = true;
+            Console.WriteLine("Type Enter to exit the program.");
         }
     }
 }
