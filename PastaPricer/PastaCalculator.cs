@@ -27,5 +27,41 @@ namespace PastaPricer
             const decimal MinimalPastaCost = 0.5m;
             return Math.Round(MinimalPastaCost + flourPrice + ((1 / 4m) * eggsPrice) + ((1 / 10m) * flavorPrice), 2);
         }
+
+        /// <summary>
+        /// The parse raw material role.
+        /// </summary>
+        /// <param name="rawMaterialName">
+        /// The raw material name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="RawMaterialRole"/>.
+        /// </returns>
+        /// <exception cref="ApplicationException">
+        /// When the string is not a known ingredient.
+        /// </exception>
+        public static RawMaterialRole ParseRawMaterialRole(string rawMaterialName)
+        {
+            RawMaterialRole role;
+            switch (rawMaterialName)
+            {
+                case "flour":
+                    role = RawMaterialRole.Flour;
+                    break;
+                case "eggs":
+                case "organic eggs":
+                    role = RawMaterialRole.Egg;
+                    break;
+                case "tomato":
+                case "potatoes":
+                case "spinach":
+                    role = RawMaterialRole.Flavor;
+                    break;
+                default:
+                    throw new ApplicationException(rawMaterialName + " unknown ingredient");
+            }
+
+            return role;
+        }
     }
 }

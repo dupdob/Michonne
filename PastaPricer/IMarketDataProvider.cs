@@ -29,7 +29,7 @@ namespace PastaPricer
         /// </summary>
         /// <param name="rawMaterialName">RawMaterialName of the raw material.</param>
         /// <returns>The <see cref="RawMaterialMarketData"/> instance corresponding to this raw material name.</returns>
-        RawMaterialMarketData GetRawMaterial(string rawMaterialName);
+        IRawMaterialMarketData GetRawMaterial(string rawMaterialName);
 
         /// <summary>
         /// Registers the specified raw material, so that it can be started and retrieved afterwards.

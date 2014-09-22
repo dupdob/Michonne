@@ -24,18 +24,21 @@ namespace PastaPricer
         private readonly IMarketDataProvider marketDataProvider;
         private readonly IPastaPricerPublisher pastaPricerPublisher;
 
+        private readonly bool conflationEnabled;
+
         private readonly IUnitOfExecution unitOfExecution;
 
         private readonly IEnumerable<string> pastasConfiguration;
 
         private Dictionary<string, PastaPricingAgent> pastaAgents = new Dictionary<string, PastaPricingAgent>(); 
 
-        public PastaPricerEngine(IUnitOfExecution unitOfExecution, IEnumerable<string> pastasConfiguration, IMarketDataProvider marketDataProvider, IPastaPricerPublisher pastaPricerPublisher)
+        public PastaPricerEngine(IUnitOfExecution unitOfExecution, IEnumerable<string> pastasConfiguration, IMarketDataProvider marketDataProvider, IPastaPricerPublisher pastaPricerPublisher, bool conflationEnabled = false)
         {
             this.unitOfExecution = unitOfExecution;
             this.pastasConfiguration = pastasConfiguration;
             this.marketDataProvider = marketDataProvider;
             this.pastaPricerPublisher = pastaPricerPublisher;
+            this.conflationEnabled = conflationEnabled;
         }
 
         public void Start()
@@ -53,7 +56,7 @@ namespace PastaPricer
             foreach (var pastaName in pastaRecipeParser.Pastas)
             {
                 var sequencerForThisPasta = this.unitOfExecution.BuildSequencer();
-                var pastaPricingAgent = new PastaPricingAgent(sequencerForThisPasta, pastaName);
+                var pastaPricingAgent = new PastaPricingAgent(sequencerForThisPasta, pastaName, this.conflationEnabled);
 
                 pastaPricingAgent.PastaPriceChanged += this.PastaPricingAgent_PastaPriceChanged;
 

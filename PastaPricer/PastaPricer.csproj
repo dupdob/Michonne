@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AggresiveMarketDataProvider.cs" />
+    <Compile Include="AggresiveRawMaterialMarketData.cs" />
     <Compile Include="IMarketDataProvider.cs" />
     <Compile Include="IPastaPricerPublisher.cs" />
     <Compile Include="IRawMaterialMarketData.cs" />
