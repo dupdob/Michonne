@@ -35,7 +35,7 @@ namespace PastaPricer
             var publisher = new ConsolePublisher();
 
             var marketDataProvider = new AggresiveMarketDataProvider();
-            const bool ConflationEnabled = true;
+            const bool ConflationEnabled = false;
 
             //var marketDataProvider = new MarketDataProvider();
             var pastasConfiguration = new[]
@@ -65,7 +65,7 @@ namespace PastaPricer
 
             Console.ReadLine();
 
-            Console.WriteLine("{0} late prices have been published since Stop the market data.", publisher.PublicationCounter);
+            Console.WriteLine("{0} late prices have been published since we stopped the market data.", publisher.PublicationCounter);
 
             Console.WriteLine("Type Enter to exit.");
         }

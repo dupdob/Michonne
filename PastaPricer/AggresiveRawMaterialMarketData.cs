@@ -52,8 +52,17 @@
                     {
                         for (var i = 0; i < 1000; i++)
                         {
-                            this.RaiseRandomPrice();
+                            decimal randomPrice = seed.Next(1, 20) / 10m;
+                            this.RaisePrice(randomPrice);
                         }
+                    }
+                    else
+                    {
+                        // the last notification should always be 0.
+                        this.RaisePrice(0m);
+                        
+                        this.timer.Change(Timeout.Infinite, Timeout.Infinite);
+                        this.timer.Dispose();
                     }
                 }, 
                 null, 
@@ -68,18 +77,13 @@
         {
             // Tries to stop the action being done by the timer ASAP.
             Interlocked.Exchange(ref this.stopped, 1);
-
-            // and the timer also.
-            this.timer.Change(Timeout.Infinite, Timeout.Infinite);
-            this.timer.Dispose();
         }
 
-        private void RaiseRandomPrice()
+        private void RaisePrice(decimal price)
         {
             if (this.PriceChanged != null)
             {
-                decimal randomPrice = seed.Next(1, 200) / 100m;
-                this.PriceChanged(this, new RawMaterialPriceChangedEventArgs(this.RawMaterialName, randomPrice));
+                this.PriceChanged(this, new RawMaterialPriceChangedEventArgs(this.RawMaterialName, price));
             }
         }
     }
