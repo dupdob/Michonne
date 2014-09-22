@@ -1,5 +1,3 @@
-#region File header
-
 // --------------------------------------------------------------------------------------------------------------------
 //  <copyright file="PastaPricingAgent.cs" company="No lock... no deadlock" product="Michonne">
 //     Copyright 2014 Cyrille DUPUYDAUBY (@Cyrdup), Thomas PIERRAIN (@tpierrain)
@@ -14,8 +12,6 @@
 //     limitations under the License.
 //   </copyright>
 //   --------------------------------------------------------------------------------------------------------------------
-#endregion
-
 namespace PastaPricer
 {
     using System;
@@ -55,11 +51,6 @@ namespace PastaPricer
         /// The market data.
         /// </summary>
         private IEnumerable<IRawMaterialMarketData> marketDatas;
-
-        /// <summary>
-        /// The number of raw material involved.
-        /// </summary>
-        private int numberOfRawMaterialInvolved;
 
         /// <summary>
         /// The pasta calculator.
@@ -130,7 +121,7 @@ namespace PastaPricer
 
         #endregion
 
-        #region Public Methods and Operators
+        #region Methods
 
         /// <summary>
         /// The subscribe to market data.
@@ -141,9 +132,6 @@ namespace PastaPricer
         public void SubscribeToMarketData(IEnumerable<IRawMaterialMarketData> marketDatas)
         {
             this.pastaCalculator = new PastaCalculator();
-
-            this.numberOfRawMaterialInvolved = marketDatas.Count();
-
             this.marketDatas = marketDatas;
             
             // ingredient prices are set at 0
@@ -154,7 +142,7 @@ namespace PastaPricer
             {
                 // indentify the argument family, subscribe to it
                 // and invalidate the current value.
-                var role = ParseRawMaterialRole(rawMaterialMarketData.RawMaterialName);
+                var role = PastaCalculator.ParseRawMaterialRole(rawMaterialMarketData.RawMaterialName);
                 switch (role)
                 {
                     case RawMaterialRole.Flour:
@@ -173,46 +161,6 @@ namespace PastaPricer
             }
         }
 
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// The parse raw material role.
-        /// </summary>
-        /// <param name="rawMaterialName">
-        /// The raw material name.
-        /// </param>
-        /// <returns>
-        /// The <see cref="RawMaterialRole"/>.
-        /// </returns>
-        /// <exception cref="ApplicationException">
-        /// When the string is not a known ingredient.
-        /// </exception>
-        private static RawMaterialRole ParseRawMaterialRole(string rawMaterialName)
-        {
-            RawMaterialRole role;
-            switch (rawMaterialName)
-            {
-                case "flour":
-                    role = RawMaterialRole.Flour;
-                    break;
-                case "eggs":
-                case "organic eggs":
-                    role = RawMaterialRole.Egg;
-                    break;
-                case "tomato":
-                case "potatoes":
-                case "spinach":
-                    role = RawMaterialRole.Flavor;
-                    break;
-                default:
-                    throw new ApplicationException(rawMaterialName + " unknown ingredient");
-            }
-
-            return role;
-        }
-
         /// <summary>
         ///     Handles the PriceChanged event of the subscribed MarketData instances.
         /// </summary>
@@ -221,18 +169,21 @@ namespace PastaPricer
         /// </remarks>
         private void Compute()
         {
-            // TODO: improve the following test
-            if (!this.flourPrice.HasValue || !this.eggPrice.HasValue || !this.flavorPrice.HasValue)
+            if (this.HasAllRequestedInputsForComputation())
             {
-                return;
+                this.price = this.pastaCalculator.Compute(this.flourPrice.Value, this.eggPrice.Value, this.flavorPrice.Value);
+
+                this.RaisePastaPriceChanged(this.price);
             }
+        }
 
-            this.price = this.pastaCalculator.Compute(
-                this.flourPrice.Value, 
-                this.eggPrice.Value, 
-                this.flavorPrice.Value);
-
-            this.RaisePastaPriceChanged(this.price);
+        /// <remarks>
+        ///     This will be called from the agent's sequencer. Thus, it is thread-safe.
+        /// </remarks>
+        private bool HasAllRequestedInputsForComputation()
+        {
+            // TODO: cache the "true" value 
+            return this.flourPrice.HasValue && this.eggPrice.HasValue && this.flavorPrice.HasValue;
         }
 
         /// <summary>
@@ -298,6 +249,9 @@ namespace PastaPricer
         /// <param name="newPrice">
         /// The new price.
         /// </param>
+        /// /// <remarks>
+        ///     This will be called from the agent's sequencer. Thus, it is thread-safe.
+        /// </remarks>
         private void RaisePastaPriceChanged(decimal newPrice)
         {
             if (this.pastaPriceChangedObservers != null)
