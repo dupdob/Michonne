@@ -30,16 +30,29 @@ namespace PastaPricer
         public static void Main(string[] args)
         {
             Console.WriteLine("Welcome to the pasta pricer (powered by the Michonne library).");
-            Console.WriteLine("   Type 'Enter' to start market data inputs.");
-            Console.WriteLine("   Then type 'Enter' again, to stop market data inputs.");
+            Console.WriteLine("Conflation Y/N?");
+            var option = Console.ReadLine();
+            bool conflationEnabled = false;
+
+            if (option.ToUpper().StartsWith("Y"))
+            {
+                conflationEnabled = true;
+                Console.WriteLine("Conflation enabled!\n");
+            }
+            else
+            {
+                Console.WriteLine("NO Conflation\n");
+            }
+
+            Console.WriteLine("         Type 'Enter' to start market data inputs.");
+            Console.WriteLine("         Then type 'Enter' again, to stop market data inputs.");
 
             Console.ReadLine();
             Console.ForegroundColor = ConsoleColor.DarkGray;
 
             var publisher = new ConsolePastaPricerPublisher();
 
-            var marketDataProvider = new AggresiveMarketDataProvider(aggressionFactor: 10, timerPeriodInMsec:2);
-            const bool ConflationEnabled = false;
+            var marketDataProvider = new AggresiveMarketDataProvider(aggressionFactor: 50, timerPeriodInMsec:2);
 
             //var marketDataProvider = new MarketDataProvider();
             var pastasConfiguration = new[]
@@ -53,7 +66,7 @@ namespace PastaPricer
 
             var unitOfExecutionsFactory = new UnitOfExecutionsFactory();
 
-            var pastaPricer = new PastaPricerEngine(unitOfExecutionsFactory.GetPool(), pastasConfiguration, marketDataProvider, publisher, ConflationEnabled);
+            var pastaPricer = new PastaPricerEngine(unitOfExecutionsFactory.GetPool(), pastasConfiguration, marketDataProvider, publisher, conflationEnabled);
             pastaPricer.Start();
 
             // Turns on market data
