@@ -35,7 +35,7 @@ namespace PastaPricer
             var publisher = new ConsolePublisher();
 
             var marketDataProvider = new AggresiveMarketDataProvider();
-            const bool ConflationEnabled = false;
+            const bool ConflationEnabled = true;
 
             //var marketDataProvider = new MarketDataProvider();
             var pastasConfiguration = new[]

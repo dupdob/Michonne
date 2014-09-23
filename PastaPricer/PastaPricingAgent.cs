@@ -168,15 +168,15 @@ namespace PastaPricer
                 {
                     case RawMaterialRole.Flour:
                         this.flourPrice = null;
-                        rawMaterialMarketData.PriceChanged += this.MarketData_FlourPriceChanged;
+                        rawMaterialMarketData.PriceChanged += this.MarketDataFlourPriceChanged;
                         break;
                     case RawMaterialRole.Egg:
                         this.eggPrice = null;
-                        rawMaterialMarketData.PriceChanged += this.MarketData_EggPriceChanged;
+                        rawMaterialMarketData.PriceChanged += this.MarketDataEggPriceChanged;
                         break;
                     case RawMaterialRole.Flavor:
                         this.flavorPrice = null;
-                        rawMaterialMarketData.PriceChanged += this.MarketData_FlavorPriceChanged;
+                        rawMaterialMarketData.PriceChanged += this.MarketDataFlavorPriceChanged;
                         break;
                 }
             }
@@ -198,9 +198,15 @@ namespace PastaPricer
             }
         }
 
+        /// <summary>
+        /// The has all requested inputs for computation.
+        /// </summary>
         /// <remarks>
-        ///     This will be called from the agent's sequencer. Thus, it is thread-safe.
+        /// This will be called from the agent's sequencer. Thus, it is thread-safe.
         /// </remarks>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         private bool HasAllRequestedInputsForComputation()
         {
             // TODO: cache the "true" value 
@@ -216,7 +222,7 @@ namespace PastaPricer
         /// <param name="e">
         /// The e.
         /// </param>
-        private void MarketData_EggPriceChanged(object sender, RawMaterialPriceChangedEventArgs e)
+        private void MarketDataEggPriceChanged(object sender, RawMaterialPriceChangedEventArgs e)
         {
             this.eggUnitOfExecution.Dispatch(
                 () =>
@@ -235,7 +241,7 @@ namespace PastaPricer
         /// <param name="e">
         /// The e.
         /// </param>
-        private void MarketData_FlavorPriceChanged(object sender, RawMaterialPriceChangedEventArgs e)
+        private void MarketDataFlavorPriceChanged(object sender, RawMaterialPriceChangedEventArgs e)
         {
             this.flavorUnitOfExecution.Dispatch(
                 () =>
@@ -254,7 +260,7 @@ namespace PastaPricer
         /// <param name="e">
         /// The e.
         /// </param>
-        private void MarketData_FlourPriceChanged(object sender, RawMaterialPriceChangedEventArgs e)
+        private void MarketDataFlourPriceChanged(object sender, RawMaterialPriceChangedEventArgs e)
         {
             this.flourUnitOfExecution.Dispatch(
                 () =>
