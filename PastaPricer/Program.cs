@@ -54,7 +54,7 @@ namespace PastaPricer
 
             var marketDataProvider = new AggresiveMarketDataProvider(aggressionFactor: 50, timerPeriodInMsec:2);
 
-            //var marketDataProvider = new MarketDataProvider();
+            // var marketDataProvider = new MarketDataProvider();
             var pastasConfiguration = new[]
                                       {
                                           "gnocchi(eggs-potatoes-flour)",

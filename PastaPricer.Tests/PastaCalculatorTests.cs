@@ -26,8 +26,8 @@ namespace PastaPricer.Tests
         public void Should_compute_expected_price()
         {
             var pastaCalculator = new PastaCalculator();
-            Check.That(pastaCalculator.Compute(flourPrice: 1.3m, eggsPrice: 2.4m, flavorPrice: 1.2m)).IsEqualTo(2.52m);
-            Check.That(pastaCalculator.Compute(flourPrice: 1.9m, eggsPrice: 2.4m, flavorPrice: 1.2m)).IsEqualTo(3.12m);
+            Check.That(PastaCalculator.Compute(flourPrice: 1.3m, eggsPrice: 2.4m, flavorPrice: 1.2m)).IsEqualTo(2.52m);
+            Check.That(PastaCalculator.Compute(flourPrice: 1.9m, eggsPrice: 2.4m, flavorPrice: 1.2m)).IsEqualTo(3.12m);
         }
     }
 }

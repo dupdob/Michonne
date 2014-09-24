@@ -17,7 +17,11 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="AggresiveMarketDataProvider"/> class.
         /// </summary>
-        /// <param name="aggressionFactor"></param>
+        /// <param name="timerPeriodInMsec">
+        /// The timer Period In ms.
+        /// </param>
+        /// <param name="aggressionFactor"> Number of notifications to generate each period.
+        /// </param>
         public AggresiveMarketDataProvider(int timerPeriodInMsec, int aggressionFactor)
         {
             this.timerPeriodInMsec = timerPeriodInMsec;

@@ -57,11 +57,6 @@ namespace PastaPricer
         private IEnumerable<IRawMaterialMarketData> marketDatas;
 
         /// <summary>
-        /// The pasta calculator.
-        /// </summary>
-        private PastaCalculator pastaCalculator;
-
-        /// <summary>
         /// The pasta price changed observers.
         /// </summary>
         private EventHandler<PastaPriceChangedEventArgs> pastaPriceChangedObservers;
@@ -84,7 +79,7 @@ namespace PastaPricer
         /// <param name="pastaName">
         ///     Name of the pasta.
         /// </param>
-        /// <param name="conflationEnabled"></param>
+        /// <param name="conflationEnabled">Set to true to activate conflation.</param>
         public PastaPricingAgent(ISequencer pastaSequencer, string pastaName, bool conflationEnabled = false)
         {
             this.pastaSequencer = pastaSequencer;
@@ -144,6 +139,8 @@ namespace PastaPricer
 
         #region Methods
 
+        #region Constructor
+
         /// <summary>
         /// The subscribe to market data.
         /// </summary>
@@ -152,9 +149,8 @@ namespace PastaPricer
         /// </param>
         public void SubscribeToMarketData(IEnumerable<IRawMaterialMarketData> marketDatas)
         {
-            this.pastaCalculator = new PastaCalculator();
             this.marketDatas = marketDatas;
-            
+
             // ingredient prices are set at 0
             this.eggPrice = 0;
             this.flourPrice = 0;
@@ -182,6 +178,32 @@ namespace PastaPricer
             }
         }
 
+
+        #endregion
+        
+        /// <summary>
+        /// The egg price change notification handler.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// Event details.
+        /// </param>
+        private void MarketDataEggPriceChanged(object sender, RawMaterialPriceChangedEventArgs e)
+        {
+            // forward the notification to the sequencer
+            this.eggUnitOfExecution.Dispatch(
+                () =>
+                    {
+                        // capture the price
+                        this.eggPrice = e.Price;
+
+                        // computes an updated price
+                        this.Compute();
+                    });
+        }
+
         /// <summary>
         ///     Handles the PriceChanged event of the subscribed MarketData instances.
         /// </summary>
@@ -192,14 +214,9 @@ namespace PastaPricer
         {
             if (this.HasAllRequestedInputsForComputation())
             {
-                this.price = this.pastaCalculator.Compute(this.flourPrice.Value, this.eggPrice.Value, this.flavorPrice.Value);
+                this.price = PastaCalculator.Compute(this.flourPrice.Value, this.eggPrice.Value, this.flavorPrice.Value);
 
                 this.RaisePastaPriceChanged(this.price);
-            }
-            else
-            {
-                // this pasta price is stale
-
             }
         }
 
@@ -219,23 +236,23 @@ namespace PastaPricer
         }
 
         /// <summary>
-        /// The market data_ egg price changed.
+        /// The raise pasta price changed.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
+        /// <param name="newPrice">
+        /// The new price.
         /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void MarketDataEggPriceChanged(object sender, RawMaterialPriceChangedEventArgs e)
+        /// /// <remarks>
+        ///     This will be called from the agent's sequencer. Thus, it is thread-safe.
+        /// </remarks>
+        private void RaisePastaPriceChanged(decimal newPrice)
         {
-            this.eggUnitOfExecution.Dispatch(
-                () =>
-                    {
-                        this.eggPrice = e.Price;
-                        this.Compute();
-                    });
+            if (this.pastaPriceChangedObservers != null)
+            {
+                this.pastaPriceChangedObservers(this, new PastaPriceChangedEventArgs(this.PastaName, newPrice));
+            }
         }
+
+        #region other price handlers
 
         /// <summary>
         /// The market data_ flavor price changed.
@@ -275,22 +292,7 @@ namespace PastaPricer
                     });
         }
 
-        /// <summary>
-        /// The raise pasta price changed.
-        /// </summary>
-        /// <param name="newPrice">
-        /// The new price.
-        /// </param>
-        /// /// <remarks>
-        ///     This will be called from the agent's sequencer. Thus, it is thread-safe.
-        /// </remarks>
-        private void RaisePastaPriceChanged(decimal newPrice)
-        {
-            if (this.pastaPriceChangedObservers != null)
-            {
-                this.pastaPriceChangedObservers(this, new PastaPriceChangedEventArgs(this.PastaName, newPrice));
-            }
-        }
+        #endregion
 
         #endregion
     }
