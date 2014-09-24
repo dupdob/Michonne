@@ -8,13 +8,20 @@
     /// </summary>
     public class AggresiveMarketDataProvider : IMarketDataProvider
     {
+        private readonly int timerPeriodInMsec;
+
+        private readonly int aggressionFactor;
+
         private readonly Dictionary<string, AggresiveRawMaterialMarketData> rawMaterialMarketDatas;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AggresiveMarketDataProvider"/> class.
         /// </summary>
-        public AggresiveMarketDataProvider()
+        /// <param name="aggressionFactor"></param>
+        public AggresiveMarketDataProvider(int timerPeriodInMsec, int aggressionFactor)
         {
+            this.timerPeriodInMsec = timerPeriodInMsec;
+            this.aggressionFactor = aggressionFactor;
             this.rawMaterialMarketDatas = new Dictionary<string, AggresiveRawMaterialMarketData>();
         }
 
@@ -27,7 +34,7 @@
             // TODO: make it thread-safe
             if (!this.rawMaterialMarketDatas.ContainsKey(rawMaterialNameToRegister))
             {
-                this.rawMaterialMarketDatas.Add(rawMaterialNameToRegister, new AggresiveRawMaterialMarketData(rawMaterialNameToRegister));
+                this.rawMaterialMarketDatas.Add(rawMaterialNameToRegister, new AggresiveRawMaterialMarketData(rawMaterialNameToRegister, timerPeriodInMsec: this.timerPeriodInMsec, aggressionFactor: this.aggressionFactor));
             }
         }
 

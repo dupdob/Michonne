@@ -196,6 +196,11 @@ namespace PastaPricer
 
                 this.RaisePastaPriceChanged(this.price);
             }
+            else
+            {
+                // this pasta price is stale
+
+            }
         }
 
         /// <summary>

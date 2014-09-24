@@ -24,6 +24,7 @@ namespace PastaPricer
     public class RawMaterialMarketData : IRawMaterialMarketData
     {
         private readonly int timerPeriodInMsec;
+        private static Random seed = new Random(1);
 
         private Timer timer;
         private long stopped = 0;
@@ -63,7 +64,16 @@ namespace PastaPricer
                                             var hasStopped = Interlocked.CompareExchange(ref this.stopped, 1, 1);
                                             if (hasStopped != 1)
                                             {
-                                                this.RaiseRandomPrice();
+                                                decimal randomPrice = seed.Next(1, 20) / 10m;
+                                                this.RaisePrice(randomPrice);
+                                            }
+                                            else
+                                            {
+                                                // the last notification should always be 0.
+                                                this.RaisePrice(0m);
+                        
+                                                this.timer.Change(Timeout.Infinite, Timeout.Infinite);
+                                                this.timer.Dispose();
                                             }
                                         }, 
                                         null, 
@@ -84,11 +94,11 @@ namespace PastaPricer
             this.timer.Dispose();
         }
 
-        private void RaiseRandomPrice()
+        private void RaisePrice(decimal price)
         {
             if (this.PriceChanged != null)
             {
-                this.PriceChanged(this, new RawMaterialPriceChangedEventArgs(this.RawMaterialName, 0));
+                this.PriceChanged(this, new RawMaterialPriceChangedEventArgs(this.RawMaterialName, price));
             }
         }
     }

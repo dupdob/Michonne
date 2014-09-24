@@ -82,8 +82,8 @@ namespace PastaPricer.Tests.Acceptance
             // A sleep?!? There should be a better way ;-)
             Thread.Sleep(100);
 
-            publisher.Received().Publish("gnocchi", 0.5m);
-            publisher.Received().Publish("spaghetti", 0.5m);
+            publisher.Received().Publish("gnocchi", 2.32m);
+            publisher.Received().Publish("spaghetti", 1.35m);
             publisher.Received().Publish("organic spaghetti", 0.5m);
             publisher.Received().Publish("spinach farfalle", 0.5m);
             publisher.Received().Publish("tagliatelle", 0.5m);
