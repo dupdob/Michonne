@@ -1,4 +1,4 @@
-![Michonne](https://github.com/dupdob/michonne/blob/master/michonne%202.png?raw=true)
+![Michonne](https://github.com/dupdob/michonne/blob/master/michonne.png?raw=true)
 
 __When you have locks within your applicative code... you will have deadlock. Period.__ The only question you may ask is "when?"
 Same thing with API allowing you to wait without indicating any kind of timeout (e.g. [TPL](http://msdn.microsoft.com/en-us/library/dd235635.aspx)). Too bad... and too easy to shoot yourself in the foot...
