@@ -141,6 +141,8 @@ namespace PastaPricer
 
         #region Constructor
 
+        #endregion
+
         /// <summary>
         /// The subscribe to market data.
         /// </summary>
@@ -177,9 +179,6 @@ namespace PastaPricer
                 }
             }
         }
-
-
-        #endregion
         
         /// <summary>
         /// The egg price change notification handler.

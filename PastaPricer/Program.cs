@@ -52,7 +52,7 @@ namespace PastaPricer
 
             var publisher = new ConsolePastaPricerPublisher();
 
-            var marketDataProvider = new AggresiveMarketDataProvider(aggressionFactor: 50, timerPeriodInMsec:2);
+            var marketDataProvider = new AggresiveMarketDataProvider(aggressionFactor: 500, timerPeriodInMsec:2);
 
             // var marketDataProvider = new MarketDataProvider();
             var pastasConfiguration = new[]
@@ -87,6 +87,8 @@ namespace PastaPricer
             Console.WriteLine("{0} late prices have been published since we stopped the market data.", publisher.PublicationCounter);
 
             Console.WriteLine("Type Enter to exit the program.");
+        
+            Console.ReadLine();
         }
     }
 }
