@@ -16,6 +16,7 @@ namespace Michonne.Implementation
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading;
 
     using Michonne.Interfaces;
 
@@ -49,11 +50,6 @@ namespace Michonne.Implementation
         /// private lock
         /// </summary>
         private readonly object syncRoot = new object();
-
-        /// <summary>
-        /// Set to true when tasks are being executed.
-        /// </summary>
-        private bool isRunning;
 
         /// <summary>
         /// Number of tasks to be executed (to prevent unfair draining of tasks).
@@ -99,41 +95,29 @@ namespace Michonne.Implementation
         /// </summary>
         private void Execute()
         {
-            Action action;
-            lock (this.syncRoot)
+            if (Interlocked.Increment(ref this.numberOfPendingTasksWhileRunning) > 1)
             {
-                if (this.isRunning)
-                {
-                    // We need to store and stop
-                    this.numberOfPendingTasksWhileRunning++;
-                    return;
-                }
-
-                // Ok, we can run
-                action = this.orderedDispatchedTasks.Dequeue();
-                this.isRunning = true;
+                // another threaid is already executing tasks, it will take care of ours
+                return;
             }
+            // single thread executing task
 
             while (true)
             {
+                Action action;
+                lock (this.syncRoot)
+                {
+                    // Ok, we can run
+                    action = this.orderedDispatchedTasks.Dequeue();
+                }
+
                 // Execute the next action
                 action();
 
-                // We check if others tasks have to be executed during this round
-                lock (this.syncRoot)
+                if (Interlocked.Decrement(ref this.numberOfPendingTasksWhileRunning) == 0)
                 {
-                    if (this.numberOfPendingTasksWhileRunning == 0)
-                    {
-                        this.isRunning = false;
-                        return;
-                    }
-
-                    // Pop the next task we are allowed to execute now (for fairness with dispatcher's other tasks)
-                    if (this.numberOfPendingTasksWhileRunning > 0)
-                    {
-                        this.numberOfPendingTasksWhileRunning--;
-                        action = this.orderedDispatchedTasks.Dequeue();
-                    }
+                    // all tasks to be executed have been processed
+                    break;
                 }
             }
         }
