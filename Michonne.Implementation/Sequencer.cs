@@ -100,8 +100,8 @@ namespace Michonne.Implementation
                 // another threaid is already executing tasks, it will take care of ours
                 return;
             }
-            // single thread executing task
 
+            // single thread executing task
             while (true)
             {
                 Action action;

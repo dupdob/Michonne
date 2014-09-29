@@ -44,6 +44,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sequencer.cs" />
     <Compile Include="SequencerFactory.cs" />
+    <Compile Include="SynchronousUnitOfExecution.cs" />
     <Compile Include="ThreadUnitOfExecution.cs" />
     <Compile Include="UnitOfExecutionsFactory.cs" />
   </ItemGroup>

@@ -15,6 +15,7 @@
 namespace Michonne.Tests
 {
     using System;
+    using System.Diagnostics;
     using System.Reflection;
 
     using Michonne.Implementation;
@@ -176,20 +177,30 @@ namespace Michonne.Tests
             Check.That(synchExec.DoneTasks).Equals(1);
         }
 
+        [Test]
+        public void Should_Be_Fast()
+        {
+            var unitOfExec = new SynchronousUnitOfExecution();
+            var sequencer = this.BuildSequencer(unitOfExec);
+
+            var chrono = new Stopwatch();
+            Action action = () => { };
+            chrono.Start();
+            for (var i = 0; i < 100000; i++)
+            {
+                //action();
+                //unitOfExec.Dispatch(action);
+                sequencer.Dispatch(action);
+            }
+            chrono.Stop();
+
+            Check.That(chrono.Elapsed).IsLessThan(400, TimeUnit.Milliseconds);
+        }
+
         #endregion
 
         // using a single thread unit of execution should lead to a sequential execution of Actions
-        #region Methods
 
-        /// <summary>
-        /// The build sequencer.
-        /// </summary>
-        /// <param name="synchExec">
-        /// The synch exec.
-        /// </param>
-        /// <returns>
-        /// The <see cref="ISequencer"/>.
-        /// </returns>
         private ISequencer BuildSequencer(IUnitOfExecution synchExec)
         {
             var sequencer = this.Constructor.Invoke(new object[] { synchExec }) as ISequencer;
@@ -197,6 +208,5 @@ namespace Michonne.Tests
             return sequencer;
         }
 
-        #endregion
     }
 }

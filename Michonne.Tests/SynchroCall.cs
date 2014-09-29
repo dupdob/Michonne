@@ -18,7 +18,13 @@ namespace Michonne.Tests
 
     using Michonne.Interfaces;
 
-    internal class SynchroCall : IUnitOfExecution
+    /// <summary>
+    /// This implementation of <see cref="IUnitOfExecution"/> implements synchronous calls.
+    ///  This means that submitted <see cref="Action"/>s are immediately executed.
+    ///  It does not offer scalability, as it relies on the calling thread.
+    /// </summary>
+    /// <remarks>Choose the <see cref="SynchroCall"/> to favor latency against throughput.</remarks>
+    public class SynchroCall : IUnitOfExecution
     {
         public int DoneTasks { get; private set; }
 

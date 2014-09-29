@@ -23,10 +23,6 @@ namespace Michonne.Tests
 
     public class TaskSchedulerAdapter : TaskScheduler
     {
-        //// Indicates whether the current thread is processing work items.
-        [ThreadStatic]
-        private static bool _currentThreadIsProcessingItems;
-        
         private readonly IUnitOfExecution _executor;
 
         // The list of tasks to be executed  
@@ -63,12 +59,6 @@ namespace Michonne.Tests
         // Attempts to execute the specified task on the current thread.  
         protected sealed override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
         {
-            // If this thread isn't already processing a task, we don't support inlining 
-            if (!_currentThreadIsProcessingItems)
-            {
-                return false;
-            }
-
             // If the task was previously queued, remove it from the queue 
             if (taskWasPreviouslyQueued)
             {
