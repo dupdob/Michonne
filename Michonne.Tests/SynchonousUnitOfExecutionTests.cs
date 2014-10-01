@@ -18,6 +18,7 @@ namespace Michonne.Tests
 {
     using System.Threading;
 
+    using Michonne.Implementation;
     using Michonne.Interfaces;
 
     using NFluent;

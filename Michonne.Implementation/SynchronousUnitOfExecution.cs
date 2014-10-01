@@ -16,7 +16,7 @@
 //   --------------------------------------------------------------------------------------------------------------------
 #endregion
 
-namespace Michonne.Tests
+namespace Michonne.Implementation
 {
     using System;
 

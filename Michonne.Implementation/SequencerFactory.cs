@@ -18,6 +18,8 @@
 
 namespace Michonne.Implementation
 {
+    using System;
+
     using Michonne.Interfaces;
 
     /// <summary>
@@ -28,10 +30,10 @@ namespace Michonne.Implementation
         #region Public Methods and Operators
 
         /// <summary>
-        /// The build sequencer.
+        /// Build a sequencer on top of an <see cref="ISequencer"/>.
         /// </summary>
         /// <param name="executor">
-        /// The executor.
+        /// The executor that will be used to provide sequential execution.
         /// </param>
         /// <returns>
         /// The <see cref="ISequencer"/>.
@@ -39,6 +41,19 @@ namespace Michonne.Implementation
         public static ISequencer BuildSequencer(this IUnitOfExecution executor)
         {
             return new Sequencer(executor);
+        }
+
+        /// <summary>
+        /// Build a conflated version of an <see cref="Action"/> on top of an <see cref="ISequencer"/>.
+        /// </summary>
+        /// <typeparam name="T">Parameter type.</typeparam>
+        /// <param name="executor">The execution unit that will be used to execute conflated <paramref name="action"/>.</param>
+        /// <param name="action">Action to be executed in a conflated fashion.</param>
+        /// <returns>A wrapped <see cref="Action"/> that provide conflated execution.</returns>
+        public static Action<T> BuildConflator<T>(this IUnitOfExecution executor, Action<T> action)
+        {
+            var conflator = new Conflator(executor);
+            return (T t) => conflator.Conflate(() => action(t));
         }
 
         #endregion

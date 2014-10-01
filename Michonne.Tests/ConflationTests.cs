@@ -18,6 +18,7 @@
 
 namespace Michonne.Tests
 {
+    using System;
     using System.Threading;
 
     using Michonne.Implementation;
@@ -42,8 +43,8 @@ namespace Michonne.Tests
         {
             var dedicated = new ThreadUnitOfExecution();
             var synchroRoot = new object();
-            bool go = true;
-            int ranTasks = 0;
+            var go = true;
+            var ranTasks = 0;
 
             var conflator = new Conflator(dedicated);
 
@@ -75,6 +76,26 @@ namespace Michonne.Tests
             Check.That(ranTasks).IsEqualTo(1);
         }
 
+        [Test]
+        public void Should_Have_A_Nice_Api()
+        {
+            // conflating is more about data than about calls
+            // the API should reflect that
+            var dedicated = new ThreadUnitOfExecution();
+            var act = 0;
+            Action<int> processing = _ => act++;
+
+            var conflatedProcessor = dedicated.BuildConflator(processing);
+
+            dedicated.Dispatch(() => Thread.Sleep(10));
+            conflatedProcessor(1);
+            conflatedProcessor(2);
+            conflatedProcessor(3);
+            conflatedProcessor(4);
+            Thread.Sleep(30);
+
+            Check.That(act).IsEqualTo(1);
+        }
         #endregion
     }
 }
