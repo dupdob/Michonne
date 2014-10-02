@@ -9,11 +9,11 @@
     /// <remarks>This type is thread-safe</remarks>
     public class AggresiveRawMaterialMarketData : IRawMaterialMarketData
     {
+        private static Random seed = new Random(1);
+        
         private readonly int timerPeriodInMsec;
 
         private readonly int aggressionFactor;
-
-        private static Random seed = new Random(1);
 
         private Timer timer;
         private long stopped = 0;
@@ -21,8 +21,15 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="AggresiveRawMaterialMarketData"/> class.
         /// </summary>
-        /// <param name="rawMaterialName">Name of the raw material.</param>
-        /// <param name="timerPeriodInMsec">The timer period in milliseconds.</param>
+        /// <param name="rawMaterialName">
+        /// Name of the raw material.
+        /// </param>
+        /// <param name="timerPeriodInMsec">
+        /// The timer period in milliseconds.
+        /// </param>
+        /// <param name="aggressionFactor">
+        /// The aggression Factor.
+        /// </param>
         public AggresiveRawMaterialMarketData(string rawMaterialName, int timerPeriodInMsec = 9, int aggressionFactor = 300)
         {
             this.RawMaterialName = rawMaterialName;

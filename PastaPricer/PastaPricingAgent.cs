@@ -66,6 +66,14 @@ namespace PastaPricer
         /// </summary>
         private decimal price;
 
+        private decimal? sizePrice;
+
+        private decimal? packagingPrice;
+
+        private IUnitOfExecution packagingUnitOfExecution;
+
+        private IUnitOfExecution sizeUnitOfExecution;
+
         #endregion
 
         #region Constructors and Destructors
@@ -89,7 +97,9 @@ namespace PastaPricer
                 // Conflation with balking strategy
                 this.eggUnitOfExecution = new BalkingDispatcher(this.pastaSequencer);
                 this.flourUnitOfExecution = new BalkingDispatcher(this.pastaSequencer);
-                this.flavorUnitOfExecution = new BalkingDispatcher(this.pastaSequencer);    
+                this.flavorUnitOfExecution = new BalkingDispatcher(this.pastaSequencer);
+                this.packagingUnitOfExecution = new BalkingDispatcher(this.pastaSequencer);
+                this.sizeUnitOfExecution = new BalkingDispatcher(this.pastaSequencer);    
             }
             else
             {
@@ -97,6 +107,8 @@ namespace PastaPricer
                 this.eggUnitOfExecution = this.pastaSequencer;
                 this.flourUnitOfExecution = this.pastaSequencer;
                 this.flavorUnitOfExecution = this.pastaSequencer;
+                this.packagingUnitOfExecution = this.pastaSequencer;
+                this.sizeUnitOfExecution = this.pastaSequencer;
             }
             
             this.PastaName = pastaName;
@@ -161,7 +173,7 @@ namespace PastaPricer
             {
                 // indentify the argument family, subscribe to it
                 // and invalidate the current value.
-                var role = PastaCalculator.ParseRawMaterialRole(rawMaterialMarketData.RawMaterialName);
+                var role = RecipeHelper.ParseRawMaterialRole(rawMaterialMarketData.RawMaterialName);
                 switch (role)
                 {
                     case RawMaterialRole.Flour:
@@ -176,10 +188,46 @@ namespace PastaPricer
                         this.flavorPrice = null;
                         rawMaterialMarketData.PriceChanged += this.MarketDataFlavorPriceChanged;
                         break;
+                    case RawMaterialRole.Size:
+                        this.sizePrice = null;
+                        rawMaterialMarketData.PriceChanged += this.MarketDataSizePriceChanged;
+                        break;
+                    case RawMaterialRole.Packaging:
+                        this.packagingPrice = null;
+                        rawMaterialMarketData.PriceChanged += this.MarketDataPackagingPriceChanged;
+                        break;
                 }
             }
         }
-        
+
+        private void MarketDataPackagingPriceChanged(object sender, RawMaterialPriceChangedEventArgs e)
+        {
+            // forward the notification to the sequencer
+            this.packagingUnitOfExecution.Dispatch(
+                () =>
+                {
+                    // capture the price
+                    this.packagingPrice = e.Price;
+
+                    // computes an updated price
+                    this.Compute();
+                });
+        }
+
+        private void MarketDataSizePriceChanged(object sender, RawMaterialPriceChangedEventArgs e)
+        {
+            // forward the notification to the sequencer
+            this.sizeUnitOfExecution.Dispatch(
+                () =>
+                {
+                    // capture the price
+                    this.sizePrice = e.Price;
+
+                    // computes an updated price
+                    this.Compute();
+                });
+        }
+
         /// <summary>
         /// The egg price change notification handler.
         /// </summary>
@@ -213,7 +261,7 @@ namespace PastaPricer
         {
             if (this.HasAllRequestedInputsForComputation())
             {
-                this.price = PastaCalculator.Compute(this.flourPrice.Value, this.eggPrice.Value, this.flavorPrice.Value);
+                this.price = PastaCalculator.Compute(this.flourPrice.Value, this.eggPrice.Value, this.flavorPrice.Value, this.sizePrice, this.packagingPrice);
 
                 this.RaisePastaPriceChanged(this.price);
             }

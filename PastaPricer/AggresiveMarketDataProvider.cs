@@ -18,7 +18,7 @@
         /// Initializes a new instance of the <see cref="AggresiveMarketDataProvider"/> class.
         /// </summary>
         /// <param name="timerPeriodInMsec">
-        /// The timer Period In ms.
+        /// The timer Period In milliseconds.
         /// </param>
         /// <param name="aggressionFactor"> Number of notifications to generate each period.
         /// </param>
@@ -29,7 +29,7 @@
             this.rawMaterialMarketDatas = new Dictionary<string, AggresiveRawMaterialMarketData>();
         }
 
-        /// <summary>
+        /// <summary>   a
         /// Registers the specified raw material, so that it can be started and retrieved afterwards.
         /// </summary>
         /// <param name="rawMaterialNameToRegister">The raw material name to register.</param>

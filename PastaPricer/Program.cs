@@ -52,21 +52,11 @@ namespace PastaPricer
 
             var publisher = new ConsolePastaPricerPublisher();
 
-            var marketDataProvider = new AggresiveMarketDataProvider(aggressionFactor: 500, timerPeriodInMsec:2);
-
-            // var marketDataProvider = new MarketDataProvider();
-            var pastasConfiguration = new[]
-                                      {
-                                          "gnocchi(eggs-potatoes-flour)",
-                                          "spaghetti(eggs-flour)",
-                                          "organic spaghetti(organic eggs-flour)",
-                                          "spinach farfalle(eggs-flour-spinach)",
-                                          "tagliatelle(eggs-flour)",
-                                      };
+            var marketDataProvider = new AggresiveMarketDataProvider(aggressionFactor: 5, timerPeriodInMsec: 2);
 
             var unitOfExecutionsFactory = new UnitOfExecutionsFactory();
 
-            var pastaPricer = new PastaPricerEngine(unitOfExecutionsFactory.GetPool(), pastasConfiguration, marketDataProvider, publisher, conflationEnabled);
+            var pastaPricer = new PastaPricerEngine(unitOfExecutionsFactory.GetPool(), RecipeHelper.GenerateConfigurations(), marketDataProvider, publisher, conflationEnabled);
             pastaPricer.Start();
 
             // Turns on market data

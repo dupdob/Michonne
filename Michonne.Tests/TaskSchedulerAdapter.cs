@@ -23,14 +23,14 @@ namespace Michonne.Tests
 
     public class TaskSchedulerAdapter : TaskScheduler
     {
-        private readonly IUnitOfExecution _executor;
+        private readonly IUnitOfExecution executor;
 
         // The list of tasks to be executed  
-        private readonly LinkedList<Task> _tasks = new LinkedList<Task>(); // protected by lock(_tasks) 
+        private readonly LinkedList<Task> tasks = new LinkedList<Task>(); // protected by lock(_tasks) 
         
         public TaskSchedulerAdapter(IUnitOfExecution executor)
         {
-            this._executor = executor;
+            this.executor = executor;
         }
 
         // Queues a task to the scheduler.  
@@ -38,18 +38,18 @@ namespace Michonne.Tests
         {
             // Add the task to the list of tasks to be processed.  If there aren't enough  
             // delegates currently queued or running to process tasks, schedule another.  
-            lock (this._tasks)
+            lock (this.tasks)
             {
-                this._tasks.AddLast(task);
+                this.tasks.AddLast(task);
             }
 
-            this._executor.Dispatch(() =>
+            this.executor.Dispatch(() =>
             {
                 Task next;
-                lock (this._tasks)
+                lock (this.tasks)
                 {
-                    next = this._tasks.First.Value;
-                    this._tasks.RemoveFirst();
+                    next = this.tasks.First.Value;
+                    this.tasks.RemoveFirst();
                 }
 
                 base.TryExecuteTask(task);
@@ -81,9 +81,9 @@ namespace Michonne.Tests
         // Attempt to remove a previously scheduled task from the scheduler.  
         protected sealed override bool TryDequeue(Task task)
         {
-            lock (this._tasks)
+            lock (this.tasks)
             {
-                return this._tasks.Remove(task);
+                return this.tasks.Remove(task);
             }
         }
 
@@ -93,10 +93,10 @@ namespace Michonne.Tests
             bool lockTaken = false;
             try
             {
-                Monitor.TryEnter(this._tasks, ref lockTaken);
+                Monitor.TryEnter(this.tasks, ref lockTaken);
                 if (lockTaken)
                 {
-                    return this._tasks;
+                    return this.tasks;
                 }
                 else
                 {
@@ -107,7 +107,7 @@ namespace Michonne.Tests
             {
                 if (lockTaken)
                 {
-                    Monitor.Exit(this._tasks);
+                    Monitor.Exit(this.tasks);
                 }
             }
         }

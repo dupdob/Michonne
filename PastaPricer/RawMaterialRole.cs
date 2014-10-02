@@ -32,6 +32,16 @@ namespace PastaPricer
         /// <summary>
         /// Used to give specific taste/color
         /// </summary>
-        Flavor
+        Flavor,
+
+        /// <summary>
+        /// Packaging type
+        /// </summary>
+        Packaging,
+
+        /// <summary>
+        /// Size of the packaging
+        /// </summary>
+        Size
     }
 }

@@ -23,8 +23,8 @@ namespace PastaPricer
     /// <remarks>This type is thread-safe</remarks>
     public class RawMaterialMarketData : IRawMaterialMarketData
     {
+        private static readonly Random Seed = new Random(1);
         private readonly int timerPeriodInMsec;
-        private static Random seed = new Random(1);
 
         private Timer timer;
         private long stopped = 0;
@@ -64,7 +64,7 @@ namespace PastaPricer
                                             var hasStopped = Interlocked.CompareExchange(ref this.stopped, 1, 1);
                                             if (hasStopped != 1)
                                             {
-                                                decimal randomPrice = seed.Next(1, 20) / 10m;
+                                                decimal randomPrice = Seed.Next(1, 20) / 10m;
                                                 this.RaisePrice(randomPrice);
                                             }
                                             else

@@ -21,47 +21,26 @@ namespace PastaPricer
     /// </summary>
     public class PastaCalculator
     {
+        private const decimal MinimalPastaCost = 0.5m;
+        
         // TODO: make it static with functions only
         public static decimal Compute(decimal flourPrice, decimal eggsPrice, decimal flavorPrice = 0m)
         {
-            const decimal MinimalPastaCost = 0.5m;
             return Math.Round(MinimalPastaCost + flourPrice + ((1 / 4m) * eggsPrice) + ((1 / 10m) * flavorPrice), 2);
         }
 
-        /// <summary>
-        /// The parse raw material role.
-        /// </summary>
-        /// <param name="rawMaterialName">
-        /// The raw material name.
-        /// </param>
-        /// <returns>
-        /// The <see cref="RawMaterialRole"/>.
-        /// </returns>
-        /// <exception cref="ApplicationException">
-        /// When the string is not a known ingredient.
-        /// </exception>
-        public static RawMaterialRole ParseRawMaterialRole(string rawMaterialName)
+        public static decimal Compute(decimal flourPrice, decimal eggsPrice, decimal flavorPrice, decimal? sizePrice, decimal? packagingPrice)
         {
-            RawMaterialRole role;
-            switch (rawMaterialName)
+            if (!sizePrice.HasValue || !packagingPrice.HasValue)
             {
-                case "flour":
-                    role = RawMaterialRole.Flour;
-                    break;
-                case "eggs":
-                case "organic eggs":
-                    role = RawMaterialRole.Egg;
-                    break;
-                case "tomato":
-                case "potatoes":
-                case "spinach":
-                    role = RawMaterialRole.Flavor;
-                    break;
-                default:
-                    throw new ApplicationException(rawMaterialName + " unknown ingredient");
+                return Compute(flourPrice, eggsPrice, flavorPrice);
             }
 
-            return role;
+            return
+                Math.Round(
+                    (MinimalPastaCost + flourPrice + ((1 / 4m) * eggsPrice) + ((1 / 10m) * flavorPrice)
+                     + packagingPrice.Value) * sizePrice.Value,
+                    2);
         }
     }
 }

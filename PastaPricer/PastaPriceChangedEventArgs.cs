@@ -26,7 +26,7 @@ namespace PastaPricer
         /// </summary>
         /// <param name="pastaName">Name of the pasta.</param>
         /// <param name="price">The price.</param>
-        public PastaPriceChangedEventArgs(string pastaName, decimal price, PastaPriceStatus pastaPriceStatus = PastaPriceStatus.Valid)
+        public PastaPriceChangedEventArgs(string pastaName, decimal price)
         {
             this.PastaName = pastaName;
             this.Price = price;
@@ -47,11 +47,5 @@ namespace PastaPricer
         /// The new price for the considered pasta.
         /// </value>
         public decimal Price { get; private set; }
-    }
-
-    public enum PastaPriceStatus
-    {
-        Valid,
-        Stale
     }
 }
