@@ -71,9 +71,13 @@
                     {
                         // the last notification should always be 0.
                         this.RaisePrice(0m);
-                        
+                        if (this.timer == null)
+                        {
+                            return;
+                        }
                         this.timer.Change(Timeout.Infinite, Timeout.Infinite);
                         this.timer.Dispose();
+                        this.timer = null;
                     }
                 }, 
                 null, 

@@ -64,7 +64,7 @@ namespace PastaPricer
                                             var hasStopped = Interlocked.CompareExchange(ref this.stopped, 1, 1);
                                             if (hasStopped != 1)
                                             {
-                                                decimal randomPrice = Seed.Next(1, 20) / 10m;
+                                                var randomPrice = Seed.Next(1, 20) / 10m;
                                                 this.RaisePrice(randomPrice);
                                             }
                                             else

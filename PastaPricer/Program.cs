@@ -52,7 +52,7 @@ namespace PastaPricer
 
             var publisher = new ConsolePastaPricerPublisher();
 
-            var marketDataProvider = new AggresiveMarketDataProvider(aggressionFactor: 5, timerPeriodInMsec: 2);
+            var marketDataProvider = new AggresiveMarketDataProvider(aggressionFactor: 5000, timerPeriodInMsec: 2);
 
             var unitOfExecutionsFactory = new UnitOfExecutionsFactory();
 

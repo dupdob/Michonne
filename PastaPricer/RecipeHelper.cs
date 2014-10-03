@@ -16,6 +16,12 @@ namespace PastaPricer
 
         private static readonly string[] Packaging = { "plastic", "cardboard", "paper" };
 
+        private static readonly string[] Shapes =
+            {
+                "spaghetti", "macaroni", "lasagna", "orechiette", "penne", "ravioli",
+                "tagliatella", "rigatoni", "capellini", "canelloni"
+            };
+
         /// <summary>
         /// The parse raw material role.
         /// </summary>
@@ -61,19 +67,22 @@ namespace PastaPricer
         public static IEnumerable<string> GenerateConfigurations()
         {
             var result = new List<string>();
-            var count = 0;
-            foreach (var flour in FlourKind)
+            foreach (var shape in Shapes)
             {
-                foreach (var egg in EggKind)
+                var count = 0;
+                foreach (var flour in FlourKind)
                 {
-                    foreach (var flavor in FlavorKind)
+                    foreach (var egg in EggKind)
                     {
-                        foreach (var size in Sizes)
+                        foreach (var flavor in FlavorKind)
                         {
-                            foreach (var s in Packaging)
+                            foreach (var size in Sizes)
                             {
-                                result.Add(string.Format("pasta #{0}({1}-{2}-{3}-{4}-{5})", count, flour, egg, flavor, size, s));
-                                count++;
+                                foreach (var s in Packaging)
+                                {
+                                    result.Add(string.Format("{6} #{0}({1}-{2}-{3}-{4}-{5})", count, flour, egg, flavor, size, s, shape));
+                                    count++;
+                                }
                             }
                         }
                     }

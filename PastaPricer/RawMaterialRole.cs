@@ -20,6 +20,11 @@ namespace PastaPricer
     public enum RawMaterialRole
     {
         /// <summary>
+        /// Pasta shape.
+        /// </summary>
+        Shape,
+
+        /// <summary>
         /// Main ingredient.
         /// </summary>
         Flour,
