@@ -15,6 +15,7 @@
 namespace PastaPricer
 {
     using System;
+    using System.Threading;
 
     using Michonne.Implementation;
 

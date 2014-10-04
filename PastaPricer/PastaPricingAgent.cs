@@ -1,4 +1,4 @@
-// --------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 //  <copyright file="PastaPricingAgent.cs" company="No lock... no deadlock" product="Michonne">
 //     Copyright 2014 Cyrille DUPUYDAUBY (@Cyrdup), Thomas PIERRAIN (@tpierrain)
 //     Licensed under the Apache License, Version 2.0 (the "License");
@@ -199,6 +199,21 @@ namespace PastaPricer
                 }
             }
         }
+
+        #region Overrides of Object
+
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>
+        /// A string that represents the current object.
+        /// </returns>
+        public override string ToString()
+        {
+            return this.PastaName;
+        }
+
+        #endregion
 
         private void MarketDataPackagingPriceChanged(object sender, RawMaterialPriceChangedEventArgs e)
         {

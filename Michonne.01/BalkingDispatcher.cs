@@ -15,6 +15,7 @@
 namespace Michonne
 {
     using System;
+    using System.Threading;
 
     using Michonne.Interfaces;
 
@@ -24,7 +25,6 @@ namespace Michonne
     /// </summary>
     public sealed class BalkingDispatcher : IUnitOfExecution
     {
-        private readonly object syncRoot = new object();
         private readonly IUnitOfExecution rootDispatcher;
         private Action lastTask;
 
@@ -47,27 +47,16 @@ namespace Michonne
         /// </remarks>
         public void Dispatch(Action action)
         {
-            lock (this.syncRoot)
+            if (Interlocked.Exchange(ref this.lastTask, action) == null)
             {
-                this.lastTask = action;
+                this.rootDispatcher.Dispatch(this.ExecuteLastTask);
             }
-
-            this.rootDispatcher.Dispatch(this.ExecuteLastTask);
         }
 
         private void ExecuteLastTask()
         {
-            Action action = null;
-            lock (this.syncRoot)
-            {
-                action = this.lastTask;
-                this.lastTask = null;
-            }
-
-            if (action != null)
-            {
-                action();
-            }
+            var action = Interlocked.Exchange(ref this.lastTask, null);
+            action();
         }
     }
 }

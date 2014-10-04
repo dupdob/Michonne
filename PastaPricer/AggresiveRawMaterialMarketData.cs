@@ -75,6 +75,7 @@
                         {
                             return;
                         }
+
                         this.timer.Change(Timeout.Infinite, Timeout.Infinite);
                         this.timer.Dispose();
                         this.timer = null;

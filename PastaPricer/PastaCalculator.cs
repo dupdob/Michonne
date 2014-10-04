@@ -22,10 +22,26 @@ namespace PastaPricer
     public class PastaCalculator
     {
         private const decimal MinimalPastaCost = 0.5m;
-        
+
+        private static long computationDone;
+
+        public static long ComputationDone
+        {
+            get
+            {
+                return computationDone;
+            }
+
+            set
+            {
+                computationDone = value;
+            }
+        }
+
         // TODO: make it static with functions only
         public static decimal Compute(decimal flourPrice, decimal eggsPrice, decimal flavorPrice = 0m)
         {
+            computationDone++;
             return Math.Round(MinimalPastaCost + flourPrice + ((1 / 4m) * eggsPrice) + ((1 / 10m) * flavorPrice), 2);
         }
 
