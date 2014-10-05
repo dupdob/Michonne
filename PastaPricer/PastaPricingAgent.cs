@@ -35,6 +35,8 @@ namespace PastaPricer
         private readonly IUnitOfExecution eggUnitOfExecution;
         private readonly IUnitOfExecution flourUnitOfExecution;
         private readonly IUnitOfExecution flavorUnitOfExecution;
+        private readonly IUnitOfExecution packagingUnitOfExecution;
+        private readonly IUnitOfExecution sizeUnitOfExecution;
 
         /// <summary>
         /// The egg price.
@@ -69,10 +71,6 @@ namespace PastaPricer
         private decimal? sizePrice;
 
         private decimal? packagingPrice;
-
-        private IUnitOfExecution packagingUnitOfExecution;
-
-        private IUnitOfExecution sizeUnitOfExecution;
 
         #endregion
 
@@ -131,6 +129,7 @@ namespace PastaPricer
 
             remove
             {
+                // ReSharper disable once DelegateSubtraction
                 this.pastaSequencer.Dispatch(() => this.pastaPriceChangedObservers -= value);
             }
         }
@@ -140,12 +139,12 @@ namespace PastaPricer
         #region Public Properties
 
         /// <summary>
-        ///     Gets the name of the pasta to price.
+        /// Gets or sets the name of the pasta to price.
         /// </summary>
         /// <value>
         ///     The name of the pasta to price.
         /// </value>
-        public string PastaName { get; private set; }
+        private string PastaName { get; set; }
 
         #endregion
 
@@ -158,12 +157,12 @@ namespace PastaPricer
         /// <summary>
         /// The subscribe to market data.
         /// </summary>
-        /// <param name="marketDatas">
+        /// <param name="sourceMarketDatas">
         /// The market data to subscribe to.
         /// </param>
-        public void SubscribeToMarketData(IEnumerable<IRawMaterialMarketData> marketDatas)
+        public void SubscribeToMarketData(IEnumerable<IRawMaterialMarketData> sourceMarketDatas)
         {
-            this.marketDatas = marketDatas;
+            this.marketDatas = sourceMarketDatas;
 
             // ingredient prices are set at 0
             this.eggPrice = 0;
@@ -276,6 +275,7 @@ namespace PastaPricer
         {
             if (this.HasAllRequestedInputsForComputation())
             {
+                // ReSharper disable once PossibleInvalidOperationException
                 this.price = PastaCalculator.Compute(this.flourPrice.Value, this.eggPrice.Value, this.flavorPrice.Value, this.sizePrice, this.packagingPrice);
 
                 this.RaisePastaPriceChanged(this.price);

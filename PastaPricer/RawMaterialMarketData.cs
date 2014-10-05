@@ -1,4 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+﻿#region File header
+
+// --------------------------------------------------------------------------------------------------------------------
 //  <copyright file="RawMaterialMarketData.cs" company="No lock... no deadlock" product="Michonne">
 //     Copyright 2014 Cyrille DUPUYDAUBY (@Cyrdup), Thomas PIERRAIN (@tpierrain)
 //     Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,77 +14,99 @@
 //     limitations under the License.
 //   </copyright>
 //   --------------------------------------------------------------------------------------------------------------------
+#endregion
+
 namespace PastaPricer
 {
     using System;
     using System.Threading;
 
     /// <summary>
-    /// Provides market data as events for a given raw material.
+    ///     Provides market data as events for a given raw material.
     /// </summary>
     /// <remarks>This type is thread-safe</remarks>
     public class RawMaterialMarketData : IRawMaterialMarketData
     {
+        #region Static Fields
+
+        /// <summary>
+        /// The seed.
+        /// </summary>
         private static readonly Random Seed = new Random(1);
+
+        #endregion
+
+        #region Fields
+
+        /// <summary>
+        /// The timer period in milliseconds.
+        /// </summary>
         private readonly int timerPeriodInMsec;
 
+        /// <summary>
+        /// The stopped.
+        /// </summary>
+        private long stopped;
+
+        /// <summary>
+        /// The timer.
+        /// </summary>
         private Timer timer;
-        private long stopped = 0;
+
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RawMaterialMarketData"/> class.
         /// </summary>
-        /// <param name="rawMaterialName">Name of the raw material.</param>
-        /// <param name="timerPeriodInMsec">The timer period in milliseconds.</param>
+        /// <param name="rawMaterialName">
+        /// Name of the raw material.
+        /// </param>
+        /// <param name="timerPeriodInMsec">
+        /// The timer period in milliseconds.
+        /// </param>
         public RawMaterialMarketData(string rawMaterialName, int timerPeriodInMsec = 9)
         {
             this.RawMaterialName = rawMaterialName;
             this.timerPeriodInMsec = timerPeriodInMsec;
         }
 
+        #endregion
+
+        #region Public Events
+
         /// <summary>
-        /// Occurs when the price of this raw material changed.
+        ///     Occurs when the price of this raw material changed.
         /// </summary>
         public event EventHandler<RawMaterialPriceChangedEventArgs> PriceChanged;
 
+        #endregion
+
+        #region Public Properties
+
         /// <summary>
-        /// Gets the name of the raw material corresponding to this <see cref="RawMaterialMarketData" /> instance.
+        ///     Gets the name of the raw material corresponding to this <see cref="RawMaterialMarketData" /> instance.
         /// </summary>
         /// <value>
-        /// The name of the raw material corresponding to this <see cref="RawMaterialMarketData" /> instance.
+        ///     The name of the raw material corresponding to this <see cref="RawMaterialMarketData" /> instance.
         /// </value>
         public string RawMaterialName { get; private set; }
 
+        #endregion
+
+        #region Public Methods and Operators
+
         /// <summary>
-        /// Starts to receive market data (and thus to raise events) for this raw material.
+        ///     Starts to receive market data (and thus to raise events) for this raw material.
         /// </summary>
         public void Start()
         {
-            this.timer = new Timer(
-                                        delegate
-                                        {
-                                            var hasStopped = Interlocked.CompareExchange(ref this.stopped, 1, 1);
-                                            if (hasStopped != 1)
-                                            {
-                                                var randomPrice = Seed.Next(1, 20) / 10m;
-                                                this.RaisePrice(randomPrice);
-                                            }
-                                            else
-                                            {
-                                                // the last notification should always be 0.
-                                                this.RaisePrice(0m);
-                        
-                                                this.timer.Change(Timeout.Infinite, Timeout.Infinite);
-                                                this.timer.Dispose();
-                                            }
-                                        }, 
-                                        null, 
-                                        0, 
-                                        this.timerPeriodInMsec);
+            this.timer = new Timer(this.PublishPrices, null, 0, this.timerPeriodInMsec);
         }
 
         /// <summary>
-        /// Stops to receive market data (and thus to raise events) for this raw material.
+        ///     Stops to receive market data (and thus to raise events) for this raw material.
         /// </summary>
         public void Stop()
         {
@@ -94,6 +118,40 @@ namespace PastaPricer
             this.timer.Dispose();
         }
 
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The publish prices.
+        /// </summary>
+        /// <param name="o">
+        /// The o.
+        /// </param>
+        private void PublishPrices(object o)
+        {
+            var hasStopped = Interlocked.CompareExchange(ref this.stopped, 1, 1);
+            if (hasStopped != 1)
+            {
+                var randomPrice = Seed.Next(1, 20) / 10m;
+                this.RaisePrice(randomPrice);
+            }
+            else
+            {
+                // the last notification should always be 0.
+                this.RaisePrice(0m);
+
+                this.timer.Change(Timeout.Infinite, Timeout.Infinite);
+                this.timer.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// The raise price.
+        /// </summary>
+        /// <param name="price">
+        /// The price.
+        /// </param>
         private void RaisePrice(decimal price)
         {
             if (this.PriceChanged != null)
@@ -101,5 +159,7 @@ namespace PastaPricer
                 this.PriceChanged(this, new RawMaterialPriceChangedEventArgs(this.RawMaterialName, price));
             }
         }
+
+        #endregion
     }
 }

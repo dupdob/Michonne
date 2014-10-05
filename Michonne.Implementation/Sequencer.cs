@@ -15,6 +15,7 @@
 namespace Michonne.Implementation
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Threading;
 
@@ -39,7 +40,7 @@ namespace Michonne.Implementation
         /// <summary>
         /// In charge of maintaining task order
         /// </summary>
-        private readonly Queue<Action> orderedDispatchedTasks = new Queue<Action>();
+        private readonly ConcurrentQueue<Action> orderedDispatchedTasks = new ConcurrentQueue<Action>();
         
         /// <summary>
         /// Underlying unit of execution that will actually execute tasks.
@@ -81,10 +82,7 @@ namespace Michonne.Implementation
         /// <param name="action">The action to be executed</param>
         public void Dispatch(Action action)
         {
-            lock (this.syncRoot)
-            {
-                this.orderedDispatchedTasks.Enqueue(action);
-            }
+            this.orderedDispatchedTasks.Enqueue(action);
 
             // Dispatches the sequenced task to the underlying rootUnitOfExecution
             this.rootUnitOfExecution.Dispatch(this.Execute);
@@ -105,10 +103,10 @@ namespace Michonne.Implementation
             while (true)
             {
                 Action action;
-                lock (this.syncRoot)
+
+                if (!this.orderedDispatchedTasks.TryDequeue(out action))
                 {
-                    // Ok, we can run
-                    action = this.orderedDispatchedTasks.Dequeue();
+                    continue;
                 }
 
                 // Execute the next action

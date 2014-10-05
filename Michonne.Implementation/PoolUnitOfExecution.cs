@@ -30,7 +30,16 @@ namespace Michonne.Implementation
         /// <param name="action"><see cref="Action"/> to be eventually executed.</param>
         public void Dispatch(Action action)
         {
-            ThreadPool.QueueUserWorkItem((x) => ((Action)x)(), action);
+            ThreadPool.QueueUserWorkItem(Execute, action);
+        }
+
+        /// <summary>
+        /// Wrapper method for actual execution.
+        /// </summary>
+        /// <param name="x">Actual <see cref="Action"/> to be executed.</param>
+        private static void Execute(object x)
+        {
+            ((Action)x)();
         }
     }
 }
