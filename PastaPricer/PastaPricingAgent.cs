@@ -101,12 +101,15 @@ namespace PastaPricer
             }
             else
             {
+                // for testing purposes
+                var exec = pastaSequencer;
+
                 // All events processed
-                this.eggUnitOfExecution = this.pastaSequencer;
-                this.flourUnitOfExecution = this.pastaSequencer;
-                this.flavorUnitOfExecution = this.pastaSequencer;
-                this.packagingUnitOfExecution = this.pastaSequencer;
-                this.sizeUnitOfExecution = this.pastaSequencer;
+                this.eggUnitOfExecution = exec;
+                this.flourUnitOfExecution = exec;
+                this.flavorUnitOfExecution = exec;
+                this.packagingUnitOfExecution = exec;
+                this.sizeUnitOfExecution = exec;
             }
             
             this.PastaName = pastaName;

@@ -30,6 +30,7 @@ namespace PastaPricer
         /// <param name="args">The arguments.</param>
         public static void Main(string[] args)
         {
+            ThreadPool.SetMinThreads(Environment.ProcessorCount * 2, 0);
             Console.WriteLine("Welcome to the pasta pricer (powered by the Michonne library).");
             Console.WriteLine("Conflation Y/N?");
             var option = Console.ReadLine();
@@ -53,7 +54,7 @@ namespace PastaPricer
 
             var publisher = new ConsolePastaPricerPublisher();
 
-            var marketDataProvider = new AggresiveMarketDataProvider(aggressionFactor: 5, timerPeriodInMsec: 2);
+            var marketDataProvider = new AggresiveMarketDataProvider(aggressionFactor: 50, timerPeriodInMsec: 2);
 
             var unitOfExecutionsFactory = new UnitOfExecutionsFactory();
 

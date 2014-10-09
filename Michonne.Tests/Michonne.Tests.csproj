@@ -51,6 +51,7 @@
     <Compile Include="0.1\DirectDispatcherTests.cs" />
     <Compile Include="0.1\PerformanceTests.cs" />
     <Compile Include="ConflationTests.cs" />
+    <Compile Include="DataConflator.cs" />
     <Compile Include="ExecutionFactoryTests.cs" />
     <Compile Include="SequencerCertification.cs" />
     <Compile Include="0.1\PollingDispatcherTests.cs" />

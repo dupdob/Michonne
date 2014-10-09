@@ -96,6 +96,28 @@ namespace Michonne.Tests
 
             Check.That(act).IsEqualTo(1);
         }
+
+        [Test]
+        public void Should_Have_A_Nice_Data_Api()
+        {
+            // conflating is more about data than about calls
+            // the API should reflect that
+            var dedicated = new ThreadUnitOfExecution();
+            var act = 0;
+            Action<int> processing = _ => act++;
+
+            var conflatedProcessor = new DataConflator<int>(dedicated, processing);
+
+            dedicated.Dispatch(() => Thread.Sleep(10));
+            conflatedProcessor.Post(1);
+            conflatedProcessor.Post(2);
+            conflatedProcessor.Post(3);
+            conflatedProcessor.Post(4);
+            Thread.Sleep(30);
+
+            Check.That(act).IsEqualTo(1);
+        }
+
         #endregion
     }
 }
