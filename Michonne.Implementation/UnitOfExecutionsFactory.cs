@@ -84,7 +84,7 @@ namespace Michonne.Implementation
         /// <summary>
         /// Gets or sets the over allocation factor for cores.
         /// </summary>
-        public double OverAllocationFactor { get; set; }
+        private double OverAllocationFactor { get; set; }
 
         #endregion
 

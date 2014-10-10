@@ -53,7 +53,7 @@ namespace Michonne.Implementation
         public static Action<T> BuildConflator<T>(this IUnitOfExecution executor, Action<T> action)
         {
             var conflator = new Conflator(executor);
-            return (T t) => conflator.Conflate(() => action(t));
+            return t => conflator.Conflate(() => action(t));
         }
 
         #endregion

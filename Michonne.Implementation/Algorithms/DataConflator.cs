@@ -14,10 +14,9 @@
 //     limitations under the License.
 //   </copyright>
 //   --------------------------------------------------------------------------------------------------------------------
-
 #endregion
 
-namespace Michonne
+namespace Michonne.Implementation
 {
     using System;
     using System.Threading;
@@ -25,9 +24,9 @@ namespace Michonne
     using Michonne.Interfaces;
 
     /// <summary>
-    /// The data conflator.
+    /// This class implements a conflation algorithm for asynchronous data processing.
     /// </summary>
-    /// <typeparam name="T">
+    /// <typeparam name="T">Type of processed data.
     /// </typeparam>
     public class DataConflator<T>
     {
@@ -81,6 +80,7 @@ namespace Michonne
         {
             if (Interlocked.Exchange(ref this.data, newData) == null)
             {
+                // no data was pending processing, we push a task
                 this.unitOfExecution.Dispatch(this.Execute);
             }
         }
@@ -94,7 +94,7 @@ namespace Michonne
         /// </summary>
         private void Execute()
         {
-            object nextData = Interlocked.Exchange(ref this.data, null);
+            var nextData = Interlocked.Exchange(ref this.data, null);
             this.action((T)nextData);
         }
 

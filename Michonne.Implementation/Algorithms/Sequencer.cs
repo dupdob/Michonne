@@ -16,7 +16,6 @@ namespace Michonne.Implementation
 {
     using System;
     using System.Collections.Concurrent;
-    using System.Collections.Generic;
     using System.Threading;
 
     using Michonne.Interfaces;
@@ -35,7 +34,6 @@ namespace Michonne.Implementation
     /// </summary>
     public sealed class Sequencer : ISequencer
     {
-        // TODO: Get rid of the Queue, implement lock free algo, etc.
         #region Fields
         /// <summary>
         /// In charge of maintaining task order
@@ -46,11 +44,6 @@ namespace Michonne.Implementation
         /// Underlying unit of execution that will actually execute tasks.
         /// </summary>
         private readonly IUnitOfExecution rootUnitOfExecution;
-        
-        /// <summary>
-        /// private lock
-        /// </summary>
-        private readonly object syncRoot = new object();
 
         /// <summary>
         /// Number of tasks to be executed (to prevent unfair draining of tasks).
