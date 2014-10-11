@@ -24,7 +24,20 @@ namespace Michonne
     /// </summary>
     public sealed class DotNetThreadPoolUnitOfExecution : IUnitOfExecution
     {
+        private IUnitOfExecutionsFactory unitOfExecutionsFactory;
+
         #region Public Methods and Operators
+
+        /// <summary>
+        ///     Gets the unit of executions factory.
+        /// </summary>
+        public IUnitOfExecutionsFactory UnitOfExecutionsFactory
+        {
+            get
+            {
+                return this.unitOfExecutionsFactory;
+            }
+        }
 
         /// <summary>
         /// Dispatch an action to be executed.

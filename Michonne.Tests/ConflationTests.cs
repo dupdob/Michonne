@@ -41,7 +41,8 @@ namespace Michonne.Tests
         [Test]
         public void ShouldConflateActions()
         {
-            var dedicated = new ThreadUnitOfExecution();
+            var factory = new UnitOfExecutionsFactory();
+            var dedicated = factory.GetDedicatedThread();
             var synchroRoot = new object();
             var go = true;
             var ranTasks = 0;
@@ -81,7 +82,8 @@ namespace Michonne.Tests
         {
             // conflating is more about data than about calls
             // the API should reflect that
-            var dedicated = new ThreadUnitOfExecution();
+            var factory = new UnitOfExecutionsFactory();
+            var dedicated = factory.GetDedicatedThread();
             var act = 0;
             Action<int> processing = _ => act++;
 
@@ -102,7 +104,8 @@ namespace Michonne.Tests
         {
             // conflating is more about data than about calls
             // the API should reflect that
-            var dedicated = new ThreadUnitOfExecution();
+            var factory = new UnitOfExecutionsFactory();
+            var dedicated = factory.GetDedicatedThread();
             var act = 0;
             Action<int> processing = _ => act++;
 

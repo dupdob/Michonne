@@ -1,4 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+﻿#region File header
+
+// --------------------------------------------------------------------------------------------------------------------
 //  <copyright file="PoolUnitOfExecution.cs" company="No lock... no deadlock" product="Michonne">
 //     Copyright 2014 Cyrille DUPUYDAUBY (@Cyrdup), Thomas PIERRAIN (@tpierrain)
 //     Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,6 +14,8 @@
 //     limitations under the License.
 //   </copyright>
 //   --------------------------------------------------------------------------------------------------------------------
+#endregion
+
 namespace Michonne.Implementation
 {
     using System;
@@ -20,26 +24,62 @@ namespace Michonne.Implementation
     using Michonne.Interfaces;
 
     /// <summary>
-    /// The pool unit of execution executes submitted <see cref="Action"/> through the CLR Pool.
+    ///     The pool unit of execution executes submitted <see cref="Action" /> through the CLR Pool.
     /// </summary>
-    public class PoolUnitOfExecution : IUnitOfExecution
+    internal class PoolUnitOfExecution : IUnitOfExecution
     {
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PoolUnitOfExecution"/> class.
+        /// </summary>
+        /// <param name="unitOfExecutionsFactory">
+        /// The unit of executions factory.
+        /// </param>
+        public PoolUnitOfExecution(IUnitOfExecutionsFactory unitOfExecutionsFactory)
+        {
+            this.UnitOfExecutionsFactory = unitOfExecutionsFactory;
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        ///     Gets the unit of executions factory.
+        /// </summary>
+        public IUnitOfExecutionsFactory UnitOfExecutionsFactory { get; private set; }
+
+        #endregion
+
+        #region Public Methods and Operators
+
         /// <summary>
         /// Dispatch an action to be executed.
         /// </summary>
-        /// <param name="action"><see cref="Action"/> to be eventually executed.</param>
+        /// <param name="action">
+        /// <see cref="Action"/> to be eventually executed.
+        /// </param>
         public void Dispatch(Action action)
         {
             ThreadPool.QueueUserWorkItem(Execute, action);
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Wrapper method for actual execution.
         /// </summary>
-        /// <param name="x">Actual <see cref="Action"/> to be executed.</param>
+        /// <param name="x">
+        /// Actual <see cref="Action"/> to be executed.
+        /// </param>
         private static void Execute(object x)
         {
             ((Action)x)();
         }
+
+        #endregion
     }
 }

@@ -40,7 +40,7 @@ namespace Michonne.Implementation
         /// </returns>
         public static ISequencer BuildSequencer(this IUnitOfExecution executor)
         {
-            return new Sequencer(executor);
+            return executor.UnitOfExecutionsFactory.GetSequence(executor);
         }
 
         /// <summary>
@@ -52,8 +52,8 @@ namespace Michonne.Implementation
         /// <returns>A wrapped <see cref="Action"/> that provide conflated execution.</returns>
         public static Action<T> BuildConflator<T>(this IUnitOfExecution executor, Action<T> action)
         {
-            var conflator = new Conflator(executor);
-            return t => conflator.Conflate(() => action(t));
+            var conflator = new DataConflator<T>(executor, action);
+            return conflator.Post;
         }
 
         #endregion

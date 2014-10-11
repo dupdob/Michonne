@@ -69,6 +69,17 @@ namespace Michonne.Implementation
         #region Public Methods and Operators
 
         /// <summary>
+        ///     Gets the unit of executions factory.
+        /// </summary>
+        public IUnitOfExecutionsFactory UnitOfExecutionsFactory
+        {
+            get
+            {
+                return this.rootUnitOfExecution.UnitOfExecutionsFactory;
+            }
+        }
+
+        /// <summary>
         ///     Gives a task/action to the sequencer in order to execute it in an asynchronous manner, but respecting the
         ///     order of the dispatch, and without concurrency among the sequencer's tasks.
         /// </summary>

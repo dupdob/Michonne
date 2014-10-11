@@ -23,6 +23,11 @@ namespace Michonne.Interfaces
     public interface IUnitOfExecution
     {
         /// <summary>
+        ///     Gets the unit of executions factory.
+        /// </summary>
+        IUnitOfExecutionsFactory UnitOfExecutionsFactory { get; }
+        
+        /// <summary>
         /// Dispatch an action to be executed.
         /// </summary>
         /// <remarks>

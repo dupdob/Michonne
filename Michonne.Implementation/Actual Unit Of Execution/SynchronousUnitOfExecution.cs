@@ -28,9 +28,36 @@ namespace Michonne.Implementation
     ///  It does not offer scalability, as it relies on the calling thread.
     /// </summary>
     /// <remarks>Choose the <see cref="SynchronousUnitOfExecution"/> to favor latency against throughput.</remarks>
-    public class SynchronousUnitOfExecution : IUnitOfExecution
+    internal class SynchronousUnitOfExecution : IUnitOfExecution
     {
+        /// <summary>
+        /// Factory used for creation.
+        /// </summary>
+        private readonly IUnitOfExecutionsFactory unitOfExecutionsFactory;
+
         #region Public Methods and Operators
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SynchronousUnitOfExecution"/> class.
+        /// </summary>
+        /// <param name="unitOfExecutionsFactory">
+        /// The unit Of Executions Factory.
+        /// </param>
+        public SynchronousUnitOfExecution(IUnitOfExecutionsFactory unitOfExecutionsFactory)
+        {
+            this.unitOfExecutionsFactory = unitOfExecutionsFactory;
+        }
+
+        /// <summary>
+        ///     Gets the unit of executions factory.
+        /// </summary>
+        public IUnitOfExecutionsFactory UnitOfExecutionsFactory
+        {
+            get
+            {
+                return this.unitOfExecutionsFactory;
+            }
+        }
 
         /// <summary>
         /// Dispatch an action to be executed.

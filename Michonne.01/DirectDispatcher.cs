@@ -20,6 +20,19 @@ namespace Michonne
 
     public sealed class DirectDispatcher : IUnitOfExecution
     {
+        private IUnitOfExecutionsFactory unitOfExecutionsFactory;
+
+        /// <summary>
+        ///     Gets the unit of executions factory.
+        /// </summary>
+        public IUnitOfExecutionsFactory UnitOfExecutionsFactory
+        {
+            get
+            {
+                return this.unitOfExecutionsFactory;
+            }
+        }
+
         /// <summary>
         /// Directly execute every dispatched action in a synchronous manner (in the thread of 
         /// the caller of the Dispatch method).

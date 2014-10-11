@@ -31,6 +31,19 @@ namespace Michonne
         private readonly object syncRoot = new object();
         private readonly Queue<Action> dispatchedTasks = new Queue<Action>();
 
+        private IUnitOfExecutionsFactory unitOfExecutionsFactory;
+
+        /// <summary>
+        ///     Gets the unit of executions factory.
+        /// </summary>
+        public IUnitOfExecutionsFactory UnitOfExecutionsFactory
+        {
+            get
+            {
+                return this.unitOfExecutionsFactory;
+            }
+        }
+
         /// <summary>
         /// Dispatch an action to be executed.
         /// </summary>

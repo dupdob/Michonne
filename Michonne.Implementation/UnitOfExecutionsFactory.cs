@@ -23,7 +23,7 @@ namespace Michonne.Implementation
     ///     This class can create all <see cref="IUnitOfExecution" />.
     /// </summary>
     /// <remarks>This class follows the classic 'Factory' pattern.</remarks>
-    public class UnitOfExecutionsFactory
+    public class UnitOfExecutionsFactory : IUnitOfExecutionsFactory
     {
         #region Fields
 
@@ -98,9 +98,18 @@ namespace Michonne.Implementation
         {
             // we decrease the number of available core.
             this.UseAThread();
-            return new ThreadUnitOfExecution();
+            return new ThreadUnitOfExecution(this);
         }
 
+        /// <summary>
+        /// Gets a synchronous execution unit.
+        /// </summary>
+        /// <returns>An instance of <see cref="IUnitOfExecution" /> that executes <see cref="Action" /> synchronously.</returns>
+        public IUnitOfExecution GetSynchronousUnitOfExecution()
+        {
+            return new SynchronousUnitOfExecution(this);
+        }
+        
         /// <summary>
         /// Get an execution unit based on the CLR thread pool.
         /// </summary>
@@ -108,7 +117,17 @@ namespace Michonne.Implementation
         public IUnitOfExecution GetPool()
         {
             // we use all remaining threads
-            return this.poolUnitOfExecution ?? (this.poolUnitOfExecution = new PoolUnitOfExecution());
+            return this.poolUnitOfExecution ?? (this.poolUnitOfExecution = new PoolUnitOfExecution(this));
+        }
+
+        /// <summary>
+        /// Build a <see cref="ISequencer"/> wrapping an <see cref="IUnitOfExecution"/>.
+        /// </summary>
+        /// <param name="execution"><see cref="IUnitOfExecution"/> that will carry out sequenced task.</param>
+        /// <returns>A <see cref="ISequencer"/> instance.</returns>
+        public ISequencer GetSequence(IUnitOfExecution execution)
+        {
+            return new Sequencer(execution);
         }
 
         /// <summary>

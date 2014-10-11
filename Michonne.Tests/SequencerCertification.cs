@@ -71,7 +71,8 @@ namespace Michonne.Tests
         [Test]
         public void Sequencer_should_process_fairly()
         {
-            var thread = new ThreadUnitOfExecution();
+            var factory = new UnitOfExecutionsFactory();
+            var thread = factory.GetDedicatedThread();
             var sequencer = this.BuildSequencer(thread);
             var context = new RaceConditionDetector();
 
@@ -96,7 +97,7 @@ namespace Michonne.Tests
                         });
             }
 
-            thread.Dispose();
+            //thread.Dispose();
             Check.That(context.WaitForTasks(1)).IsFalse();
             Check.That(failed).IsFalse();
         }
@@ -180,7 +181,8 @@ namespace Michonne.Tests
         [Test]
         public void Should_Be_Fast()
         {
-            var unitOfExec = new SynchronousUnitOfExecution();
+            var factory = new UnitOfExecutionsFactory();
+            var unitOfExec = factory.GetSynchronousUnitOfExecution();
             var sequencer = this.BuildSequencer(unitOfExec);
 
             var chrono = new Stopwatch();

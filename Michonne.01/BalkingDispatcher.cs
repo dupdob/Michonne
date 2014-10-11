@@ -28,6 +28,8 @@ namespace Michonne
         private readonly IUnitOfExecution rootDispatcher;
         private Action lastTask;
 
+        private IUnitOfExecutionsFactory unitOfExecutionsFactory;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BalkingDispatcher"/> class.
         /// </summary>
@@ -35,6 +37,17 @@ namespace Michonne
         public BalkingDispatcher(IUnitOfExecution rootDispatcher)
         {
             this.rootDispatcher = rootDispatcher;
+        }
+
+        /// <summary>
+        ///     Gets the unit of executions factory.
+        /// </summary>
+        public IUnitOfExecutionsFactory UnitOfExecutionsFactory
+        {
+            get
+            {
+                return this.unitOfExecutionsFactory;
+            }
         }
 
         /// <summary>

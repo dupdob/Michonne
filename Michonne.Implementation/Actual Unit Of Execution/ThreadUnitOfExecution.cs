@@ -1,4 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+﻿#region File header
+
+// --------------------------------------------------------------------------------------------------------------------
 //  <copyright file="ThreadUnitOfExecution.cs" company="No lock... no deadlock" product="Michonne">
 //     Copyright 2014 Cyrille DUPUYDAUBY (@Cyrdup), Thomas PIERRAIN (@tpierrain)
 //     Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,6 +14,8 @@
 //     limitations under the License.
 //   </copyright>
 //   --------------------------------------------------------------------------------------------------------------------
+#endregion
+
 namespace Michonne.Implementation
 {
     using System;
@@ -21,24 +25,25 @@ namespace Michonne.Implementation
     using Michonne.Interfaces;
 
     /// <summary>
-    /// This is a <see cref="IUnitOfExecution"/> implementation that executes submitted <see cref="Action"/> in a dedicated thread.
+    ///     This is a <see cref="IUnitOfExecution" /> implementation that executes submitted <see cref="Action" /> in a
+    ///     dedicated thread.
     /// </summary>
-    public class ThreadUnitOfExecution : IUnitOfExecution, IDisposable
+    internal class ThreadUnitOfExecution : IUnitOfExecution, IDisposable
     {
         #region Fields
 
         /// <summary>
-        /// private lock.
-        /// </summary>
-        private readonly object synchRoot  = new object();
-
-        /// <summary>
-        /// Thread executing the work.
+        ///     Thread executing the work.
         /// </summary>
         private readonly Thread myThread;
 
         /// <summary>
-        /// Tasks to be executed.
+        ///     private lock.
+        /// </summary>
+        private readonly object synchRoot = new object();
+
+        /// <summary>
+        ///     Tasks to be executed.
         /// </summary>
         private readonly Queue<Action> tasks = new Queue<Action>();
 
@@ -49,20 +54,34 @@ namespace Michonne.Implementation
         /// <summary>
         /// Initializes a new instance of the <see cref="ThreadUnitOfExecution"/> class.
         /// </summary>
-        public ThreadUnitOfExecution()
+        /// <param name="unitOfExecutionsFactory">
+        /// Factory used to build the instance.
+        /// </param>
+        public ThreadUnitOfExecution(IUnitOfExecutionsFactory unitOfExecutionsFactory)
         {
+            this.UnitOfExecutionsFactory = unitOfExecutionsFactory;
             this.myThread = new Thread(this.Process);
             this.myThread.Start();
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="ThreadUnitOfExecution"/> class. 
-        /// Destructor.
+        ///     Finalizes an instance of the <see cref="ThreadUnitOfExecution" /> class.
+        ///     Destructor.
         /// </summary>
         ~ThreadUnitOfExecution()
         {
             this.Dispose(false);
         }
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the unit of executions factory.
+        /// </summary>
+        public IUnitOfExecutionsFactory UnitOfExecutionsFactory { get; private set; }
+
         #endregion
 
         #region Public Methods and Operators
@@ -87,7 +106,7 @@ namespace Michonne.Implementation
         }
 
         /// <summary>
-        /// The dispose.
+        ///     The dispose.
         /// </summary>
         public void Dispose()
         {
@@ -115,7 +134,7 @@ namespace Michonne.Implementation
         }
 
         /// <summary>
-        /// The process.
+        ///     The process.
         /// </summary>
         private void Process()
         {

@@ -26,9 +26,22 @@ namespace Michonne.Tests
     /// <remarks>Choose the <see cref="SynchroCall"/> to favor latency against throughput.</remarks>
     public class SynchroCall : IUnitOfExecution
     {
+        private IUnitOfExecutionsFactory unitOfExecutionsFactory;
+
         public int DoneTasks { get; private set; }
 
         #region IUnitOfExecution Members
+
+        /// <summary>
+        ///     Gets the unit of executions factory.
+        /// </summary>
+        public IUnitOfExecutionsFactory UnitOfExecutionsFactory
+        {
+            get
+            {
+                return this.unitOfExecutionsFactory;
+            }
+        }
 
         public void Dispatch(Action action)
         {

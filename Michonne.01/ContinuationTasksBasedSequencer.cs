@@ -35,6 +35,8 @@ namespace Michonne
         private Task task = Task.FromResult(0);
         private int pendingTaskCount;
 
+        private IUnitOfExecutionsFactory unitOfExecutionsFactory;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ContinuationTasksBasedSequencer"/> class.
         /// </summary>
@@ -56,6 +58,17 @@ namespace Michonne
         /// Occurs when an error occurs in the task execution.
         /// </summary>
         public event Action<Exception> Error;
+
+        /// <summary>
+        ///     Gets the unit of executions factory.
+        /// </summary>
+        public IUnitOfExecutionsFactory UnitOfExecutionsFactory
+        {
+            get
+            {
+                return this.unitOfExecutionsFactory;
+            }
+        }
 
         public void Dispatch(Action action)
         {
