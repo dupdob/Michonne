@@ -57,15 +57,16 @@ namespace Michonne.Implementation
         }
 
         /// <summary>
-        /// The build processor.
+        /// Creates <see cref="DataProcessor{T}"/> instance that will process incoming data asynchronously.
         /// </summary>
         /// <param name="executor">
-        /// The executor.
+        /// An <see cref="IUnitOfExecution"/> instance that will ultimately execute the task.
         /// </param>
         /// <param name="action">
-        /// The action.
+        /// <see cref="Action{T}"/> instance that will process the data.
         /// </param>
         /// <typeparam name="T">
+        /// Type of data to be processed.
         /// </typeparam>
         /// <returns>
         /// The <see cref="Action"/>.

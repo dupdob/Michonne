@@ -41,7 +41,7 @@ namespace PastaPricer
 
             if (counter == 0)
             {
-                //Console.WriteLine("{0} = {1} eur", pastaIdentifier, price);
+                Console.WriteLine("{0} = {1} eur", pastaIdentifier, price);
             }
             else
             {
