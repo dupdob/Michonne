@@ -56,6 +56,25 @@ namespace Michonne.Implementation
             return conflator.Post;
         }
 
+        /// <summary>
+        /// The build processor.
+        /// </summary>
+        /// <param name="executor">
+        /// The executor.
+        /// </param>
+        /// <param name="action">
+        /// The action.
+        /// </param>
+        /// <typeparam name="T">
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="Action"/>.
+        /// </returns>
+        public static DataProcessor<T> BuildProcessor<T>(this IUnitOfExecution executor, Action<T> action)
+        {
+            return new DataProcessor<T>(executor, action);
+        }
+
         #endregion
     }
 }
