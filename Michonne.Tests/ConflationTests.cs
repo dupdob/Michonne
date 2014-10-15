@@ -78,7 +78,7 @@ namespace Michonne.Tests
         }
 
         [Test]
-        public void Should_Have_A_Nice_Api()
+        public void ShouldHaveANiceApi()
         {
             // conflating is more about data than about calls
             // the API should reflect that
@@ -100,7 +100,7 @@ namespace Michonne.Tests
         }
 
         [Test]
-        public void Should_Have_A_Nice_Data_Api()
+        public void ShouldHaveANiceDataApi()
         {
             // conflating is more about data than about calls
             // the API should reflect that
@@ -109,7 +109,7 @@ namespace Michonne.Tests
             var act = 0;
             Action<int> processing = _ => act++;
 
-            var conflatedProcessor = new DataConflator<int>(dedicated, processing);
+            var conflatedProcessor = dedicated.BuildProcessor(processing, true);
 
             dedicated.Dispatch(() => Thread.Sleep(10));
             conflatedProcessor.Post(1);

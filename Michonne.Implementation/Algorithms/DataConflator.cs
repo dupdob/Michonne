@@ -28,7 +28,7 @@ namespace Michonne.Implementation
     /// </summary>
     /// <typeparam name="T">Type of processed data.
     /// </typeparam>
-    public class DataConflator<T>
+    internal class DataConflator<T> : IDataProcessor<T>
     {
         #region Fields
 

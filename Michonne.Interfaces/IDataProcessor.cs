@@ -1,6 +1,7 @@
-﻿#region File header
+#region File header
+
 // --------------------------------------------------------------------------------------------------------------------
-//  <copyright file="DataProcessor.cs" company="No lock... no deadlock" product="Michonne">
+//  <copyright file="IDataProcessor.cs" company="No lock... no deadlock" product="Michonne">
 //     Copyright 2014 Cyrille DUPUYDAUBY (@Cyrdup), Thomas PIERRAIN (@tpierrain)
 //     Licensed under the Apache License, Version 2.0 (the "License");
 //     you may not use this file except in compliance with the License.
@@ -14,31 +15,26 @@
 //   </copyright>
 //   --------------------------------------------------------------------------------------------------------------------
 #endregion
-namespace Michonne.Tests
+
+namespace Michonne.Interfaces
 {
-    using System.Collections.Generic;
-
-    using Michonne.Implementation;
-
-    using NFluent;
-
-    using NUnit.Framework;
-
-    public class DataProcessorTest
+    /// <summary>
+    /// The DataProcessor interface.
+    /// </summary>
+    /// <typeparam name="T">Type of data to be processed.
+    /// </typeparam>
+    public interface IDataProcessor<T>
     {
-        [Test]
-        public void ShouldHaveANiceAPI()
-        {
-            var factory = new UnitOfExecutionsFactory();
-            var executor = factory.GetDedicatedThread();
-            var processed = new List<int>();
+        #region Public Methods and Operators
 
-            var processor = executor.BuildProcessor<int>( processed.Add, false);
+        /// <summary>
+        /// The post.
+        /// </summary>
+        /// <param name="nextData">
+        /// Next data to process.
+        /// </param>
+        void Post(T nextData);
 
-            processor.Post(4);
-            processor.Post(5);
-
-            Check.That(processed).HasSize(2);
-        }
+        #endregion
     }
 }

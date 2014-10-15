@@ -65,15 +65,23 @@ namespace Michonne.Implementation
         /// <param name="action">
         /// <see cref="Action{T}"/> instance that will process the data.
         /// </param>
+        /// <param name="conflated">True if data can be conflated. </param>
         /// <typeparam name="T">
         /// Type of data to be processed.
         /// </typeparam>
         /// <returns>
         /// The <see cref="Action"/>.
         /// </returns>
-        public static DataProcessor<T> BuildProcessor<T>(this IUnitOfExecution executor, Action<T> action)
+        public static IDataProcessor<T> BuildProcessor<T>(this IUnitOfExecution executor, Action<T> action, bool conflated)
         {
-            return new DataProcessor<T>(executor, action);
+            if (conflated)
+            {
+                return new DataConflator<T>(executor, action);
+            }
+            else
+            {
+                return new DataProcessor<T>(executor, action);
+            }
         }
 
         #endregion

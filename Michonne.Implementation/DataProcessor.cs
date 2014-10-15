@@ -27,7 +27,7 @@ namespace Michonne.Implementation
     /// </summary>
     /// <typeparam name="T">Type of data to be processed.
     /// </typeparam>
-    public class DataProcessor<T>
+    public class DataProcessor<T> : IDataProcessor<T>
     {
         #region Fields
 

@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IDataProcessor.cs" />
     <Compile Include="IUnitOfExecution.cs" />
     <Compile Include="ISequencer.cs" />
     <Compile Include="IUnitOfExecutionsFactory.cs" />
