@@ -17,7 +17,7 @@ namespace PastaPricer
     using System;
     using System.Collections.Generic;
 
-    using Michonne;
+    using Michonne.Implementation;
     using Michonne.Interfaces;
 
     /// <summary>
@@ -32,12 +32,12 @@ namespace PastaPricer
         /// </summary>
         private readonly ISequencer pastaSequencer;
 
-        private readonly IUnitOfExecution eggUnitOfExecution;
-        private readonly IUnitOfExecution flourUnitOfExecution;
-        private readonly IUnitOfExecution flavorUnitOfExecution;
-        private readonly IUnitOfExecution packagingUnitOfExecution;
-        private readonly IUnitOfExecution sizeUnitOfExecution;
-
+        private readonly IDataProcessor<decimal> flourProcessor; 
+        private readonly IDataProcessor<decimal> eggProcessor; 
+        private readonly IDataProcessor<decimal> flavorProcessor; 
+        private readonly IDataProcessor<decimal> packagingProcessor; 
+        private readonly IDataProcessor<decimal> sizeProcessor; 
+        
         /// <summary>
         /// The egg price.
         /// </summary>
@@ -90,27 +90,11 @@ namespace PastaPricer
         {
             this.pastaSequencer = pastaSequencer;
 
-            if (conflationEnabled)
-            {
-                // Conflation with balking strategy
-                this.eggUnitOfExecution = new BalkingDispatcher(this.pastaSequencer);
-                this.flourUnitOfExecution = new BalkingDispatcher(this.pastaSequencer);
-                this.flavorUnitOfExecution = new BalkingDispatcher(this.pastaSequencer);
-                this.packagingUnitOfExecution = new BalkingDispatcher(this.pastaSequencer);
-                this.sizeUnitOfExecution = new BalkingDispatcher(this.pastaSequencer);    
-            }
-            else
-            {
-                // for testing purposes
-                var exec = pastaSequencer;
-
-                // All events processed
-                this.eggUnitOfExecution = exec;
-                this.flourUnitOfExecution = exec;
-                this.flavorUnitOfExecution = exec;
-                this.packagingUnitOfExecution = exec;
-                this.sizeUnitOfExecution = exec;
-            }
+            this.flourProcessor = this.pastaSequencer.BuildProcessor<decimal>(this.FlourUpdate, conflationEnabled);
+            this.eggProcessor = this.pastaSequencer.BuildProcessor<decimal>(this.EggUpdate, conflationEnabled);
+            this.flavorProcessor = this.pastaSequencer.BuildProcessor<decimal>(this.FlavorUpdate, conflationEnabled);
+            this.packagingProcessor = this.pastaSequencer.BuildProcessor<decimal>(this.PackagingUpdate, conflationEnabled);
+            this.sizeProcessor = this.pastaSequencer.BuildProcessor<decimal>(this.SizeUpdate, conflationEnabled);
             
             this.PastaName = pastaName;
         }
@@ -219,30 +203,12 @@ namespace PastaPricer
 
         private void MarketDataPackagingPriceChanged(object sender, RawMaterialPriceChangedEventArgs e)
         {
-            // forward the notification to the sequencer
-            this.packagingUnitOfExecution.Dispatch(
-                () =>
-                {
-                    // capture the price
-                    this.packagingPrice = e.Price;
-
-                    // computes an updated price
-                    this.Compute();
-                });
+            this.packagingProcessor.Post(e.Price);
         }
 
         private void MarketDataSizePriceChanged(object sender, RawMaterialPriceChangedEventArgs e)
         {
-            // forward the notification to the sequencer
-            this.sizeUnitOfExecution.Dispatch(
-                () =>
-                {
-                    // capture the price
-                    this.sizePrice = e.Price;
-
-                    // computes an updated price
-                    this.Compute();
-                });
+            this.sizeProcessor.Post(e.Price);
         }
 
         /// <summary>
@@ -256,16 +222,7 @@ namespace PastaPricer
         /// </param>
         private void MarketDataEggPriceChanged(object sender, RawMaterialPriceChangedEventArgs e)
         {
-            // forward the notification to the sequencer
-            this.eggUnitOfExecution.Dispatch(
-                () =>
-                    {
-                        // capture the price
-                        this.eggPrice = e.Price;
-
-                        // computes an updated price
-                        this.Compute();
-                    });
+            this.eggProcessor.Post(e.Price);
         }
 
         /// <summary>
@@ -276,13 +233,14 @@ namespace PastaPricer
         /// </remarks>
         private void Compute()
         {
-            if (this.HasAllRequestedInputsForComputation())
+            if (!this.HasAllRequestedInputsForComputation())
             {
-                // ReSharper disable once PossibleInvalidOperationException
-                this.price = PastaCalculator.Compute(this.flourPrice.Value, this.eggPrice.Value, this.flavorPrice.Value, this.sizePrice, this.packagingPrice);
-
-                this.RaisePastaPriceChanged(this.price);
+                return;
             }
+            // ReSharper disable once PossibleInvalidOperationException
+            this.price = PastaCalculator.Compute(this.flourPrice.Value, this.eggPrice.Value, this.flavorPrice.Value, this.sizePrice, this.packagingPrice);
+
+            this.RaisePastaPriceChanged(this.price);
         }
 
         /// <summary>
@@ -330,12 +288,7 @@ namespace PastaPricer
         /// </param>
         private void MarketDataFlavorPriceChanged(object sender, RawMaterialPriceChangedEventArgs e)
         {
-            this.flavorUnitOfExecution.Dispatch(
-                () =>
-                    {
-                        this.flavorPrice = e.Price;
-                        this.Compute();
-                    });
+            this.flavorProcessor.Post(e.Price);
         }
 
         /// <summary>
@@ -349,14 +302,38 @@ namespace PastaPricer
         /// </param>
         private void MarketDataFlourPriceChanged(object sender, RawMaterialPriceChangedEventArgs e)
         {
-            this.flourUnitOfExecution.Dispatch(
-                () =>
-                    {
-                        this.flourPrice = e.Price;
-                        this.Compute();
-                    });
+            this.flourProcessor.Post(e.Price);
         }
 
+        private void SizeUpdate(decimal newPrice)
+        {
+            this.sizePrice = newPrice;
+            this.Compute();
+        }
+
+        private void PackagingUpdate(decimal newPrice)
+        {
+            this.packagingPrice = newPrice;
+            this.Compute();
+        }
+
+        private void FlavorUpdate(decimal newPrice)
+        {
+            this.flavorPrice = newPrice;
+            this.Compute();
+        }
+
+        private void FlourUpdate(decimal newPrice)
+        {
+            this.flourPrice = newPrice;
+            this.Compute();
+        }
+
+        private void EggUpdate(decimal newPrice)
+        {
+            this.eggPrice = newPrice;
+            this.Compute();
+        }
         #endregion
 
         #endregion
