@@ -47,7 +47,7 @@ namespace Michonne.Tests
             var go = true;
             var ranTasks = 0;
 
-            var conflator = new Conflator(dedicated);
+            var conflator = new ActionConflator(dedicated);
 
             dedicated.Dispatch(
                 () =>

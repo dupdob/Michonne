@@ -30,10 +30,14 @@ namespace Michonne.Implementation
     /// <remarks>Choose the <see cref="SynchronousUnitOfExecution"/> to favor latency against throughput.</remarks>
     internal class SynchronousUnitOfExecution : IUnitOfExecution
     {
+        #region fields
+
         /// <summary>
         /// Factory used for creation.
         /// </summary>
         private readonly IUnitOfExecutionsFactory unitOfExecutionsFactory;
+
+        #endregion
 
         #region Public Methods and Operators
 

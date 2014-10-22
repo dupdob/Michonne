@@ -1,7 +1,7 @@
 #region File header
 
 // --------------------------------------------------------------------------------------------------------------------
-//  <copyright file="Conflator.cs" company="No lock... no deadlock" product="Michonne">
+//  <copyright file="ActionConflator.cs" company="No lock... no deadlock" product="Michonne">
 //     Copyright 2014 Cyrille DUPUYDAUBY (@Cyrdup), Thomas PIERRAIN (@tpierrain)
 //     Licensed under the Apache License, Version 2.0 (the "License");
 //     you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ namespace Michonne.Implementation
     /// <summary>
     /// This class implements a conflation logic on top of an <see cref="IUnitOfExecution"/>.
     /// </summary>
-    public class Conflator
+    public class ActionConflator
     {
         #region Fields
 
@@ -45,12 +45,12 @@ namespace Michonne.Implementation
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Conflator"/> class.
+        /// Initializes a new instance of the <see cref="ActionConflator"/> class.
         /// </summary>
         /// <param name="unitOfExecution">
         /// The unit of execution.
         /// </param>
-        public Conflator(IUnitOfExecution unitOfExecution)
+        public ActionConflator(IUnitOfExecution unitOfExecution)
         {
             this.unitOfExecution = unitOfExecution;
         }
