@@ -52,7 +52,7 @@ namespace Michonne.Implementation
         public UnitOfExecutionsFactory()
         {
             this.coreCount = Environment.ProcessorCount;
-            this.OverAllocationFactor = 1.0;
+            this.OverAllocationFactor = 2.0;
         }
 
         #endregion
