@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Tests", "Michonne.Tests\Michonne.Tests.csproj", "{F7D77346-0D41-41E8-8662-A6C2A0654A34}"
 EndProject
@@ -9,12 +9,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Interfaces", "Mich
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A8DBCE1E-186B-4E85-8F39-86BD87EEC592}"
 	ProjectSection(SolutionItems) = preProject
-		Backlog.md = Backlog.md
-		LICENSE.txt = LICENSE.txt
-		michonne 2.png = michonne 2.png
-		michonne.png = michonne.png
-		Performance1.psess = Performance1.psess
-		ReadMe.md = ReadMe.md
+		..\Backlog.md = ..\Backlog.md
+		..\LICENSE.txt = ..\LICENSE.txt
+		..\michonne 2.png = ..\michonne 2.png
+		..\michonne.png = ..\michonne.png
+		..\ReadMe.md = ..\ReadMe.md
+		ReleaseNotes.md = ReleaseNotes.md
+		Version.cs = Version.cs
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Implementation", "Michonne.Implementation\Michonne.Implementation.csproj", "{76D48E2E-E97D-46D1-81FC-7ABAEA8463AC}"
@@ -47,6 +48,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pasta Pricer - Demo App", "Pasta Pricer - Demo App", "{08423C9F-F185-408A-B72F-5B339BB1B90C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.01.Tests", "Michonne.01.Tests\Michonne.01.Tests.csproj", "{F7027111-B4D0-4E57-BEDF-789673E43A1D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Michonne assemblies", "Michonne assemblies", "{28E1D32F-9C0B-4E14-BA8C-5DDE2D6CF705}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +94,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA} = {28E1D32F-9C0B-4E14-BA8C-5DDE2D6CF705}
+		{76D48E2E-E97D-46D1-81FC-7ABAEA8463AC} = {28E1D32F-9C0B-4E14-BA8C-5DDE2D6CF705}
 		{FFDD856B-8600-4516-8F65-8BF460E96214} = {6FAF7116-DD10-49A2-B3E7-1A96E4C913CF}
 		{A4BE2C7F-51CB-4E20-B682-4CA255D6675E} = {08423C9F-F185-408A-B72F-5B339BB1B90C}
 		{8C389710-EE86-49C3-80E8-55CB81F047FF} = {08423C9F-F185-408A-B72F-5B339BB1B90C}

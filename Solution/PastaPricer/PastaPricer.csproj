@@ -64,6 +64,7 @@
     <Compile Include="IRawMaterialMarketData.cs" />
     <Compile Include="PastaCalculator.cs" />
     <Compile Include="PastaPriceChangedEventArgs.cs" />
+    <Compile Include="PastaPricingAgentNewAPI.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>

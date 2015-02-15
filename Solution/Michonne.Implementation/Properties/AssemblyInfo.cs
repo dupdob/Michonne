@@ -22,11 +22,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Michonne")]
 [assembly: AssemblyDescription("Michonne is an event driven multi-threading library.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Cyrille Dupuydauby, Thomas Pierrain")]
-[assembly: AssemblyProduct("Michonne.Implementation")]
-[assembly: AssemblyCopyright("Copyright © Cyrille Dupuydauby 2014")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -36,15 +31,3 @@ using System.Runtime.InteropServices;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("efd4a946-b977-4bd1-8928-aafe468af94b")]
 
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Build and Revision Numbers 
-// by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.1.0.*")]
-[assembly: AssemblyFileVersion("0.1.0.*")]

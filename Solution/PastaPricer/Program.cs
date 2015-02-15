@@ -57,6 +57,8 @@ namespace PastaPricer
             var marketDataProvider = new AggresiveMarketDataProvider(aggressionFactor: 10, timerPeriodInMsec: 1);
 
             var unitOfExecutionsFactory = new UnitOfExecutionsFactory();
+            ThreadPool.SetMaxThreads(Environment.ProcessorCount * 2, 0);
+            ThreadPool.SetMinThreads(Environment.ProcessorCount * 2, 0);
 
             var pastaPricer = new PastaPricerEngine(unitOfExecutionsFactory.GetPool(), RecipeHelper.GenerateConfigurations(), marketDataProvider, publisher, conflationEnabled);
             pastaPricer.Start();
