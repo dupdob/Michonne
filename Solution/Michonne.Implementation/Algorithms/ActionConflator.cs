@@ -21,12 +21,12 @@ namespace Michonne.Implementation
     using System;
     using System.Threading;
 
-    using Michonne.Interfaces;
+    using Interfaces;
 
     /// <summary>
     /// This class implements a conflation logic on top of an <see cref="IUnitOfExecution"/>.
     /// </summary>
-    public class ActionConflator
+    public sealed class ActionConflator
     {
         #region Fields
 
@@ -83,8 +83,8 @@ namespace Michonne.Implementation
         /// </summary>
         private void Execute()
         {
-            Action nextAction = Interlocked.Exchange(ref this.action, null);
-            nextAction();
+            // performs an atomtic capture of the task and executes it.
+            Interlocked.Exchange(ref this.action, null)();
         }
 
         #endregion

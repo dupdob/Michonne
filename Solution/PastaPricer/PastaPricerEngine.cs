@@ -58,7 +58,7 @@ namespace PastaPricer
                 var sequencerForThisPasta = this.unitOfExecution.BuildSequencer();
                 var pastaPricingAgent = new PastaPricingAgent(sequencerForThisPasta, pastaName, this.conflationEnabled);
 
-                pastaPricingAgent.PastaPriceChanged += this.PastaPricingAgent_PastaPriceChanged;
+                pastaPricingAgent.PastaPriceChanged += this.PastaPricingAgentPastaPriceChanged;
 
                 this.pastaAgents.Add(pastaName, pastaPricingAgent);
 
@@ -81,7 +81,7 @@ namespace PastaPricer
             }
         }
 
-        private void PastaPricingAgent_PastaPriceChanged(object sender, PastaPriceChangedEventArgs e)
+        private void PastaPricingAgentPastaPriceChanged(object sender, PastaPriceChangedEventArgs e)
         {
             this.pastaPricerPublisher.Publish(e.PastaName, e.Price);
         }

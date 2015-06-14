@@ -12,8 +12,6 @@
 //   --------------------------------------------------------------------------------------------------------------------
 
 using System.Reflection;
-using System.Runtime.InteropServices;
-
 
 [assembly: AssemblyProduct("Michonne")]
 [assembly: AssemblyCopyright("Copyright © Cyrille Dupuydauby 2015")]
