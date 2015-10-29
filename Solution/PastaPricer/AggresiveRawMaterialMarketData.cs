@@ -25,7 +25,7 @@ namespace PastaPricer
     ///     Provides market data as events for a given raw material.
     /// </summary>
     /// <remarks>This type is thread-safe</remarks>
-    public class AggresiveRawMaterialMarketData : IRawMaterialMarketData
+    public sealed class AggresiveRawMaterialMarketData : IRawMaterialMarketData
     {
         #region Static Fields
 
@@ -138,27 +138,28 @@ namespace PastaPricer
         /// </param>
         private void PublishPrices(object o)
         {
-            var hasStopped = Interlocked.CompareExchange(ref this.stopped, 1, 1);
-            if (hasStopped != 1)
+            for (var i = 0; i < this.aggressionFactor; i++)
             {
-                for (var i = 0; i < this.aggressionFactor; i++)
+                var hasStopped = Interlocked.CompareExchange(ref this.stopped, 1, 1);
+                if (hasStopped != 1)
                 {
-                    var randomPrice = Seed.Next(1, 20) / 10m;
-                    this.RaisePrice(randomPrice);
+                        var randomPrice = Seed.Next(1, 20) / 10m;
+                        this.RaisePrice(randomPrice);
                 }
-            }
-            else
-            {
-                // the last notification should always be 0.
-                this.RaisePrice(0m);
-                if (this.timer == null)
+                else
                 {
+                    // the last notification should always be 0.
+                    this.RaisePrice(0m);
+                    if (this.timer == null)
+                    {
+                        return;
+                    }
+
+                    this.timer.Change(Timeout.Infinite, Timeout.Infinite);
+                    this.timer.Dispose();
+                    this.timer = null;
                     return;
                 }
-
-                this.timer.Change(Timeout.Infinite, Timeout.Infinite);
-                this.timer.Dispose();
-                this.timer = null;
             }
         }
 
