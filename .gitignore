@@ -130,7 +130,10 @@ publish/
 
 # NuGet Packages Directory
 ## TODO: If you have NuGet Package Restore enabled, uncomment the next line
-#packages/
+packages/
+.nuget/*
+# temp Package
+*.nupkg
 
 # Windows Azure Build Output
 csx
