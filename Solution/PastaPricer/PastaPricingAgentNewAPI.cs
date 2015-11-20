@@ -174,10 +174,7 @@ namespace PastaPricer
 
         private void RaisePastaPriceChanged(decimal newPrice)
         {
-            if (this.pastaPriceChangedObservers != null)
-            {
-                this.pastaPriceChangedObservers(this, new PastaPriceChangedEventArgs(this.PastaName, newPrice));
-            }
+            this.pastaPriceChangedObservers?.Invoke(this, new PastaPriceChangedEventArgs(this.PastaName, newPrice));
         }
 
         #region other price handlers

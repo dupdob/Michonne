@@ -81,8 +81,9 @@ namespace PastaPricer.Tests
         {
             var marketDataProvider = new MarketDataProvider();
             marketDataProvider.RegisterRawMaterial("eggs");
-            
-            marketDataProvider.GetRawMaterial("eggs").PriceChanged += (o, args) => this.priceChangedRaisedEvent.Set();
+
+            EventHandler<RawMaterialPriceChangedEventArgs> handler = (o, args) => this.priceChangedRaisedEvent.Set();
+            marketDataProvider.GetRawMaterial("eggs").PriceChanged += handler;
 
             marketDataProvider.Start();
 
@@ -91,6 +92,7 @@ namespace PastaPricer.Tests
             
             Check.That(hasReceivedEvent).IsTrue();
             marketDataProvider.Stop();
+            marketDataProvider.GetRawMaterial("eggs").PriceChanged -= handler;
         }
     }
 }
