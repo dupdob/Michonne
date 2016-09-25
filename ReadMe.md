@@ -13,4 +13,4 @@ __*"No lock... no deadlock!"*__  Michonne is a library that allows you __to erra
 Related resources
 ---------------
 + __[Posts serie about the Sequencer pattern](http://dupdob.wordpress.com/tag/sequencer/)__ Posts written by the father of this lib (__Cyrille DUPUYDAUBY__) where he explains the origin and the caracteristics of the sequencer pattern.
-+ __[Basses latences, hauts debits...](http://parleys.com/play/537dccafe4b0e9793767cd05)__ A french talk made at __DEVOXX FR__ 2014, where Cyrille and I talked about reactive programming, and explained the sequencer pattern, the notion of conflation etc.
++ __[Basses latences, hauts debits...](https://www.youtube.com/watch?v=SHptUbGxXMU)__ A french talk made at __DEVOXX FR__ 2014, where Cyrille and I talked about reactive programming, and explained the sequencer pattern, the notion of conflation etc.
