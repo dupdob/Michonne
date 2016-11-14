@@ -16,22 +16,14 @@ namespace Michonne
 {
     using System;
 
-    using Michonne.Interfaces;
+    using Interfaces;
 
     public sealed class DirectDispatcher : IUnitOfExecution
     {
-        private IUnitOfExecutionsFactory unitOfExecutionsFactory;
-
         /// <summary>
         ///     Gets the unit of executions factory.
         /// </summary>
-        public IUnitOfExecutionsFactory UnitOfExecutionsFactory
-        {
-            get
-            {
-                return this.unitOfExecutionsFactory;
-            }
-        }
+        public IUnitOfExecutionsFactory UnitOfExecutionsFactory { get; }
 
         /// <summary>
         /// Directly execute every dispatched action in a synchronous manner (in the thread of 

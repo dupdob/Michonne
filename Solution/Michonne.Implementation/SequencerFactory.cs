@@ -20,7 +20,7 @@ namespace Michonne.Implementation
 {
     using System;
 
-    using Michonne.Interfaces;
+    using Interfaces;
 
     /// <summary>
     ///     Static class hosting the sequencer factory API.

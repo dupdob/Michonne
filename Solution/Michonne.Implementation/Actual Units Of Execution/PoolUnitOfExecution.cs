@@ -21,7 +21,7 @@ namespace Michonne.Implementation
     using System;
     using System.Threading;
 
-    using Michonne.Interfaces;
+    using Interfaces;
 
     /// <summary>
     ///     The pool unit of execution executes submitted <see cref="Action" /> through the CLR Pool.

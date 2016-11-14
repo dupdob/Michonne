@@ -17,7 +17,7 @@ namespace Michonne
     using System;
     using System.Collections.Generic;
 
-    using Michonne.Interfaces;
+    using Interfaces;
 
     /// <summary>
     /// Dispatcher that executes dispatched tasks/actions only on demand (i.e. when calling the
@@ -31,18 +31,10 @@ namespace Michonne
         private readonly object syncRoot = new object();
         private readonly Queue<Action> dispatchedTasks = new Queue<Action>();
 
-        private IUnitOfExecutionsFactory unitOfExecutionsFactory;
-
         /// <summary>
         ///     Gets the unit of executions factory.
         /// </summary>
-        public IUnitOfExecutionsFactory UnitOfExecutionsFactory
-        {
-            get
-            {
-                return this.unitOfExecutionsFactory;
-            }
-        }
+        public IUnitOfExecutionsFactory UnitOfExecutionsFactory { get; }
 
         /// <summary>
         /// Dispatch an action to be executed.
@@ -75,11 +67,8 @@ namespace Michonne
                 {
                 }
             }
-            
-            if (action != null)
-            {
-                action();
-            }
+
+            action?.Invoke();
         }
     }
 }

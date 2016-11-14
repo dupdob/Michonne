@@ -17,7 +17,7 @@ namespace Michonne.Implementation
     using System;
     using System.Threading;
 
-    using Michonne.Interfaces;
+    using Interfaces;
 
     /// <summary>
     ///     This class can create all <see cref="IUnitOfExecution" />.
@@ -62,25 +62,13 @@ namespace Michonne.Implementation
         /// <summary>
         /// Gets the available core.
         /// </summary>
-        public int AvailableCore
-        {
-            get
-            {
-                return Math.Max((int)(this.coreCount * this.OverAllocationFactor) - this.createdThreadsCount, 0);
-            }
-        }
+        public int AvailableCore => Math.Max((int)(this.coreCount * this.OverAllocationFactor) - this.createdThreadsCount, 0);
 
         /// <summary>
         /// Gets the number of core used by this factory.
         /// </summary>
-        public int CoreCount
-        {
-            get
-            {
-                return this.coreCount;
-            }
-        }
-        
+        public int CoreCount => this.coreCount;
+
         /// <summary>
         /// Gets or sets the over allocation factor for cores.
         /// </summary>

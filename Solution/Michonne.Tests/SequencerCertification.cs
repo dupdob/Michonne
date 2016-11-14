@@ -187,16 +187,14 @@ namespace Michonne.Tests
 
             var chrono = new Stopwatch();
             Action action = () => { };
-            chrono.Start();
-            for (var i = 0; i < 100000; i++)
+            Check.ThatCode(() =>
             {
-                //action();
-                //unitOfExec.Dispatch(action);
-                sequencer.Dispatch(action);
-            }
-            chrono.Stop();
-
-            Check.That(chrono.Elapsed).IsLessThan(400, TimeUnit.Milliseconds);
+                for (var i = 0; i < 100000; i++)
+                {
+                    sequencer.Dispatch(action);
+                }
+            }).LastsLessThan(400, TimeUnit.Milliseconds);
+ 
         }
 
         #endregion

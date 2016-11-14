@@ -18,7 +18,7 @@ namespace Michonne
     using System.Threading;
     using System.Threading.Tasks;
 
-    using Michonne.Interfaces;
+    using Interfaces;
 
     /// <summary>
     /// Sequencer implementation provided by Olivier COANET on Cyrille's blog.
@@ -34,8 +34,6 @@ namespace Michonne
         private readonly TaskScheduler taskScheduler;
         private Task task = Task.FromResult(0);
         private int pendingTaskCount;
-
-        private IUnitOfExecutionsFactory unitOfExecutionsFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ContinuationTasksBasedSequencer"/> class.
@@ -62,13 +60,7 @@ namespace Michonne
         /// <summary>
         ///     Gets the unit of executions factory.
         /// </summary>
-        public IUnitOfExecutionsFactory UnitOfExecutionsFactory
-        {
-            get
-            {
-                return this.unitOfExecutionsFactory;
-            }
-        }
+        public IUnitOfExecutionsFactory UnitOfExecutionsFactory { get; }
 
         public void Dispatch(Action action)
         {
@@ -99,10 +91,7 @@ namespace Michonne
                 catch (Exception ex)
                 {
                     var error = this.Error;
-                    if (error != null)
-                    {
-                        error(ex);
-                    }
+                    error?.Invoke(ex);
                 }
 
                 Interlocked.Decrement(ref this.pendingTaskCount);

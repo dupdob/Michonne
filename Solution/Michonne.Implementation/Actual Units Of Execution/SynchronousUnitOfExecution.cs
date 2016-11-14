@@ -20,7 +20,7 @@ namespace Michonne.Implementation
 {
     using System;
 
-    using Michonne.Interfaces;
+    using Interfaces;
 
     /// <summary>
     /// This implementation of <see cref="IUnitOfExecution"/> implements synchronous calls.
@@ -31,11 +31,6 @@ namespace Michonne.Implementation
     internal class SynchronousUnitOfExecution : IUnitOfExecution
     {
         #region fields
-
-        /// <summary>
-        /// Factory used for creation.
-        /// </summary>
-        private readonly IUnitOfExecutionsFactory unitOfExecutionsFactory;
 
         #endregion
 
@@ -49,19 +44,13 @@ namespace Michonne.Implementation
         /// </param>
         public SynchronousUnitOfExecution(IUnitOfExecutionsFactory unitOfExecutionsFactory)
         {
-            this.unitOfExecutionsFactory = unitOfExecutionsFactory;
+            this.UnitOfExecutionsFactory = unitOfExecutionsFactory;
         }
 
         /// <summary>
         ///     Gets the unit of executions factory.
         /// </summary>
-        public IUnitOfExecutionsFactory UnitOfExecutionsFactory
-        {
-            get
-            {
-                return this.unitOfExecutionsFactory;
-            }
-        }
+        public IUnitOfExecutionsFactory UnitOfExecutionsFactory { get; }
 
         /// <summary>
         /// Dispatch an action to be executed.

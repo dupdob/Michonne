@@ -22,13 +22,13 @@ namespace PastaPricer
     /// <summary>
     /// Pasta pricer program.
     /// </summary>
-    public class Program
+    public class Programa
     {
         /// <summary>
         /// Defines the entry point of the application.
         /// </summary>
         /// <param name="args">The arguments.</param>
-        public static void Main(string[] args)
+        public static void Main()
         {
             ThreadPool.SetMinThreads(Environment.ProcessorCount * 2, 0);
             Console.WriteLine("Welcome to the pasta pricer (powered by the Michonne library).");

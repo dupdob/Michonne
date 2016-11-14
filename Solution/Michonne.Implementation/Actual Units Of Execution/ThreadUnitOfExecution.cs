@@ -22,7 +22,7 @@ namespace Michonne.Implementation
     using System.Collections.Generic;
     using System.Threading;
 
-    using Michonne.Interfaces;
+    using Interfaces;
 
     /// <summary>
     ///     This is a <see cref="IUnitOfExecution" /> implementation that executes submitted <see cref="Action" /> in a
@@ -126,11 +126,9 @@ namespace Michonne.Implementation
         private void Dispose(bool disposing)
         {
             this.Dispatch(null);
-            if (disposing)
-            {
-                GC.SuppressFinalize(this);
-                this.myThread.Join(500);
-            }
+            if (!disposing) return;
+            GC.SuppressFinalize(this);
+            this.myThread.Join(500);
         }
 
         /// <summary>

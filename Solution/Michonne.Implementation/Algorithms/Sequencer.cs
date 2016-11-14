@@ -18,7 +18,7 @@ namespace Michonne.Implementation
     using System.Collections.Concurrent;
     using System.Threading;
 
-    using Michonne.Interfaces;
+    using Interfaces;
 
     /// <summary>
     ///     Allows to execute tasks asynchronously, but one by one and in the same order as they have been dispatched.
@@ -71,13 +71,7 @@ namespace Michonne.Implementation
         /// <summary>
         ///     Gets the unit of executions factory.
         /// </summary>
-        public IUnitOfExecutionsFactory UnitOfExecutionsFactory
-        {
-            get
-            {
-                return this.rootUnitOfExecution.UnitOfExecutionsFactory;
-            }
-        }
+        public IUnitOfExecutionsFactory UnitOfExecutionsFactory => this.rootUnitOfExecution.UnitOfExecutionsFactory;
 
         /// <summary>
         ///     Gives a task/action to the sequencer in order to execute it in an asynchronous manner, but respecting the
@@ -107,20 +101,22 @@ namespace Michonne.Implementation
             while (true)
             {
                 Action action;
-
+                bool mustExit;
                 if (!this.orderedDispatchedTasks.TryDequeue(out action))
                 {
                     continue;
                 }
-
-                // Execute the next action
-                action();
-
-                if (Interlocked.Decrement(ref this.numberOfPendingTasksWhileRunning) == 0)
+                try
                 {
-                    // all tasks to be executed have been processed
-                    break;
+                    // Execute the next action
+                    action();
                 }
+                finally
+                {
+                    mustExit = (Interlocked.Decrement(ref this.numberOfPendingTasksWhileRunning) == 0);
+                }
+                if (mustExit)
+                    break;
             }
         }
         #endregion
