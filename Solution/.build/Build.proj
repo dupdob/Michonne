@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="RunAll" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--(c) 2017 Cyrille Dupuydauby, derived from T.Pierrain work on NFluent -->
+  <PropertyGroup>
+    <SolutionRoot>$(MSBuildProjectDirectory)\..</SolutionRoot>
+    <MSBuildCommunityTasksPath>$(SolutionRoot)\.build</MSBuildCommunityTasksPath>
+  </PropertyGroup>
+
+  <!--Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets" /-->
+  
+  <PropertyGroup>
+      <Configuration Condition="$(Configuration) == ''">Debug</Configuration>
+      <SolutionRoot>$(MSBuildProjectDirectory)\..</SolutionRoot>
+      <SolutionName>Michonne</SolutionName>
+      <ToolsPath>$(SolutionRoot)\tools\</ToolsPath>
+      <SourcePath>$(SolutionRoot)\</SourcePath>
+      <ArtifactsPath>$(SolutionRoot)\Artifacts</ArtifactsPath>
+      <BinariesPath>$(ArtifactsPath)\Binaries</BinariesPath>
+      <PackagesPath>$(ArtifactsPath)\Packages</PackagesPath>
+      <DocPath>$(ArtifactsPath)\Docs</DocPath>
+      <NuGetToolsPath></NuGetToolsPath>
+      <NuGetExePath>$(NuGetToolsPath)nuget.exe</NuGetExePath>
+      <DocuExePath>$(ToolsPath)docu\docu.exe</DocuExePath>
+      <ZipExe>$(ToolsPath)7za\7za.exe</ZipExe>
+      <TestRunnerPath>$(SolutionRoot)\packages\NUnit.ConsoleRunner.3.6.1\tools\nunit3-console.exe</TestRunnerPath>
+  </PropertyGroup>
+    
+  <Target Name="RunAll" DependsOnTargets="Build; RunTests; Package" />
+  
+  <Target Name="CI" DependsOnTargets="Build" />
+  <!--<Target Name="CI" DependsOnTargets="Build; BuildDocs" />-->
+
+  <!-- 1- Do the BUILD -->
+
+  <Target Name="DotnetCoreRestore">
+      
+    <Message Importance="high" Text="--------- DOTNET RESTORE  -------------------------------------------"/>     
+    <!--<Exec Command="&quot;$(NuGetExePath) restore&quot;" />-->
+    <Exec Command="dotnet restore $(SourcePath)Michonne.Tests\" />
+
+    <Message Importance="high" Text="--------- end of DOTNET RESTORE  -------------------------------------"/>
+  </Target>
+  
+
+  <Target Name="NugetRestore" DependsOnTargets="DotnetCoreRestore">
+      
+    <Message Importance="high" Text="--------- NUGET RESTORE  -------------------------------------------"/>
+    
+    <!--<Exec Command="&quot;$(NuGetExePath) restore&quot;" />-->
+    <Exec Command="&quot;$(NuGetExePath)&quot;  install &quot;$(SolutionRoot)\Michonne.Tests\packages.config&quot; -o &quot;$(SolutionRoot)\packages&quot;" />
+    <Exec Command="&quot;$(NuGetExePath)&quot;  install &quot;$(SolutionRoot)\Michonne.01.Tests\packages.config&quot; -o &quot;$(SolutionRoot)\packages&quot;" />
+  
+    <Message Importance="high" Text="--------- end of NUGET RESTORE  -------------------------------------"/>
+  
+  </Target>
+  
+  <Target Name="Build" DependsOnTargets="NugetRestore">
+
+    <Message Importance="high" Text="--------- BUILD  -------------------------------------------"/>
+    
+      <Message Importance="high" Text="
+---------------------------------------------------------------
+BUILD PROJECT with MSBuildToolsVersion: '$(MSBuildToolsVersion)'
+---------------------------------------------------------------
+      "  />
+
+<Message Importance="high" Text="--------- will run: $(SolutionRoot)\$(SolutionName).sln"/>
+
+      <MSBuild Projects="$(SolutionRoot)\$(SolutionName).sln" 
+                Targets="Build" 
+                Properties="Configuration=$(Configuration)" />
+
+    <Message Importance="high" Text="--------- end of BUILD  -------------------------------------"/>
+  
+  </Target>
+    
+    
+  <!-- 2- BUILD THE DOCS -->
+  <Target Name="BuildDocs">
+
+      <Message Importance="high" Text="--------- DOCUMENTATION GENERATION  ---------"/>
+      <Message Importance="high" Text="
+---------------------------------------------------------------
+GENERATING DOCS for:
+  - $(BinariesPath)\$(SolutionName).dll
+---------------------------------------------------------------
+          "  />
+      <MakeDir Directories="$(DocPath)" Condition="!Exists('$(DocPath)')" />
+      <Exec Command="$(DocuExePath) $(BinariesPath)\$(SolutionName).dll --output=$(DocPath)" />
+      <Exec Command="&quot;$(ZipExe)&quot; a -tzip &quot;$(PackagesPath)\$(SolutionName).docs.zip&quot; &quot;$(DocPath)&quot;" />
+
+      <Message Importance="high" Text="--------- end of DOCUMENTATION GENERATION  ---------"/>
+  </Target>
+
+  
+  <!-- 3- Run the TESTS -->
+  <ItemGroup>
+    <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\$(SolutionName).Tests\bin\$(Configuration)\$(SolutionName).Tests.dll&quot; /framework:net-4.5" />
+    <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\$(SolutionName).01.Tests\bin\$(Configuration)\$(SolutionName).01.Tests.dll&quot; /framework:net-4.5" />
+  </ItemGroup>
+
+  <Target Name="RunTests" DependsOnTargets="Build">
+    <Message Importance="high" Text="
+---------------------------------------------------------------
+RUN ALL UNIT TESTS
+---------------------------------------------------------------
+          "  />
+
+    <Message Importance="high" Text="--------- RUN CLASSICAL .NET TESTS ---------"/>
+
+      <Message Importance="high" Text="debug message: TestProjectsWithArguments.Identity:'%(TestProjectsWithArguments.Identity)'"/>
+
+      <Exec Command="&quot;$(TestRunnerPath)&quot; %(TestProjectsWithArguments.Identity)" LogStandardErrorAsError="true" />
+
+    <Message Importance="high" Text="--------- end of RUN CLASSICAL .NET TESTS ---------"/>
+    
+    <Message Importance="high" Text="--------- RUN THE .NET CORE TESTS ---------"/>
+
+      <!--Exec Command="dotnet test $(SolutionRoot)\Michonne.Core.Tests\Michonne.Core.Tests.csproj" /-->
+      
+    <Message Importance="high" Text="--------- end of RUN THE .NET CORE TESTS ---------"/>
+
+  </Target>
+
+  <!-- 4- Then PACKAGE -->
+  <Target Name="Package" DependsOnTargets="RunTests">
+
+      <Message Importance="high" Text="--------- PACKAGE ---------"/>
+      <!-- Copies the dll into an easy path targeted by the .nuspec file. -->
+      
+      <!-- Michonne -->
+      <Message Importance="high" Text="xcopy $(SourcePath)$(SolutionName).Implementation\bin\$(Configuration)\*.* $(BinariesPath)\45\ /E /Y" />
+      <Exec Command="xcopy $(SourcePath)$(SolutionName).Implementation\bin\$(Configuration)\*.* $(BinariesPath)\45\ /E /Y" />
+	    
+    <Message Importance="high" Text="xcopy $(SourcePath)$(SolutionName).Interfaces\bin\$(Configuration)\*.* $(BinariesPath)\45\ /E /Y" />
+      <Exec Command="xcopy $(SourcePath)$(SolutionName).Interfaces\bin\$(Configuration)\*.* $(BinariesPath)\45\ /E /Y" />
+	  
+      <!-- Get the version number of the main FV assembly to insert into the nuspec files -->
+      <GetAssemblyIdentity AssemblyFiles="$(BinariesPath)\45\$(SolutionName).Implementation.dll">
+        <Output TaskParameter="Assemblies" ItemName="AsmInfo" />
+      </GetAssemblyIdentity>
+
+      <PropertyGroup>
+        <NuspecFilePath>$(SolutionRoot)\$(SolutionName).nuspec</NuspecFilePath>
+        <PackageVersion>%(AsmInfo.Version)</PackageVersion>
+      </PropertyGroup>
+
+      <Message Importance="high" Text="[Print] PackageVersion: '$(PackageVersion)'" />
+      <Message Importance="high" Text="[Print] NuspecFilePath: '$(NuspecFilePath)'" />
+
+      <!-- insert the version number into the nuspec file -->
+      <XmlPoke 
+        XmlInputPath="$(NuspecFilePath)"
+          Namespaces="&lt;Namespace Prefix='x' Uri='http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd' /&gt;"
+        Query="x:package/x:metadata/x:version" 
+        Value="$(PackageVersion)-alpha" />
+
+      <!-- Gets the release note content from the proper file -->
+      <ReadLinesFromFile File="$(SolutionRoot)\ReleaseNoteContentToBeInsertedWithinNuspecFile.txt">
+        <Output TaskParameter="Lines" ItemName="FileContents" />
+      </ReadLinesFromFile>
+      
+      <!-- Sets its content into a variable with n/a as the default value -->
+      <PropertyGroup>
+        <ReleaseNoteContent>n/a</ReleaseNoteContent>
+      </PropertyGroup>
+
+      <PropertyGroup Condition=" '@(FileContents,'%0a%0d')' != '' ">
+        <ReleaseNoteContent>@(FileContents,'%0a%0d')</ReleaseNoteContent>
+      </PropertyGroup>
+
+      <!-- Updates the nuspec file with this variable content -->
+      <XmlPoke
+        XmlInputPath="$(NuspecFilePath)"
+          Namespaces="&lt;Namespace Prefix='x' Uri='http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd' /&gt;"
+        Query="x:package/x:metadata/x:releaseNotes"
+        Value="$(ReleaseNoteContent)" />
+
+      <Message Importance="high" Text="
+---------------------------------------------------------------
+CREATING NUGET PACKAGE IN:
+    - $(PackagesPath)
+---------------------------------------------------------------
+            "  />
+      <MakeDir Directories="$(PackagesPath)" Condition="!Exists('$(PackagesPath)')" />
+      <Exec Command="&quot;$(NuGetExePath)&quot; pack &quot;$(NuspecFilePath)&quot; -o &quot;$(PackagesPath)&quot;"
+        LogStandardErrorAsError="true" />
+
+        <Message Importance="high" Text="--------- End of PACKAGE ---------"/>
+  </Target>
+
+</Project>

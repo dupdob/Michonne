@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Michonne</id>
+    <title>Michonne</title>
+    <version>0.4.0.0-alpha</version>
+    <authors>Cyrille DUPUYDAUBY, Thomas PIERRAIN</authors>
+    <owners>Cyrille DUPUYDAUBY</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>http://www.n-fluent.net</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <iconUrl>https://raw.github.com/tpierrain/NFluent/master/Images/Icon.png</iconUrl>
+    <description>"No lock... no deadlock!" Michonne is a library that allows you to erradicate deadlocks within your applicative code by providing you composable behaviors for tasks/lambdas execution (i.e. dispatcher, sequencer, balking dispatcher, etc), in replacement of locks and raw TPL primitives that will lead you to deadlocks..</description>
+    <summary>Michonne provides event oriented development primitives.</summary>
+    <releaseNotes>n/a</releaseNotes>
+    <copyright>Copyright 2016 Cyrille DUPUYDAUBY</copyright>
+    <language>en-US</language>
+    <tags>tdd bdd test fluent check checks easy nunit xunit mbunit mstestsucks</tags>
+  </metadata>
+  <files>
+    <!-- .NET 3.5 -->
+    <file src="Artifacts\Binaries\45\Michonne.Implementation.dll" target="lib\net45\Michonne.Implementation.dll" />
+    <file src="Artifacts\Binaries\45\Michonne.Interfaces.dll" target="lib\net45\Michonne.Interfaces.dll" />
+    <!-- .NET 4.0 (for dynamics and tasks support) -->
+    <!-- file src="Artifacts\Binaries\40\NFluent.dll" target="lib\net40\NFluent.dll" /-->
+    <!--file src="Artifacts\Binaries\40\NFluent.xml" target="lib\net40\NFluent.xml" /-->
+  </files>
+</package>

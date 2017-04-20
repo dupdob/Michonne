@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<test-run id="2" testcasecount="10" result="Passed" total="10" passed="9" failed="0" inconclusive="0" skipped="1" asserts="0" engine-version="3.6.1.0" clr-version="4.0.30319.42000" start-time="2017-04-20 20:45:02Z" end-time="2017-04-20 20:45:08Z" duration="5.578883">
+  <command-line><![CDATA["C:\Users\dupdo\Documents\GitHub\Michonne\Solution\.build\..\packages\NUnit.ConsoleRunner.3.6.1\tools\nunit3-console.exe"  "C:\Users\dupdo\Documents\GitHub\Michonne\Solution\.build\..\Michonne.01.Tests\bin\release\Michonne.01.Tests.dll" /framework:net-4.5]]></command-line>
+  <test-suite type="Assembly" id="0-1016" name="Michonne.01.Tests.dll" fullname="C:\Users\dupdo\Documents\GitHub\Michonne\Solution\Michonne.01.Tests\bin\release\Michonne.01.Tests.dll" runstate="Runnable" testcasecount="10" result="Passed" start-time="2017-04-20 20:45:03Z" end-time="2017-04-20 20:45:08Z" duration="4.835242" total="10" passed="9" failed="0" warnings="0" inconclusive="0" skipped="1" asserts="0">
+    <environment framework-version="3.6.1.0" clr-version="4.0.30319.42000" os-version="Microsoft Windows NT 10.0.15063.0" platform="Win32NT" cwd="C:\Users\dupdo\Documents\GitHub\Michonne\Solution\.build" machine-name="DESKTOP-CU9PQLI" user="dupdo" user-domain="DESKTOP-CU9PQLI" culture="fr-FR" uiculture="fr-FR" os-architecture="x64" />
+    <settings>
+      <setting name="RuntimeFramework" value="net-4.5" />
+      <setting name="DisposeRunners" value="True" />
+      <setting name="WorkDirectory" value="C:\Users\dupdo\Documents\GitHub\Michonne\Solution\.build" />
+      <setting name="ImageRuntimeVersion" value="4.0.30319" />
+      <setting name="ImageTargetFrameworkName" value=".NETFramework,Version=v4.5" />
+      <setting name="ImageRequiresX86" value="False" />
+      <setting name="ImageRequiresDefaultAppDomainAssemblyResolver" value="False" />
+      <setting name="NumberOfTestWorkers" value="4" />
+    </settings>
+    <properties>
+      <property name="_PID" value="10368" />
+      <property name="_APPDOMAIN" value="domain-" />
+    </properties>
+    <test-suite type="TestSuite" id="0-1017" name="Michonne" fullname="Michonne" runstate="Runnable" testcasecount="10" result="Passed" start-time="2017-04-20 20:45:03Z" end-time="2017-04-20 20:45:08Z" duration="4.800068" total="10" passed="9" failed="0" warnings="0" inconclusive="0" skipped="1" asserts="0">
+      <test-suite type="TestSuite" id="0-1018" name="Tests" fullname="Michonne.Tests" runstate="Runnable" testcasecount="10" result="Passed" start-time="2017-04-20 20:45:03Z" end-time="2017-04-20 20:45:08Z" duration="4.796277" total="10" passed="9" failed="0" warnings="0" inconclusive="0" skipped="1" asserts="0">
+        <test-suite type="TestFixture" id="0-1000" name="BalkingDispatcherTests" fullname="Michonne.Tests.BalkingDispatcherTests" classname="Michonne.Tests.BalkingDispatcherTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2017-04-20 20:45:03Z" end-time="2017-04-20 20:45:03Z" duration="0.072219" total="2" passed="2" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="0">
+          <test-case id="0-1001" name="TasksDispatchedWhileBusyAreDiscarded" fullname="Michonne.Tests.BalkingDispatcherTests.TasksDispatchedWhileBusyAreDiscarded" methodname="TasksDispatchedWhileBusyAreDiscarded" classname="Michonne.Tests.BalkingDispatcherTests" runstate="Runnable" seed="1661632573" result="Passed" start-time="2017-04-20 20:45:03Z" end-time="2017-04-20 20:45:03Z" duration="0.040837" asserts="0" />
+          <test-case id="0-1002" name="TheLastDispatchedTaskIsNotExecutedMoreThanOnce" fullname="Michonne.Tests.BalkingDispatcherTests.TheLastDispatchedTaskIsNotExecutedMoreThanOnce" methodname="TheLastDispatchedTaskIsNotExecutedMoreThanOnce" classname="Michonne.Tests.BalkingDispatcherTests" runstate="Runnable" seed="373773336" result="Passed" start-time="2017-04-20 20:45:03Z" end-time="2017-04-20 20:45:03Z" duration="0.006973" asserts="0" />
+        </test-suite>
+        <test-suite type="TestFixture" id="0-1003" name="ContinuationTasksBasedSequencerTests" fullname="Michonne.Tests.ContinuationTasksBasedSequencerTests" classname="Michonne.Tests.ContinuationTasksBasedSequencerTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2017-04-20 20:45:03Z" end-time="2017-04-20 20:45:04Z" duration="1.444051" total="2" passed="2" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="0">
+          <test-case id="0-1004" name="ShouldNotRunActionsConcurrently" fullname="Michonne.Tests.ContinuationTasksBasedSequencerTests.ShouldNotRunActionsConcurrently" methodname="ShouldNotRunActionsConcurrently" classname="Michonne.Tests.ContinuationTasksBasedSequencerTests" runstate="Runnable" seed="1306132007" result="Passed" start-time="2017-04-20 20:45:03Z" end-time="2017-04-20 20:45:04Z" duration="0.797927" asserts="0" />
+          <test-case id="0-1005" name="ShouldRunActionsInOrder" fullname="Michonne.Tests.ContinuationTasksBasedSequencerTests.ShouldRunActionsInOrder" methodname="ShouldRunActionsInOrder" classname="Michonne.Tests.ContinuationTasksBasedSequencerTests" runstate="Runnable" seed="844371586" result="Passed" start-time="2017-04-20 20:45:04Z" end-time="2017-04-20 20:45:04Z" duration="0.640474" asserts="0" />
+        </test-suite>
+        <test-suite type="TestFixture" id="0-1006" name="DirectDispatcherTests" fullname="Michonne.Tests.DirectDispatcherTests" classname="Michonne.Tests.DirectDispatcherTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2017-04-20 20:45:04Z" end-time="2017-04-20 20:45:04Z" duration="0.010048" total="1" passed="1" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="0">
+          <test-case id="0-1007" name="DirectDispatcherExecutesTasksInTheCallerThread" fullname="Michonne.Tests.DirectDispatcherTests.DirectDispatcherExecutesTasksInTheCallerThread" methodname="DirectDispatcherExecutesTasksInTheCallerThread" classname="Michonne.Tests.DirectDispatcherTests" runstate="Runnable" seed="1103619226" result="Passed" start-time="2017-04-20 20:45:04Z" end-time="2017-04-20 20:45:04Z" duration="0.005608" asserts="0" />
+        </test-suite>
+        <test-suite type="TestFixture" id="0-1008" name="PerformanceTests" fullname="Michonne.Tests.PerformanceTests" classname="Michonne.Tests.PerformanceTests" runstate="Explicit" testcasecount="1" result="Skipped" label="Explicit" site="SetUp" start-time="2017-04-20 20:45:04Z" end-time="2017-04-20 20:45:04Z" duration="0.014625" total="1" passed="0" failed="0" warnings="0" inconclusive="0" skipped="1" asserts="0">
+          <properties>
+            <property name="_SKIPREASON" value="Manual tests" />
+          </properties>
+          <reason>
+            <message><![CDATA[Manual tests]]></message>
+          </reason>
+          <test-case id="0-1009" name="MeasureThroughput" fullname="Michonne.Tests.PerformanceTests.MeasureThroughput" methodname="MeasureThroughput" classname="Michonne.Tests.PerformanceTests" runstate="Runnable" seed="1697468476" result="Skipped" label="Explicit" site="Parent" start-time="0001-01-01 00:00:00Z" end-time="0001-01-01 00:00:00Z" duration="0.000000" asserts="0">
+            <reason>
+              <message><![CDATA[OneTimeSetUp: Manual tests]]></message>
+            </reason>
+          </test-case>
+        </test-suite>
+        <test-suite type="TestFixture" id="0-1010" name="PollingDispatcherTests" fullname="Michonne.Tests.PollingDispatcherTests" classname="Michonne.Tests.PollingDispatcherTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2017-04-20 20:45:04Z" end-time="2017-04-20 20:45:04Z" duration="0.009081" total="2" passed="2" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="0">
+          <test-case id="0-1012" name="CallingExecuteNextTaskDoesNotThrowWhenNoTaskIsDispatched" fullname="Michonne.Tests.PollingDispatcherTests.CallingExecuteNextTaskDoesNotThrowWhenNoTaskIsDispatched" methodname="CallingExecuteNextTaskDoesNotThrowWhenNoTaskIsDispatched" classname="Michonne.Tests.PollingDispatcherTests" runstate="Runnable" seed="2095668972" result="Passed" start-time="2017-04-20 20:45:04Z" end-time="2017-04-20 20:45:04Z" duration="0.000495" asserts="0" />
+          <test-case id="0-1011" name="DispatchedTasksAreExecutedOnlyWhenCallingExecuteNextTask" fullname="Michonne.Tests.PollingDispatcherTests.DispatchedTasksAreExecutedOnlyWhenCallingExecuteNextTask" methodname="DispatchedTasksAreExecutedOnlyWhenCallingExecuteNextTask" classname="Michonne.Tests.PollingDispatcherTests" runstate="Runnable" seed="648701411" result="Passed" start-time="2017-04-20 20:45:04Z" end-time="2017-04-20 20:45:04Z" duration="0.001109" asserts="0" />
+        </test-suite>
+        <test-suite type="TestFixture" id="0-1013" name="SequencerTests" fullname="Michonne.Tests.SequencerTests" classname="Michonne.Tests.SequencerTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2017-04-20 20:45:04Z" end-time="2017-04-20 20:45:08Z" duration="3.218766" total="2" passed="2" failed="0" warnings="0" inconclusive="0" skipped="0" asserts="0">
+          <test-case id="0-1015" name="DoesNotLoseAnyTaskWithTwoWriterThreadsOnTheSameSequencer" fullname="Michonne.Tests.SequencerTests.DoesNotLoseAnyTaskWithTwoWriterThreadsOnTheSameSequencer" methodname="DoesNotLoseAnyTaskWithTwoWriterThreadsOnTheSameSequencer" classname="Michonne.Tests.SequencerTests" runstate="Runnable" seed="858558645" result="Passed" start-time="2017-04-20 20:45:04Z" end-time="2017-04-20 20:45:07Z" duration="3.019716" asserts="0" />
+          <test-case id="0-1014" name="SequencerExecutesTasksInTheOrderOfTheirDispatch" fullname="Michonne.Tests.SequencerTests.SequencerExecutesTasksInTheOrderOfTheirDispatch" methodname="SequencerExecutesTasksInTheOrderOfTheirDispatch" classname="Michonne.Tests.SequencerTests" runstate="Runnable" seed="901607050" result="Passed" start-time="2017-04-20 20:45:07Z" end-time="2017-04-20 20:45:08Z" duration="0.191999" asserts="0" />
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

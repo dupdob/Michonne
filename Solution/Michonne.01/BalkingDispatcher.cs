@@ -16,8 +16,7 @@ namespace Michonne
 {
     using System;
     using System.Threading;
-
-    using Michonne.Interfaces;
+    using Interfaces;
 
     /// <summary>
     /// Dispatcher that keeps only the latest dispatched task, discarding the other dispatched tasks
