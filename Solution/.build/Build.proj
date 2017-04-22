@@ -33,7 +33,6 @@
   <!-- 1- Do the BUILD -->
 
   <Target Name="DotnetCoreRestore">
-      
     <Message Importance="high" Text="--------- DOTNET RESTORE  -------------------------------------------"/>     
     <!--<Exec Command="&quot;$(NuGetExePath) restore&quot;" />-->
     <Exec Command="dotnet restore $(SourcePath)Michonne.Tests\" />
@@ -41,9 +40,7 @@
     <Message Importance="high" Text="--------- end of DOTNET RESTORE  -------------------------------------"/>
   </Target>
   
-
   <Target Name="NugetRestore" DependsOnTargets="DotnetCoreRestore">
-      
     <Message Importance="high" Text="--------- NUGET RESTORE  -------------------------------------------"/>
     
     <!--<Exec Command="&quot;$(NuGetExePath) restore&quot;" />-->
@@ -51,11 +48,9 @@
     <Exec Command="&quot;$(NuGetExePath)&quot;  install &quot;$(SolutionRoot)\Michonne.01.Tests\packages.config&quot; -o &quot;$(SolutionRoot)\packages&quot;" />
   
     <Message Importance="high" Text="--------- end of NUGET RESTORE  -------------------------------------"/>
-  
   </Target>
   
   <Target Name="Build" DependsOnTargets="NugetRestore">
-
     <Message Importance="high" Text="--------- BUILD  -------------------------------------------"/>
     
       <Message Importance="high" Text="
@@ -71,7 +66,6 @@ BUILD PROJECT with MSBuildToolsVersion: '$(MSBuildToolsVersion)'
                 Properties="Configuration=$(Configuration)" />
 
     <Message Importance="high" Text="--------- end of BUILD  -------------------------------------"/>
-  
   </Target>
     
     
@@ -92,7 +86,6 @@ GENERATING DOCS for:
       <Message Importance="high" Text="--------- end of DOCUMENTATION GENERATION  ---------"/>
   </Target>
 
-  
   <!-- 3- Run the TESTS -->
   <ItemGroup>
     <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\$(SolutionName).Tests\bin\$(Configuration)\$(SolutionName).Tests.dll&quot; /framework:net-4.5" />
@@ -132,7 +125,7 @@ RUN ALL UNIT TESTS
       <Message Importance="high" Text="xcopy $(SourcePath)$(SolutionName).Implementation\bin\$(Configuration)\*.* $(BinariesPath)\45\ /E /Y" />
       <Exec Command="xcopy $(SourcePath)$(SolutionName).Implementation\bin\$(Configuration)\*.* $(BinariesPath)\45\ /E /Y" />
 	    
-    <Message Importance="high" Text="xcopy $(SourcePath)$(SolutionName).Interfaces\bin\$(Configuration)\*.* $(BinariesPath)\45\ /E /Y" />
+      <Message Importance="high" Text="xcopy $(SourcePath)$(SolutionName).Interfaces\bin\$(Configuration)\*.* $(BinariesPath)\45\ /E /Y" />
       <Exec Command="xcopy $(SourcePath)$(SolutionName).Interfaces\bin\$(Configuration)\*.* $(BinariesPath)\45\ /E /Y" />
 	  
       <!-- Get the version number of the main FV assembly to insert into the nuspec files -->
