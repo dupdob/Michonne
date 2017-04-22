@@ -25,7 +25,7 @@
       <TestRunnerPath>$(SolutionRoot)\packages\NUnit.ConsoleRunner.3.6.1\tools\nunit3-console.exe</TestRunnerPath>
   </PropertyGroup>
     
-  <Target Name="RunAll" DependsOnTargets="Build; RunTests; Package" />
+  <Target Name="RunAll" DependsOnTargets="Build; Package" />
   
   <Target Name="CI" DependsOnTargets="Build" />
   <!--<Target Name="CI" DependsOnTargets="Build; BuildDocs" />-->

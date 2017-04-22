@@ -7,7 +7,7 @@ configuration: Release
 platform: Any CPU
 build_script:
 - cmd: build.cmd
-test: off
+test: auto
 artifacts:
   - path: 'Artifacts\Packages\*.nupkg'
     name: MichonnePackages
