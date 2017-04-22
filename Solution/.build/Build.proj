@@ -116,7 +116,7 @@ RUN ALL UNIT TESTS
   </Target>
 
   <!-- 4- Then PACKAGE -->
-  <Target Name="Package" DependsOnTargets="RunTests">
+  <Target Name="Package" DependsOnTargets="Build">
 
       <Message Importance="high" Text="--------- PACKAGE ---------"/>
       <!-- Copies the dll into an easy path targeted by the .nuspec file. -->
