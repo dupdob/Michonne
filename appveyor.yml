@@ -1,0 +1,13 @@
+version: 0.4.0.{build}
+image: Visual Studio 2017
+branches:
+  only:
+  - master
+configuration: Release
+platform: Any CPU
+build_script:
+- cmd: Solution\build.cmd
+test: off
+artifacts:
+  - path: 'Artifacts\Packages\*.nupkg'
+    name: MichonnePackages
