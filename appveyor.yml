@@ -6,7 +6,7 @@ branches:
 configuration: Release
 platform: Any CPU
 build_script:
-- cmd: Solution\build.cmd
+- cmd: build.cmd
 test: off
 artifacts:
   - path: 'Artifacts\Packages\*.nupkg'
