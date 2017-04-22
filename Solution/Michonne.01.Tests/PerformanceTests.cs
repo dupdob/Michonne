@@ -19,16 +19,17 @@ namespace Michonne.Tests
     using System.Diagnostics;
     using System.Threading;
 
-    using Michonne.Implementation;
-    using Michonne.Interfaces;
+    using Implementation;
+    using Interfaces;
 
     using NUnit.Framework;
 
     // TODO: (TPI) even if microbenchmarks usually sucks ;-) let's use Vance Morrisson based microbenchmark tool here
-    [TestFixture, Explicit("Manual tests")]
+    [TestFixture]
     public class PerformanceTests
     {
         [Test]
+        [Ignore("Bench")]
         public void MeasureThroughput()
         {
             // TestCaseSource or ValueSource would be better but it does not play well with the last R# version
