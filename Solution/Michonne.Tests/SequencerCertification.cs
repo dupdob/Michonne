@@ -168,7 +168,7 @@ namespace Michonne.Tests
         /// <summary>
         /// The should_ use_ provided_ unit_ of_ execution.
         /// </summary>
- //       [Test]
+        [Test]
         public void Should_Use_Provided_Unit_Of_Execution()
         {
             var synchExec = new SynchroCall();
