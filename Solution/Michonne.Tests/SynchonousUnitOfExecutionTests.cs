@@ -26,7 +26,7 @@ namespace Michonne.Tests
     [TestFixture]
     public class SynchonousUnitOfExecutionTests
     {
-//        [Test]
+        [Test]
         public void ShouldExecuteSynchro()
         {
             var factory = new UnitOfExecutionsFactory();
