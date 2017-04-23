@@ -178,7 +178,7 @@ namespace Michonne.Tests
             Check.That(synchExec.DoneTasks).Equals(1);
         }
 
-//        [Test]
+        [Test]
         public void Should_Be_Fast()
         {
             var factory = new UnitOfExecutionsFactory();
