@@ -68,7 +68,7 @@ namespace Michonne.Tests
         /// <remarks>Here the underlying unit of execution is a dedicated thread. So, all tasks are processed sequentially.
         /// This test dispatches tasks alternatively through the sequencer or directly through the unit of execution.
         /// Actual execution order should not be changed!</remarks>
-//        [Test]
+        [Test]
         public void Sequencer_should_process_fairly()
         {
             var factory = new UnitOfExecutionsFactory();
@@ -105,7 +105,7 @@ namespace Michonne.Tests
         /// <summary>
         /// The should_ execute_ tasks_ non_ concurrently.
         /// </summary>
- //       [Test]
+        [Test]
         public void Should_Execute_Tasks_Non_Concurrently()
         {
             var poolExec = new DotNetThreadPoolUnitOfExecution();
