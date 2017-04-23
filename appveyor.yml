@@ -9,5 +9,5 @@ build_script:
 - cmd: build.cmd
 test: off
 artifacts:
-  - path: 'Artifacts\Packages\*.nupkg'
+  - path: 'Solution\Artifacts\Packages\*.nupkg'
     name: MichonnePackages

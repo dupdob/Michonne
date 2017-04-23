@@ -126,7 +126,7 @@ namespace Michonne.Tests
         /// <summary>
         /// The should_ execute_ tasks_ sequentially.
         /// </summary>
-//        [Test]
+        [Test]
         public void Should_Execute_Tasks_Sequentially()
         {
             var poolExec = new DotNetThreadPoolUnitOfExecution();
@@ -158,7 +158,7 @@ namespace Michonne.Tests
         /// <summary>
         /// The should_ support_ injection_ of_ unit_ of_ execution.
         /// </summary>
- //       [Test]
+        [Test]
         public void Should_Support_Injection_Of_Unit_Of_Execution()
         {
             ConstructorInfo constructor = this.Constructor;
