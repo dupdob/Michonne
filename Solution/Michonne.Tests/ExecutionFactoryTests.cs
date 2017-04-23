@@ -33,7 +33,7 @@ namespace Michonne.Tests
             Check.That(factory.CoreCount).IsEqualTo(Environment.ProcessorCount);
         }
 
- //       [Test]
+        [Test]
         public void Factory_should_create_pool_unit()
         {
             var factory = new UnitOfExecutionsFactory();
