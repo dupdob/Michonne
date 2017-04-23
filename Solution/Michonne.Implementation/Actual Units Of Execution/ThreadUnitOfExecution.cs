@@ -70,7 +70,7 @@ namespace Michonne.Implementation
         /// </summary>
         ~ThreadUnitOfExecution()
         {
- //           this.Dispose(false);
+            this.Dispose(false);
         }
 
         #endregion

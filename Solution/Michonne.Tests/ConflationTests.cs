@@ -76,7 +76,7 @@ namespace Michonne.Tests
             Check.That(ranTasks).IsEqualTo(1);
         }
 
-        [Test]
+//        [Test]
         public void ShouldHaveANiceApi()
         {
             // conflating is more about data than about calls
