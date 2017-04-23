@@ -80,7 +80,7 @@ namespace Michonne.Implementation
         /// <summary>
         /// Gets the unit of executions factory.
         /// </summary>
-        public IUnitOfExecutionsFactory UnitOfExecutionsFactory { get; private set; }
+        public IUnitOfExecutionsFactory UnitOfExecutionsFactory { get; }
 
         #endregion
 
@@ -128,7 +128,7 @@ namespace Michonne.Implementation
             this.Dispatch(null);
             if (!disposing) return;
             GC.SuppressFinalize(this);
-            this.myThread.Join(500);
+//            this.myThread.Join(500);
         }
 
         /// <summary>
@@ -148,12 +148,10 @@ namespace Michonne.Implementation
 
                     next = this.tasks.Dequeue();
                 }
-
                 if (next == null)
                 {
                     break;
                 }
-
                 next();
             }
         }
