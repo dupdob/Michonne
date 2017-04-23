@@ -61,6 +61,7 @@ namespace Michonne.Implementation
         {
             this.UnitOfExecutionsFactory = unitOfExecutionsFactory;
             this.myThread = new Thread(this.Process);
+            this.myThread.IsBackground = true;
             this.myThread.Start();
         }
 
