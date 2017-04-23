@@ -25,7 +25,7 @@
       <TestRunnerPath>$(SolutionRoot)\packages\NUnit.ConsoleRunner.3.6.1\tools\nunit3-console.exe</TestRunnerPath>
   </PropertyGroup>
     
-  <Target Name="RunAll" DependsOnTargets="Build; Package" />
+  <Target Name="RunAll" DependsOnTargets="Build; RunTests; Package" />
   
   <Target Name="CI" DependsOnTargets="Build" />
   <!--<Target Name="CI" DependsOnTargets="Build; BuildDocs" />-->
@@ -89,7 +89,7 @@ GENERATING DOCS for:
   <!-- 3- Run the TESTS -->
   <ItemGroup>
     <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\$(SolutionName).01.Tests\bin\$(Configuration)\$(SolutionName).01.Tests.dll&quot; /framework:net-4.0" />
-    <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\$(SolutionName).Tests\bin\$(Configuration)\$(SolutionName).Tests.dll&quot; /framework:net-4.0" />
+    <!-- TestProjectsWithArguments Include="&quot;$(SolutionRoot)\$(SolutionName).Tests\bin\$(Configuration)\$(SolutionName).Tests.dll&quot; /framework:net-4.0" /-->
   </ItemGroup>
 
   <Target Name="RunTests" DependsOnTargets="Build">
