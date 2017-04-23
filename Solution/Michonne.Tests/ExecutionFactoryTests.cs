@@ -25,7 +25,7 @@ namespace Michonne.Tests
     [TestFixture]
     public class ExecutionFactoryTests
     {
-//        [Test]
+        [Test]
         public void Factory_should_detect_number_of_cores()
         {
             var factory = new UnitOfExecutionsFactory();
