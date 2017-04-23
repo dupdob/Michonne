@@ -99,12 +99,12 @@ namespace Michonne.Implementation
         {
             lock (this.synchRoot)
             {
-                if (this.tasks.Count == 0)
+                this.tasks.Enqueue(action);
+                if (this.tasks.Count == 1)
                 {
                     Monitor.Pulse(this.synchRoot);
                 }
 
-                this.tasks.Enqueue(action);
             }
         }
 
