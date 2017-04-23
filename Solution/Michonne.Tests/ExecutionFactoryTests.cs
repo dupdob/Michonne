@@ -41,7 +41,7 @@ namespace Michonne.Tests
             Check.That(poolExec).IsNotNull();
         }
 
- //       [Test]
+        [Test]
         public void Factory_should_create_worker_unit()
         {
             var factory = new UnitOfExecutionsFactory();
