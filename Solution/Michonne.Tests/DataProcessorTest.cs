@@ -18,15 +18,15 @@ namespace Michonne.Tests
 {
     using System.Collections.Generic;
 
-    using Michonne.Implementation;
+    using Implementation;
 
     using NFluent;
 
     using NUnit.Framework;
 
-    public class DataProcessorTest
+    internal class DataProcessorTest
     {
-        [Test]
+ //       [Test]
         public void ShouldHaveANiceAPI()
         {
             var factory = new UnitOfExecutionsFactory();

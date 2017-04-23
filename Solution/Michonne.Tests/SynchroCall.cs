@@ -16,7 +16,7 @@ namespace Michonne.Tests
 {
     using System;
 
-    using Michonne.Interfaces;
+    using Interfaces;
 
     /// <summary>
     /// This implementation of <see cref="IUnitOfExecution"/> implements synchronous calls.

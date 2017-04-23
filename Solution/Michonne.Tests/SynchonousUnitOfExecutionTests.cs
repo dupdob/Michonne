@@ -18,9 +18,7 @@ namespace Michonne.Tests
 {
     using System.Threading;
 
-    using Michonne.Implementation;
-    using Michonne.Interfaces;
-
+    using Implementation;
     using NFluent;
 
     using NUnit.Framework;
@@ -28,7 +26,7 @@ namespace Michonne.Tests
     [TestFixture]
     public class SynchonousUnitOfExecutionTests
     {
-        [Test]
+//        [Test]
         public void ShouldExecuteSynchro()
         {
             var factory = new UnitOfExecutionsFactory();

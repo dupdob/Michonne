@@ -18,8 +18,8 @@ namespace Michonne.Tests
     using System.Diagnostics;
     using System.Reflection;
 
-    using Michonne.Implementation;
-    using Michonne.Interfaces;
+    using Implementation;
+    using Interfaces;
 
     using NFluent;
 
@@ -68,7 +68,7 @@ namespace Michonne.Tests
         /// <remarks>Here the underlying unit of execution is a dedicated thread. So, all tasks are processed sequentially.
         /// This test dispatches tasks alternatively through the sequencer or directly through the unit of execution.
         /// Actual execution order should not be changed!</remarks>
-        [Test]
+//        [Test]
         public void Sequencer_should_process_fairly()
         {
             var factory = new UnitOfExecutionsFactory();
@@ -105,7 +105,7 @@ namespace Michonne.Tests
         /// <summary>
         /// The should_ execute_ tasks_ non_ concurrently.
         /// </summary>
-        [Test]
+ //       [Test]
         public void Should_Execute_Tasks_Non_Concurrently()
         {
             var poolExec = new DotNetThreadPoolUnitOfExecution();
@@ -126,7 +126,7 @@ namespace Michonne.Tests
         /// <summary>
         /// The should_ execute_ tasks_ sequentially.
         /// </summary>
-        [Test]
+//        [Test]
         public void Should_Execute_Tasks_Sequentially()
         {
             var poolExec = new DotNetThreadPoolUnitOfExecution();
@@ -158,7 +158,7 @@ namespace Michonne.Tests
         /// <summary>
         /// The should_ support_ injection_ of_ unit_ of_ execution.
         /// </summary>
-        [Test]
+ //       [Test]
         public void Should_Support_Injection_Of_Unit_Of_Execution()
         {
             ConstructorInfo constructor = this.Constructor;
@@ -168,7 +168,7 @@ namespace Michonne.Tests
         /// <summary>
         /// The should_ use_ provided_ unit_ of_ execution.
         /// </summary>
-        [Test]
+ //       [Test]
         public void Should_Use_Provided_Unit_Of_Execution()
         {
             var synchExec = new SynchroCall();
@@ -178,7 +178,7 @@ namespace Michonne.Tests
             Check.That(synchExec.DoneTasks).Equals(1);
         }
 
-        [Test]
+//        [Test]
         public void Should_Be_Fast()
         {
             var factory = new UnitOfExecutionsFactory();

@@ -16,7 +16,7 @@ namespace Michonne.Tests
 {
     using System;
 
-    using Michonne.Implementation;
+    using Implementation;
 
     using NFluent;
 
