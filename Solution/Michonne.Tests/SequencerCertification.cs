@@ -69,6 +69,7 @@ namespace Michonne.Tests
         /// This test dispatches tasks alternatively through the sequencer or directly through the unit of execution.
         /// Actual execution order should not be changed!</remarks>
 //        [Test]
+// blocking
         public void Sequencer_should_process_fairly()
         {
             var factory = new UnitOfExecutionsFactory();
