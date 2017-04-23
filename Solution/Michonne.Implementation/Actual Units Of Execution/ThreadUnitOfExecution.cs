@@ -68,10 +68,12 @@ namespace Michonne.Implementation
         ///     Finalizes an instance of the <see cref="ThreadUnitOfExecution" /> class.
         ///     Destructor.
         /// </summary>
+/*
         ~ThreadUnitOfExecution()
         {
             this.Dispose(false);
         }
+*/
 
         #endregion
 
