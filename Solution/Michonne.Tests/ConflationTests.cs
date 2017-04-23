@@ -21,7 +21,7 @@ namespace Michonne.Tests
     using System;
     using System.Threading;
 
-    using Michonne.Implementation;
+    using Implementation;
 
     using NFluent;
 
@@ -37,7 +37,7 @@ namespace Michonne.Tests
         /// <summary>
         /// The should conflate actions.
         /// </summary>
-//        [Test]
+        [Test]
         public void ShouldConflateActions()
         {
             var factory = new UnitOfExecutionsFactory();
@@ -76,7 +76,7 @@ namespace Michonne.Tests
             Check.That(ranTasks).IsEqualTo(1);
         }
 
-//        [Test]
+        [Test]
         public void ShouldHaveANiceApi()
         {
             // conflating is more about data than about calls
