@@ -98,7 +98,7 @@ namespace Michonne.Tests
             Check.That(act).IsEqualTo(1);
         }
 
- //       [Test]
+        [Test]
         public void ShouldHaveANiceDataApi()
         {
             // conflating is more about data than about calls
