@@ -175,7 +175,7 @@ RUN ALL UNIT TESTS
 CREATING NUGET PACKAGE IN:
     - $(PackagesPath)
 ---------------------------------------------------------------
-            "  />
+            " />
       <MakeDir Directories="$(PackagesPath)" Condition="!Exists('$(PackagesPath)')" />
       <Exec Command="&quot;$(NuGetExePath)&quot; pack &quot;$(NuspecFilePath)&quot; -o &quot;$(PackagesPath)&quot;"
         LogStandardErrorAsError="true" />
