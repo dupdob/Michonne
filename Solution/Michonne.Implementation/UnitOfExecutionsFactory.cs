@@ -124,7 +124,7 @@ namespace Michonne.Implementation
         private void UseAThread()
         {
             this.createdThreadsCount++;
-            ThreadPool.SetMaxThreads(this.AvailableCore, this.coreCount);
+ //           ThreadPool.SetMaxThreads(this.AvailableCore, this.coreCount);
         }
 
         #endregion

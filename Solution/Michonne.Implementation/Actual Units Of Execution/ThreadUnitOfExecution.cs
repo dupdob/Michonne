@@ -60,8 +60,7 @@ namespace Michonne.Implementation
         public ThreadUnitOfExecution(IUnitOfExecutionsFactory unitOfExecutionsFactory)
         {
             this.UnitOfExecutionsFactory = unitOfExecutionsFactory;
-            this.myThread = new Thread(this.Process);
-            this.myThread.IsBackground = true;
+            this.myThread = new Thread(this.Process) {IsBackground = true};
             this.myThread.Start();
         }
 
@@ -69,12 +68,10 @@ namespace Michonne.Implementation
         ///     Finalizes an instance of the <see cref="ThreadUnitOfExecution" /> class.
         ///     Destructor.
         /// </summary>
-/*
         ~ThreadUnitOfExecution()
         {
             this.Dispose(false);
         }
-*/
 
         #endregion
 
