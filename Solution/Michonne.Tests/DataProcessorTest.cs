@@ -26,8 +26,7 @@ namespace Michonne.Tests
 
     internal class DataProcessorTest
     {
-        //[Test] 
-        // blocking
+        [Test] 
         public void ShouldHaveANiceAPI()
         {
             var factory = new UnitOfExecutionsFactory();

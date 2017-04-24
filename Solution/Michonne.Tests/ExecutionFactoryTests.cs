@@ -51,7 +51,7 @@ namespace Michonne.Tests
             Check.That(threadExec).IsNotNull();
         }
 
- //       [Test]
+        [Test]
         public void Factory_should_decrease_core_count()
         {
             var factory = new UnitOfExecutionsFactory();
