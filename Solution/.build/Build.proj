@@ -23,9 +23,10 @@
       <DocuExePath>$(ToolsPath)docu\docu.exe</DocuExePath>
       <ZipExe>$(ToolsPath)7za\7za.exe</ZipExe>
       <TestRunnerPath>$(SolutionRoot)\packages\NUnit.ConsoleRunner.3.6.1\tools\nunit3-console.exe</TestRunnerPath>
+      <NugetKey>$(NUGET_KEY)</NugetKey>
   </PropertyGroup>
     
-  <Target Name="RunAll" DependsOnTargets="Build; RunTests; Package" />
+  <Target Name="RunAll" DependsOnTargets="Build; RunTests; Package; Publish" />
   
   <Target Name="CI" DependsOnTargets="Build" />
   <!--<Target Name="CI" DependsOnTargets="Build; BuildDocs" />-->
@@ -135,7 +136,7 @@ RUN ALL UNIT TESTS
 
       <PropertyGroup>
         <NuspecFilePath>$(SolutionRoot)\$(SolutionName).nuspec</NuspecFilePath>
-        <PackageVersion>%(AsmInfo.Version)</PackageVersion>
+        <PackageVersion>%(AsmInfo.Version)-alpha</PackageVersion>
       </PropertyGroup>
 
       <Message Importance="high" Text="[Print] PackageVersion: '$(PackageVersion)'" />
@@ -146,7 +147,7 @@ RUN ALL UNIT TESTS
         XmlInputPath="$(NuspecFilePath)"
           Namespaces="&lt;Namespace Prefix='x' Uri='http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd' /&gt;"
         Query="x:package/x:metadata/x:version" 
-        Value="$(PackageVersion)-alpha" />
+        Value="$(PackageVersion)" />
 
       <!-- Gets the release note content from the proper file -->
       <ReadLinesFromFile File="$(SolutionRoot)\ReleaseNoteContentToBeInsertedWithinNuspecFile.txt">
@@ -178,8 +179,20 @@ CREATING NUGET PACKAGE IN:
       <MakeDir Directories="$(PackagesPath)" Condition="!Exists('$(PackagesPath)')" />
       <Exec Command="&quot;$(NuGetExePath)&quot; pack &quot;$(NuspecFilePath)&quot; -o &quot;$(PackagesPath)&quot;"
         LogStandardErrorAsError="true" />
-
+      <PropertyGroup>
+        <PackageFileName>$(PackagesPath)\$(SolutionName).$(PackageVersion).nupkg</PackageFileName>
+    </PropertyGroup>
         <Message Importance="high" Text="--------- End of PACKAGE ---------"/>
   </Target>
 
+<Target Name="Publish" DependsOnTargets="Package">
+  <!--= Publish the package on Nuget-->
+  <Message Importance="high" Text="--------- NUGET PUBLISH  -------------------------------------------"/>
+    
+  <!--<Exec Command="&quot;$(NuGetExePath) restore&quot;" />-->
+  <Exec Command="&quot;$(NuGetExePath)&quot;  setApiKey $(NugetKey) -source https://www.nuget.org/api/v2/package"/>
+  <Exec Command="&quot;$(NuGetExePath)&quot;  push &quot;$(PackageFileName)&quot; -Source https://www.nuget.org/api/v2/package" />
+  
+  <Message Importance="high" Text="--------- end of NUGET PUBLISH  -------------------------------------"/></Target>
 </Project>
+ 
