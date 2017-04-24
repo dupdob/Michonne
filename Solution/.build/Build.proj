@@ -24,6 +24,7 @@
       <ZipExe>$(ToolsPath)7za\7za.exe</ZipExe>
       <TestRunnerPath>$(SolutionRoot)\packages\NUnit.ConsoleRunner.3.6.1\tools\nunit3-console.exe</TestRunnerPath>
       <NugetKey>$(NUGET_KEY)</NugetKey>
+    <PackageStream>-nightly</PackageStream>
   </PropertyGroup>
     
   <Target Name="RunAll" DependsOnTargets="Build; RunTests; Package; Publish" />
@@ -136,7 +137,7 @@ RUN ALL UNIT TESTS
 
       <PropertyGroup>
         <NuspecFilePath>$(SolutionRoot)\$(SolutionName).nuspec</NuspecFilePath>
-        <PackageVersion>%(AsmInfo.Version)-alpha</PackageVersion>
+        <PackageVersion>%(AsmInfo.Version)$(PackageStream)</PackageVersion>
       </PropertyGroup>
 
       <Message Importance="high" Text="[Print] PackageVersion: '$(PackageVersion)'" />
