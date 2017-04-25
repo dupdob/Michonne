@@ -27,7 +27,7 @@
     <PackageStream>-nightly</PackageStream>
   </PropertyGroup>
     
-  <Target Name="RunAll" DependsOnTargets="Build; RunTests; Package; Publish" />
+  <Target Name="RunAll" DependsOnTargets="Build; RunTests; Package" />
   
   <Target Name="CI" DependsOnTargets="Build" />
   <!--<Target Name="CI" DependsOnTargets="Build; BuildDocs" />-->
