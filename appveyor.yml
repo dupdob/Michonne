@@ -11,3 +11,9 @@ test: off
 artifacts:
   - path: 'Solution\Artifacts\Packages\*.nupkg'
     name: MichonnePackages
+assembly_info:
+  patch: true
+  file: version.cs
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
