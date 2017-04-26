@@ -20,7 +20,7 @@ namespace Michonne.Implementation
 {
     using System;
     using System.Threading;
-
+    using System.Threading.Tasks;
     using Interfaces;
 
     /// <summary>
@@ -62,7 +62,11 @@ namespace Michonne.Implementation
         /// </param>
         public void Dispatch(Action action)
         {
+#if NETSTANDARD1_3
+            Task.Factory.StartNew(Execute, action);
+#else
             ThreadPool.QueueUserWorkItem(Execute, action);
+#endif
         }
 
         #endregion

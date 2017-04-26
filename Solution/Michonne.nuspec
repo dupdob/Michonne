@@ -3,7 +3,7 @@
   <metadata>
     <id>Michonne</id>
     <title>Michonne</title>
-    <version>0.4.0.40039-alpha</version>
+    <version>0.4.0.11860-nightly</version>
     <authors>Cyrille DUPUYDAUBY, Thomas PIERRAIN</authors>
     <owners>Cyrille DUPUYDAUBY</owners>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
@@ -19,10 +19,10 @@
   </metadata>
   <files>
     <!-- .NET 4.5 -->
-    <file src="Artifacts\Binaries\45\Michonne.Implementation.dll" target="lib\net45\Michonne.Implementation.dll" />
-    <file src="Artifacts\Binaries\45\Michonne.Interfaces.dll" target="lib\net45\Michonne.Interfaces.dll" />
-    <!-- .NET 4.0 (for dynamics and tasks support) -->
-    <!-- file src="Artifacts\Binaries\40\NFluent.dll" target="lib\net40\NFluent.dll" /-->
-    <!--file src="Artifacts\Binaries\40\NFluent.xml" target="lib\net40\NFluent.xml" /-->
+    <file src="Artifacts\Binaries\net45\Michonne.Implementation.dll" target="lib\net45\Michonne.Implementation.dll" />
+    <file src="Artifacts\Binaries\net45\Michonne.Interfaces.dll" target="lib\net45\Michonne.Interfaces.dll" />
+    <!-- .Net standard 1_3 -->
+    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Implementation.dll" target="lib\netstandard1.3\Michonne.Implementation.dll" />
+    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Interfaces.dll" target="lib\netstandard1.3\Michonne.Interfaces.dll" />
   </files>
 </package>

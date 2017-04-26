@@ -21,7 +21,7 @@ namespace Michonne.Implementation
     using System;
     using System.Collections.Generic;
     using System.Threading;
-
+    using System.Threading.Tasks;
     using Interfaces;
 
     /// <summary>
@@ -32,11 +32,11 @@ namespace Michonne.Implementation
     {
         #region Fields
 
-        /// <summary>
-        ///     Thread executing the work.
-        /// </summary>
+#if NETSTANDARD1_3
+        private Task handlerTask;
+#else
         private readonly Thread myThread;
-
+#endif
         /// <summary>
         ///     private lock.
         /// </summary>
@@ -49,7 +49,7 @@ namespace Michonne.Implementation
 
         #endregion
 
-        #region Constructors and Destructors
+#region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ThreadUnitOfExecution"/> class.
@@ -60,8 +60,12 @@ namespace Michonne.Implementation
         public ThreadUnitOfExecution(IUnitOfExecutionsFactory unitOfExecutionsFactory)
         {
             this.UnitOfExecutionsFactory = unitOfExecutionsFactory;
+#if NETSTANDARD1_3
+            this.handlerTask = Task.Factory.StartNew(this.Process);
+#else
             this.myThread = new Thread(this.Process) {IsBackground = true};
             this.myThread.Start();
+#endif
         }
 
         /// <summary>
@@ -73,18 +77,18 @@ namespace Michonne.Implementation
             this.Dispose(false);
         }
 
-        #endregion
+#endregion
 
-        #region Public Properties
+#region Public Properties
 
         /// <summary>
         /// Gets the unit of executions factory.
         /// </summary>
         public IUnitOfExecutionsFactory UnitOfExecutionsFactory { get; }
 
-        #endregion
+#endregion
 
-        #region Public Methods and Operators
+#region Public Methods and Operators
 
         /// <summary>
         /// The dispatch.
@@ -113,9 +117,9 @@ namespace Michonne.Implementation
             this.Dispose(true);
         }
 
-        #endregion
+#endregion
 
-        #region Methods
+#region Methods
 
         /// <summary>
         /// The dispose.
@@ -156,6 +160,6 @@ namespace Michonne.Implementation
             }
         }
 
-        #endregion
+#endregion
     }
 }

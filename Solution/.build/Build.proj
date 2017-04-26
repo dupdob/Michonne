@@ -12,6 +12,7 @@
       <Configuration Condition="$(Configuration) == ''">Debug</Configuration>
       <SolutionRoot>$(MSBuildProjectDirectory)\..</SolutionRoot>
       <SolutionName>Michonne</SolutionName>
+      <AssemblyFileNameRoot>$(SolutionRoot)\$(SolutionName)</AssemblyFileNameRoot>
       <ToolsPath>$(SolutionRoot)\tools\</ToolsPath>
       <SourcePath>$(SolutionRoot)\</SourcePath>
       <ArtifactsPath>$(SolutionRoot)\Artifacts</ArtifactsPath>
@@ -103,9 +104,10 @@ RUN ALL UNIT TESTS
 
     <Message Importance="high" Text="--------- RUN CLASSICAL .NET TESTS ---------"/>
 
-      <Message Importance="high" Text="debug message: TestProjectsWithArguments.Identity:'%(TestProjectsWithArguments.Identity)'"/>
+    <Message Importance="normal" Text="Assemblies to test:"/>
+    <Message Importance="normal" Text="'%(TestProjectsWithArguments.Identity)'"/>
 
-      <Exec Command="&quot;$(TestRunnerPath)&quot; %(TestProjectsWithArguments.Identity)" LogStandardErrorAsError="true" />
+    <Exec Command="&quot;$(TestRunnerPath)&quot; %(TestProjectsWithArguments.Identity)" LogStandardErrorAsError="true" />
 
     <Message Importance="high" Text="--------- end of RUN CLASSICAL .NET TESTS ---------"/>
     
@@ -117,21 +119,33 @@ RUN ALL UNIT TESTS
 
   </Target>
 
+  <ItemGroup>
+    <FilesForNuget Include="$(AssemblyFileNameRoot).Implementation\bin\$(Configuration)\*Implementation*.*">
+      <TargetFwk>net45</TargetFwk>
+    </FilesForNuget>
+    <FilesForNuget Include="$(AssemblyFileNameRoot).Interfaces\bin\$(Configuration)\*Interfaces*.*">
+      <TargetFwk>net45</TargetFwk>
+    </FilesForNuget>
+    <FilesForNuget Include="$(AssemblyFileNameRoot).Implementation.Standard\bin\$(Configuration)\netstandard1.3\*Implementation*.*">
+      <TargetFwk>netstandard1.3</TargetFwk>
+    </FilesForNuget>
+    <FilesForNuget Include="$(AssemblyFileNameRoot).Interfaces.Standard\bin\$(Configuration)\netstandard1.3\*Interfaces*.*">
+      <TargetFwk>netstandard1.3</TargetFwk>
+    </FilesForNuget>
+  </ItemGroup>
   <!-- 4- Then PACKAGE -->
   <Target Name="Package" DependsOnTargets="Build">
 
       <Message Importance="high" Text="--------- PACKAGE ---------"/>
       <!-- Copies the dll into an easy path targeted by the .nuspec file. -->
-      
+      <!-- Clean working dirs -->
+    <Exec Command="rmdir $(BinariesPath) /Q"></Exec>
       <!-- Michonne -->
-      <Message Importance="high" Text="xcopy $(SourcePath)$(SolutionName).Implementation\bin\$(Configuration)\*.* $(BinariesPath)\45\ /E /Y" />
-      <Exec Command="xcopy $(SourcePath)$(SolutionName).Implementation\bin\$(Configuration)\*.* $(BinariesPath)\45\ /E /Y" />
-	    
-      <Message Importance="high" Text="xcopy $(SourcePath)$(SolutionName).Interfaces\bin\$(Configuration)\*.* $(BinariesPath)\45\ /E /Y" />
-      <Exec Command="xcopy $(SourcePath)$(SolutionName).Interfaces\bin\$(Configuration)\*.* $(BinariesPath)\45\ /E /Y" />
+      <Message Importance="high" Text="xcopy %(FilesForNuget.Identity) $(BinariesPath)%(FilesForNuget.TargetFwk)/ /E /Y" />
+      <Exec Command="xcopy %(FilesForNuget.Identity) $(BinariesPath)%(FilesForNuget.TargetFwk)\ /E /Y" />
 	  
       <!-- Get the version number of the main FV assembly to insert into the nuspec files -->
-      <GetAssemblyIdentity AssemblyFiles="$(BinariesPath)\45\$(SolutionName).Implementation.dll">
+      <GetAssemblyIdentity AssemblyFiles="$(BinariesPath)\net45\$(SolutionName).Implementation.dll">
         <Output TaskParameter="Assemblies" ItemName="AsmInfo" />
       </GetAssemblyIdentity>
 

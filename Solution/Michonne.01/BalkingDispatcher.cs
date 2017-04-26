@@ -41,13 +41,7 @@ namespace Michonne
         /// <summary>
         ///     Gets the unit of executions factory.
         /// </summary>
-        public IUnitOfExecutionsFactory UnitOfExecutionsFactory
-        {
-            get
-            {
-                return this.unitOfExecutionsFactory;
-            }
-        }
+        public IUnitOfExecutionsFactory UnitOfExecutionsFactory => this.unitOfExecutionsFactory;
 
         /// <summary>
         /// Dispatch an action to be executed.
