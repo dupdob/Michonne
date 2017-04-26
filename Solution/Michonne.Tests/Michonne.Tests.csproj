@@ -57,6 +57,7 @@
     <Compile Include="RaceConditionDetector.cs" />
     <Compile Include="SynchonousUnitOfExecutionTests.cs" />
     <Compile Include="SynchroCall.cs" />
+    <Compile Include="VersionTaskTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Michonne.01\Michonne.0.1.csproj">

@@ -19,13 +19,10 @@
       <BinariesPath>$(ArtifactsPath)\Binaries</BinariesPath>
       <PackagesPath>$(ArtifactsPath)\Packages</PackagesPath>
       <DocPath>$(ArtifactsPath)\Docs</DocPath>
-      <NuGetToolsPath></NuGetToolsPath>
       <NuGetExePath>$(NuGetToolsPath)nuget.exe</NuGetExePath>
-      <DocuExePath>$(ToolsPath)docu\docu.exe</DocuExePath>
-      <ZipExe>$(ToolsPath)7za\7za.exe</ZipExe>
       <TestRunnerPath>$(SolutionRoot)\packages\NUnit.ConsoleRunner.3.6.1\tools\nunit3-console.exe</TestRunnerPath>
       <NugetKey>$(NUGET_KEY)</NugetKey>
-    <PackageStream>-nightly</PackageStream>
+    <PackageStream></PackageStream>
   </PropertyGroup>
     
   <Target Name="RunAll" DependsOnTargets="Build; RunTests; Package" />
@@ -110,15 +107,10 @@ RUN ALL UNIT TESTS
     <Exec Command="&quot;$(TestRunnerPath)&quot; %(TestProjectsWithArguments.Identity)" LogStandardErrorAsError="true" />
 
     <Message Importance="high" Text="--------- end of RUN CLASSICAL .NET TESTS ---------"/>
-    
-    <Message Importance="high" Text="--------- RUN THE .NET CORE TESTS ---------"/>
-
-      <!--Exec Command="dotnet test $(SolutionRoot)\Michonne.Core.Tests\Michonne.Core.Tests.csproj" /-->
-      
-    <Message Importance="high" Text="--------- end of RUN THE .NET CORE TESTS ---------"/>
 
   </Target>
 
+  <!-- Files that are parts of the package-->
   <ItemGroup>
     <FilesForNuget Include="$(AssemblyFileNameRoot).Implementation\bin\$(Configuration)\*Implementation*.*">
       <TargetFwk>net45</TargetFwk>
@@ -141,8 +133,8 @@ RUN ALL UNIT TESTS
       <!-- Clean working dirs -->
     <Exec Command="rmdir $(BinariesPath) /Q"></Exec>
       <!-- Michonne -->
-      <Message Importance="high" Text="xcopy %(FilesForNuget.Identity) $(BinariesPath)%(FilesForNuget.TargetFwk)/ /E /Y" />
-      <Exec Command="xcopy %(FilesForNuget.Identity) $(BinariesPath)%(FilesForNuget.TargetFwk)\ /E /Y" />
+      <Message Importance="high" Text="xcopy %(FilesForNuget.Identity) $(BinariesPath)\%(FilesForNuget.TargetFwk)/ /E /Y" />
+      <Exec Command="xcopy %(FilesForNuget.Identity) $(BinariesPath)\%(FilesForNuget.TargetFwk)\ /E /Y" />
 	  
       <!-- Get the version number of the main FV assembly to insert into the nuspec files -->
       <GetAssemblyIdentity AssemblyFiles="$(BinariesPath)\net45\$(SolutionName).Implementation.dll">
