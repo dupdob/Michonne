@@ -35,7 +35,8 @@
   <Target Name="DotnetCoreRestore">
     <Message Importance="high" Text="--------- DOTNET RESTORE  -------------------------------------------"/>     
     <!--<Exec Command="&quot;$(NuGetExePath) restore&quot;" />-->
-    <Exec Command="dotnet restore $(SourcePath)Michonne.Tests\" />
+    <Exec Command="dotnet restore $(SolutionRoot)\Michonne.Implementation.Standard" />
+    <Exec Command="dotnet restore $(SolutionRoot)\Michonne.Interfaces.Standard" />
 
     <Message Importance="high" Text="--------- end of DOTNET RESTORE  -------------------------------------"/>
   </Target>
