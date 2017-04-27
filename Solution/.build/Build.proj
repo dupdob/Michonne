@@ -196,7 +196,7 @@ CREATING NUGET PACKAGE IN:
       <Exec Command="&quot;$(NuGetExePath)&quot; pack &quot;$(NuspecFilePath)&quot; -o &quot;$(PackagesPath)&quot;"
         LogStandardErrorAsError="true" />
       <PropertyGroup>
-        <PackageFileName>$(PackagesPath)\$(SolutionName).$(PackageVersion).nupkg</PackageFileName>
+        <PackageFileName>$(PackagesPath)\$(SolutionName).$(PrettyVersion).nupkg</PackageFileName>
     </PropertyGroup>
         <Message Importance="high" Text="--------- End of PACKAGE ---------"/>
   </Target>
