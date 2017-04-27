@@ -143,7 +143,7 @@ RUN ALL UNIT TESTS
       <!-- Michonne -->
     <Message Importance="high" Text="Files root $(AssemblyFileNameRoot) for $(Configuration)"/>
       <Message Importance="high" Text="xcopy %(FilesForNuget.Identity) $(BinariesPath)\%(FilesForNuget.TargetFwk)\ /E /Y" />
-      <Exec Command="xcopy %(FilesForNuget.Identity) $(BinariesPath)\%(FilesForNuget.TargetFwk)\ /E /Y" />
+      <Exec Command="xcopy %(FilesForNuget.FullPath) $(BinariesPath)\%(FilesForNuget.TargetFwk)\ /E /Y" />
 	  
       <!-- Get the version number of the main FV assembly to insert into the nuspec files -->
       <GetAssemblyIdentity AssemblyFiles="$(BinariesPath)\net45\$(SolutionName).Implementation.dll">
