@@ -2,6 +2,6 @@
 cls
 set config=%1
 if "%config%" == "" (
-   set config=release
+   set config=Release
 )
 msbuild Solution/.build\Build.proj /p:Configuration="%config%" /t:RunAll /v:M /fl /flp:LogFile=msbuild.log;Verbosity=Diagnostic /nr:false
