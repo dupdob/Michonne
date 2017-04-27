@@ -139,9 +139,9 @@ RUN ALL UNIT TESTS
       <Message Importance="high" Text="--------- PACKAGE ---------"/>
       <!-- Copies the dll into an easy path targeted by the .nuspec file. -->
       <!-- Clean working dirs -->
-    <Exec Command="rmdir $(BinariesPath) /Q"></Exec>
+    <!--Exec Command="rmdir $(BinariesPath) /Q"/-->
       <!-- Michonne -->
-      <Message Importance="high" Text="xcopy %(FilesForNuget.Identity) $(BinariesPath)\%(FilesForNuget.TargetFwk)/ /E /Y" />
+      <Message Importance="high" Text="xcopy %(FilesForNuget.Identity) $(BinariesPath)\%(FilesForNuget.TargetFwk)\ /E /Y" />
       <Exec Command="xcopy %(FilesForNuget.Identity) $(BinariesPath)\%(FilesForNuget.TargetFwk)\ /E /Y" />
 	  
       <!-- Get the version number of the main FV assembly to insert into the nuspec files -->
