@@ -141,6 +141,7 @@ RUN ALL UNIT TESTS
       <!-- Clean working dirs -->
     <!--Exec Command="rmdir $(BinariesPath) /Q"/-->
       <!-- Michonne -->
+    <Message Importance="high" Text="Files root $(AssemblyFileNameRoot) for $(Configuration)"/>
       <Message Importance="high" Text="xcopy %(FilesForNuget.Identity) $(BinariesPath)\%(FilesForNuget.TargetFwk)\ /E /Y" />
       <Exec Command="xcopy %(FilesForNuget.Identity) $(BinariesPath)\%(FilesForNuget.TargetFwk)\ /E /Y" />
 	  
