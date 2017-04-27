@@ -119,22 +119,23 @@ RUN ALL UNIT TESTS
   </Target>
 
   <!-- Files that are parts of the package-->
-  <ItemGroup>
-    <FilesForNuget Include="$(AssemblyFileNameRoot).Implementation\bin\$(Configuration)\*Implementation*.*">
-      <TargetFwk>net45</TargetFwk>
-    </FilesForNuget>
-    <FilesForNuget Include="$(AssemblyFileNameRoot).Interfaces\bin\$(Configuration)\*Interfaces*.*">
-      <TargetFwk>net45</TargetFwk>
-    </FilesForNuget>
-    <FilesForNuget Include="$(AssemblyFileNameRoot).Implementation.Standard\bin\$(Configuration)\netstandard1.3\*Implementation*.*">
-      <TargetFwk>netstandard1.3</TargetFwk>
-    </FilesForNuget>
-    <FilesForNuget Include="$(AssemblyFileNameRoot).Interfaces.Standard\bin\$(Configuration)\netstandard1.3\*Interfaces*.*">
-      <TargetFwk>netstandard1.3</TargetFwk>
-    </FilesForNuget>
-  </ItemGroup>
+  
   <!-- 4- Then PACKAGE -->
   <Target Name="Package" DependsOnTargets="Build">
+    <ItemGroup>
+      <FilesForNuget Include="$(AssemblyFileNameRoot).Implementation\bin\$(Configuration)\*Implementation*.*">
+        <TargetFwk>net45</TargetFwk>
+      </FilesForNuget>
+      <FilesForNuget Include="$(AssemblyFileNameRoot).Interfaces\bin\$(Configuration)\*Interfaces*.*">
+        <TargetFwk>net45</TargetFwk>
+      </FilesForNuget>
+      <FilesForNuget Include="$(AssemblyFileNameRoot).Implementation.Standard\bin\$(Configuration)\netstandard1.3\*Implementation*.*">
+        <TargetFwk>netstandard1.3</TargetFwk>
+      </FilesForNuget>
+      <FilesForNuget Include="$(AssemblyFileNameRoot).Interfaces.Standard\bin\$(Configuration)\netstandard1.3\*Interfaces*.*">
+        <TargetFwk>netstandard1.3</TargetFwk>
+      </FilesForNuget>
+    </ItemGroup>
 
       <Message Importance="high" Text="--------- PACKAGE ---------"/>
       <!-- Copies the dll into an easy path targeted by the .nuspec file. -->
