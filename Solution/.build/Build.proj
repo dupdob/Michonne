@@ -40,12 +40,19 @@
     <Message Importance="high" Text="--------- end of DOTNET RESTORE  -------------------------------------"/>
   </Target>
   
+  <ItemGroup>
+    <ProjectFolder Include="$(SolutionRoot)\Michonne.Tests"/>  
+    <ProjectFolder Include="$(SolutionRoot)\Michonne.01.Tests"/>  
+    <ProjectFolder Include="$(SolutionRoot)\Michonne.Implementation.Standard"/>  
+    <ProjectFolder Include="$(SolutionRoot)\Michonne.Interfaces.Standard"/>  
+  </ItemGroup>
+    
+  
   <Target Name="NugetRestore" DependsOnTargets="DotnetCoreRestore">
     <Message Importance="high" Text="--------- NUGET RESTORE  -------------------------------------------"/>
     
     <!--<Exec Command="&quot;$(NuGetExePath) restore&quot;" />-->
-    <Exec Command="&quot;$(NuGetExePath)&quot;  install &quot;$(SolutionRoot)\Michonne.Tests\packages.config&quot; -o &quot;$(SolutionRoot)\packages&quot;" />
-    <Exec Command="&quot;$(NuGetExePath)&quot;  install &quot;$(SolutionRoot)\Michonne.01.Tests\packages.config&quot; -o &quot;$(SolutionRoot)\packages&quot;" />
+    <Exec Command="&quot;$(NuGetExePath)&quot;  install &quot;%(ProjectFolder.Identity)\packages.config&quot; -o &quot;$(SolutionRoot)\packages&quot;" />
   
     <Message Importance="high" Text="--------- end of NUGET RESTORE  -------------------------------------"/>
   </Target>
