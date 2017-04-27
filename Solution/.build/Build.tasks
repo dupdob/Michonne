@@ -9,10 +9,22 @@
     <Task>
       <Using Namespace="System.Text" />
       <Code Type="Fragment" Language="cs">
-        <![CDATA[
+        <![CDATA[ 
             var builder = new StringBuilder(version.Length+stream.Length);
             var parts = (version+".0.0").Split('.');
-            parts[3] = int.Parse(parts[3]).ToString("000");
+            var buildId = int.Parse(parts[3]);
+            if (buildId < 100)
+            {
+                parts[3] = buildId.ToString("00");
+            }
+            else if (buildId < 1000)
+            {
+                parts[3] = buildId.ToString("000");
+            }
+            else
+            {
+                parts[3] = buildId.ToString("00000");
+            }
             builder.AppendFormat("{0}.{1}.{2}-{4}-{3}", parts[0], parts[1], parts[2], parts[3], stream);
             fullVersion=builder.ToString();
         ]]>

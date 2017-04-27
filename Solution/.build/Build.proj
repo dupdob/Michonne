@@ -6,7 +6,7 @@
     <MSBuildCommunityTasksPath>$(SolutionRoot)\.build</MSBuildCommunityTasksPath>
   </PropertyGroup>
 
-  <!--Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets" /-->
+  <Import Project="build.tasks" />
   
   <PropertyGroup>
       <Configuration Condition="$(Configuration) == ''">Debug</Configuration>
@@ -25,7 +25,7 @@
     <PackageStream></PackageStream>
   </PropertyGroup>
     
-  <Target Name="RunAll" DependsOnTargets="Build; RunTests; Package" />
+  <Target Name="RunAll" DependsOnTargets="Build; RunTests; Package; Publish" />
   
   <Target Name="CI" DependsOnTargets="Build" />
   <!--<Target Name="CI" DependsOnTargets="Build; BuildDocs" />-->
@@ -48,7 +48,6 @@
     <ProjectFolder Include="$(SolutionRoot)\Michonne.Interfaces.Standard"/>  
   </ItemGroup>
     
-  
   <Target Name="NugetRestore" DependsOnTargets="DotnetCoreRestore">
     <Message Importance="high" Text="--------- NUGET RESTORE  -------------------------------------------"/>
     
@@ -76,7 +75,6 @@ BUILD PROJECT with MSBuildToolsVersion: '$(MSBuildToolsVersion)'
     <Message Importance="high" Text="--------- end of BUILD  -------------------------------------"/>
   </Target>
     
-    
   <!-- 2- BUILD THE DOCS -->
   <Target Name="BuildDocs">
 
@@ -95,12 +93,11 @@ GENERATING DOCS for:
   </Target>
 
   <!-- 3- Run the TESTS -->
-  <ItemGroup>
-    <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\$(SolutionName).01.Tests\bin\$(Configuration)\$(SolutionName).01.Tests.dll&quot; /framework:net-4.0" />
-    <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\$(SolutionName).Tests\bin\$(Configuration)\$(SolutionName).Tests.dll&quot; /framework:net-4.0" />
-  </ItemGroup>
-
   <Target Name="RunTests" DependsOnTargets="Build">
+    <ItemGroup>
+      <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\$(SolutionName).01.Tests\bin\$(Configuration)\$(SolutionName).01.Tests.dll&quot; /framework:net-4.0" />
+      <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\$(SolutionName).Tests\bin\$(Configuration)\$(SolutionName).Tests.dll&quot; /framework:net-4.0" />
+    </ItemGroup>
     <Message Importance="high" Text="
 ---------------------------------------------------------------
 RUN ALL UNIT TESTS
@@ -118,10 +115,9 @@ RUN ALL UNIT TESTS
 
   </Target>
 
-  <!-- Files that are parts of the package-->
-  
   <!-- 4- Then PACKAGE -->
-  <Target Name="Package" DependsOnTargets="Build">
+  <Target Name="Package" DependsOnTargets="Build; RunTests">
+    <!--Folders-->
     <ItemGroup>
       <FilesForNuget Include="$(AssemblyFileNameRoot).Implementation\bin\$(Configuration)\*Implementation*.*">
         <TargetFwk>net45</TargetFwk>
@@ -137,12 +133,11 @@ RUN ALL UNIT TESTS
       </FilesForNuget>
     </ItemGroup>
 
-      <Message Importance="high" Text="--------- PACKAGE ---------"/>
+    <Message Importance="high" Text="--------- PACKAGE ---------"/>
       <!-- Copies the dll into an easy path targeted by the .nuspec file. -->
       <!-- Clean working dirs -->
     <!--Exec Command="rmdir $(BinariesPath) /Q"/-->
       <!-- Michonne -->
-    <Message Importance="high" Text="Files root $(AssemblyFileNameRoot) for $(Configuration)"/>
       <Message Importance="high" Text="xcopy %(FilesForNuget.Identity) $(BinariesPath)\%(FilesForNuget.TargetFwk)\ /E /Y" />
       <Exec Command="xcopy %(FilesForNuget.FullPath) $(BinariesPath)\%(FilesForNuget.TargetFwk)\ /E /Y" />
 	  
@@ -159,12 +154,16 @@ RUN ALL UNIT TESTS
       <Message Importance="high" Text="[Print] PackageVersion: '$(PackageVersion)'" />
       <Message Importance="high" Text="[Print] NuspecFilePath: '$(NuspecFilePath)'" />
 
+    <VersionBuilding version ="$(PackageVersion)" stream="nightly">
+      <Output PropertyName="PrettyVersion" TaskParameter="fullVersion" />
+    </VersionBuilding>
+    <Message Importance="high" Text="`Pretty Version= $(PrettyVersion)" />
       <!-- insert the version number into the nuspec file -->
       <XmlPoke 
         XmlInputPath="$(NuspecFilePath)"
           Namespaces="&lt;Namespace Prefix='x' Uri='http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd' /&gt;"
         Query="x:package/x:metadata/x:version" 
-        Value="$(PackageVersion)" />
+        Value="$(PrettyVersion)" />
 
       <!-- Gets the release note content from the proper file -->
       <ReadLinesFromFile File="$(SolutionRoot)\ReleaseNoteContentToBeInsertedWithinNuspecFile.txt">
@@ -202,7 +201,8 @@ CREATING NUGET PACKAGE IN:
         <Message Importance="high" Text="--------- End of PACKAGE ---------"/>
   </Target>
 
-<Target Name="Publish" DependsOnTargets="Package">
+  <!-- 5- Then Publish -->
+  <Target Name="Publish" DependsOnTargets="Package">
   <!--= Publish the package on Nuget-->
   <Message Importance="high" Text="--------- NUGET PUBLISH  -------------------------------------------"/>
     
@@ -210,6 +210,6 @@ CREATING NUGET PACKAGE IN:
   <Exec Command="&quot;$(NuGetExePath)&quot;  setApiKey $(NugetKey) -source https://www.nuget.org/api/v2/package"/>
   <Exec Command="&quot;$(NuGetExePath)&quot;  push &quot;$(PackageFileName)&quot; -Source https://www.nuget.org/api/v2/package" />
   
-  <Message Importance="high" Text="--------- end of NUGET PUBLISH  -------------------------------------"/></Target>
+  <Message Importance="high" Text="--------- end of NUGET PUBLISH  -------------------------------------"/></Target> 
 </Project>
  
