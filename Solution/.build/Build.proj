@@ -88,7 +88,7 @@ GENERATING DOCS for:
 ---------------------------------------------------------------
           "  />
       <MakeDir Directories="$(DocPath)" Condition="!Exists('$(DocPath)')" />
-      <Exec Command="$(DocuExePath) $(BinariesPath)\$(SolutionName).dll --output=$(DocPath)" />
+      <Exec Command="$(DocuExePath) $(BinariesPath)\$(SolutionName).dll --output=$(DocPath)"/>
       <Exec Command="&quot;$(ZipExe)&quot; a -tzip &quot;$(PackagesPath)\$(SolutionName).docs.zip&quot; &quot;$(DocPath)&quot;" />
 
       <Message Importance="high" Text="--------- end of DOCUMENTATION GENERATION  ---------"/>
@@ -112,7 +112,7 @@ RUN ALL UNIT TESTS
     <Message Importance="normal" Text="Assemblies to test:"/>
     <Message Importance="normal" Text="'%(TestProjectsWithArguments.Identity)'"/>
 
-    <Exec Command="&quot;$(TestRunnerPath)&quot; %(TestProjectsWithArguments.Identity)" LogStandardErrorAsError="true" />
+    <Exec Command="&quot;$(TestRunnerPath)&quot; %(TestProjectsWithArguments.Identity)" LogStandardErrorAsError="true" WorkingDirectory="../"/>
 
     <Message Importance="high" Text="--------- end of RUN CLASSICAL .NET TESTS ---------"/>
 
