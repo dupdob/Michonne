@@ -3,7 +3,6 @@
   <!--(c) 2017 Cyrille Dupuydauby, derived from T.Pierrain work on NFluent -->
   <PropertyGroup>
     <SolutionRoot>$(MSBuildProjectDirectory)\..</SolutionRoot>
-    <MSBuildCommunityTasksPath>$(SolutionRoot)\.build</MSBuildCommunityTasksPath>
   </PropertyGroup>
 
   <Import Project="build.tasks" />
@@ -21,20 +20,36 @@
       <DocPath>$(ArtifactsPath)\Docs</DocPath>
       <NuGetExePath>$(NuGetToolsPath)nuget.exe</NuGetExePath>
       <TestRunnerPath>$(SolutionRoot)\packages\NUnit.ConsoleRunner.3.6.1\tools\nunit3-console.exe</TestRunnerPath>
-      <NugetKey>$(NUGET_KEY)</NugetKey>
-    <PackageStream></PackageStream>
+      <NugetKey>$(MICHONNE_NUGET_API_KEY)</NugetKey>
+      <PackageStream>alpha</PackageStream>
   </PropertyGroup>
     
-  <Target Name="RunAll" DependsOnTargets="Build; RunTests; Package; Publish" />
+  <Target Name="SetNightly">
+     <PropertyGroup>
+      <PackageStream>nightly</PackageStream>
+    </PropertyGroup>
+  </Target>
+  <Target Name="SetRC">
+     <PropertyGroup>
+      <PackageStream>RC</PackageStream>
+    </PropertyGroup>
+  </Target>
+  <Target Name="SetRelease">
+     <PropertyGroup>
+      <PackageStream></PackageStream>
+    </PropertyGroup>
+  </Target>
   
+  <Target Name="RunAll" DependsOnTargets="Build; RunTests; Package" />
+  <Target Name="Nightly" DependsOnTargets="SetNightly; RunAll; Publish"/>
+  <Target Name="RC" DependsOnTargets="SetRC; RunAll; Publish"/>
+  <Target Name="Release" DependsOnTargets="SetRelease; RunAll; Publish"/>
   <Target Name="CI" DependsOnTargets="Build" />
-  <!--<Target Name="CI" DependsOnTargets="Build; BuildDocs" />-->
 
   <!-- 1- Do the BUILD -->
 
   <Target Name="DotnetCoreRestore">
     <Message Importance="high" Text="--------- DOTNET RESTORE  -------------------------------------------"/>     
-    <!--<Exec Command="&quot;$(NuGetExePath) restore&quot;" />-->
     <Exec Command="dotnet restore $(SolutionRoot)\Michonne.Implementation.Standard" />
     <Exec Command="dotnet restore $(SolutionRoot)\Michonne.Interfaces.Standard" />
 
@@ -52,7 +67,7 @@
     <Message Importance="high" Text="--------- NUGET RESTORE  -------------------------------------------"/>
     
     <!--<Exec Command="&quot;$(NuGetExePath) restore&quot;" />-->
-    <Exec Command="&quot;$(NuGetExePath)&quot;  install &quot;%(ProjectFolder.Identity)\packages.config&quot; -o &quot;$(SolutionRoot)\packages&quot;" />
+    <Exec Command='"$(NuGetExePath)"  install "%(ProjectFolder.Identity)\packages.config" -o "$(SolutionRoot)\packages"'/>
   
     <Message Importance="high" Text="--------- end of NUGET RESTORE  -------------------------------------"/>
   </Target>
@@ -87,7 +102,7 @@ GENERATING DOCS for:
           "  />
       <MakeDir Directories="$(DocPath)" Condition="!Exists('$(DocPath)')" />
       <Exec Command="$(DocuExePath) $(BinariesPath)\$(SolutionName).dll --output=$(DocPath)"/>
-      <Exec Command="&quot;$(ZipExe)&quot; a -tzip &quot;$(PackagesPath)\$(SolutionName).docs.zip&quot; &quot;$(DocPath)&quot;" />
+      <Exec Command='"$(ZipExe)" a -tzip "$(PackagesPath)\$(SolutionName).docs.zip" "$(DocPath)"' />
 
       <Message Importance="high" Text="--------- end of DOCUMENTATION GENERATION  ---------"/>
   </Target>
@@ -109,7 +124,7 @@ RUN ALL UNIT TESTS
     <Message Importance="normal" Text="Assemblies to test:"/>
     <Message Importance="normal" Text="'%(TestProjectsWithArguments.Identity)'"/>
 
-    <Exec Command="&quot;$(TestRunnerPath)&quot; %(TestProjectsWithArguments.Identity)" LogStandardErrorAsError="true" WorkingDirectory="../"/>
+    <Exec Command='"$(TestRunnerPath)" %(TestProjectsWithArguments.Identity)' LogStandardErrorAsError="true" WorkingDirectory="../"/>
 
     <Message Importance="high" Text="--------- end of RUN CLASSICAL .NET TESTS ---------"/>
 
@@ -135,11 +150,9 @@ RUN ALL UNIT TESTS
 
     <Message Importance="high" Text="--------- PACKAGE ---------"/>
       <!-- Copies the dll into an easy path targeted by the .nuspec file. -->
-      <!-- Clean working dirs -->
-    <!--Exec Command="rmdir $(BinariesPath) /Q"/-->
       <!-- Michonne -->
       <Message Importance="high" Text="xcopy %(FilesForNuget.Identity) $(BinariesPath)\%(FilesForNuget.TargetFwk)\ /E /Y" />
-      <Exec Command="xcopy %(FilesForNuget.FullPath) $(BinariesPath)\%(FilesForNuget.TargetFwk)\ /E /Y" />
+      <Exec Command='xcopy "%(FilesForNuget.FullPath)" "$(BinariesPath)\%(FilesForNuget.TargetFwk)\" /E /Y' />
 	  
       <!-- Get the version number of the main FV assembly to insert into the nuspec files -->
       <GetAssemblyIdentity AssemblyFiles="$(BinariesPath)\net45\$(SolutionName).Implementation.dll">
@@ -148,13 +161,13 @@ RUN ALL UNIT TESTS
 
       <PropertyGroup>
         <NuspecFilePath>$(SolutionRoot)\$(SolutionName).nuspec</NuspecFilePath>
-        <PackageVersion>%(AsmInfo.Version)$(PackageStream)</PackageVersion>
+        <PackageVersion>%(AsmInfo.Version)</PackageVersion>
       </PropertyGroup>
 
       <Message Importance="high" Text="[Print] PackageVersion: '$(PackageVersion)'" />
       <Message Importance="high" Text="[Print] NuspecFilePath: '$(NuspecFilePath)'" />
 
-    <VersionBuilding version ="$(PackageVersion)" stream="nightly">
+    <VersionBuilding version ="$(PackageVersion)" stream="$(PackageStream)">
       <Output PropertyName="PrettyVersion" TaskParameter="fullVersion" />
     </VersionBuilding>
     <Message Importance="high" Text="`Pretty Version= $(PrettyVersion)" />
@@ -193,8 +206,7 @@ CREATING NUGET PACKAGE IN:
 ---------------------------------------------------------------
             " />
       <MakeDir Directories="$(PackagesPath)" Condition="!Exists('$(PackagesPath)')" />
-      <Exec Command="&quot;$(NuGetExePath)&quot; pack &quot;$(NuspecFilePath)&quot; -o &quot;$(PackagesPath)&quot;"
-        LogStandardErrorAsError="true" />
+      <Exec Command='"$(NuGetExePath)" pack "$(NuspecFilePath)" -o "$(PackagesPath)"' LogStandardErrorAsError="true" />
       <PropertyGroup>
         <PackageFileName>$(PackagesPath)\$(SolutionName).$(PrettyVersion).nupkg</PackageFileName>
     </PropertyGroup>
@@ -207,8 +219,8 @@ CREATING NUGET PACKAGE IN:
   <Message Importance="high" Text="--------- NUGET PUBLISH  -------------------------------------------"/>
     
   <!--<Exec Command="&quot;$(NuGetExePath) restore&quot;" />-->
-  <Exec Command="&quot;$(NuGetExePath)&quot;  setApiKey $(NugetKey) -source https://www.nuget.org/api/v2/package"/>
-  <Exec Command="&quot;$(NuGetExePath)&quot;  push &quot;$(PackageFileName)&quot; -Source https://www.nuget.org/api/v2/package" />
+  <Exec Command='"$(NuGetExePath)" setApiKey $(NugetKey) -source https://www.nuget.org/api/v2/package'/>
+  <Exec Command='"$(NuGetExePath)"  push "$(PackageFileName)" -Source https://www.nuget.org/api/v2/package' />
   
   <Message Importance="high" Text="--------- end of NUGET PUBLISH  -------------------------------------"/></Target> 
 </Project>

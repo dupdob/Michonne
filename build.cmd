@@ -1,7 +1,11 @@
-@echo Off
+rem @echo Off
 cls
-set config=%1
+set target=%1
+if "%target%"=="" (
+	set target=Nightly
+)
+set config=%2
 if "%config%" == "" (
    set config=Release
 )
-msbuild Solution/.build\Build.proj /p:Configuration="%config%" /t:RunAll /v:M /fl /flp:LogFile=msbuild.log;Verbosity=Diagnostic /nr:false
+msbuild Solution/.build\Build.proj /t:%target% /p:Configuration="%config%" /fl /flp:LogFile=msbuild.log;Verbosity=normal /nr:false

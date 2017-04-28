@@ -8,9 +8,9 @@ platform: Any CPU
 build_script:
 - cmd: build.cmd
 test: off
-artifacts:
-  - path: 'Solution\Artifacts\Packages\*.nupkg'
-    name: MichonnePackages
+environment:
+  MICHONNE_NUGET_API_KEY: ad9c47dd-d3b9-4962-9df5-13eff5b1032f
+
 assembly_info:
   patch: true
   file: version.cs
