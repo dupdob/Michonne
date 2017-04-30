@@ -41,7 +41,7 @@
     </PropertyGroup>
   </Target>
   
-  <Target Name="RunAll" DependsOnTargets="Build; RunTests; Package" />
+  <Target Name="RunAll" DependsOnTargets="Build; Package" />
   <Target Name="Nightly" DependsOnTargets="SetNightly; RunAll; Publish"/>
   <Target Name="RC" DependsOnTargets="SetRC; RunAll; Publish"/>
   <Target Name="Release" DependsOnTargets="SetRelease; RunAll; Publish"/>
