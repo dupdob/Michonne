@@ -24,19 +24,28 @@ namespace PastaPricer.Tests
         [Test]
         public void Should_not_raise_event_after_having_called_Stop()
         {
+            ThreadPool.SetMaxThreads(10, 10);
             const int VeryAggressiveTimerIntervalForMarketDataPublicationInMsec = 1;
             var marketData = new RawMaterialMarketData("eggs", VeryAggressiveTimerIntervalForMarketDataPublicationInMsec);
             
             long counter = 0;
             marketData.PriceChanged += (o, args) =>
             {
-                if (args.Price>0m)
-                    counter = Interlocked.Increment(ref counter);
+                lock (this)
+                {
+                    if (args.Price > 0m)
+                        Interlocked.Increment(ref counter);
+                    Monitor.PulseAll(this);
+                }
             };
 
             marketData.Start();
-            
-            Thread.Sleep(50);
+
+            lock (this)
+            {
+                if (counter == 0)
+                    Monitor.Wait(this, 50);
+            }
 
             Check.That(counter).IsStrictlyGreaterThan(0);
 
