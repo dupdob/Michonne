@@ -18,6 +18,7 @@
       <BinariesPath>$(ArtifactsPath)\Binaries</BinariesPath>
       <PackagesPath>$(ArtifactsPath)\Packages</PackagesPath>
       <DocPath>$(ArtifactsPath)\Docs</DocPath>
+      <NuGetToolsPath></NuGetToolsPath>
       <NuGetExePath>$(NuGetToolsPath)nuget.exe</NuGetExePath>
       <TestRunnerPath>$(SolutionRoot)\packages\NUnit.ConsoleRunner.3.6.1\tools\nunit3-console.exe</TestRunnerPath>
       <NugetKey>$(MICHONNE_NUGET_API_KEY)</NugetKey>
@@ -61,12 +62,12 @@
     <ProjectFolder Include="$(SolutionRoot)\Michonne.01.Tests"/>  
     <ProjectFolder Include="$(SolutionRoot)\Michonne.Implementation.Standard"/>  
     <ProjectFolder Include="$(SolutionRoot)\Michonne.Interfaces.Standard"/>  
+    <ProjectFolder Include="$(SolutionRoot)\PastaPricer.Tests"/>  
   </ItemGroup>
     
   <Target Name="NugetRestore" DependsOnTargets="DotnetCoreRestore">
     <Message Importance="high" Text="--------- NUGET RESTORE  -------------------------------------------"/>
     
-    <!--<Exec Command="&quot;$(NuGetExePath) restore&quot;" />-->
     <Exec Command='"$(NuGetExePath)"  install "%(ProjectFolder.Identity)\packages.config" -o "$(SolutionRoot)\packages"'/>
   
     <Message Importance="high" Text="--------- end of NUGET RESTORE  -------------------------------------"/>
@@ -112,6 +113,7 @@ GENERATING DOCS for:
     <ItemGroup>
       <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\$(SolutionName).01.Tests\bin\$(Configuration)\$(SolutionName).01.Tests.dll&quot; /framework:net-4.0" />
       <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\$(SolutionName).Tests\bin\$(Configuration)\$(SolutionName).Tests.dll&quot; /framework:net-4.0" />
+      <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\PastaPricer.Tests\bin\$(Configuration)\PastaPricer.Tests.dll&quot; /framework:net-4.0" />
     </ItemGroup>
     <Message Importance="high" Text="
 ---------------------------------------------------------------

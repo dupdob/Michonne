@@ -14,53 +14,52 @@
 //   --------------------------------------------------------------------------------------------------------------------
 namespace PastaPricer.Tests.Acceptance
 {
+    using System.Collections.Generic;
     using System.Threading;
 
     using Michonne.Implementation;
-
-    using NSubstitute;
+    using NFluent;
     using NUnit.Framework;
 
     [TestFixture]
-    public class PastaPricerAcceptanceTests
+    public class PastaPricerAcceptanceTests: IPastaPricerPublisher
     {
+        private IDictionary<string, decimal> lastPrices = new Dictionary<string, decimal>();
+
         [Test]
         public void Should_publish_price_once_started_and_when_MarketData_is_available()
         {
             // Mock and dependencies setup
             var unitOfExecutionsFactory = new UnitOfExecutionsFactory();
             
-            var publisher = Substitute.For<IPastaPricerPublisher>();
             var marketDataProvider = new MarketDataProvider();
 
-            var pastaPricer = new PastaPricerEngine(unitOfExecutionsFactory.GetPool(), new[] { "gnocchi(eggs-potatoes-flour)" }, marketDataProvider, publisher);
-            
-            CheckThatNoPriceHasBeenPublished(publisher);
+            var pastaPricer = new PastaPricerEngine(unitOfExecutionsFactory.GetPool(),
+                new[] { "gnocchi(eggs-potatoes-flour)" }, 
+                marketDataProvider, 
+                this);
+            this.ClearDico();
+            Check.That(this.lastPrices).IsEmpty();
             
             pastaPricer.Start();
 
-            CheckThatNoPriceHasBeenPublished(publisher);
+            Check.That(this.lastPrices).IsEmpty();
 
             // Turns on market data (note: make the pasta pricer start its dependencies instead?)
             marketDataProvider.Start();
 
             // A sleep?!? There should be a better way ;-)
-            Thread.Sleep(60);
+            Thread.Sleep(1000);
 
             // It has publish a price now!
-            publisher.Received().Publish("gnocchi", Arg.Any<decimal>());
-        }
-
-        private static void CheckThatNoPriceHasBeenPublished(IPastaPricerPublisher publisher)
-        {
-            publisher.DidNotReceiveWithAnyArgs().Publish("whatever the pasta name here", 0);
+            Check.That(this.lastPrices.Keys).Contains("gnocchi");
         }
 
         [Test]
         public void Should_publish_price_for_every_registered_pasta()
         {
+            this.ClearDico();
             // Mock and dependencies setup
-            var publisher = Substitute.For<IPastaPricerPublisher>();
             var marketDataProvider = new MarketDataProvider();
             var pastasConfiguration = new[]
                                       {
@@ -73,20 +72,36 @@ namespace PastaPricer.Tests.Acceptance
 
             var unitOfExecutionsFactory = new UnitOfExecutionsFactory();
 
-            var pastaPricer = new PastaPricerEngine(unitOfExecutionsFactory.GetPool(), pastasConfiguration, marketDataProvider, publisher);
+            var pastaPricer = new PastaPricerEngine(unitOfExecutionsFactory.GetPool(), pastasConfiguration, marketDataProvider, this);
             pastaPricer.Start();
 
             // Turns on market data (note: make the pasta pricer start its dependencies instead?)
             marketDataProvider.Start();
 
             // A sleep?!? There should be a better way ;-)
-            Thread.Sleep(100);
+            Thread.Sleep(20000);
 
-            publisher.Received().Publish("gnocchi", Arg.Any<decimal>());
-            publisher.Received().Publish("spaghetti", Arg.Any<decimal>());
-            publisher.Received().Publish("organic spaghetti", Arg.Any<decimal>());
-            publisher.Received().Publish("spinach farfalle", Arg.Any<decimal>());
-            publisher.Received().Publish("tagliatelle", Arg.Any<decimal>());
+            Check.That(this.lastPrices.Keys).Contains("gnocchi");
+            Check.That(this.lastPrices.Keys).Contains("spaghetti");
+            Check.That(this.lastPrices.Keys).Contains("organic spaghetti");
+            Check.That(this.lastPrices.Keys).Contains("spinach farfalle");
+            Check.That(this.lastPrices.Keys).Contains("tagliatelle");
+        }
+
+        private void ClearDico()
+        {
+            lock (this.lastPrices)
+            {
+                this.lastPrices.Clear();
+            }
+        }
+
+        public void Publish(string pastaIdentifier, decimal price)
+        {
+            lock (this.lastPrices)
+            {
+                this.lastPrices[pastaIdentifier] = price;
+            }
         }
     }
 }

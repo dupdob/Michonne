@@ -28,13 +28,17 @@ namespace PastaPricer.Tests
             var marketData = new RawMaterialMarketData("eggs", VeryAggressiveTimerIntervalForMarketDataPublicationInMsec);
             
             long counter = 0;
-            marketData.PriceChanged += (o, args) => counter = Interlocked.Increment(ref counter);
+            marketData.PriceChanged += (o, args) =>
+            {
+                if (args.Price>0m)
+                    counter = Interlocked.Increment(ref counter);
+            };
 
             marketData.Start();
             
-            Thread.Sleep(80);
+            Thread.Sleep(120);
 
-            Check.That(counter).IsGreaterThan(1);
+            Check.That(counter).IsStrictlyGreaterThan(1);
 
             var counterBeforeStop = Interlocked.Read(ref counter);
             marketData.Stop(); // ----------

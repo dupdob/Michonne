@@ -15,8 +15,6 @@
 namespace PastaPricer.Tests
 {
     using System.Collections.Generic;
-    using System.Threading;
-
     using Michonne;
     using Michonne.Implementation;
 

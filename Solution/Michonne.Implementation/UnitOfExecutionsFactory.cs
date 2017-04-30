@@ -16,7 +16,6 @@ namespace Michonne.Implementation
 {
     using System;
     using System.Threading;
-
     using Interfaces;
 
     /// <summary>
@@ -124,7 +123,9 @@ namespace Michonne.Implementation
         private void UseAThread()
         {
             this.createdThreadsCount++;
- //           ThreadPool.SetMaxThreads(this.AvailableCore, this.coreCount);
+#if !NETSTANDARD1_3
+            ThreadPool.SetMaxThreads(this.AvailableCore+this.coreCount, this.coreCount*2);
+#endif
         }
 
         #endregion

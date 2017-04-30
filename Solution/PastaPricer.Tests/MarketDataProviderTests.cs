@@ -87,7 +87,7 @@ namespace PastaPricer.Tests
 
             marketDataProvider.Start();
 
-            const int TimeoutInMsec = 100;
+            const int TimeoutInMsec = 5000;
             var hasReceivedEvent = this.priceChangedRaisedEvent.WaitOne(TimeoutInMsec);
             
             Check.That(hasReceivedEvent).IsTrue();

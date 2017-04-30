@@ -29,6 +29,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Threading.Thread" Version="4.3.0" />
+    <PackageReference Include="System.Threading.ThreadPool" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Michonne.Interfaces.Standard\Michonne.Interfaces.Standard.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,4 @@
-rem @echo Off
+@echo Off
 cls
 set target=%1
 if "%target%"=="" (

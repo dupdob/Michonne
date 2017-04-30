@@ -114,8 +114,8 @@ namespace PastaPricer
             Interlocked.Exchange(ref this.stopped, 1);
 
             // and the timer also.
-            this.timer.Change(Timeout.Infinite, Timeout.Infinite);
-            this.timer.Dispose();
+//            this.timer.Change(Timeout.Infinite, Timeout.Infinite);
+//            this.timer.Dispose();
         }
 
         #endregion
@@ -131,18 +131,18 @@ namespace PastaPricer
         private void PublishPrices(object o)
         {
             var hasStopped = Interlocked.CompareExchange(ref this.stopped, 1, 1);
-            if (hasStopped != 1)
-            {
-                var randomPrice = Seed.Next(1, 20) / 10m;
-                this.RaisePrice(randomPrice);
-            }
-            else
+            if (hasStopped == 1)
             {
                 // the last notification should always be 0.
                 this.RaisePrice(0m);
 
                 this.timer.Change(Timeout.Infinite, Timeout.Infinite);
                 this.timer.Dispose();
+            }
+            else
+            {
+                var randomPrice = Seed.Next(1, 20) / 10m;
+                this.RaisePrice(randomPrice);
             }
         }
 
@@ -154,10 +154,7 @@ namespace PastaPricer
         /// </param>
         private void RaisePrice(decimal price)
         {
-            if (this.PriceChanged != null)
-            {
-                this.PriceChanged(this, new RawMaterialPriceChangedEventArgs(this.RawMaterialName, price));
-            }
+            this.PriceChanged?.Invoke(this, new RawMaterialPriceChangedEventArgs(this.RawMaterialName, price));
         }
 
         #endregion

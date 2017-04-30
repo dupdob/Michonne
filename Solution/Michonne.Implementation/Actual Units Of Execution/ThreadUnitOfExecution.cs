@@ -21,7 +21,6 @@ namespace Michonne.Implementation
     using System;
     using System.Collections.Generic;
     using System.Threading;
-    using System.Threading.Tasks;
     using Interfaces;
 
     /// <summary>
@@ -32,11 +31,7 @@ namespace Michonne.Implementation
     {
         #region Fields
 
-#if NETSTANDARD1_3
-        private Task handlerTask;
-#else
         private readonly Thread myThread;
-#endif
         /// <summary>
         ///     private lock.
         /// </summary>
@@ -60,12 +55,8 @@ namespace Michonne.Implementation
         public ThreadUnitOfExecution(IUnitOfExecutionsFactory unitOfExecutionsFactory)
         {
             this.UnitOfExecutionsFactory = unitOfExecutionsFactory;
-#if NETSTANDARD1_3
-            this.handlerTask = Task.Factory.StartNew(this.Process);
-#else
             this.myThread = new Thread(this.Process) {IsBackground = true};
             this.myThread.Start();
-#endif
         }
 
         /// <summary>
@@ -132,7 +123,7 @@ namespace Michonne.Implementation
             this.Dispatch(null);
             if (!disposing) return;
             GC.SuppressFinalize(this);
-//            this.myThread.Join(500);
+            this.myThread.Join(500);
         }
 
         /// <summary>

@@ -13,9 +13,12 @@
     <description>"No lock... no deadlock!" Michonne is a library that allows you to erradicate deadlocks within your applicative code by providing you composable behaviors for tasks/lambdas execution (i.e. dispatcher, sequencer, balking dispatcher, etc), in replacement of locks and raw TPL primitives that will lead you to deadlocks..</description>
     <summary>Michonne provides event oriented development primitives.</summary>
     <releaseNotes>Nightly build:
-This version contains the latest version published on github. We recommend using the latest stable version for production needs.
-Please bear in mind that you may experience breaking changes between builds due if you rely on new APIs.
-Fedback, postivie or negative wil be greatly appreciated</releaseNotes>
+
+This version contains the latest version published on github. We recommend using the latest stable version for production needs.
+
+Please bear in mind that you may experience breaking changes between builds due if you rely on new APIs.
+
+Fedback, postivie or negative wil be greatly appreciated</releaseNotes>
     <copyright>Copyright 2015-17 Cyrille DUPUYDAUBY</copyright>
     <language>en-US</language>
     <tags>event message threading sequencer performance scalable</tags>
