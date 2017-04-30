@@ -113,9 +113,6 @@ namespace PastaPricer
             // Tries to stop the action being done by the timer ASAP.
             Interlocked.Exchange(ref this.stopped, 1);
 
-            // and the timer also.
-//            this.timer.Change(Timeout.Infinite, Timeout.Infinite);
-//            this.timer.Dispose();
         }
 
         #endregion

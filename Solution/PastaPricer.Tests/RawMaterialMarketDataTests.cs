@@ -36,14 +36,14 @@ namespace PastaPricer.Tests
 
             marketData.Start();
             
-            Thread.Sleep(120);
+            Thread.Sleep(50);
 
-            Check.That(counter).IsStrictlyGreaterThan(1);
+            Check.That(counter).IsStrictlyGreaterThan(0);
 
             var counterBeforeStop = Interlocked.Read(ref counter);
-            marketData.Stop(); // ----------
+            marketData.Stop();
 
-            Thread.Sleep(20);
+            Thread.Sleep(50);
             
             var counterAfterStop = Interlocked.Read(ref counter);
 
