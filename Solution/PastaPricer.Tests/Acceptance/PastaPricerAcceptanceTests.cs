@@ -15,6 +15,7 @@
 namespace PastaPricer.Tests.Acceptance
 {
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Threading;
 
     using Michonne.Implementation;
@@ -79,7 +80,20 @@ namespace PastaPricer.Tests.Acceptance
             marketDataProvider.Start();
 
             // A sleep?!? There should be a better way ;-)
-            Thread.Sleep(20000);
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
+            while (timer.ElapsedMilliseconds < 20000)
+            {
+                lock (this.lastPrices)
+                {
+                    if (pastasConfiguration.Length == this.lastPrices.Count)
+                    {
+                        // all price received
+                        break;
+                    }
+                    Monitor.Wait(this.lastPrices, 100);
+                }
+            }
 
             Check.That(this.lastPrices.Keys).Contains("gnocchi");
             Check.That(this.lastPrices.Keys).Contains("spaghetti");
@@ -101,6 +115,7 @@ namespace PastaPricer.Tests.Acceptance
             lock (this.lastPrices)
             {
                 this.lastPrices[pastaIdentifier] = price;
+                Monitor.Pulse(this.lastPrices);
             }
         }
     }

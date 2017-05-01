@@ -82,17 +82,17 @@ namespace PastaPricer.Tests
             var marketDataProvider = new MarketDataProvider();
             marketDataProvider.RegisterRawMaterial("eggs");
 
-            EventHandler<RawMaterialPriceChangedEventArgs> handler = (o, args) => this.priceChangedRaisedEvent.Set();
-            marketDataProvider.GetRawMaterial("eggs").PriceChanged += handler;
+            void Handler(object o, RawMaterialPriceChangedEventArgs args) => this.priceChangedRaisedEvent.Set();
+            marketDataProvider.GetRawMaterial("eggs").PriceChanged += Handler;
 
             marketDataProvider.Start();
 
-            const int TimeoutInMsec = 5000;
+            const int TimeoutInMsec = 500;
             var hasReceivedEvent = this.priceChangedRaisedEvent.WaitOne(TimeoutInMsec);
             
             Check.That(hasReceivedEvent).IsTrue();
             marketDataProvider.Stop();
-            marketDataProvider.GetRawMaterial("eggs").PriceChanged -= handler;
+            marketDataProvider.GetRawMaterial("eggs").PriceChanged -= Handler;
         }
     }
 }
