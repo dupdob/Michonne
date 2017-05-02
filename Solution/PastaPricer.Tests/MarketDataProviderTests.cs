@@ -26,13 +26,13 @@ namespace PastaPricer.Tests
 
         #region setup/teardown
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void TestFixtureSetUp()
         {
             this.priceChangedRaisedEvent = new AutoResetEvent(false);
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TestFixtureTearDown()
         {
             if (this.priceChangedRaisedEvent != null)
@@ -84,15 +84,16 @@ namespace PastaPricer.Tests
 
             void Handler(object o, RawMaterialPriceChangedEventArgs args) => this.priceChangedRaisedEvent.Set();
             marketDataProvider.GetRawMaterial("eggs").PriceChanged += Handler;
+            using (marketDataProvider)
+            {
+                marketDataProvider.Start();
 
-            marketDataProvider.Start();
+                const int TimeoutInMsec = 500;
+                var hasReceivedEvent = this.priceChangedRaisedEvent.WaitOne(TimeoutInMsec);
 
-            const int TimeoutInMsec = 500;
-            var hasReceivedEvent = this.priceChangedRaisedEvent.WaitOne(TimeoutInMsec);
-            
-            Check.That(hasReceivedEvent).IsTrue();
-            marketDataProvider.Stop();
-            marketDataProvider.GetRawMaterial("eggs").PriceChanged -= Handler;
+                marketDataProvider.GetRawMaterial("eggs").PriceChanged -= Handler;
+                Check.That(hasReceivedEvent).IsTrue();
+            }
         }
     }
 }

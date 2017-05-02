@@ -15,7 +15,6 @@
 namespace PastaPricer
 {
     using System.Collections.Generic;
-
     using Michonne.Implementation;
     using Michonne.Interfaces;
 
@@ -44,9 +43,7 @@ namespace PastaPricer
         public void Start()
         {
             var pastaRecipeParser = new PastaRecipeParser(this.pastasConfiguration);
-
             this.RegisterAllNeededRawMaterialMarketData(pastaRecipeParser);
-
             this.InstantiateAndSetupPricingAgentsForAllPasta(pastaRecipeParser);
         }
 

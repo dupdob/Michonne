@@ -20,7 +20,7 @@ namespace PastaPricer
     /// <summary>
     /// Provides <see cref="RawMaterialMarketData"/> instances for registered raw material names.
     /// </summary>
-    public class MarketDataProvider : IMarketDataProvider
+    public class MarketDataProvider : IMarketDataProvider, IDisposable
     {
         private readonly Dictionary<string, RawMaterialMarketData> rawMaterialMarketDatas;
 
@@ -87,6 +87,11 @@ namespace PastaPricer
             {
                 rawMaterialMarketData.Stop();
             }
+        }
+
+        public void Dispose()
+        {
+            this.Stop();
         }
     }
 }

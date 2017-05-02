@@ -48,6 +48,8 @@ namespace PastaPricer
         /// </summary>
         private long stopped;
 
+        private long ticked;
+
         /// <summary>
         /// The timer.
         /// </summary>
@@ -102,7 +104,7 @@ namespace PastaPricer
         /// </summary>
         public void Start()
         {
-            this.timer = new Timer(this.PublishPrices, null, 0, this.timerPeriodInMsec);
+            this.timer = new Timer(this.PublishPrices, null, this.timerPeriodInMsec/2, this.timerPeriodInMsec);
         }
 
         /// <summary>
@@ -139,6 +141,7 @@ namespace PastaPricer
             else
             {
                 var randomPrice = Seed.Next(1, 20) / 10m;
+                this.ticked++;
                 this.RaisePrice(randomPrice);
             }
         }

@@ -44,7 +44,7 @@ namespace PastaPricer.Tests
             lock (this)
             {
                 if (counter == 0)
-                    Monitor.Wait(this, 50);
+                    Monitor.Wait(this, 500);
             }
 
             Check.That(counter).IsStrictlyGreaterThan(0);
