@@ -9,7 +9,7 @@ build_script:
   - cmd: build.cmd
 build:
   verbosity: minimal
-test: auto
+test: off
 environment:
   MICHONNE_NUGET_API_KEY: ad9c47dd-d3b9-4962-9df5-13eff5b1032f
 
