@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.3</TargetFramework>
+    <AssemblyName>Michonne.Implementation</AssemblyName>
+    <RootNamespace>Michonne.Implementation</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Michonne.Implementation.Standard.v3.ncrunchproject" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Michonne.Implementation\Actual Units Of Execution\PoolUnitOfExecution.cs" Link="Algorithms\PoolUnitOfExecution.cs" />
+    <Compile Include="..\Michonne.Implementation\Actual Units Of Execution\SynchronousUnitOfExecution.cs" Link="Algorithms\SynchronousUnitOfExecution.cs" />
+    <Compile Include="..\Michonne.Implementation\Actual Units Of Execution\ThreadUnitOfExecution.cs" Link="Algorithms\ThreadUnitOfExecution.cs" />
+    <Compile Include="..\Michonne.Implementation\Algorithms\ActionConflator.cs" Link="UnitsOfExecution\ActionConflator.cs" />
+    <Compile Include="..\Michonne.Implementation\Algorithms\DataConflator.cs" Link="UnitsOfExecution\DataConflator.cs" />
+    <Compile Include="..\Michonne.Implementation\Algorithms\Sequencer.cs" Link="UnitsOfExecution\Sequencer.cs" />
+    <Compile Include="..\Michonne.Implementation\DataProcessor.cs" Link="DataProcessor.cs" />
+    <Compile Include="..\Michonne.Implementation\SequencerFactory.cs" Link="SequencerFactory.cs" />
+    <Compile Include="..\Michonne.Implementation\TestHelpers.cs" Link="TestHelpers.cs" />
+    <Compile Include="..\Michonne.Implementation\UnitOfExecutionsFactory.cs" Link="UnitOfExecutionsFactory.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Algorithms\" />
+    <Folder Include="UnitsOfExecution\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Threading.Thread" Version="4.3.0" />
+    <PackageReference Include="System.Threading.ThreadPool" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Michonne.Interfaces.Standard\Michonne.Interfaces.Standard.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -15,6 +15,7 @@ local.properties
 .classpath
 .settings/
 .loadpath
+Artifacts/
 
 # External tool builders
 .externalToolBuilders/
@@ -53,6 +54,7 @@ build/
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
+TestResult.xml
 
 *_i.c
 *_p.c
@@ -132,6 +134,8 @@ publish/
 ## TODO: If you have NuGet Package Restore enabled, uncomment the next line
 packages/
 .nuget/*
+# temp Package
+*.nupkg
 
 # Windows Azure Build Output
 csx

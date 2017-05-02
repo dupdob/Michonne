@@ -1,0 +1,4 @@
+Nightly build:
+This version contains the latest version published on github. We recommend using the latest stable version for production needs.
+Please bear in mind that you may experience breaking changes between builds due if you rely on new APIs.
+Fedback, postivie or negative wil be greatly appreciated

@@ -1,0 +1,21 @@
+version: 0.5.0.{build}
+image: Visual Studio 2017
+branches:
+  only:
+  - master
+configuration: Release
+platform: Any CPU
+build_script:
+  - cmd: build.cmd
+build:
+  verbosity: minimal
+test: auto
+environment:
+  MICHONNE_NUGET_API_KEY: ad9c47dd-d3b9-4962-9df5-13eff5b1032f
+
+assembly_info:
+  patch: true
+  file: version.cs
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
