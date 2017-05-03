@@ -125,8 +125,15 @@ RUN ALL UNIT TESTS
 
     <Message Importance="normal" Text="Assemblies to test:"/>
     <Message Importance="normal" Text="'%(TestProjectsWithArguments.Identity)'"/>
-
-    <Exec Command='"$(TestRunnerPath)" %(TestProjectsWithArguments.Identity)' LogStandardErrorAsError="true" WorkingDirectory="../"/>
+    <PropertyGroup>
+      <Choose>
+        <When Condition="'$(APPVEYOR)'='True'">
+          <NunitOptions>--result=TestResults.xml;format=AppVeyor</NunitOptions>
+          <TestRunnerPath>nunit3-console</TestRunnerPath>
+        </When>
+      </Choose>
+    </PropertyGroup>
+    <Exec Command='"$(TestRunnerPath)" %(TestProjectsWithArguments.Identity) $(NunitOptions)' LogStandardErrorAsError="true" WorkingDirectory="../"/>
 
     <Message Importance="high" Text="--------- end of RUN CLASSICAL .NET TESTS ---------"/>
 
@@ -221,7 +228,7 @@ CREATING NUGET PACKAGE IN:
   <Message Importance="high" Text="--------- NUGET PUBLISH  -------------------------------------------"/>
     
   <!--<Exec Command="&quot;$(NuGetExePath) restore&quot;" />-->
-  <Exec Command='"$(NuGetExePath)" setApiKey $(NugetKey) -source https://www.nuget.org/api/v2/package -verbosity quiet' EchoOff='"true"' Condition="'$(NugetKey)'!=''"/>
+  <Exec Command='"$(NuGetExePath)" setApiKey $(NugetKey) -source https://www.nuget.org/api/v2/package -verbosity quiet' EchoOff='true' Condition="'$(NugetKey)'!=''"/>
   <Exec Command='"$(NuGetExePath)" push "$(PackageFileName)" -Source https://www.nuget.org/api/v2/package' />
   
   <Message Importance="high" Text="--------- end of NUGET PUBLISH  -------------------------------------"/></Target> 
