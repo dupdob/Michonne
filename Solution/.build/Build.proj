@@ -125,14 +125,12 @@ RUN ALL UNIT TESTS
 
     <Message Importance="normal" Text="Assemblies to test:"/>
     <Message Importance="normal" Text="'%(TestProjectsWithArguments.Identity)'"/>
-    <PropertyGroup>
       <Choose>
         <When Condition="'$(APPVEYOR)'='True'">
           <NunitOptions>--result=TestResults.xml;format=AppVeyor</NunitOptions>
           <TestRunnerPath>nunit3-console</TestRunnerPath>
         </When>
       </Choose>
-    </PropertyGroup>
     <Exec Command='"$(TestRunnerPath)" %(TestProjectsWithArguments.Identity) $(NunitOptions)' LogStandardErrorAsError="true" WorkingDirectory="../"/>
 
     <Message Importance="high" Text="--------- end of RUN CLASSICAL .NET TESTS ---------"/>
