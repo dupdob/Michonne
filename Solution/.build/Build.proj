@@ -111,8 +111,10 @@ GENERATING DOCS for:
   <!-- 3- Run the TESTS -->
   <Choose>
     <When Condition="'$(APPVEYOR)'='True'">
-      <NunitOptions>--result=TestResults.xml;format=AppVeyor</NunitOptions>
-      <TestRunnerPath>nunit3-console</TestRunnerPath>
+      <PropertyGroup>
+        <NunitOptions>--result=TestResults.xml;format=AppVeyor</NunitOptions>
+        <TestRunnerPath>nunit3-console</TestRunnerPath>
+      </PropertyGroup>
     </When>
   </Choose>
   <Target Name="RunTests" DependsOnTargets="Build">
