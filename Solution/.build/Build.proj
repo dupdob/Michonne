@@ -109,6 +109,12 @@ GENERATING DOCS for:
   </Target>
 
   <!-- 3- Run the TESTS -->
+  <Choose>
+    <When Condition="'$(APPVEYOR)'='True'">
+      <NunitOptions>--result=TestResults.xml;format=AppVeyor</NunitOptions>
+      <TestRunnerPath>nunit3-console</TestRunnerPath>
+    </When>
+  </Choose>
   <Target Name="RunTests" DependsOnTargets="Build">
     <ItemGroup>
       <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\$(SolutionName).01.Tests\bin\$(Configuration)\$(SolutionName).01.Tests.dll&quot; /framework:net-4.0" />
@@ -125,12 +131,6 @@ RUN ALL UNIT TESTS
 
     <Message Importance="normal" Text="Assemblies to test:"/>
     <Message Importance="normal" Text="'%(TestProjectsWithArguments.Identity)'"/>
-      <Choose>
-        <When Condition="'$(APPVEYOR)'='True'">
-          <NunitOptions>--result=TestResults.xml;format=AppVeyor</NunitOptions>
-          <TestRunnerPath>nunit3-console</TestRunnerPath>
-        </When>
-      </Choose>
     <Exec Command='"$(TestRunnerPath)" %(TestProjectsWithArguments.Identity) $(NunitOptions)' LogStandardErrorAsError="true" WorkingDirectory="../"/>
 
     <Message Importance="high" Text="--------- end of RUN CLASSICAL .NET TESTS ---------"/>
