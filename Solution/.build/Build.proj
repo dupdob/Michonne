@@ -110,7 +110,7 @@ GENERATING DOCS for:
 
   <!-- 3- Run the TESTS -->
   <Choose>
-    <When Condition="'$(APPVEYOR)'='True'">
+    <When Condition="'$(APPVEYOR)'=='True'">
       <PropertyGroup>
         <NunitOptions>--result=TestResults.xml;format=AppVeyor</NunitOptions>
         <TestRunnerPath>nunit3-console</TestRunnerPath>
