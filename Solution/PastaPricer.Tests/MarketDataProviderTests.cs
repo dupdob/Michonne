@@ -48,18 +48,24 @@ namespace PastaPricer.Tests
         public void Should_provide_MarketData_for_eggs()
         {
             var marketDataProvider = new MarketDataProvider();
-            marketDataProvider.RegisterRawMaterial("eggs");
+            using (marketDataProvider)
+            {
+                marketDataProvider.RegisterRawMaterial("eggs");
 
-            Check.That(marketDataProvider.GetRawMaterial("eggs")).IsInstanceOf<RawMaterialMarketData>();
+                Check.That(marketDataProvider.GetRawMaterial("eggs")).IsInstanceOf<RawMaterialMarketData>();
+            }
         }
 
         [Test]
         public void Should_return_the_same_instance_of_MarketData_given_the_same_rawMaterial_name()
         {
             var marketDataProvider = new MarketDataProvider();
-            marketDataProvider.RegisterRawMaterial("eggs");
+            using (marketDataProvider)
+            {
+                marketDataProvider.RegisterRawMaterial("eggs");
 
-            Check.That(marketDataProvider.GetRawMaterial("eggs")).IsSameReferenceThan(marketDataProvider.GetRawMaterial("eggs"));
+                Check.That(marketDataProvider.GetRawMaterial("eggs")).IsSameReferenceThan(marketDataProvider.GetRawMaterial("eggs"));
+            }
         }
 
         [Test]

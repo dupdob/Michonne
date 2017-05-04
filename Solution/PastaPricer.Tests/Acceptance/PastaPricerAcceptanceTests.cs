@@ -33,7 +33,6 @@ namespace PastaPricer.Tests.Acceptance
             var unitOfExecutionsFactory = new UnitOfExecutionsFactory();
             
             var marketDataProvider = new MarketDataProvider();
-
             using (marketDataProvider)
             {
                 var pastaPricer = new PastaPricerEngine(unitOfExecutionsFactory.GetPool(),
@@ -58,13 +57,16 @@ namespace PastaPricer.Tests.Acceptance
                         Monitor.Wait(this.lastPrices, 1000);
                     }
                 }
-
+                pastaPricer.Stop();
             }
-            // It has publish a price now!
-            Check.That(this.lastPrices.Keys).Contains("gnocchi");
+            lock (this.lastPrices)
+            {
+                // It has publish a price now!
+                Check.That(this.lastPrices.Keys).Contains("gnocchi");
+            }
         }
 
-        //[Test]
+        [Test]
         public void Should_publish_price_for_every_registered_pasta()
         {
             this.ClearDico();
@@ -104,7 +106,7 @@ namespace PastaPricer.Tests.Acceptance
                         Monitor.Wait(this.lastPrices, 100);
                     }
                 }
-
+                pastaPricer.Stop();
             }
             Check.That(this.lastPrices.Keys).Contains("gnocchi");
             Check.That(this.lastPrices.Keys).Contains("spaghetti");

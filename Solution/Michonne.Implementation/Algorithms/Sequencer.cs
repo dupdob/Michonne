@@ -104,7 +104,8 @@ namespace Michonne.Implementation
                 bool mustExit;
                 if (!this.orderedDispatchedTasks.TryDequeue(out action))
                 {
-                    continue;
+                    Interlocked.Decrement(ref this.numberOfPendingTasksWhileRunning);
+                    break;
                 }
                 try
                 {

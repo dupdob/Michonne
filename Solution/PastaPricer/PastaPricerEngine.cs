@@ -14,6 +14,7 @@
 //   --------------------------------------------------------------------------------------------------------------------
 namespace PastaPricer
 {
+    using System;
     using System.Collections.Generic;
     using Michonne.Implementation;
     using Michonne.Interfaces;
@@ -81,6 +82,15 @@ namespace PastaPricer
         private void PastaPricingAgentPastaPriceChanged(object sender, PastaPriceChangedEventArgs e)
         {
             this.pastaPricerPublisher.Publish(e.PastaName, e.Price);
+        }
+
+        public void Stop()
+        {
+            foreach (var agent in this.pastaAgents.Values)
+            {
+                agent.PastaPriceChanged -= this.PastaPricingAgentPastaPriceChanged;
+                agent.Stop();
+            }
         }
     }
 }

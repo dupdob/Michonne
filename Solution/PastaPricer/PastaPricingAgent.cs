@@ -37,6 +37,7 @@ namespace PastaPricer
         private readonly IUnitOfExecution flavorUnitOfExecution;
         private readonly IUnitOfExecution packagingUnitOfExecution;
         private readonly IUnitOfExecution sizeUnitOfExecution;
+        private bool stopped;
 
         /// <summary>
         /// The ingredient prices.
@@ -248,7 +249,7 @@ namespace PastaPricer
         // pseudo computation logic
         private void Compute()
         {
-            if (!this.HasAllRequestedInputsForComputation())
+            if (this.stopped || !this.HasAllRequestedInputsForComputation())
             {
                 return;
             }
@@ -297,5 +298,9 @@ namespace PastaPricer
 
         #endregion
 
+        public void Stop()
+        {
+            this.stopped = true;
+        }
     }
 }

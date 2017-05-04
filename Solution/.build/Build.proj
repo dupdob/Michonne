@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="RunAll" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <!--(c) 2017 Cyrille Dupuydauby, derived from T.Pierrain work on NFluent -->
-  <PropertyGroup>
-    <SolutionRoot>$(MSBuildProjectDirectory)\..</SolutionRoot>
-  </PropertyGroup>
 
   <Import Project="build.tasks" />
   
   <PropertyGroup>
+    <SolutionRoot>$(MSBuildProjectDirectory)\..</SolutionRoot>
       <Configuration Condition="$(Configuration) == ''">Debug</Configuration>
       <SolutionRoot>$(MSBuildProjectDirectory)\..</SolutionRoot>
       <SolutionName>Michonne</SolutionName>
@@ -24,22 +22,17 @@
       <NugetKey>$(MICHONNE_NUGET_API_KEY)</NugetKey>
       <PackageStream>alpha</PackageStream>
   </PropertyGroup>
-    
-  <Target Name="SetNightly">
-     <PropertyGroup>
-      <PackageStream>nightly</PackageStream>
-    </PropertyGroup>
-  </Target>
-  <Target Name="SetRC">
-     <PropertyGroup>
-      <PackageStream>RC</PackageStream>
-    </PropertyGroup>
-  </Target>
-  <Target Name="SetRelease">
-     <PropertyGroup>
-      <PackageStream></PackageStream>
-    </PropertyGroup>
-  </Target>
+  <!-- Specifics for appveyor: use env provided nunit runner for result publication-->
+  <Choose>
+    <When Condition="'$(APPVEYOR)'=='True'">
+      <PropertyGroup>
+        <NunitOptions>--result=TestResults.xml;format=AppVeyor</NunitOptions>
+        <TestRunnerPath>nunit3-console</TestRunnerPath>
+      </PropertyGroup>
+    </When>
+  </Choose>
+
+  <!--Targets-->
   
   <Target Name="RunAll" DependsOnTargets="Build; RunTests; Package" />
   <Target Name="Nightly" DependsOnTargets="SetNightly; RunAll; Publish"/>
@@ -47,6 +40,21 @@
   <Target Name="Release" DependsOnTargets="SetRelease; RunAll; Publish"/>
   <Target Name="CI" DependsOnTargets="Build" />
 
+  <Target Name="SetNightly">
+    <PropertyGroup>
+      <PackageStream>nightly</PackageStream>
+    </PropertyGroup>
+  </Target>
+  <Target Name="SetRC">
+    <PropertyGroup>
+      <PackageStream>RC</PackageStream>
+    </PropertyGroup>
+  </Target>
+  <Target Name="SetRelease">
+    <PropertyGroup>
+      <PackageStream></PackageStream>
+    </PropertyGroup>
+  </Target>
   <!-- 1- Do the BUILD -->
 
   <Target Name="DotnetCoreRestore">
@@ -109,14 +117,6 @@ GENERATING DOCS for:
   </Target>
 
   <!-- 3- Run the TESTS -->
-  <Choose>
-    <When Condition="'$(APPVEYOR)'=='True'">
-      <PropertyGroup>
-        <NunitOptions>--result=TestResults.xml;format=AppVeyor</NunitOptions>
-        <TestRunnerPath>nunit3-console</TestRunnerPath>
-      </PropertyGroup>
-    </When>
-  </Choose>
   <Target Name="RunTests" DependsOnTargets="Build">
     <ItemGroup>
       <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\$(SolutionName).01.Tests\bin\$(Configuration)\$(SolutionName).01.Tests.dll&quot; /framework:net-4.0" />
