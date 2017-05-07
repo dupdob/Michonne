@@ -9,7 +9,7 @@
       <Configuration Condition="$(Configuration) == ''">Debug</Configuration>
       <SolutionRoot>$(MSBuildProjectDirectory)\..</SolutionRoot>
       <SolutionName>Michonne</SolutionName>
-      <AssemblyFileNameRoot>$(SolutionRoot)\$(SolutionName)</AssemblyFileNameRoot>
+      <AssemblyFileNameRoot>$(SolutionRoot)\Michonne.Assemblies\$(SolutionName)</AssemblyFileNameRoot>
       <ToolsPath>$(SolutionRoot)\tools\</ToolsPath>
       <SourcePath>$(SolutionRoot)\</SourcePath>
       <ArtifactsPath>$(SolutionRoot)\Artifacts</ArtifactsPath>
@@ -59,8 +59,8 @@
 
   <Target Name="DotnetCoreRestore">
     <Message Importance="high" Text="--------- DOTNET RESTORE  -------------------------------------------"/>     
-    <Exec Command="dotnet restore $(SolutionRoot)\Michonne.Implementation.Standard" />
-    <Exec Command="dotnet restore $(SolutionRoot)\Michonne.Interfaces.Standard" />
+    <Exec Command="dotnet restore $(SolutionRoot)\Michonne.Assemblies\Michonne.Implementation.Standard" />
+    <Exec Command="dotnet restore $(SolutionRoot)\Michonne.Assemblies\Michonne.Interfaces.Standard" />
 
     <Message Importance="high" Text="--------- end of DOTNET RESTORE  -------------------------------------"/>
   </Target>
@@ -68,8 +68,8 @@
   <ItemGroup>
     <ProjectFolder Include="$(SolutionRoot)\Michonne.Tests"/>  
     <ProjectFolder Include="$(SolutionRoot)\Michonne.01.Tests"/>  
-    <ProjectFolder Include="$(SolutionRoot)\Michonne.Implementation.Standard"/>  
-    <ProjectFolder Include="$(SolutionRoot)\Michonne.Interfaces.Standard"/>  
+    <ProjectFolder Include="$(SolutionRoot)\Michonne.Assemblies\Michonne.Implementation.Standard"/>  
+    <ProjectFolder Include="$(SolutionRoot)\Michonne.Assemblies\Michonne.Interfaces.Standard"/>  
     <ProjectFolder Include="$(SolutionRoot)\PastaPricer.Tests"/>  
   </ItemGroup>
     
@@ -148,6 +148,12 @@ RUN ALL UNIT TESTS
       </FilesForNuget>
       <FilesForNuget Include="$(AssemblyFileNameRoot).Interfaces\bin\$(Configuration)\*Interfaces*.*">
         <TargetFwk>net45</TargetFwk>
+      </FilesForNuget>
+      <FilesForNuget Include="$(AssemblyFileNameRoot).Implementation.20\bin\$(Configuration)\*Implementation*.*">
+        <TargetFwk>net20</TargetFwk>
+      </FilesForNuget>
+      <FilesForNuget Include="$(AssemblyFileNameRoot).Interfaces.20\bin\$(Configuration)\*Interfaces*.*">
+        <TargetFwk>net20</TargetFwk>
       </FilesForNuget>
       <FilesForNuget Include="$(AssemblyFileNameRoot).Implementation.Standard\bin\$(Configuration)\netstandard1.3\*Implementation*.*">
         <TargetFwk>netstandard1.3</TargetFwk>

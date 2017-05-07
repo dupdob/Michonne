@@ -62,11 +62,11 @@
       <Project>{FFDD856B-8600-4516-8F65-8BF460E96214}</Project>
       <Name>Michonne.0.1</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Michonne.Implementation\Michonne.Implementation.csproj">
+    <ProjectReference Include="..\Michonne.Assemblies\Michonne.Implementation\Michonne.Implementation.csproj">
       <Project>{76D48E2E-E97D-46D1-81FC-7ABAEA8463AC}</Project>
       <Name>Michonne.Implementation</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Michonne.Interfaces\Michonne.Interfaces.csproj">
+    <ProjectReference Include="..\Michonne.Assemblies\Michonne.Interfaces\Michonne.Interfaces.csproj">
       <Project>{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}</Project>
       <Name>Michonne.Interfaces</Name>
     </ProjectReference>

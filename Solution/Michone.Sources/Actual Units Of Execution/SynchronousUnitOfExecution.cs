@@ -1,7 +1,7 @@
 ﻿#region File header
 
 // --------------------------------------------------------------------------------------------------------------------
-//  <copyright file="PoolUnitOfExecution.cs" company="No lock... no deadlock" product="Michonne">
+//  <copyright file="SynchronousUnitOfExecution.cs" company="No lock... no deadlock" product="Michonne">
 //     Copyright 2014 Cyrille DUPUYDAUBY (@Cyrdup), Thomas PIERRAIN (@tpierrain)
 //     Licensed under the Apache License, Version 2.0 (the "License");
 //     you may not use this file except in compliance with the License.
@@ -19,68 +19,45 @@
 namespace Michonne.Implementation
 {
     using System;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Interfaces;
 
     /// <summary>
-    ///     The pool unit of execution executes submitted <see cref="Action" /> through the CLR Pool.
+    /// This implementation of <see cref="IUnitOfExecution"/> implements synchronous calls.
+    ///  This means that submitted <see cref="Action"/>s are immediately executed.
+    ///  It does not offer scalability, as it relies on the calling thread.
     /// </summary>
-    internal class PoolUnitOfExecution : IUnitOfExecution
+    /// <remarks>Choose the <see cref="SynchronousUnitOfExecution"/> to favor latency against throughput.</remarks>
+    internal class SynchronousUnitOfExecution : IUnitOfExecution
     {
-        #region Constructors and Destructors
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="PoolUnitOfExecution"/> class.
+        /// Initializes a new instance of the <see cref="SynchronousUnitOfExecution"/> class.
         /// </summary>
         /// <param name="unitOfExecutionsFactory">
-        /// The unit of executions factory.
+        /// The unit Of Executions Factory.
         /// </param>
-        public PoolUnitOfExecution(IUnitOfExecutionsFactory unitOfExecutionsFactory)
+        public SynchronousUnitOfExecution(IUnitOfExecutionsFactory unitOfExecutionsFactory)
         {
             this.UnitOfExecutionsFactory = unitOfExecutionsFactory;
         }
 
-        #endregion
-
-        #region Public Properties
-
         /// <summary>
         ///     Gets the unit of executions factory.
         /// </summary>
-        public IUnitOfExecutionsFactory UnitOfExecutionsFactory { get; private set; }
-
-        #endregion
-
-        #region Public Methods and Operators
+        public IUnitOfExecutionsFactory UnitOfExecutionsFactory { get; }
 
         /// <summary>
         /// Dispatch an action to be executed.
         /// </summary>
+        /// <remarks>
+        /// Depending on the concrete implementation of the dispatcher, the action will be
+        ///     executed asynchronously (most likely) or synchronously (a few exceptions).
+        /// </remarks>
         /// <param name="action">
-        /// <see cref="Action"/> to be eventually executed.
+        /// The action to be executed
         /// </param>
         public void Dispatch(Action action)
         {
-            Task.Factory.StartNew(Execute, action);
-            ThreadPool.QueueUserWorkItem(Execute, action);
+            action();
         }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Wrapper method for actual execution.
-        /// </summary>
-        /// <param name="x">
-        /// Actual <see cref="Action"/> to be executed.
-        /// </param>
-        private static void Execute(object x)
-        {
-            ((Action)x)();
-        }
-
-        #endregion
     }
 }

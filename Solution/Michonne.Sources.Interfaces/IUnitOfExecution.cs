@@ -14,8 +14,11 @@
 //   --------------------------------------------------------------------------------------------------------------------
 namespace Michonne.Interfaces
 {
+#if NET20
+    public delegate void Action();
+#else
     using System;
-
+#endif
     /// <summary>
     /// Allow to dispatch actions/tasks for execution. 
     /// A dispatcher may be whether asynchronous (more likely) or synchronous.
@@ -26,7 +29,7 @@ namespace Michonne.Interfaces
         ///     Gets the unit of executions factory.
         /// </summary>
         IUnitOfExecutionsFactory UnitOfExecutionsFactory { get; }
-        
+
         /// <summary>
         /// Dispatch an action to be executed.
         /// </summary>

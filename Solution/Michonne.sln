@@ -27,9 +27,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Michonne assemblies", "Mich
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Tests", "Michonne.Tests\Michonne.Tests.csproj", "{F7D77346-0D41-41E8-8662-A6C2A0654A34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Interfaces", "Michonne.Interfaces\Michonne.Interfaces.csproj", "{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Interfaces", "Michonne.Assemblies\Michonne.Interfaces\Michonne.Interfaces.csproj", "{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Implementation", "Michonne.Implementation\Michonne.Implementation.csproj", "{76D48E2E-E97D-46D1-81FC-7ABAEA8463AC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Implementation", "Michonne.Assemblies\Michonne.Implementation\Michonne.Implementation.csproj", "{76D48E2E-E97D-46D1-81FC-7ABAEA8463AC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.0.1", "Michonne.01\Michonne.0.1.csproj", "{FFDD856B-8600-4516-8F65-8BF460E96214}"
 EndProject
@@ -57,13 +57,31 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{208C2A78
 		Version.cs = Version.cs
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Michonne.Implementation.Standard", "Michonne.Implementation.Standard\Michonne.Implementation.Standard.csproj", "{72BABC4F-2F9E-4891-8CDE-F7542F805A44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Michonne.Implementation.Standard", "Michonne.Assemblies\Michonne.Implementation.Standard\Michonne.Implementation.Standard.csproj", "{72BABC4F-2F9E-4891-8CDE-F7542F805A44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Interfaces.Standard", "Michonne.Interfaces.Standard\Michonne.Interfaces.Standard.csproj", "{F1CE45FD-A927-4FA2-B7BC-BA72C7C91378}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Interfaces.Standard", "Michonne.Assemblies\Michonne.Interfaces.Standard\Michonne.Interfaces.Standard.csproj", "{F1CE45FD-A927-4FA2-B7BC-BA72C7C91378}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{55A585FD-6B2B-42CD-83FC-44A8B0E1CC9B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{44FBE7D5-1F28-49AF-ADA0-444188F92559}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Michonne.Sources", "Michone.Sources\Michonne.Sources.shproj", "{121C0900-AACF-41A8-91DC-1B933206B990}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Michonne.Sources.Interfaces", "Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.shproj", "{B6047ABD-5132-4F8E-9DD4-E759B8AED5C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Implementation.20", "Michonne.Assemblies\Michonne.Implementation.20\Michonne.Implementation.20.csproj", "{2241E481-A708-4F08-A85E-3BD24D878097}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Interfaces.20", "Michonne.Assemblies\Michonne.Interfaces.20\Michonne.Interfaces.20.csproj", "{00E71163-7247-47E0-A30A-B5819948AED7}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.projitems*{00e71163-7247-47e0-a30a-b5819948aed7}*SharedItemsImports = 4
+		Michone.Sources\Michone.Sources.projitems*{121c0900-aacf-41a8-91dc-1b933206b990}*SharedItemsImports = 13
+		Michone.Sources\Michone.Sources.projitems*{2241e481-a708-4f08-a85e-3bd24d878097}*SharedItemsImports = 4
+		Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.projitems*{439f8a67-01b7-4109-aab2-6c0d5b02a0fa}*SharedItemsImports = 4
+		Michone.Sources\Michone.Sources.projitems*{76d48e2e-e97d-46d1-81fc-7abaea8463ac}*SharedItemsImports = 4
+		Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.projitems*{b6047abd-5132-4f8e-9dd4-e759b8aed5c4}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -109,6 +127,14 @@ Global
 		{F1CE45FD-A927-4FA2-B7BC-BA72C7C91378}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1CE45FD-A927-4FA2-B7BC-BA72C7C91378}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1CE45FD-A927-4FA2-B7BC-BA72C7C91378}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2241E481-A708-4F08-A85E-3BD24D878097}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2241E481-A708-4F08-A85E-3BD24D878097}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2241E481-A708-4F08-A85E-3BD24D878097}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2241E481-A708-4F08-A85E-3BD24D878097}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00E71163-7247-47E0-A30A-B5819948AED7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00E71163-7247-47E0-A30A-B5819948AED7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00E71163-7247-47E0-A30A-B5819948AED7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00E71163-7247-47E0-A30A-B5819948AED7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -124,5 +150,9 @@ Global
 		{F7027111-B4D0-4E57-BEDF-789673E43A1D} = {6FAF7116-DD10-49A2-B3E7-1A96E4C913CF}
 		{72BABC4F-2F9E-4891-8CDE-F7542F805A44} = {28E1D32F-9C0B-4E14-BA8C-5DDE2D6CF705}
 		{F1CE45FD-A927-4FA2-B7BC-BA72C7C91378} = {28E1D32F-9C0B-4E14-BA8C-5DDE2D6CF705}
+		{121C0900-AACF-41A8-91DC-1B933206B990} = {44FBE7D5-1F28-49AF-ADA0-444188F92559}
+		{B6047ABD-5132-4F8E-9DD4-E759B8AED5C4} = {44FBE7D5-1F28-49AF-ADA0-444188F92559}
+		{2241E481-A708-4F08-A85E-3BD24D878097} = {28E1D32F-9C0B-4E14-BA8C-5DDE2D6CF705}
+		{00E71163-7247-47E0-A30A-B5819948AED7} = {28E1D32F-9C0B-4E14-BA8C-5DDE2D6CF705}
 	EndGlobalSection
 EndGlobal

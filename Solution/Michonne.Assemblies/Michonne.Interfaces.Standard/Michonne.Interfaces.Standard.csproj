@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.3</TargetFramework>
+    <AssemblyName>Michonne.Interfaces</AssemblyName>
+    <RootNamespace>Michonne.Interfaces</RootNamespace>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\MichonneKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Michonne.Interfaces.Standard.v3.ncrunchproject" />
+  </ItemGroup>
+
+  <Import Project="..\..\Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.projitems" Label="Shared" />
+
+</Project>

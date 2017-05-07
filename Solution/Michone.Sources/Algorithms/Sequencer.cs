@@ -14,10 +14,40 @@
 //   --------------------------------------------------------------------------------------------------------------------
 namespace Michonne.Implementation
 {
-    using System;
-    using System.Collections.Concurrent;
     using System.Threading;
     using Interfaces;
+#if! NET20
+    using System;
+    using System.Collections.Concurrent;
+#else
+    using System.Collections.Generic;
+
+    internal class ConcurrentQueue<T> where T: class
+    {
+        private Queue<T> queue = new Queue<T>();
+        public bool TryDequeue(out T item)
+        {
+            lock (this.queue)
+            {
+                if (this.queue.Count == 0)
+                {
+                    item = null;
+                    return false;
+                }
+                item = this.queue.Dequeue();
+                return true;
+            }
+        }
+
+        public void Enqueue(T item)
+        {
+            lock (this.queue)
+            {
+                this.queue.Enqueue(item);
+            }
+        }
+    }
+#endif
 
     /// <summary>
     ///     Allows to execute tasks asynchronously, but one by one and in the same order as they have been dispatched.
@@ -64,10 +94,10 @@ namespace Michonne.Implementation
         public IUnitOfExecutionsFactory UnitOfExecutionsFactory => this.rootUnitOfExecution.UnitOfExecutionsFactory;
 
         /// <summary>
-        ///     Gives a task/action to the sequencer in order to execute it in an asynchronous manner, but respecting the
+        ///     Gives a task/item to the sequencer in order to execute it in an asynchronous manner, but respecting the
         ///     order of the dispatch, and without concurrency among the sequencer's tasks.
         /// </summary>
-        /// <param name="action">The action to be executed</param>
+        /// <param name="action">The item to be executed</param>
         public void Dispatch(Action action)
         {
             this.orderedDispatchedTasks.Enqueue(action);
@@ -100,7 +130,7 @@ namespace Michonne.Implementation
 
                 try
                 {
-                    // Execute the next action
+                    // Execute the next item
                     action();
                 }
                 finally

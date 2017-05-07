@@ -32,7 +32,6 @@ namespace Michonne.Implementation
         private readonly Thread myThread;
         private readonly object synchRoot = new object();
         private readonly Queue<Action> tasks = new Queue<Action>();
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ThreadUnitOfExecution"/> class.
         /// </summary>
@@ -42,17 +41,8 @@ namespace Michonne.Implementation
         public ThreadUnitOfExecution(IUnitOfExecutionsFactory unitOfExecutionsFactory)
         {
             this.UnitOfExecutionsFactory = unitOfExecutionsFactory;
-            this.myThread = new Thread(this.Process) {IsBackground = true};
+            this.myThread = new Thread(this.Process) {IsBackground = true };
             this.myThread.Start();
-        }
-
-        /// <summary>
-        ///     Finalizes an instance of the <see cref="ThreadUnitOfExecution" /> class.
-        ///     Destructor.
-        /// </summary>
-        ~ThreadUnitOfExecution()
-        {
-            this.Dispose(false);
         }
 
         /// <summary>
@@ -83,16 +73,7 @@ namespace Michonne.Implementation
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
-        {
             this.Dispatch(null);
-            if (!disposing)
-            {
-                return;
-            }
 
             GC.SuppressFinalize(this);
             this.myThread.Join(500);

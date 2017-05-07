@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>121c0900-aacf-41a8-91dc-1b933206b990</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Michone.Implementation</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Actual Units Of Execution\PoolUnitOfExecution.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Actual Units Of Execution\SynchronousUnitOfExecution.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Actual Units Of Execution\ThreadUnitOfExecution.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Algorithms\ActionConflator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Algorithms\DataConflator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Algorithms\Sequencer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Algorithms\TestHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataProcessor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SequencerFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UnitOfExecutionsFactory.cs" />
+  </ItemGroup>
+</Project>
