@@ -21,6 +21,7 @@ assembly_info:
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}'
 
+notifications:
 - provider: Webhook
   url: https://hooks.slack.com/services/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
   method: POST
