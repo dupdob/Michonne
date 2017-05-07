@@ -22,7 +22,7 @@ assembly_info:
   assembly_informational_version: '{version}'
 
 notifications:
-- provider: Webhook
+- provider: Slack
   url: https://hooks.slack.com/services/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
   method: POST
   on_build_success: true
