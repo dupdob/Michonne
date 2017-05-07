@@ -14,7 +14,7 @@
 //   --------------------------------------------------------------------------------------------------------------------
 namespace Michonne.Implementation
 {
-    using Michonne.Interfaces;
+    using Interfaces;
 
     /// <summary>
     /// This static class hosts several methods to assist you in writing tests for classes using UnitOfExecution/Michonne.
@@ -39,6 +39,15 @@ namespace Michonne.Implementation
         public static IUnitOfExecution GetSynchronousUnitOfExecution()
         {
             return Factory.GetSynchronousUnitOfExecution();
+        }
+
+        /// <summary>
+        /// Gets an instance of <see cref="IDisposableUnitOfExecution"/> to execute tasks on a dedicated thread.
+        /// </summary>
+        /// <returns>An instance of <see cref="IDisposableUnitOfExecution"/></returns>
+        public static IDisposableUnitOfExecution GetThread()
+        {
+            return Factory.GetDedicatedThread();
         }
     }
 }

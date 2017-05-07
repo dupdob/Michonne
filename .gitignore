@@ -43,7 +43,7 @@ Artifacts/
 *.sln.docstates
 
 # Build results
-
+**/.vs/
 [Dd]ebug/
 [Rr]elease/
 x64/

@@ -4,6 +4,8 @@
     <TargetFramework>netstandard1.3</TargetFramework>
     <AssemblyName>Michonne.Implementation</AssemblyName>
     <RootNamespace>Michonne.Implementation</RootNamespace>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\MichonneKey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>

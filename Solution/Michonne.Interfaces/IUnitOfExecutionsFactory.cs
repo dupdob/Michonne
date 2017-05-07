@@ -31,7 +31,7 @@ namespace Michonne.Interfaces
         ///     Get an execution unit based on the CLR thread pool.
         /// </summary>
         /// <returns>An instance of <see cref="IUnitOfExecution" /> that executes <see cref="Action" /> on the CLR thread pool.</returns>
-        IUnitOfExecution GetDedicatedThread();
+        IDisposableUnitOfExecution GetDedicatedThread();
 
         /// <summary>
         ///     Get an execution unit based on the CLR thread pool.

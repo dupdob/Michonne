@@ -45,10 +45,9 @@ namespace Michonne.Tests
         public void Factory_should_create_worker_unit()
         {
             var factory = new UnitOfExecutionsFactory();
-
             var threadExec = factory.GetDedicatedThread();
-
             Check.That(threadExec).IsNotNull();
+            Check.That(threadExec.UnitOfExecutionsFactory).IsSameReferenceThan(factory);
         }
 
         [Test]
@@ -61,5 +60,6 @@ namespace Michonne.Tests
             Check.That(threadExec).IsNotNull();
             Check.That(factory.AvailableCore).IsEqualTo(initialCount - 1);
         }
+ 
     }
 }

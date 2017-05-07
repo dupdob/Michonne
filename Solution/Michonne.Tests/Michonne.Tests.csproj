@@ -57,6 +57,7 @@
     <Compile Include="RaceConditionDetector.cs" />
     <Compile Include="SynchonousUnitOfExecutionTests.cs" />
     <Compile Include="SynchroCall.cs" />
+    <Compile Include="ThreadUnitOfExecutionTests.cs" />
     <Compile Include="VersionTaskTest.cs" />
   </ItemGroup>
   <ItemGroup>

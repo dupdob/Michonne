@@ -17,7 +17,6 @@ namespace Michonne.Implementation
     using System;
     using System.Collections.Concurrent;
     using System.Threading;
-
     using Interfaces;
 
     /// <summary>
@@ -34,12 +33,11 @@ namespace Michonne.Implementation
     /// </summary>
     public sealed class Sequencer : ISequencer
     {
-        #region Fields
         /// <summary>
         /// In charge of maintaining task order
         /// </summary>
         private readonly ConcurrentQueue<Action> orderedDispatchedTasks = new ConcurrentQueue<Action>();
-        
+
         /// <summary>
         /// Underlying unit of execution that will actually execute tasks.
         /// </summary>
@@ -50,10 +48,6 @@ namespace Michonne.Implementation
         /// </summary>
         private long numberOfPendingTasksWhileRunning;
 
-        #endregion
-
-        #region Constructors and Destructors
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="Sequencer" /> class.
         /// </summary>
@@ -63,10 +57,6 @@ namespace Michonne.Implementation
             this.rootUnitOfExecution = rootUnitOfExecution;
             this.numberOfPendingTasksWhileRunning = 0;
         }
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         ///     Gets the unit of executions factory.
@@ -107,6 +97,7 @@ namespace Michonne.Implementation
                     Interlocked.Decrement(ref this.numberOfPendingTasksWhileRunning);
                     break;
                 }
+
                 try
                 {
                     // Execute the next action
@@ -114,12 +105,14 @@ namespace Michonne.Implementation
                 }
                 finally
                 {
-                    mustExit = (Interlocked.Decrement(ref this.numberOfPendingTasksWhileRunning) == 0);
+                    mustExit = Interlocked.Decrement(ref this.numberOfPendingTasksWhileRunning) == 0;
                 }
+
                 if (mustExit)
+                {
                     break;
+                }
             }
         }
-        #endregion
     }
 }

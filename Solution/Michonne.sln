@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\appveyor.yml = ..\appveyor.yml
 		..\Backlog.md = ..\Backlog.md
 		..\build.cmd = ..\build.cmd
+		..\CI.cmd = ..\CI.cmd
 		..\LICENSE.txt = ..\LICENSE.txt
 		..\michonne 2.png = ..\michonne 2.png
 		Michonne.nuspec = Michonne.nuspec
@@ -50,8 +51,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.01.Tests", "Michon
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{208C2A78-6B8B-48A8-873D-501D8DBE202A}"
 	ProjectSection(SolutionItems) = preProject
-		..\appveyor.yml = ..\appveyor.yml
-		..\build.cmd = ..\build.cmd
 		.build\Build.proj = .build\Build.proj
 		.build\Build.tasks = .build\Build.tasks
 		Michonne.nuspec = Michonne.nuspec
@@ -61,6 +60,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Michonne.Implementation.Standard", "Michonne.Implementation.Standard\Michonne.Implementation.Standard.csproj", "{72BABC4F-2F9E-4891-8CDE-F7542F805A44}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Interfaces.Standard", "Michonne.Interfaces.Standard\Michonne.Interfaces.Standard.csproj", "{F1CE45FD-A927-4FA2-B7BC-BA72C7C91378}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{55A585FD-6B2B-42CD-83FC-44A8B0E1CC9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,7 +114,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{F7D77346-0D41-41E8-8662-A6C2A0654A34} = {28E1D32F-9C0B-4E14-BA8C-5DDE2D6CF705}
+		{F7D77346-0D41-41E8-8662-A6C2A0654A34} = {55A585FD-6B2B-42CD-83FC-44A8B0E1CC9B}
 		{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA} = {28E1D32F-9C0B-4E14-BA8C-5DDE2D6CF705}
 		{76D48E2E-E97D-46D1-81FC-7ABAEA8463AC} = {28E1D32F-9C0B-4E14-BA8C-5DDE2D6CF705}
 		{FFDD856B-8600-4516-8F65-8BF460E96214} = {6FAF7116-DD10-49A2-B3E7-1A96E4C913CF}

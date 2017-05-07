@@ -20,11 +20,8 @@ namespace Michonne.Tests
 {
     using System;
     using System.Threading;
-
     using Implementation;
-
     using NFluent;
-
     using NUnit.Framework;
 
     /// <summary>
@@ -42,14 +39,16 @@ namespace Michonne.Tests
         {
             var factory = new UnitOfExecutionsFactory();
             var dedicated = factory.GetDedicatedThread();
-            var synchroRoot = new object();
-            var go = true;
-            var ranTasks = 0;
+            using ((IDisposable)dedicated)
+            {
+                var synchroRoot = new object();
+                var go = true;
+                var ranTasks = 0;
 
-            var conflator = new ActionConflator(dedicated);
+                var conflator = new ActionConflator(dedicated);
 
-            dedicated.Dispatch(
-                () =>
+                dedicated.Dispatch(
+                    () =>
                     {
                         lock (synchroRoot)
                         {
@@ -60,20 +59,21 @@ namespace Michonne.Tests
                         }
                     });
 
-            conflator.Conflate(() => Interlocked.Increment(ref ranTasks));
-            conflator.Conflate(() => Interlocked.Increment(ref ranTasks));
-            conflator.Conflate(() => Interlocked.Increment(ref ranTasks));
+                conflator.Conflate(() => Interlocked.Increment(ref ranTasks));
+                conflator.Conflate(() => Interlocked.Increment(ref ranTasks));
+                conflator.Conflate(() => Interlocked.Increment(ref ranTasks));
 
-            lock (synchroRoot)
-            {
-                go = false;
-                Monitor.Pulse(synchroRoot);
+                lock (synchroRoot)
+                {
+                    go = false;
+                    Monitor.Pulse(synchroRoot);
+                }
+
+                Thread.Sleep(100);
+
+                // tasks should be conflated
+                Check.That(ranTasks).IsEqualTo(1);
             }
-
-            Thread.Sleep(100);
-
-            // tasks should be conflated
-            Check.That(ranTasks).IsEqualTo(1);
         }
 
         [Test]

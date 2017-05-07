@@ -27,24 +27,11 @@ namespace Michonne.Implementation
     ///     This is a <see cref="IUnitOfExecution" /> implementation that executes submitted <see cref="Action" /> in a
     ///     dedicated thread.
     /// </summary>
-    internal class ThreadUnitOfExecution : IUnitOfExecution, IDisposable
+    internal class ThreadUnitOfExecution : IDisposableUnitOfExecution
     {
-        #region Fields
-
         private readonly Thread myThread;
-        /// <summary>
-        ///     private lock.
-        /// </summary>
         private readonly object synchRoot = new object();
-
-        /// <summary>
-        ///     Tasks to be executed.
-        /// </summary>
         private readonly Queue<Action> tasks = new Queue<Action>();
-
-        #endregion
-
-#region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ThreadUnitOfExecution"/> class.
@@ -68,18 +55,10 @@ namespace Michonne.Implementation
             this.Dispose(false);
         }
 
-#endregion
-
-#region Public Properties
-
         /// <summary>
         /// Gets the unit of executions factory.
         /// </summary>
         public IUnitOfExecutionsFactory UnitOfExecutionsFactory { get; }
-
-#endregion
-
-#region Public Methods and Operators
 
         /// <summary>
         /// The dispatch.
@@ -96,7 +75,6 @@ namespace Michonne.Implementation
                 {
                     Monitor.Pulse(this.synchRoot);
                 }
-
             }
         }
 
@@ -108,27 +86,18 @@ namespace Michonne.Implementation
             this.Dispose(true);
         }
 
-#endregion
-
-#region Methods
-
-        /// <summary>
-        /// The dispose.
-        /// </summary>
-        /// <param name="disposing">
-        /// The disposing.
-        /// </param>
         private void Dispose(bool disposing)
         {
             this.Dispatch(null);
-            if (!disposing) return;
+            if (!disposing)
+            {
+                return;
+            }
+
             GC.SuppressFinalize(this);
             this.myThread.Join(500);
         }
 
-        /// <summary>
-        ///     The process.
-        /// </summary>
         private void Process()
         {
             while (true)
@@ -143,14 +112,15 @@ namespace Michonne.Implementation
 
                     next = this.tasks.Dequeue();
                 }
+
                 if (next == null)
                 {
                     break;
                 }
+
                 next();
             }
         }
 
-#endregion
     }
 }

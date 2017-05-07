@@ -24,13 +24,6 @@ namespace Michonne.Implementation
     /// <remarks>This class follows the classic 'Factory' pattern.</remarks>
     public class UnitOfExecutionsFactory : IUnitOfExecutionsFactory
     {
-        #region Fields
-
-        /// <summary>
-        /// The core count.
-        /// </summary>
-        private readonly int coreCount;
-
         /// <summary>
         /// The number of created threads.
         /// </summary>
@@ -41,47 +34,35 @@ namespace Michonne.Implementation
         /// </summary>
         private PoolUnitOfExecution poolUnitOfExecution;
 
-        #endregion
-
-        #region Constructors and Destructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="UnitOfExecutionsFactory"/> class.
         /// </summary>
         public UnitOfExecutionsFactory()
         {
-            this.coreCount = Environment.ProcessorCount;
+            this.CoreCount = Environment.ProcessorCount;
             this.OverAllocationFactor = 2.0;
         }
-
-        #endregion
-
-        #region Public Properties
 
         /// <summary>
         /// Gets the available core.
         /// </summary>
-        public int AvailableCore => Math.Max((int)(this.coreCount * this.OverAllocationFactor) - this.createdThreadsCount, 0);
+        public int AvailableCore => Math.Max((int)(this.CoreCount * this.OverAllocationFactor) - this.createdThreadsCount, 0);
 
         /// <summary>
         /// Gets the number of core used by this factory.
         /// </summary>
-        public int CoreCount => this.coreCount;
+        public int CoreCount { get; }
 
         /// <summary>
         /// Gets or sets the over allocation factor for cores.
         /// </summary>
         private double OverAllocationFactor { get; set; }
 
-        #endregion
-
-        #region Public Methods and Operators
-
         /// <summary>
         /// Get an execution unit based on the CLR thread pool.
         /// </summary>
         /// <returns>An instance of <see cref="IUnitOfExecution" /> that executes <see cref="Action" /> on the CLR thread pool.</returns>
-        public IUnitOfExecution GetDedicatedThread()
+        public IDisposableUnitOfExecution GetDedicatedThread()
         {
             // we decrease the number of available core.
             this.UseAThread();
@@ -96,7 +77,7 @@ namespace Michonne.Implementation
         {
             return new SynchronousUnitOfExecution(this);
         }
-        
+
         /// <summary>
         /// Get an execution unit based on the CLR thread pool.
         /// </summary>
@@ -124,10 +105,8 @@ namespace Michonne.Implementation
         {
             this.createdThreadsCount++;
 #if !NETSTANDARD1_3
-            ThreadPool.SetMaxThreads(this.AvailableCore+this.coreCount, this.coreCount*2);
+            ThreadPool.SetMaxThreads(this.AvailableCore+this.CoreCount, this.CoreCount*2);
 #endif
         }
-
-        #endregion
     }
 }

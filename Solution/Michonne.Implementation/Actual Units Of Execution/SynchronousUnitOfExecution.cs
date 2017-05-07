@@ -19,7 +19,6 @@
 namespace Michonne.Implementation
 {
     using System;
-
     using Interfaces;
 
     /// <summary>

@@ -15,14 +15,10 @@
 namespace Michonne.Tests
 {
     using System;
-    using System.Diagnostics;
     using System.Reflection;
-
     using Implementation;
     using Interfaces;
-
     using NFluent;
-
     using NUnit.Framework;
 
     /// <summary>
@@ -72,7 +68,7 @@ namespace Michonne.Tests
         public void Sequencer_should_process_fairly()
         {
             var factory = new UnitOfExecutionsFactory();
-            var thread = factory.GetDedicatedThread();
+            IUnitOfExecution thread = factory.GetDedicatedThread();
             var sequencer = this.BuildSequencer(thread);
             var context = new RaceConditionDetector();
 
@@ -83,7 +79,7 @@ namespace Michonne.Tests
             for (var i = 0; i < 1000; i++)
             {
                 var targetCount = i;
-                var executor = ((i % 2) == 0) ? thread : (IUnitOfExecution)sequencer;
+                var executor = ((i % 2) == 0) ? thread : sequencer;
                 executor.Dispatch(
                     () =>
                         {
@@ -130,14 +126,14 @@ namespace Michonne.Tests
         public void Should_Execute_Tasks_Sequentially()
         {
             var poolExec = new DotNetThreadPoolUnitOfExecution();
-            ISequencer sequencer = this.BuildSequencer(poolExec);
+            var sequencer = this.BuildSequencer(poolExec);
             var context = new RaceConditionDetector();
             sequencer.Dispatch(() => context.Delay(20));
-            int current = 0;
-            bool failed = false;
-            for (int i = 0; i < 1000; i++)
+            var current = 0;
+            var failed = false;
+            for (var i = 0; i < 1000; i++)
             {
-                int targetCount = i;
+                var targetCount = i;
                 sequencer.Dispatch(
                     () =>
                         {
@@ -172,7 +168,7 @@ namespace Michonne.Tests
         public void Should_Use_Provided_Unit_Of_Execution()
         {
             var synchExec = new SynchroCall();
-            ISequencer sequencer = this.BuildSequencer(synchExec);
+            var sequencer = this.BuildSequencer(synchExec);
             sequencer.Dispatch(() => { });
 
             Check.That(synchExec.DoneTasks).Equals(1);
@@ -185,13 +181,15 @@ namespace Michonne.Tests
             var unitOfExec = factory.GetSynchronousUnitOfExecution();
             var sequencer = this.BuildSequencer(unitOfExec);
 
-            var chrono = new Stopwatch();
-            Action action = () => { };
+            void Action()
+            {
+            }
+
             Check.ThatCode(() =>
             {
                 for (var i = 0; i < 100000; i++)
                 {
-                    sequencer.Dispatch(action);
+                    sequencer.Dispatch(Action);
                 }
             }).LastsLessThan(400, TimeUnit.Milliseconds);
  
