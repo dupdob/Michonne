@@ -10,6 +10,7 @@ build_script:
 build:
   verbosity: minimal
 test: off
+
 environment:
   MICHONNE_NUGET_API_KEY: ad9c47dd-d3b9-4962-9df5-13eff5b1032f
 
@@ -19,3 +20,10 @@ assembly_info:
   assembly_version: '{version}'
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}'
+
+- provider: Webhook
+  url: https://hooks.slack.com/services/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
+  method: POST
+  on_build_success: true
+  on_build_failure: true
+  on_build_status_changed: true
