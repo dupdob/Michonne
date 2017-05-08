@@ -14,7 +14,7 @@
 //   --------------------------------------------------------------------------------------------------------------------
 namespace Michonne.Interfaces
 {
-#if NET20
+#if NET20 || NET30
     public delegate void Action();
 #else
     using System;

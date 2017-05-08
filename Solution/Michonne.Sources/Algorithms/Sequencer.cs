@@ -16,15 +16,15 @@ namespace Michonne.Implementation
 {
     using System.Threading;
     using Interfaces;
-#if! NET20
-    using System;
-    using System.Collections.Concurrent;
-#else
+#if NET20 || NET30 || NET35
     using System.Collections.Generic;
+#if NET35
+    using System;
+#endif
 
     internal class ConcurrentQueue<T> where T: class
     {
-        private Queue<T> queue = new Queue<T>();
+        private readonly Queue<T> queue = new Queue<T>();
         public bool TryDequeue(out T item)
         {
             lock (this.queue)
@@ -47,6 +47,9 @@ namespace Michonne.Implementation
             }
         }
     }
+#else
+    using System;
+    using System.Collections.Concurrent;
 #endif
 
     /// <summary>

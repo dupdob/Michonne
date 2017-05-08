@@ -39,7 +39,7 @@ namespace Michonne.Implementation
         /// The <see cref="ISequencer"/>.
         /// </returns>
         public static ISequencer BuildSequencer(
-#if !NET20
+#if !NET20 && !NET30
             this 
 #endif
             IUnitOfExecution executor)
@@ -55,7 +55,7 @@ namespace Michonne.Implementation
         /// <param name="action">Action to be executed in a conflated fashion.</param>
         /// <returns>A wrapped <see cref="Action"/> that provide conflated execution.</returns>
         public static Action<T> BuildConflator<T>(
-#if !NET20
+#if !NET20 && !NET30
             this
 #endif
             IUnitOfExecution executor, Action<T> action)
@@ -81,7 +81,7 @@ namespace Michonne.Implementation
         /// The <see cref="Action"/>.
         /// </returns>
         public static IDataProcessor<T> BuildProcessor<T>(
-#if !NET20
+#if !NET20 && !NET30
             this
 #endif
             IUnitOfExecution executor, Action<T> action, bool conflated)

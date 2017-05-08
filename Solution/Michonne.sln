@@ -65,7 +65,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{55A585FD
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{44FBE7D5-1F28-49AF-ADA0-444188F92559}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Michonne.Sources", "Michone.Sources\Michonne.Sources.shproj", "{121C0900-AACF-41A8-91DC-1B933206B990}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Michonne.Sources", "Michonne.Sources\Michonne.Sources.shproj", "{121C0900-AACF-41A8-91DC-1B933206B990}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Michonne.Sources.Interfaces", "Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.shproj", "{B6047ABD-5132-4F8E-9DD4-E759B8AED5C4}"
 EndProject
@@ -73,14 +73,26 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Implementation.20"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Interfaces.20", "Michonne.Assemblies\Michonne.Interfaces.20\Michonne.Interfaces.20.csproj", "{00E71163-7247-47E0-A30A-B5819948AED7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Implementation.30", "Michonne.Assemblies\Michonne.Implementation.30\Michonne.Implementation.30.csproj", "{F152B0BF-7EA0-44D5-B026-987D6312A7BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Interfaces.30", "Michonne.Assemblies\Michonne.Interfaces.30\Michonne.Interfaces.30.csproj", "{B6ECB409-D38A-46E6-B88F-977DC91B5AEC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Interfaces.35", "Michonne.Assemblies\Michonne.Interfaces.35\Michonne.Interfaces.35.csproj", "{61737DD3-8D76-4314-825C-F57924148E4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Implementation.35", "Michonne.Assemblies\Michonne.Implementation.35\Michonne.Implementation.35.csproj", "{9F504831-4236-40C1-83FC-55A0878870CE}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.projitems*{00e71163-7247-47e0-a30a-b5819948aed7}*SharedItemsImports = 4
-		Michone.Sources\Michone.Sources.projitems*{121c0900-aacf-41a8-91dc-1b933206b990}*SharedItemsImports = 13
-		Michone.Sources\Michone.Sources.projitems*{2241e481-a708-4f08-a85e-3bd24d878097}*SharedItemsImports = 4
+		Michonne.Sources\Michone.Sources.projitems*{121c0900-aacf-41a8-91dc-1b933206b990}*SharedItemsImports = 13
+		Michonne.Sources\Michone.Sources.projitems*{2241e481-a708-4f08-a85e-3bd24d878097}*SharedItemsImports = 4
 		Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.projitems*{439f8a67-01b7-4109-aab2-6c0d5b02a0fa}*SharedItemsImports = 4
-		Michone.Sources\Michone.Sources.projitems*{76d48e2e-e97d-46d1-81fc-7abaea8463ac}*SharedItemsImports = 4
+		Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.projitems*{61737dd3-8d76-4314-825c-f57924148e4d}*SharedItemsImports = 4
+		Michonne.Sources\Michone.Sources.projitems*{76d48e2e-e97d-46d1-81fc-7abaea8463ac}*SharedItemsImports = 4
+		Michonne.Sources\Michone.Sources.projitems*{9f504831-4236-40c1-83fc-55a0878870ce}*SharedItemsImports = 4
 		Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.projitems*{b6047abd-5132-4f8e-9dd4-e759b8aed5c4}*SharedItemsImports = 13
+		Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.projitems*{b6ecb409-d38a-46e6-b88f-977dc91b5aec}*SharedItemsImports = 4
+		Michonne.Sources\Michone.Sources.projitems*{f152b0bf-7ea0-44d5-b026-987d6312a7bd}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +147,22 @@ Global
 		{00E71163-7247-47E0-A30A-B5819948AED7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00E71163-7247-47E0-A30A-B5819948AED7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00E71163-7247-47E0-A30A-B5819948AED7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F152B0BF-7EA0-44D5-B026-987D6312A7BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F152B0BF-7EA0-44D5-B026-987D6312A7BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F152B0BF-7EA0-44D5-B026-987D6312A7BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F152B0BF-7EA0-44D5-B026-987D6312A7BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6ECB409-D38A-46E6-B88F-977DC91B5AEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6ECB409-D38A-46E6-B88F-977DC91B5AEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6ECB409-D38A-46E6-B88F-977DC91B5AEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6ECB409-D38A-46E6-B88F-977DC91B5AEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61737DD3-8D76-4314-825C-F57924148E4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61737DD3-8D76-4314-825C-F57924148E4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61737DD3-8D76-4314-825C-F57924148E4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61737DD3-8D76-4314-825C-F57924148E4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F504831-4236-40C1-83FC-55A0878870CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F504831-4236-40C1-83FC-55A0878870CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F504831-4236-40C1-83FC-55A0878870CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F504831-4236-40C1-83FC-55A0878870CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -154,5 +182,9 @@ Global
 		{B6047ABD-5132-4F8E-9DD4-E759B8AED5C4} = {44FBE7D5-1F28-49AF-ADA0-444188F92559}
 		{2241E481-A708-4F08-A85E-3BD24D878097} = {28E1D32F-9C0B-4E14-BA8C-5DDE2D6CF705}
 		{00E71163-7247-47E0-A30A-B5819948AED7} = {28E1D32F-9C0B-4E14-BA8C-5DDE2D6CF705}
+		{F152B0BF-7EA0-44D5-B026-987D6312A7BD} = {28E1D32F-9C0B-4E14-BA8C-5DDE2D6CF705}
+		{B6ECB409-D38A-46E6-B88F-977DC91B5AEC} = {28E1D32F-9C0B-4E14-BA8C-5DDE2D6CF705}
+		{61737DD3-8D76-4314-825C-F57924148E4D} = {28E1D32F-9C0B-4E14-BA8C-5DDE2D6CF705}
+		{9F504831-4236-40C1-83FC-55A0878870CE} = {28E1D32F-9C0B-4E14-BA8C-5DDE2D6CF705}
 	EndGlobalSection
 EndGlobal

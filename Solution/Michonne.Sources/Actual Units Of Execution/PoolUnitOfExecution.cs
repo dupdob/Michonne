@@ -20,7 +20,7 @@ namespace Michonne.Implementation
 {
     using System.Threading;
     using Interfaces;
-#if !NET20
+#if !NET20 && !NET30
     using System;
 #endif
 

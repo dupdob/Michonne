@@ -8,6 +8,10 @@
     <AssemblyOriginatorKeyFile>..\..\MichonneKey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard1.3\Michonne.Interfaces.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="Michonne.Interfaces.Standard.v3.ncrunchproject" />
   </ItemGroup>

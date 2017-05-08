@@ -38,7 +38,7 @@
   <Target Name="Nightly" DependsOnTargets="SetNightly; RunAll; Publish"/>
   <Target Name="RC" DependsOnTargets="SetRC; RunAll; Publish"/>
   <Target Name="Release" DependsOnTargets="SetRelease; RunAll; Publish"/>
-  <Target Name="CI" DependsOnTargets="Build" />
+  <Target Name="CI" DependsOnTargets="Build;RunTests; Package" />
 
   <Target Name="SetNightly">
     <PropertyGroup>
@@ -154,6 +154,18 @@ RUN ALL UNIT TESTS
       </FilesForNuget>
       <FilesForNuget Include="$(AssemblyFileNameRoot).Interfaces.20\bin\$(Configuration)\*Interfaces*.*">
         <TargetFwk>net20</TargetFwk>
+      </FilesForNuget>
+      <FilesForNuget Include="$(AssemblyFileNameRoot).Implementation.30\bin\$(Configuration)\*Implementation*.*">
+        <TargetFwk>net30</TargetFwk>
+      </FilesForNuget>
+      <FilesForNuget Include="$(AssemblyFileNameRoot).Interfaces.30\bin\$(Configuration)\*Interfaces*.*">
+        <TargetFwk>net30</TargetFwk>
+      </FilesForNuget>
+      <FilesForNuget Include="$(AssemblyFileNameRoot).Implementation.35\bin\$(Configuration)\*Implementation*.*">
+        <TargetFwk>net35</TargetFwk>
+      </FilesForNuget>
+      <FilesForNuget Include="$(AssemblyFileNameRoot).Interfaces.35\bin\$(Configuration)\*Interfaces*.*">
+        <TargetFwk>net35</TargetFwk>
       </FilesForNuget>
       <FilesForNuget Include="$(AssemblyFileNameRoot).Implementation.Standard\bin\$(Configuration)\netstandard1.3\*Implementation*.*">
         <TargetFwk>netstandard1.3</TargetFwk>

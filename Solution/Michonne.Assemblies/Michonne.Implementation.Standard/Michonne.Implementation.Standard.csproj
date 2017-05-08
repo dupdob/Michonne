@@ -8,8 +8,16 @@
     <AssemblyOriginatorKeyFile>..\..\MichonneKey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard1.3\Michonne.Implementation.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="Michonne.Implementation.Standard.v3.ncrunchproject" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\MichonneKey.snk" Link="MichonneKey.snk" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +29,6 @@
     <ProjectReference Include="..\Michonne.Interfaces.Standard\Michonne.Interfaces.Standard.csproj" />
   </ItemGroup>
 
-  <Import Project="..\..\Michone.Sources\Michone.Sources.projitems" Label="Shared" />
+  <Import Project="..\..\Michonne.Sources\Michone.Sources.projitems" Label="Shared" />
 
 </Project>
