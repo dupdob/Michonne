@@ -9,7 +9,6 @@ But how to protect your code from race conditions without using lock?!? Easy ans
 
 What's Michonne?
 ==============
-
 __*"No lock... no deadlock!"*__  Michonne is a library that allows you __to erradicate deadlocks within your applicative code__ by providing you composable behaviors for tasks/lambdas execution (i.e. dispatcher, sequencer, balking dispatcher, etc), in replacement of locks and raw TPL primitives that will lead you to deadlocks.
 
 Related resources
