@@ -143,12 +143,6 @@ RUN ALL UNIT TESTS
   <Target Name="Package" DependsOnTargets="Build; RunTests">
     <!--Folders-->
     <ItemGroup>
-      <FilesForNuget Include="$(AssemblyFileNameRoot).Implementation\bin\$(Configuration)\*Implementation*.*">
-        <TargetFwk>net45</TargetFwk>
-      </FilesForNuget>
-      <FilesForNuget Include="$(AssemblyFileNameRoot).Interfaces\bin\$(Configuration)\*Interfaces*.*">
-        <TargetFwk>net45</TargetFwk>
-      </FilesForNuget>
       <FilesForNuget Include="$(AssemblyFileNameRoot).Implementation.20\bin\$(Configuration)\*Implementation*.*">
         <TargetFwk>net20</TargetFwk>
       </FilesForNuget>
@@ -166,6 +160,18 @@ RUN ALL UNIT TESTS
       </FilesForNuget>
       <FilesForNuget Include="$(AssemblyFileNameRoot).Interfaces.35\bin\$(Configuration)\*Interfaces*.*">
         <TargetFwk>net35</TargetFwk>
+      </FilesForNuget>
+      <FilesForNuget Include="$(AssemblyFileNameRoot).Implementation.40\bin\$(Configuration)\*Implementation*.*">
+        <TargetFwk>net40</TargetFwk>
+      </FilesForNuget>
+      <FilesForNuget Include="$(AssemblyFileNameRoot).Interfaces.40\bin\$(Configuration)\*Interfaces*.*">
+        <TargetFwk>net40</TargetFwk>
+      </FilesForNuget>
+      <FilesForNuget Include="$(AssemblyFileNameRoot).Implementation\bin\$(Configuration)\*Implementation*.*">
+        <TargetFwk>net45</TargetFwk>
+      </FilesForNuget>
+      <FilesForNuget Include="$(AssemblyFileNameRoot).Interfaces\bin\$(Configuration)\*Interfaces*.*">
+        <TargetFwk>net45</TargetFwk>
       </FilesForNuget>
       <FilesForNuget Include="$(AssemblyFileNameRoot).Implementation.Standard\bin\$(Configuration)\netstandard1.3\*Implementation*.*">
         <TargetFwk>netstandard1.3</TargetFwk>

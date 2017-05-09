@@ -9,6 +9,7 @@
     <Import_RootNamespace>Michonne.Sources.Interfaces</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyAttributes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IDataProcessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IDisposableUnitOfExecution.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ISequencer.cs" />

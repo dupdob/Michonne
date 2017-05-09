@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\michonne 2.png = ..\michonne 2.png
 		Michonne.nuspec = Michonne.nuspec
 		..\michonne.png = ..\michonne.png
+		..\Nightly.cmd = ..\Nightly.cmd
 		..\ReadMe.md = ..\ReadMe.md
 		ReleaseNoteContentToBeInsertedWithinNuspecFile.txt = ReleaseNoteContentToBeInsertedWithinNuspecFile.txt
 		ReleaseNotes.md = ReleaseNotes.md
@@ -27,9 +28,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Michonne assemblies", "Mich
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Tests", "Michonne.Tests\Michonne.Tests.csproj", "{F7D77346-0D41-41E8-8662-A6C2A0654A34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Interfaces", "Michonne.Assemblies\Michonne.Interfaces\Michonne.Interfaces.csproj", "{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Interfaces.45", "Michonne.Assemblies\Michonne.Interfaces\Michonne.Interfaces.45.csproj", "{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Implementation", "Michonne.Assemblies\Michonne.Implementation\Michonne.Implementation.csproj", "{76D48E2E-E97D-46D1-81FC-7ABAEA8463AC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Implementation.45", "Michonne.Assemblies\Michonne.Implementation\Michonne.Implementation.45.csproj", "{76D48E2E-E97D-46D1-81FC-7ABAEA8463AC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.0.1", "Michonne.01\Michonne.0.1.csproj", "{FFDD856B-8600-4516-8F65-8BF460E96214}"
 EndProject
@@ -80,6 +81,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Interfaces.35", "Michonne.Assemblies\Michonne.Interfaces.35\Michonne.Interfaces.35.csproj", "{61737DD3-8D76-4314-825C-F57924148E4D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Implementation.35", "Michonne.Assemblies\Michonne.Implementation.35\Michonne.Implementation.35.csproj", "{9F504831-4236-40C1-83FC-55A0878870CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Interfaces.40", "Michonne.Assemblies\Michonne.Interfaces.40\Michonne.Interfaces.40.csproj", "{CCF60BC4-C070-4431-A4C3-8BF75B4484C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Implementation.40", "Michonne.Assemblies\Michonne.Implementation.40\Michonne.Implementation.40.csproj", "{226A0A4F-F995-47DF-9523-4AA153252C18}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -163,6 +168,14 @@ Global
 		{9F504831-4236-40C1-83FC-55A0878870CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F504831-4236-40C1-83FC-55A0878870CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F504831-4236-40C1-83FC-55A0878870CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCF60BC4-C070-4431-A4C3-8BF75B4484C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCF60BC4-C070-4431-A4C3-8BF75B4484C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCF60BC4-C070-4431-A4C3-8BF75B4484C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCF60BC4-C070-4431-A4C3-8BF75B4484C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{226A0A4F-F995-47DF-9523-4AA153252C18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{226A0A4F-F995-47DF-9523-4AA153252C18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{226A0A4F-F995-47DF-9523-4AA153252C18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{226A0A4F-F995-47DF-9523-4AA153252C18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -186,5 +199,7 @@ Global
 		{B6ECB409-D38A-46E6-B88F-977DC91B5AEC} = {28E1D32F-9C0B-4E14-BA8C-5DDE2D6CF705}
 		{61737DD3-8D76-4314-825C-F57924148E4D} = {28E1D32F-9C0B-4E14-BA8C-5DDE2D6CF705}
 		{9F504831-4236-40C1-83FC-55A0878870CE} = {28E1D32F-9C0B-4E14-BA8C-5DDE2D6CF705}
+		{CCF60BC4-C070-4431-A4C3-8BF75B4484C8} = {28E1D32F-9C0B-4E14-BA8C-5DDE2D6CF705}
+		{226A0A4F-F995-47DF-9523-4AA153252C18} = {28E1D32F-9C0B-4E14-BA8C-5DDE2D6CF705}
 	EndGlobalSection
 EndGlobal

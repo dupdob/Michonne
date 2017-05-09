@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Algorithms\DataConflator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Algorithms\Sequencer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Algorithms\TestHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyAttributes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataProcessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SequencerFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UnitOfExecutionsFactory.cs" />

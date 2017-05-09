@@ -3,7 +3,7 @@
   <metadata>
     <id>Michonne</id>
     <title>Michonne</title>
-    <version>0.5.0-alpha-12</version>
+    <version>0.5.0-nightly-12</version>
     <authors>Cyrille DUPUYDAUBY, Thomas PIERRAIN</authors>
     <owners>Cyrille DUPUYDAUBY</owners>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
@@ -38,6 +38,13 @@
     <file src="Artifacts\Binaries\net35\Michonne.Interfaces.xml" target="lib\net35\Michonne.Interfaces.xml" />
     <file src="Artifacts\Binaries\net35\Michonne.Implementation.pdb" target="lib\net35\3ichonne.Implementation.pdb" />
     <file src="Artifacts\Binaries\net35\Michonne.Interfaces.pdb" target="lib\net35\Michonne.Interfaces.pdb" />
+    <!-- .NET 4.0 -->
+    <file src="Artifacts\Binaries\net40\Michonne.Implementation.dll" target="lib\net40\Michonne.Implementation.dll" />
+    <file src="Artifacts\Binaries\net40\Michonne.Interfaces.dll" target="lib\net40\Michonne.Interfaces.dll" />
+    <file src="Artifacts\Binaries\net40\Michonne.Implementation.xml" target="lib\net40\Michonne.Implementation.xml" />
+    <file src="Artifacts\Binaries\net40\Michonne.Interfaces.xml" target="lib\net40\Michonne.Interfaces.xml" />
+    <file src="Artifacts\Binaries\net40\Michonne.Implementation.pdb" target="lib\net40\Michonne.Implementation.pdb" />
+    <file src="Artifacts\Binaries\net40\Michonne.Interfaces.pdb" target="lib\net40\Michonne.Interfaces.pdb" />
     <!-- .NET 4.5 -->
     <file src="Artifacts\Binaries\net45\Michonne.Implementation.dll" target="lib\net45\Michonne.Implementation.dll" />
     <file src="Artifacts\Binaries\net45\Michonne.Interfaces.dll" target="lib\net45\Michonne.Interfaces.dll" />

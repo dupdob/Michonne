@@ -57,12 +57,11 @@
     <Compile Include="..\..\Version.cs">
       <Link>Properties\Version.cs</Link>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Michonne.Interfaces\Michonne.Interfaces.csproj">
+    <ProjectReference Include="..\Michonne.Interfaces\Michonne.Interfaces.45.csproj">
       <Project>{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}</Project>
-      <Name>Michonne.Interfaces</Name>
+      <Name>Michonne.Interfaces.45</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

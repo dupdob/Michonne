@@ -6,6 +6,14 @@
     <RootNamespace>Michonne.Implementation</RootNamespace>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\MichonneKey.snk</AssemblyOriginatorKeyFile>
+    <Version>0.5.0</Version>
+    <Authors>Cyrille Dupuydauby, Thomas Pierrain</Authors>
+    <PackageId>Michonne.Implementation</PackageId>
+    <Company>Cyrille Dupuydauby</Company>
+    <Product>Michonne</Product>
+    <Description>Contains implementation classes for Michonne</Description>
+    <Copyright>Copyright © Cyrille Dupuydauby 2015</Copyright>
+    <RepositoryUrl>https://github.com/dupdob/Michonne</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

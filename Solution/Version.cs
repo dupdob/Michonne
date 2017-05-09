@@ -15,17 +15,7 @@ using System.Reflection;
 
 [assembly: AssemblyProduct("Michonne")]
 [assembly: AssemblyCopyright("Copyright © Cyrille Dupuydauby 2015")]
-[assembly: AssemblyCompany("Cyrille Dupuydauby, Thomas Pierrain")]
-
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Build and Revision Numbers 
-// by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyCompany("Cyrille Dupuydauby")]
+[assembly: AssemblyCulture("")]
 [assembly: AssemblyVersion("0.5.0.12")]
 [assembly: AssemblyFileVersion("0.5.0.12")]
