@@ -1,5 +1,7 @@
 ![Michonne](https://github.com/dupdob/michonne/blob/master/michonne.png?raw=true)
 
+[![Build status](https://ci.appveyor.com/api/projects/status/8abc2hnbl9mgxlv2/branch/master?svg=true)](https://ci.appveyor.com/project/dupdob/michonne/branch/master)
+
 __When you have locks within your applicative code... you will have deadlock. Period.__ The only question you may ask is "when?"
 Same thing with API allowing you to wait without indicating any kind of timeout (e.g. [TPL](http://msdn.microsoft.com/en-us/library/dd235635.aspx)). Too bad... and too easy to shoot yourself in the foot...
 
