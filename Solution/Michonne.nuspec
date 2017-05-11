@@ -28,7 +28,6 @@ Fedback, postivie or negative wil be greatly appreciated</releaseNotes>
       <group targetFramework="net35" />
       <group targetFramework="net40" />
       <group targetFramework="net45" />
-      <group targetFramework="netstandard1.3" />
     </dependencies>
   </metadata>
   <files>

@@ -68,8 +68,6 @@
   <ItemGroup>
     <ProjectFolder Include="$(SolutionRoot)\Michonne.Tests"/>  
     <ProjectFolder Include="$(SolutionRoot)\Michonne.01.Tests"/>  
-    <ProjectFolder Include="$(SolutionRoot)\Michonne.Assemblies\Michonne.Implementation.Standard"/>  
-    <ProjectFolder Include="$(SolutionRoot)\Michonne.Assemblies\Michonne.Interfaces.Standard"/>  
     <ProjectFolder Include="$(SolutionRoot)\PastaPricer.Tests"/>  
   </ItemGroup>
     
