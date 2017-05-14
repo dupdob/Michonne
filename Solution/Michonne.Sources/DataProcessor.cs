@@ -20,11 +20,11 @@ namespace Michonne.Implementation
 {
     using System;
 
-    using Michonne.Interfaces;
+    using Interfaces;
 
     /// <summary>
     /// The data processor.
-    /// </summary>
+    /// </summary>a
     /// <typeparam name="T">Type of data to be processed.
     /// </typeparam>
     public class DataProcessor<T> : IDataProcessor<T>

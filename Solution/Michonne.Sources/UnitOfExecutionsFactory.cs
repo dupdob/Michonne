@@ -15,7 +15,9 @@
 namespace Michonne.Implementation
 {
     using System;
+#if !NETSTANDARD1_3
     using System.Threading;
+#endif
     using Interfaces;
 
     /// <summary>

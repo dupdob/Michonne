@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A8DBCE1E-186B-4E85-8F39-86BD87EEC592}"
 	ProjectSection(SolutionItems) = preProject
@@ -91,12 +91,14 @@ Global
 		Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.projitems*{00e71163-7247-47e0-a30a-b5819948aed7}*SharedItemsImports = 4
 		Michonne.Sources\Michone.Sources.projitems*{121c0900-aacf-41a8-91dc-1b933206b990}*SharedItemsImports = 13
 		Michonne.Sources\Michone.Sources.projitems*{2241e481-a708-4f08-a85e-3bd24d878097}*SharedItemsImports = 4
+		Michonne.Sources\Michone.Sources.projitems*{226a0a4f-f995-47df-9523-4aa153252c18}*SharedItemsImports = 4
 		Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.projitems*{439f8a67-01b7-4109-aab2-6c0d5b02a0fa}*SharedItemsImports = 4
 		Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.projitems*{61737dd3-8d76-4314-825c-f57924148e4d}*SharedItemsImports = 4
 		Michonne.Sources\Michone.Sources.projitems*{76d48e2e-e97d-46d1-81fc-7abaea8463ac}*SharedItemsImports = 4
 		Michonne.Sources\Michone.Sources.projitems*{9f504831-4236-40c1-83fc-55a0878870ce}*SharedItemsImports = 4
 		Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.projitems*{b6047abd-5132-4f8e-9dd4-e759b8aed5c4}*SharedItemsImports = 13
 		Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.projitems*{b6ecb409-d38a-46e6-b88f-977dc91b5aec}*SharedItemsImports = 4
+		Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.projitems*{ccf60bc4-c070-4431-a4c3-8bf75b4484c8}*SharedItemsImports = 4
 		Michonne.Sources\Michone.Sources.projitems*{f152b0bf-7ea0-44d5-b026-987d6312a7bd}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
