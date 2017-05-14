@@ -42,6 +42,12 @@
       <Link>Properties\Version.cs</Link>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Michonne.Interfaces.40\Michonne.Interfaces.40.csproj">
+      <Project>{ccf60bc4-c070-4431-a4c3-8bf75b4484c8}</Project>
+      <Name>Michonne.Interfaces.40</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="..\..\Michonne.Sources\Michone.Sources.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
