@@ -59,7 +59,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Michonne.Interfaces\Michonne.Interfaces.45.csproj">
+    <ProjectReference Include="..\Michonne.Interfaces.45\Michonne.Interfaces.45.csproj">
       <Project>{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}</Project>
       <Name>Michonne.Interfaces.45</Name>
     </ProjectReference>

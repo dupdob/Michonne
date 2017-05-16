@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Michonne._01.Tests</RootNamespace>
     <AssemblyName>Michonne.01.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,8 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NFluent, Version=1.4.0.1, Culture=neutral, PublicKeyToken=18828b37b84b1437, processorArchitecture=MSIL">
-      <HintPath>..\packages\NFluent.2.0.0-alpha\lib\net40\NFluent.dll</HintPath>
+    <Reference Include="NFluent, Version=2.0.0.44, Culture=neutral, PublicKeyToken=18828b37b84b1437, processorArchitecture=MSIL">
+      <HintPath>..\packages\NFluent.2.0.0-alpha-44\lib\net40\NFluent.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
@@ -62,11 +63,11 @@
       <Project>{FFDD856B-8600-4516-8F65-8BF460E96214}</Project>
       <Name>Michonne.0.1</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Michonne.Assemblies\Michonne.Implementation\Michonne.Implementation.45.csproj">
+    <ProjectReference Include="..\Michonne.Assemblies\Michonne.Implementation.45\Michonne.Implementation.45.csproj">
       <Project>{76D48E2E-E97D-46D1-81FC-7ABAEA8463AC}</Project>
       <Name>Michonne.Implementation.45</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Michonne.Assemblies\Michonne.Interfaces\Michonne.Interfaces.45.csproj">
+    <ProjectReference Include="..\Michonne.Assemblies\Michonne.Interfaces.45\Michonne.Interfaces.45.csproj">
       <Project>{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}</Project>
       <Name>Michonne.Interfaces.45</Name>
     </ProjectReference>

@@ -1,16 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FFDD856B-8600-4516-8F65-8BF460E96214}</ProjectGuid>
+    <ProjectGuid>{4995A042-5A56-4BA8-BDE8-A860C690DBF3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Michonne</RootNamespace>
-    <AssemblyName>Michonne</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>Michonne.Tests</RootNamespace>
+    <AssemblyName>Michonne.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,34 +31,32 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NFluent, Version=1.3.1.0, Culture=neutral, PublicKeyToken=18828b37b84b1437, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NFluent.1.3.1.0\lib\net40\NFluent.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NUnit.3.6.1\lib\net40\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BalkingDispatcher.cs" />
-    <Compile Include="ContinuationTasksBasedSequencer.cs" />
-    <Compile Include="DotNetThreadPoolUnitOfExecution.cs" />
-    <Compile Include="DirectDispatcher.cs" />
-    <Compile Include="PollingDispatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Michonne.Assemblies\Michonne.Interfaces.45\Michonne.Interfaces.45.csproj">
-      <Project>{439F8A67-01B7-4109-AAB2-6C0D5B02A0FA}</Project>
-      <Name>Michonne.Interfaces.45</Name>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Michonne.Assemblies\Michonne.Implementation.40\Michonne.Implementation.40.csproj">
+      <Project>{226a0a4f-f995-47df-9523-4aa153252c18}</Project>
+      <Name>Michonne.Implementation.40</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Michonne.Assemblies\Michonne.Interfaces.40\Michonne.Interfaces.40.csproj">
+      <Project>{ccf60bc4-c070-4431-a4c3-8bf75b4484c8}</Project>
+      <Name>Michonne.Interfaces.40</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\Michonne.Sources.Tests\Michonne.Sources.Tests.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

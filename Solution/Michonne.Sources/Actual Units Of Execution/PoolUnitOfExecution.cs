@@ -1,6 +1,4 @@
-﻿#region File header
-
-// --------------------------------------------------------------------------------------------------------------------
+﻿// --------------------------------------------------------------------------------------------------------------------
 //  <copyright file="PoolUnitOfExecution.cs" company="No lock... no deadlock" product="Michonne">
 //     Copyright 2014 Cyrille DUPUYDAUBY (@Cyrdup), Thomas PIERRAIN (@tpierrain)
 //     Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +12,6 @@
 //     limitations under the License.
 //   </copyright>
 //   --------------------------------------------------------------------------------------------------------------------
-#endregion
 
 namespace Michonne.Implementation
 {

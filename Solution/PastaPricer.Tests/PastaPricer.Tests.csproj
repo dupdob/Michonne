@@ -33,11 +33,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NFluent, Version=1.4.0.1, Culture=neutral, PublicKeyToken=18828b37b84b1437, processorArchitecture=MSIL">
-      <HintPath>..\packages\NFluent.2.0.0-alpha\lib\net40\NFluent.dll</HintPath>
+    <Reference Include="NFluent, Version=2.0.0.44, Culture=neutral, PublicKeyToken=18828b37b84b1437, processorArchitecture=MSIL">
+      <HintPath>..\packages\NFluent.2.0.0-alpha-44\lib\net40\NFluent.dll</HintPath>
     </Reference>
-    <Reference Include="NSubstitute, Version=2.0.2.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
-      <HintPath>..\packages\NSubstitute.2.0.2\lib\net45\NSubstitute.dll</HintPath>
+    <Reference Include="NSubstitute, Version=2.0.3.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
+      <HintPath>..\packages\NSubstitute.2.0.3\lib\net45\NSubstitute.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
@@ -60,11 +60,11 @@
       <Project>{FFDD856B-8600-4516-8F65-8BF460E96214}</Project>
       <Name>Michonne.0.1</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Michonne.Assemblies\Michonne.Implementation\Michonne.Implementation.45.csproj">
+    <ProjectReference Include="..\Michonne.Assemblies\Michonne.Implementation.45\Michonne.Implementation.45.csproj">
       <Project>{76d48e2e-e97d-46d1-81fc-7abaea8463ac}</Project>
       <Name>Michonne.Implementation.45</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Michonne.Assemblies\Michonne.Interfaces\Michonne.Interfaces.45.csproj">
+    <ProjectReference Include="..\Michonne.Assemblies\Michonne.Interfaces.45\Michonne.Interfaces.45.csproj">
       <Project>{439f8a67-01b7-4109-aab2-6c0d5b02a0fa}</Project>
       <Name>Michonne.Interfaces.45</Name>
     </ProjectReference>

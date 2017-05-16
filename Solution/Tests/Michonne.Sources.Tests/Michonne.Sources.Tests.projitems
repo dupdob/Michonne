@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>5e8f0aff-ae37-4876-aac0-d1ec1c513069</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Michonne.Sources.Tests</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ConflationTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataProcessorTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExecutionFactoryTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RaceConditionDetector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SynchonousUnitOfExecutionTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SynchroCall.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VersionTaskTest.cs" />
+  </ItemGroup>
+</Project>

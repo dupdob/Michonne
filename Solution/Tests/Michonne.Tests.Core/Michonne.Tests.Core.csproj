@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <AssemblyName>Michonne.Tests</AssemblyName>
+    <RootNamespace>Michonne.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NFluent" Version="2.0.0-alpha-44" />
+    <PackageReference Include="NUnit" Version="3.6.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Michonne.Assemblies\Michonne.Implementation.Standard\Michonne.Implementation.Standard.csproj" />
+    <ProjectReference Include="..\..\Michonne.Assemblies\Michonne.Interfaces.Standard\Michonne.Interfaces.Standard.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\Michonne.Sources.Tests\Michonne.Sources.Tests.projitems" Label="Shared" />
+
+</Project>

@@ -66,7 +66,7 @@
   </Target>
   
   <ItemGroup>
-    <ProjectFolder Include="$(SolutionRoot)\Michonne.Tests"/>  
+    <ProjectFolder Include="$(SolutionRoot)\Tests\Michonne.Tests.45"/>  
     <ProjectFolder Include="$(SolutionRoot)\Michonne.01.Tests"/>  
     <ProjectFolder Include="$(SolutionRoot)\PastaPricer.Tests"/>  
   </ItemGroup>
@@ -117,9 +117,12 @@ GENERATING DOCS for:
   <!-- 3- Run the TESTS -->
   <Target Name="RunTests" DependsOnTargets="Build">
     <ItemGroup>
-      <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\$(SolutionName).01.Tests\bin\$(Configuration)\$(SolutionName).01.Tests.dll&quot; /framework:net-4.0" />
-      <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\$(SolutionName).Tests\bin\$(Configuration)\$(SolutionName).Tests.dll&quot; /framework:net-4.0" />
-      <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\PastaPricer.Tests\bin\$(Configuration)\PastaPricer.Tests.dll&quot; /framework:net-4.0" />
+      <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\Tests\$(SolutionName).Tests.45\bin\$(Configuration)\$(SolutionName).Tests.dll&quot; /framework:net-4.5" />
+      <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\Tests\$(SolutionName).Tests.35\bin\$(Configuration)\$(SolutionName).Tests.dll&quot; /framework:net-3.5" />
+      <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\Tests\$(SolutionName).Tests.40\bin\$(Configuration)\$(SolutionName).Tests.dll&quot; /framework:net-4.0" />
+
+      <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\$(SolutionName).01.Tests\bin\$(Configuration)\$(SolutionName).01.Tests.dll&quot; /framework:net-4.5" />
+      <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\PastaPricer.Tests\bin\$(Configuration)\PastaPricer.Tests.dll&quot; /framework:net-4.5" />
     </ItemGroup>
     <Message Importance="high" Text="
 ---------------------------------------------------------------
@@ -165,10 +168,10 @@ RUN ALL UNIT TESTS
       <FilesForNuget Include="$(AssemblyFileNameRoot).Interfaces.40\bin\$(Configuration)\*Interfaces*.*">
         <TargetFwk>net40</TargetFwk>
       </FilesForNuget>
-      <FilesForNuget Include="$(AssemblyFileNameRoot).Implementation\bin\$(Configuration)\*Implementation*.*">
+      <FilesForNuget Include="$(AssemblyFileNameRoot).Implementation.45\bin\$(Configuration)\*Implementation*.*">
         <TargetFwk>net45</TargetFwk>
       </FilesForNuget>
-      <FilesForNuget Include="$(AssemblyFileNameRoot).Interfaces\bin\$(Configuration)\*Interfaces*.*">
+      <FilesForNuget Include="$(AssemblyFileNameRoot).Interfaces.45\bin\$(Configuration)\*Interfaces*.*">
         <TargetFwk>net45</TargetFwk>
       </FilesForNuget>
       <FilesForNuget Include="$(AssemblyFileNameRoot).Implementation.Standard\bin\$(Configuration)\netstandard1.3\*Implementation*.*">
