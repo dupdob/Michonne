@@ -68,6 +68,8 @@
   
   <ItemGroup>
     <ProjectFolder Include="$(SolutionRoot)\Tests\Michonne.Tests.45"/>  
+    <ProjectFolder Include="$(SolutionRoot)\Tests\Michonne.Tests.40"/>  
+    <ProjectFolder Include="$(SolutionRoot)\Tests\Michonne.Tests.35"/>  
     <ProjectFolder Include="$(SolutionRoot)\Michonne.01.Tests"/>  
     <ProjectFolder Include="$(SolutionRoot)\PastaPricer.Tests"/>  
   </ItemGroup>
