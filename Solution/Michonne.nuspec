@@ -3,7 +3,7 @@
   <metadata>
     <id>Michonne</id>
     <title>Michonne</title>
-    <version>0.5.0-nightly-12</version>
+    <version>0.5.0-alpha-12</version>
     <authors>Cyrille DUPUYDAUBY, Thomas PIERRAIN</authors>
     <owners>Cyrille DUPUYDAUBY</owners>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
@@ -13,9 +13,12 @@
     <description>"No lock... no deadlock!" Michonne is a library that allows you to erradicate deadlocks within your applicative code by providing you composable behaviors for tasks/lambdas execution (i.e. dispatcher, sequencer, balking dispatcher, etc), in replacement of locks and raw TPL primitives that will lead you to deadlocks..</description>
     <summary>Michonne provides event oriented development primitives.</summary>
     <releaseNotes>Nightly build:
-This version contains the latest version published on github. We recommend using the latest stable version for production needs.
-Please bear in mind that you may experience breaking changes between builds due if you rely on new APIs.
-Fedback, postivie or negative wil be greatly appreciated</releaseNotes>
+
+This version contains the latest version published on github. We recommend using the latest stable version for production needs.
+
+Please bear in mind that you may experience breaking changes between builds due if you rely on new APIs.
+
+Fedback, postivie or negative wil be greatly appreciated</releaseNotes>
     <copyright>Copyright 2015-17 Cyrille DUPUYDAUBY</copyright>
     <language>en-US</language>
     <tags>event message threading sequencer performance scalable</tags>
@@ -29,42 +32,42 @@
   </metadata>
   <files>
     <!-- .NET 2.0 -->
-    <file src="Artifacts\Binaries\net20\Michonne.Implementation.dll" target="lib\net20\Michonne.Implementation.dll" />
-    <file src="Artifacts\Binaries\net20\Michonne.Interfaces.dll" target="lib\net20\Michonne.Interfaces.dll" />
-    <file src="Artifacts\Binaries\net20\Michonne.Implementation.xml" target="lib\net20\Michonne.Implementation.xml" />
-    <file src="Artifacts\Binaries\net20\Michonne.Interfaces.xml" target="lib\net20\Michonne.Interfaces.xml" />
+    <file src="Artifacts\Binaries\net20\Michonne.Implementation.dll" target="lib/net20" />
+    <file src="Artifacts\Binaries\net20\Michonne.Interfaces.dll" target="lib/net20" />
+    <file src="Artifacts\Binaries\net20\Michonne.Implementation.xml" target="lib/net20" />
+    <file src="Artifacts\Binaries\net20\Michonne.Interfaces.xml" target="lib/net20" />
     <!-- .NET 3.0 -->
-    <file src="Artifacts\Binaries\net30\Michonne.Implementation.dll" target="lib\net30\Michonne.Implementation.dll" />
-    <file src="Artifacts\Binaries\net30\Michonne.Interfaces.dll" target="lib\net30\Michonne.Interfaces.dll" />
-    <file src="Artifacts\Binaries\net30\Michonne.Implementation.xml" target="lib\net30\Michonne.Implementation.xml" />
-    <file src="Artifacts\Binaries\net30\Michonne.Interfaces.xml" target="lib\net30\Michonne.Interfaces.xml" />
+    <file src="Artifacts\Binaries\net30\Michonne.Implementation.dll" target="lib/net30" />
+    <file src="Artifacts\Binaries\net30\Michonne.Interfaces.dll" target="lib/net30" />
+    <file src="Artifacts\Binaries\net30\Michonne.Implementation.xml" target="lib/net30" />
+    <file src="Artifacts\Binaries\net30\Michonne.Interfaces.xml" target="lib/net30" />
     <!-- .NET 3.5 -->
-    <file src="Artifacts\Binaries\net35\Michonne.Implementation.dll" target="lib\net35\3ichonne.Implementation.dll" />
-    <file src="Artifacts\Binaries\net35\Michonne.Interfaces.dll" target="lib\net35\Michonne.Interfaces.dll" />
-    <file src="Artifacts\Binaries\net35\Michonne.Implementation.xml" target="lib\net35\3ichonne.Implementation.xml" />
-    <file src="Artifacts\Binaries\net35\Michonne.Interfaces.xml" target="lib\net35\Michonne.Interfaces.xml" />
-    <file src="Artifacts\Binaries\net35\Michonne.Implementation.pdb" target="lib\net35\3ichonne.Implementation.pdb" />
-    <file src="Artifacts\Binaries\net35\Michonne.Interfaces.pdb" target="lib\net35\Michonne.Interfaces.pdb" />
+    <file src="Artifacts\Binaries\net35\Michonne.Implementation.dll" target="lib/net35" />
+    <file src="Artifacts\Binaries\net35\Michonne.Interfaces.dll" target="lib/net35" />
+    <file src="Artifacts\Binaries\net35\Michonne.Implementation.xml" target="lib/net35" />
+    <file src="Artifacts\Binaries\net35\Michonne.Interfaces.xml" target="lib/net35" />
+    <file src="Artifacts\Binaries\net35\Michonne.Implementation.pdb" target="lib/net35" />
+    <file src="Artifacts\Binaries\net35\Michonne.Interfaces.pdb" target="lib/net35" />
     <!-- .NET 4.0 -->
-    <file src="Artifacts\Binaries\net40\Michonne.Implementation.dll" target="lib\net40\Michonne.Implementation.dll" />
-    <file src="Artifacts\Binaries\net40\Michonne.Interfaces.dll" target="lib\net40\Michonne.Interfaces.dll" />
-    <file src="Artifacts\Binaries\net40\Michonne.Implementation.xml" target="lib\net40\Michonne.Implementation.xml" />
-    <file src="Artifacts\Binaries\net40\Michonne.Interfaces.xml" target="lib\net40\Michonne.Interfaces.xml" />
-    <file src="Artifacts\Binaries\net40\Michonne.Implementation.pdb" target="lib\net40\Michonne.Implementation.pdb" />
-    <file src="Artifacts\Binaries\net40\Michonne.Interfaces.pdb" target="lib\net40\Michonne.Interfaces.pdb" />
+    <file src="Artifacts\Binaries\net40\Michonne.Implementation.dll" target="lib/net40" />
+    <file src="Artifacts\Binaries\net40\Michonne.Interfaces.dll" target="lib/net40" />
+    <file src="Artifacts\Binaries\net40\Michonne.Implementation.xml" target="lib/net40" />
+    <file src="Artifacts\Binaries\net40\Michonne.Interfaces.xml" target="lib/net40" />
+    <file src="Artifacts\Binaries\net40\Michonne.Implementation.pdb" target="lib/net40" />
+    <file src="Artifacts\Binaries\net40\Michonne.Interfaces.pdb" target="lib/net40" />
     <!-- .NET 4.5 -->
-    <file src="Artifacts\Binaries\net45\Michonne.Implementation.dll" target="lib\net45\Michonne.Implementation.dll" />
-    <file src="Artifacts\Binaries\net45\Michonne.Interfaces.dll" target="lib\net45\Michonne.Interfaces.dll" />
-    <file src="Artifacts\Binaries\net45\Michonne.Implementation.xml" target="lib\net45\Michonne.Implementation.xml" />
-    <file src="Artifacts\Binaries\net45\Michonne.Interfaces.xml" target="lib\net45\Michonne.Interfaces.xml" />
-    <file src="Artifacts\Binaries\net45\Michonne.Implementation.pdb" target="lib\net45\Michonne.Implementation.pdb" />
-    <file src="Artifacts\Binaries\net45\Michonne.Interfaces.pdb" target="lib\net45\Michonne.Interfaces.pdb" />
+    <file src="Artifacts\Binaries\net45\Michonne.Implementation.dll" target="lib/net45" />
+    <file src="Artifacts\Binaries\net45\Michonne.Interfaces.dll" target="lib/net45" />
+    <file src="Artifacts\Binaries\net45\Michonne.Implementation.xml" target="lib/net45" />
+    <file src="Artifacts\Binaries\net45\Michonne.Interfaces.xml" target="lib/net45" />
+    <file src="Artifacts\Binaries\net45\Michonne.Implementation.pdb" target="lib/net45" />
+    <file src="Artifacts\Binaries\net45\Michonne.Interfaces.pdb" target="lib/net45" />
     <!-- .Net standard 1_3 -->
-    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Implementation.dll" target="lib\netstandard1.3\Michonne.Implementation.dll" />
-    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Interfaces.dll" target="lib\netstandard1.3\Michonne.Interfaces.dll" />
-    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Implementation.xml" target="lib\netstandard1.3\Michonne.Implementation.xml" />
-    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Interfaces.xml" target="lib\netstandard1.3\Michonne.Interfaces.xml" />
-    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Implementation.pdb" target="lib\netstandard1.3\Michonne.Implementation.pdb" />
-    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Interfaces.pdb" target="lib\netstandard1.3\Michonne.Interfaces.pdb" />
+    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Implementation.dll" target="lib/netstandard1.3" />
+    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Interfaces.dll" target="lib/netstandard1.3" />
+    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Implementation.xml" target="lib/netstandard1.3" />
+    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Interfaces.xml" target="lib/netstandard1.3" />
+    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Implementation.pdb" target="lib/netstandard1.3" />
+    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Interfaces.pdb" target="lib/netstandard1.3" />
   </files>
 </package>
