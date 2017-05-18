@@ -120,12 +120,27 @@ GENERATING DOCS for:
   <!-- 3- Run the TESTS -->
   <Target Name="RunTests" DependsOnTargets="Build">
     <ItemGroup>
-      <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\Tests\$(SolutionName).Tests.45\bin\$(Configuration)\$(SolutionName).Tests.dll&quot; /framework:net-4.5" />
-      <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\Tests\$(SolutionName).Tests.35\bin\$(Configuration)\$(SolutionName).Tests.dll&quot; /framework:net-3.5" />
-      <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\Tests\$(SolutionName).Tests.40\bin\$(Configuration)\$(SolutionName).Tests.dll&quot; /framework:net-4.0" />
-
-      <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\$(SolutionName).01.Tests\bin\$(Configuration)\$(SolutionName).01.Tests.dll&quot; /framework:net-4.5" />
-      <TestProjectsWithArguments Include="&quot;$(SolutionRoot)\PastaPricer.Tests\bin\$(Configuration)\PastaPricer.Tests.dll&quot; /framework:net-4.5" />
+      <TestProject Include='"$(SolutionRoot)\Tests\Michonne.Tests.35\bin\$(Configuration)\Michonne.Tests.dll"'>
+        <Fwk>net35</Fwk>
+      </TestProject>
+      <TestProject Include='"$(SolutionRoot)\Tests\Michonne.Tests.40\bin\$(Configuration)\Michonne.Tests.dll"'>
+        <Fwk>net40</Fwk>
+      </TestProject>
+      <TestProject Include='"$(SolutionRoot)\Tests\Michonne.Tests.45\bin\$(Configuration)\Michonne.Tests.dll"'>
+        <Fwk>net45</Fwk>
+      </TestProject>
+      <TestProject Include='"$(SolutionRoot)\Tests\Michonne.Tests.45\bin\$(Configuration)\Michonne.Tests.dll"'>
+        <Fwk>net45</Fwk>
+      </TestProject>
+      <TestProject Include='"$(SolutionRoot)\Michonne.01.Tests\bin\$(Configuration)\Michonne.01.Tests.dll"'>
+        <Fwk>net45</Fwk>
+      </TestProject>
+      <TestProject Include='"$(SolutionRoot)\PastaPricer.Tests\bin\$(Configuration)\PastaPricer.Tests.dll"'>
+        <Fwk>net45</Fwk>
+      </TestProject>
+      <TestProjectsWithArguments Include='"$(SolutionRoot)\Tests\Michonne.Tests.Core\Michonne.Tests.Core.csproj"'>
+        <Framework>core</Framework>
+      </TestProjectsWithArguments>
     </ItemGroup>
     <Message Importance="high" Text="
 ---------------------------------------------------------------
@@ -133,13 +148,17 @@ RUN ALL UNIT TESTS
 ---------------------------------------------------------------
           "  />
 
-    <Message Importance="high" Text="--------- RUN CLASSICAL .NET TESTS ---------"/>
+    <Message Importance="high" Text="--------- RUN  TESTS ---------"/>
 
     <Message Importance="normal" Text="Assemblies to test:"/>
-    <Message Importance="normal" Text="'%(TestProjectsWithArguments.Identity)'"/>
-    <Exec Command='"$(TestRunnerPath)" %(TestProjectsWithArguments.Identity) $(NunitOptions)' LogStandardErrorAsError="true" WorkingDirectory="../"/>
+    <Message Importance="normal" Text="'%(TestProject.Identity)'"/>
 
-    <Message Importance="high" Text="--------- end of RUN CLASSICAL .NET TESTS ---------"/>
+    <Exec Command='"$(TestRunnerPath)" %(TestProjectsWithArguments.Identity) $(NunitOptions) /framework:%(TestProjectsWithArguments.Framework)' 
+          LogStandardErrorAsError="true" WorkingDirectory="../" Condition="'%(TestProjectsWithArguments.Framework)'!='core'"/>
+    <Exec Command='dotnet test %(TestProjectsWithArguments.Identity) -c $(Configuration)' 
+          LogStandardErrorAsError="true" WorkingDirectory="../" Condition="'%(TestProjectsWithArguments.Framework)'=='core'"/>
+
+    <Message Importance="high" Text="--------- end of RUN TESTS ---------"/>
 
   </Target>
 
@@ -188,8 +207,8 @@ RUN ALL UNIT TESTS
     <Message Importance="high" Text="--------- PACKAGE ---------"/>
       <!-- Copies the dll into an easy path targeted by the .nuspec file. -->
       <!-- Michonne -->
-      <Message Importance="high" Text="xcopy %(FilesForNuget.Identity) $(BinariesPath)\%(FilesForNuget.TargetFwk)\ /E /Y" />
-      <Exec Command='xcopy "%(FilesForNuget.FullPath)" "$(BinariesPath)\%(FilesForNuget.TargetFwk)\" /E /Y' />
+      <Message Importance="low" Text="xcopy %(FilesForNuget.Identity) $(BinariesPath)\%(FilesForNuget.TargetFwk)\ /E /Y" />
+      <Exec Command='xcopy "%(FilesForNuget.FullPath)" "$(BinariesPath)\%(FilesForNuget.TargetFwk)\" /E /Y /Q' />
 	  
       <!-- Get the version number of the main FV assembly to insert into the nuspec files -->
       <GetAssemblyIdentity AssemblyFiles="$(BinariesPath)\net45\$(SolutionName).Implementation.dll">
@@ -253,12 +272,12 @@ CREATING NUGET PACKAGE IN:
   <!-- 5- Then Publish -->
   <Target Name="Publish" DependsOnTargets="Package">
   <!--= Publish the package on Nuget-->
-  <Message Importance="high" Text="--------- NUGET PUBLISH  -------------------------------------------"/>
+  <Message Importance="high" Text="--------- NUGET PUBLISH  -------------------------------------------" Condition="'$(NugetKey)'!='' AND '$(APPVEYOR_PULL_REQUEST_NUMBER)'==''" />
     
-  <!--<Exec Command="&quot;$(NuGetExePath) restore&quot;" />-->
-  <Exec Command='"$(NuGetExePath)" setApiKey $(NugetKey) -source https://www.nuget.org/api/v2/package -verbosity quiet' EchoOff='true' Condition="'$(NugetKey)'!=''"/>
-  <Exec Command='"$(NuGetExePath)" push "$(PackageFileName)" -Source https://www.nuget.org/api/v2/package' />
+  <Exec Command='"$(NuGetExePath)" setApiKey $(NugetKey) -source https://www.nuget.org/api/v2/package -verbosity quiet' EchoOff='true' Condition="'$(NugetKey)'!='' AND '$(APPVEYOR_PULL_REQUEST_NUMBER)'==''"/>
+  <Exec Command='"$(NuGetExePath)" push "$(PackageFileName)" -Source https://www.nuget.org/api/v2/package' Condition="'$(NugetKey)'!='' AND '$(APPVEYOR_PULL_REQUEST_NUMBER)'==''"/>
   
-  <Message Importance="high" Text="--------- end of NUGET PUBLISH  -------------------------------------"/></Target> 
+  <Message Importance="high" Text="--------- end of NUGET PUBLISH  -------------------------------------" Condition="'$(NugetKey)'!='' AND '$(APPVEYOR_PULL_REQUEST_NUMBER)'==''" />
+ </Target> 
 </Project>
  
