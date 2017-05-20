@@ -3,19 +3,19 @@
   <!--(c) 2017 Cyrille Dupuydauby, derived from T.Pierrain work on NFluent -->
 
   <Import Project="build.tasks" />
-  
+ 
   <PropertyGroup>
     <Configuration Condition="$(Configuration) == ''">Release</Configuration>
     <PackageStream>alpha</PackageStream>
     <NugetKey>$(MICHONNE_NUGET_API_KEY)</NugetKey>
 
+    <SolutionRoot>$(MSBuildProjectDirectory)\..</SolutionRoot>
     <SolutionName>Michonne</SolutionName>
     <CodeCovURL>https://codecov.io/gh/dupdob/$(SolutionName)</CodeCovURL>
     <ToolsPath>$(SolutionRoot)\tools\</ToolsPath>
     <SourcePath>$(SolutionRoot)\</SourcePath>
     <PackagesPath>$(ArtifactsPath)\Packages</PackagesPath>
 
-    <SolutionRoot>$(MSBuildProjectDirectory)\..</SolutionRoot>
     <AssemblyFileNameRoot>$(SolutionRoot)\Michonne.Assemblies\Michonne</AssemblyFileNameRoot>
     <ArtifactsPath>$(SolutionRoot)\Artifacts</ArtifactsPath>
     <BinariesPath>$(ArtifactsPath)\Binaries</BinariesPath>
@@ -29,7 +29,7 @@
     <OpenCoverMSBuildTasksPath>$(NuGetTools)\OpenCover.4.6.519\MSBuild</OpenCoverMSBuildTasksPath>
   </PropertyGroup>
  
-  <!-- Specifics for appveyor: use env provided nunit runner for result publication-->
+<!-- Specifics for appveyor: use env provided nunit runner for result publication-->
   <Choose>
     <When Condition="'$(APPVEYOR)'=='True'">
       <PropertyGroup>
@@ -124,11 +124,10 @@ GENERATING DOCS for:
       <Message Importance="high" Text="--------- end of DOCUMENTATION GENERATION  ---------"/>
   </Target>
 
+  <Import Project="$(OpenCoverMSBuildTasksPath)\OpenCover.targets"/>
   <!-- 3- Run the TESTS -->
   <Target Name="RunTests" DependsOnTargets="Build">
-    <Import Project="$(OpenCoverMSBuildTasksPath)\OpenCover.targets"/>
-
-  <ItemGroup>
+    <ItemGroup>
       <TestProject Include='$(SolutionRoot)\Tests\Michonne.Tests.35\bin\$(Configuration)\Michonne.Tests.dll'>
         <Fwk>net-3.5</Fwk>
       </TestProject>
