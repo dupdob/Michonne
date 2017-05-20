@@ -63,7 +63,6 @@
     </PropertyGroup>
   </Target>
   
-  <Import Project="$(OpenCoverMSBuildTasksPath)\OpenCover.targets"/>
   <!-- 1- Do the BUILD -->
   <Target Name="DotnetCoreRestore">
     <Message Importance="high" Text="--------- DOTNET RESTORE  -------------------------------------------"/>     
@@ -127,7 +126,9 @@ GENERATING DOCS for:
 
   <!-- 3- Run the TESTS -->
   <Target Name="RunTests" DependsOnTargets="Build">
-    <ItemGroup>
+    <Import Project="$(OpenCoverMSBuildTasksPath)\OpenCover.targets"/>
+
+  <ItemGroup>
       <TestProject Include='$(SolutionRoot)\Tests\Michonne.Tests.35\bin\$(Configuration)\Michonne.Tests.dll'>
         <Fwk>net-3.5</Fwk>
       </TestProject>
