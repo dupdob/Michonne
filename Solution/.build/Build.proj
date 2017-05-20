@@ -5,23 +5,30 @@
   <Import Project="build.tasks" />
   
   <PropertyGroup>
+    <Configuration Condition="$(Configuration) == ''">Release</Configuration>
+    <PackageStream>alpha</PackageStream>
+    <NugetKey>$(MICHONNE_NUGET_API_KEY)</NugetKey>
+
+    <SolutionName>Michonne</SolutionName>
+    <CodeCovURL>https://codecov.io/gh/dupdob/$(SolutionName)</CodeCovURL>
+    <ToolsPath>$(SolutionRoot)\tools\</ToolsPath>
+    <SourcePath>$(SolutionRoot)\</SourcePath>
+    <PackagesPath>$(ArtifactsPath)\Packages</PackagesPath>
+
     <SolutionRoot>$(MSBuildProjectDirectory)\..</SolutionRoot>
-      <Configuration Condition="$(Configuration) == ''">Debug</Configuration>
-      <SolutionRoot>$(MSBuildProjectDirectory)\..</SolutionRoot>
-      <SolutionName>Michonne</SolutionName>
-      <AssemblyFileNameRoot>$(SolutionRoot)\Michonne.Assemblies\$(SolutionName)</AssemblyFileNameRoot>
-      <ToolsPath>$(SolutionRoot)\tools\</ToolsPath>
-      <SourcePath>$(SolutionRoot)\</SourcePath>
-      <ArtifactsPath>$(SolutionRoot)\Artifacts</ArtifactsPath>
-      <BinariesPath>$(ArtifactsPath)\Binaries</BinariesPath>
-      <PackagesPath>$(ArtifactsPath)\Packages</PackagesPath>
-      <DocPath>$(ArtifactsPath)\Docs</DocPath>
-      <NuGetToolsPath></NuGetToolsPath>
-      <NuGetExePath>$(NuGetToolsPath)nuget.exe</NuGetExePath>
-      <TestRunnerPath>$(SolutionRoot)\packages\NUnit.ConsoleRunner.3.6.1\tools\nunit3-console.exe</TestRunnerPath>
-      <NugetKey>$(MICHONNE_NUGET_API_KEY)</NugetKey>
-      <PackageStream>alpha</PackageStream>
+    <AssemblyFileNameRoot>$(SolutionRoot)\Michonne.Assemblies\Michonne</AssemblyFileNameRoot>
+    <ArtifactsPath>$(SolutionRoot)\Artifacts</ArtifactsPath>
+    <BinariesPath>$(ArtifactsPath)\Binaries</BinariesPath>
+    <NuGetTools>$(SolutionRoot)\Packages</NuGetTools>
+    <DocPath>$(ArtifactsPath)\Docs</DocPath>
+    
+    <NuGetToolsPath></NuGetToolsPath>
+    <NuGetExePath>$(NuGetToolsPath)nuget.exe</NuGetExePath>
+    <TestRunnerPath>$(NuGetTools)\NUnit.ConsoleRunner.3.6.1\tools\nunit3-console.exe</TestRunnerPath>
+    <CoverToolPath>$(NuGetTools)\OpenCover.4.6.519\tools</CoverToolPath>
+    <OpenCoverMSBuildTasksPath>$(NuGetTools)\OpenCover.4.6.519\MSBuild</OpenCoverMSBuildTasksPath>
   </PropertyGroup>
+ 
   <!-- Specifics for appveyor: use env provided nunit runner for result publication-->
   <Choose>
     <When Condition="'$(APPVEYOR)'=='True'">
@@ -55,8 +62,9 @@
       <PackageStream></PackageStream>
     </PropertyGroup>
   </Target>
+  
+  <Import Project="$(OpenCoverMSBuildTasksPath)\OpenCover.targets"/>
   <!-- 1- Do the BUILD -->
-
   <Target Name="DotnetCoreRestore">
     <Message Importance="high" Text="--------- DOTNET RESTORE  -------------------------------------------"/>     
     <Exec Command="dotnet restore $(SolutionRoot)\Michonne.Assemblies\Michonne.Implementation.Standard" />
@@ -91,7 +99,7 @@ BUILD PROJECT with MSBuildToolsVersion: '$(MSBuildToolsVersion)'
 ---------------------------------------------------------------
       "  />
 
-<Message Importance="high" Text="--------- will run: $(SolutionRoot)\$(SolutionName).sln"/>
+<Message Importance="normal" Text="--------- will run: $(SolutionRoot)\$(SolutionName).sln"/>
 
       <MSBuild Projects="$(SolutionRoot)\$(SolutionName).sln" 
                 Targets="Build" 
@@ -120,27 +128,24 @@ GENERATING DOCS for:
   <!-- 3- Run the TESTS -->
   <Target Name="RunTests" DependsOnTargets="Build">
     <ItemGroup>
-      <TestProject Include='"$(SolutionRoot)\Tests\Michonne.Tests.35\bin\$(Configuration)\Michonne.Tests.dll"'>
-        <Fwk>net35</Fwk>
+      <TestProject Include='$(SolutionRoot)\Tests\Michonne.Tests.35\bin\$(Configuration)\Michonne.Tests.dll'>
+        <Fwk>net-3.5</Fwk>
       </TestProject>
-      <TestProject Include='"$(SolutionRoot)\Tests\Michonne.Tests.40\bin\$(Configuration)\Michonne.Tests.dll"'>
-        <Fwk>net40</Fwk>
+      <TestProject Include='$(SolutionRoot)\Tests\Michonne.Tests.40\bin\$(Configuration)\Michonne.Tests.dll'>
+        <Fwk>net-4.0</Fwk>
       </TestProject>
-      <TestProject Include='"$(SolutionRoot)\Tests\Michonne.Tests.45\bin\$(Configuration)\Michonne.Tests.dll"'>
-        <Fwk>net45</Fwk>
+      <TestProject Include='$(SolutionRoot)\Tests\Michonne.Tests.45\bin\$(Configuration)\Michonne.Tests.dll'>
+        <Fwk>net-4.5</Fwk>
       </TestProject>
-      <TestProject Include='"$(SolutionRoot)\Tests\Michonne.Tests.45\bin\$(Configuration)\Michonne.Tests.dll"'>
-        <Fwk>net45</Fwk>
+      <TestProject Include='$(SolutionRoot)\Michonne.01.Tests\bin\$(Configuration)\Michonne.01.Tests.dll'>
+        <Fwk>net-4.5</Fwk>
       </TestProject>
-      <TestProject Include='"$(SolutionRoot)\Michonne.01.Tests\bin\$(Configuration)\Michonne.01.Tests.dll"'>
-        <Fwk>net45</Fwk>
+      <TestProject Include='$(SolutionRoot)\PastaPricer.Tests\bin\$(Configuration)\PastaPricer.Tests.dll'>
+        <Fwk>net-4.5</Fwk>
       </TestProject>
-      <TestProject Include='"$(SolutionRoot)\PastaPricer.Tests\bin\$(Configuration)\PastaPricer.Tests.dll"'>
-        <Fwk>net45</Fwk>
+      <TestProject Include='$(SolutionRoot)\Tests\Michonne.Tests.Core\Michonne.Tests.Core.csproj'>
+        <Fwk>core</Fwk>
       </TestProject>
-      <TestProjectsWithArguments Include='"$(SolutionRoot)\Tests\Michonne.Tests.Core\Michonne.Tests.Core.csproj"'>
-        <Framework>core</Framework>
-      </TestProjectsWithArguments>
     </ItemGroup>
     <Message Importance="high" Text="
 ---------------------------------------------------------------
@@ -153,12 +158,33 @@ RUN ALL UNIT TESTS
     <Message Importance="normal" Text="Assemblies to test:"/>
     <Message Importance="normal" Text="'%(TestProject.Identity)'"/>
 
-    <Exec Command='"$(TestRunnerPath)" %(TestProjectsWithArguments.Identity) $(NunitOptions) /framework:%(TestProjectsWithArguments.Framework)' 
-          LogStandardErrorAsError="true" WorkingDirectory="../" Condition="'%(TestProjectsWithArguments.Framework)'!='core'"/>
-    <Exec Command='dotnet test %(TestProjectsWithArguments.Identity) -c $(Configuration)' 
-          LogStandardErrorAsError="true" WorkingDirectory="../" Condition="'%(TestProjectsWithArguments.Framework)'=='core'"/>
+    <Exec Command='"$(TestRunnerPath)" %(TestProject.Identity) $(NunitOptions) /framework:%(TestProject.Fwk)' 
+          LogStandardErrorAsError="true" WorkingDirectory="../" Condition="'%(TestProject.Fwk)'!='core'"/>
+    <Exec Command='dotnet test %(TestProject.Identity) -c $(Configuration)' 
+          LogStandardErrorAsError="true" WorkingDirectory="../" Condition="'%(TestProject.Fwk)'=='core'"/>
 
     <Message Importance="high" Text="--------- end of RUN TESTS ---------"/>
+
+    <Message Importance="high" Text="--------- Coverage ---------"/>
+    <Message Importance="high" Text="Cover for %(TestProject.Identity) : $(SolutionRoot)\%(filename)-coverage.xml" Condition="'%(TestProject.Fwk)'=='net-4.5'"/>
+    <OpenCover
+      ReturnTargetCode="True"
+      ToolPath="$(CoverToolPath)"
+      Filter="+[*]* -[*.Tests]* -[Autofac*]* -[Newtonsoft.Json]*"
+      ExcludeByAttribute="System.ObsoleteAttribute"
+      ToolExe="OpenCover.Console.exe"
+      Register="True"
+      ShowUnvisited="True"
+      Target="$(TestRunnerPath)"
+      TargetArgs='"%(TestProject.Identity)" --result="$(SolutionRoot)\unit-test-results.xml" -framework:%(TestProject.Fwk)'
+      Output='$(SolutionRoot)\%(filename)-coverage.xml'
+      Condition="'%(TestProject.Fwk)'=='net-4.5'">
+      <Output TaskParameter="ExitCode" PropertyName="TestExitCode"/>
+    </OpenCover>
+    
+    <Exec  WorkingDirectory="$(SolutionRoot)" Command='codecov -f "$(SolutionRoot)\%(filename)-coverage.xml-coverage.xml" -t 3298ef7c-a693-49a1-8781-12e8985ecd2b -X gcov'
+           Condition="'%(TestProject.Fwk)'=='net-4.5'"/>
+      <Message Importance="high" Text="--------- end of Coverage ---------"/>
 
   </Target>
 
@@ -171,7 +197,7 @@ RUN ALL UNIT TESTS
       </FilesForNuget>
       <FilesForNuget Include="$(AssemblyFileNameRoot).Interfaces.20\bin\$(Configuration)\*Interfaces*.*">
         <TargetFwk>net20</TargetFwk>
-      </FilesForNuget>
+      </FilesForNuget>  
       <FilesForNuget Include="$(AssemblyFileNameRoot).Implementation.30\bin\$(Configuration)\*Implementation*.*">
         <TargetFwk>net30</TargetFwk>
       </FilesForNuget>

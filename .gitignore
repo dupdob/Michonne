@@ -55,6 +55,8 @@ build/
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 TestResult.xml
+*results.xml
+*coverage.xml
 
 *_i.c
 *_p.c

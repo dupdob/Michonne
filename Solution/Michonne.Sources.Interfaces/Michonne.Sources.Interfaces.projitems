@@ -6,7 +6,7 @@
     <SharedGUID>b6047abd-5132-4f8e-9dd4-e759b8aed5c4</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Michonne.Sources.Interfaces</Import_RootNamespace>
+    <Import_RootNamespace>Michonne.Interfaces</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyAttributes.cs" />
