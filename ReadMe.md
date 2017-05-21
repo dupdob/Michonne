@@ -1,6 +1,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/8abc2hnbl9mgxlv2/branch/master?svg=true)](https://ci.appveyor.com/project/dupdob/michonne/branch/master)
 [![codecov](https://codecov.io/gh/dupdob/Michonne/branch/master/graph/badge.svg)](https://codecov.io/gh/dupdob/Michonne)
-[![NuGet](https://img.shields.io/nuget/dt/Michonne.svg?style=flat-square)]()[![NuGet Pre Release](https://img.shields.io/nuget/vpre/Michonne.svg)]()
+[![NuGet](https://img.shields.io/nuget/dt/Michonne.svg?style=flat-square)]()
+[![NuGet Pre Release](https://img.shields.io/nuget/vpre/Michonne.svg)]()
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/cyrdup.svg?style=social&label=Follow)]()
 
