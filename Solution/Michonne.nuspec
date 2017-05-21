@@ -29,42 +29,42 @@
   </metadata>
   <files>
     <!-- .NET 2.0 -->
-    <file src="Artifacts\Binaries\net20\Michonne.Implementation.dll" target="lib/net20" />
-    <file src="Artifacts\Binaries\net20\Michonne.Interfaces.dll" target="lib/net20" />
-    <file src="Artifacts\Binaries\net20\Michonne.Implementation.xml" target="lib/net20" />
-    <file src="Artifacts\Binaries\net20\Michonne.Interfaces.xml" target="lib/net20" />
+    <file src="Artifacts\Binaries\net20\Michonne.Implementation.dll" target="lib\net20" />
+    <file src="Artifacts\Binaries\net20\Michonne.Interfaces.dll" target="lib\net20" />
+    <file src="Artifacts\Binaries\net20\Michonne.Implementation.xml" target="lib\net20" />
+    <file src="Artifacts\Binaries\net20\Michonne.Interfaces.xml" target="lib\net20" />
     <!-- .NET 3.0 -->
-    <file src="Artifacts\Binaries\net30\Michonne.Implementation.dll" target="lib/net30" />
-    <file src="Artifacts\Binaries\net30\Michonne.Interfaces.dll" target="lib/net30" />
-    <file src="Artifacts\Binaries\net30\Michonne.Implementation.xml" target="lib/net30" />
-    <file src="Artifacts\Binaries\net30\Michonne.Interfaces.xml" target="lib/net30" />
+    <file src="Artifacts\Binaries\net30\Michonne.Implementation.dll" target="lib\net30" />
+    <file src="Artifacts\Binaries\net30\Michonne.Interfaces.dll" target="lib\net30" />
+    <file src="Artifacts\Binaries\net30\Michonne.Implementation.xml" target="lib\net30" />
+    <file src="Artifacts\Binaries\net30\Michonne.Interfaces.xml" target="lib\net30" />
     <!-- .NET 3.5 -->
-    <file src="Artifacts\Binaries\net35\Michonne.Implementation.dll" target="lib/net35" />
-    <file src="Artifacts\Binaries\net35\Michonne.Interfaces.dll" target="lib/net35" />
-    <file src="Artifacts\Binaries\net35\Michonne.Implementation.xml" target="lib/net35" />
-    <file src="Artifacts\Binaries\net35\Michonne.Interfaces.xml" target="lib/net35" />
-    <file src="Artifacts\Binaries\net35\Michonne.Implementation.pdb" target="lib/net35" />
-    <file src="Artifacts\Binaries\net35\Michonne.Interfaces.pdb" target="lib/net35" />
+    <file src="Artifacts\Binaries\net35\Michonne.Implementation.dll" target="lib\net35" />
+    <file src="Artifacts\Binaries\net35\Michonne.Interfaces.dll" target="lib\net35" />
+    <file src="Artifacts\Binaries\net35\Michonne.Implementation.xml" target="lib\net35" />
+    <file src="Artifacts\Binaries\net35\Michonne.Interfaces.xml" target="lib\net35" />
+    <file src="Artifacts\Binaries\net35\Michonne.Implementation.pdb" target="lib\net35" />
+    <file src="Artifacts\Binaries\net35\Michonne.Interfaces.pdb" target="lib\net35" />
     <!-- .NET 4.0 -->
-    <file src="Artifacts\Binaries\net40\Michonne.Implementation.dll" target="lib/net40" />
-    <file src="Artifacts\Binaries\net40\Michonne.Interfaces.dll" target="lib/net40" />
-    <file src="Artifacts\Binaries\net40\Michonne.Implementation.xml" target="lib/net40" />
-    <file src="Artifacts\Binaries\net40\Michonne.Interfaces.xml" target="lib/net40" />
-    <file src="Artifacts\Binaries\net40\Michonne.Implementation.pdb" target="lib/net40" />
-    <file src="Artifacts\Binaries\net40\Michonne.Interfaces.pdb" target="lib/net40" />
+    <file src="Artifacts\Binaries\net40\Michonne.Implementation.dll" target="lib\net40" />
+    <file src="Artifacts\Binaries\net40\Michonne.Interfaces.dll" target="lib\net40" />
+    <file src="Artifacts\Binaries\net40\Michonne.Implementation.xml" target="lib\net40" />
+    <file src="Artifacts\Binaries\net40\Michonne.Interfaces.xml" target="lib\net40" />
+    <file src="Artifacts\Binaries\net40\Michonne.Implementation.pdb" target="lib\net40" />
+    <file src="Artifacts\Binaries\net40\Michonne.Interfaces.pdb" target="lib\net40" />
     <!-- .NET 4.5 -->
-    <file src="Artifacts\Binaries\net45\Michonne.Implementation.dll" target="lib/net45" />
-    <file src="Artifacts\Binaries\net45\Michonne.Interfaces.dll" target="lib/net45" />
-    <file src="Artifacts\Binaries\net45\Michonne.Implementation.xml" target="lib/net45" />
-    <file src="Artifacts\Binaries\net45\Michonne.Interfaces.xml" target="lib/net45" />
-    <file src="Artifacts\Binaries\net45\Michonne.Implementation.pdb" target="lib/net45" />
-    <file src="Artifacts\Binaries\net45\Michonne.Interfaces.pdb" target="lib/net45" />
+    <file src="Artifacts\Binaries\net45\Michonne.Implementation.dll" target="lib\net45" />
+    <file src="Artifacts\Binaries\net45\Michonne.Interfaces.dll" target="lib\net45" />
+    <file src="Artifacts\Binaries\net45\Michonne.Implementation.xml" target="lib\net45" />
+    <file src="Artifacts\Binaries\net45\Michonne.Interfaces.xml" target="lib\net45" />
+    <file src="Artifacts\Binaries\net45\Michonne.Implementation.pdb" target="lib\net45" />
+    <file src="Artifacts\Binaries\net45\Michonne.Interfaces.pdb" target="lib\net45" />
     <!-- .Net standard 1_3 -->
-    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Implementation.dll" target="lib/netstandard1.3" />
-    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Interfaces.dll" target="lib/netstandard1.3" />
-    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Implementation.xml" target="lib/netstandard1.3" />
-    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Interfaces.xml" target="lib/netstandard1.3" />
-    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Implementation.pdb" target="lib/netstandard1.3" />
-    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Interfaces.pdb" target="lib/netstandard1.3" />
+    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Implementation.dll" target="lib\netstandard1.3" />
+    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Interfaces.dll" target="lib\netstandard1.3" />
+    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Implementation.xml" target="lib\netstandard1.3" />
+    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Interfaces.xml" target="lib\netstandard1.3" />
+    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Implementation.pdb" target="lib\netstandard1.3" />
+    <file src="Artifacts\Binaries\netstandard1.3\Michonne.Interfaces.pdb" target="lib\netstandard1.3" />
   </files>
 </package>
