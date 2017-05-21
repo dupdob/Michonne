@@ -67,6 +67,7 @@
   <Target Name="DotnetCoreRestore">
     <Message Importance="high" Text="--------- DOTNET RESTORE  -------------------------------------------"/>     
     <Exec Command="dotnet restore $(SolutionRoot)\Michonne.Assemblies\Michonne.Implementation.Standard" />
+    <Exec Command="dotnet restore $(SolutionRoot)\Michonne.Assemblies\Michonne.Implementation.45" />
     <Exec Command="dotnet restore $(SolutionRoot)\Michonne.Assemblies\Michonne.Interfaces.Standard" />
     <Exec Command="dotnet restore $(SolutionRoot)\Tests\Michonne.Tests.45\Michonne.Tests.45.csproj" />
     <Exec Command="dotnet restore $(SolutionRoot)\Tests\Michonne.Tests.Core\Michonne.Tests.Core.csproj" />
