@@ -13,6 +13,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataProcessorTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExecutionFactoryTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RaceConditionDetector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StepperUnit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SteppingUnitTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SynchonousUnitOfExecutionTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SynchroCall.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VersionTaskTest.cs" />

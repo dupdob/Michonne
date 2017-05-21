@@ -14,66 +14,46 @@
 //     limitations under the License.
 //   </copyright>
 //   --------------------------------------------------------------------------------------------------------------------
+
 #endregion
 
 namespace Michonne.Tests
 {
     using System;
     using System.Threading;
-    using Implementation;
+
+    using Michonne.Implementation;
+    using Michonne.Sources.Tests;
+
     using NFluent;
+
     using NUnit.Framework;
 
     /// <summary>
-    /// The conflation tests.
+    ///     The conflation tests.
     /// </summary>
     public class ConflationTests
     {
-        #region Public Methods and Operators
-
         /// <summary>
-        /// The should conflate actions.
+        ///     The should conflate actions.
         /// </summary>
         [Test]
         public void ShouldConflateActions()
         {
-            var factory = new UnitOfExecutionsFactory();
-            var dedicated = factory.GetDedicatedThread();
-            using ((IDisposable)dedicated)
-            {
-                var synchroRoot = new object();
-                var go = true;
-                var ranTasks = 0;
+            var dedicated = new StepperUnit();
+            var go = true;
+            var ranTasks = 0;
 
-                var conflator = new ActionConflator(dedicated);
+            var conflator = new ActionConflator(dedicated);
 
-                dedicated.Dispatch(
-                    () =>
-                    {
-                        lock (synchroRoot)
-                        {
-                            while (go)
-                            {
-                                Monitor.Wait(synchroRoot, 1000);
-                            }
-                        }
-                    });
+            conflator.Conflate(() => Interlocked.Increment(ref ranTasks));
+            conflator.Conflate(() => Interlocked.Increment(ref ranTasks));
+            conflator.Conflate(() => Interlocked.Increment(ref ranTasks));
+            dedicated.Step();
+ 
 
-                conflator.Conflate(() => Interlocked.Increment(ref ranTasks));
-                conflator.Conflate(() => Interlocked.Increment(ref ranTasks));
-                conflator.Conflate(() => Interlocked.Increment(ref ranTasks));
-
-                lock (synchroRoot)
-                {
-                    go = false;
-                    Monitor.Pulse(synchroRoot);
-                }
-
-                Thread.Sleep(100);
-
-                // tasks should be conflated
-                Check.That(ranTasks).IsEqualTo(1);
-            }
+            // tasks should be conflated
+            Check.That(ranTasks).IsEqualTo(1);
         }
 
         [Test]
@@ -119,7 +99,5 @@ namespace Michonne.Tests
 
             Check.That(act).IsEqualTo(1);
         }
-
-        #endregion
     }
 }
