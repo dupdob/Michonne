@@ -3,7 +3,7 @@
 [![NuGet](https://img.shields.io/nuget/dt/Michonne.svg?style=flat-square)]()
 [![NuGet Pre Release](https://img.shields.io/nuget/vpre/Michonne.svg)]()
 
-[![Twitter Follow](https://img.shields.io/twitter/follow/cyrdup.svg?style=social&label=Follow)]()
+[![Twitter Follow](https://img.shields.io/twitter/follow/cyrdup.svg?style=social&label=Follow the author)]()
 
 ![Michonne](https://github.com/dupdob/michonne/blob/master/michonne.png?raw=true)
 
