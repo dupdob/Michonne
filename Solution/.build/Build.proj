@@ -34,7 +34,7 @@
     <When Condition="'$(APPVEYOR)'=='True'">
       <PropertyGroup>
         <NunitOptions>--result=TestResults.xml;format=AppVeyor</NunitOptions>
-        <TestRunnerPath>C:\Tools\NUnit3\bin\nunit3-console.exe</TestRunnerPath>
+        <TestRunnerPath>nunit3-console.exe</TestRunnerPath>
       </PropertyGroup>
     </When>
   </Choose>
