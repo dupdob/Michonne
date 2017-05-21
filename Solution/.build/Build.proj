@@ -170,7 +170,7 @@ RUN ALL UNIT TESTS
     <Message Importance="high" Text='"$(CoverToolPath)\OpenCover.Console" -target:"$(TestRunnerPath)" -register:user -filter:"+[*]* -[*.Tests]*" -output:"$(SolutionRoot)\%(filename)-coverage.xml -targetargs:""%(TestProject.Identity)" -result="$(SolutionRoot)\results.xml" -framework:%(TestProject.Fwk)""' Condition="'%(TestProject.Fwk)'=='net-4.5'"/>
     <Exec Command='"$(CoverToolPath)\OpenCover.Console" -target:"$(TestRunnerPath)" -register:user -filter:"+[*]* -[*.Tests]*" -output:"$(SolutionRoot)\%(filename)-coverage.xml" -targetargs:""%(TestProject.Identity)" -result="$(SolutionRoot)\results.xml" -framework:%(TestProject.Fwk)""' Condition="'%(TestProject.Fwk)'=='net-4.5'"/>
     <Exec Command="pip install codecov"/>
-    <Exec  WorkingDirectory="$(SolutionRoot)" Command='codecov -f "$(SolutionRoot)\%(filename)-coverage.xml-coverage.xml" -t 3298ef7c-a693-49a1-8781-12e8985ecd2b -X gcov'
+    <Exec  WorkingDirectory="$(SolutionRoot)" Command='codecov -f "$(SolutionRoot)\%(filename)-coverage.xml" -t 3298ef7c-a693-49a1-8781-12e8985ecd2b -X gcov'
            Condition="'%(TestProject.Fwk)'=='net-4.5'"/>
     <Message Importance="high" Text="--------- end of Coverage ---------"/>
 
