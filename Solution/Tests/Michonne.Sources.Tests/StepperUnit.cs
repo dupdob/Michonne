@@ -24,5 +24,15 @@ namespace Michonne.Sources.Tests
                 result.Invoke();
             }
         }
+
+        internal void Step(int v)
+        {
+            Action result;
+            while (this.actions.TryDequeue(out result) && v > 0)
+            {
+                result.Invoke();
+                v--;
+            }
+        }
     }
 }

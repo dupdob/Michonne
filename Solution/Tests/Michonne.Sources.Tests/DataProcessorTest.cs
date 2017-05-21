@@ -20,6 +20,8 @@ namespace Michonne.Tests
 
     using Implementation;
 
+    using Michonne.Sources.Tests;
+
     using NFluent;
 
     using NUnit.Framework;
@@ -29,15 +31,14 @@ namespace Michonne.Tests
         [Test] 
         public void ShouldHaveANiceAPI()
         {
-            var factory = new UnitOfExecutionsFactory();
-            var executor = factory.GetDedicatedThread();
+            var executor = new StepperUnit();
             var processed = new List<int>();
 
-            var processor = executor.BuildProcessor<int>( processed.Add, false);
+            var processor = executor.BuildProcessor<int>(processed.Add, false);
 
             processor.Post(4);
             processor.Post(5);
-
+            executor.Step(2);
             Check.That(processed).HasSize(2);
         }
     }
