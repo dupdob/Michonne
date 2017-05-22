@@ -104,7 +104,7 @@ namespace Michonne.Tests
         [Test]
         public void Should_Execute_Tasks_Non_Concurrently()
         {
-            var poolExec = new DotNetThreadPoolUnitOfExecution();
+            var poolExec = TestHelpers.GetPool();
             ISequencer sequencer = this.BuildSequencer(poolExec);
             var context = new RaceConditionDetector();
 
@@ -125,7 +125,7 @@ namespace Michonne.Tests
         [Test]
         public void Should_Execute_Tasks_Sequentially()
         {
-            var poolExec = new DotNetThreadPoolUnitOfExecution();
+            var poolExec = TestHelpers.GetPool();
             var sequencer = this.BuildSequencer(poolExec);
             var context = new RaceConditionDetector();
             sequencer.Dispatch(() => context.Delay(20));
@@ -174,22 +174,21 @@ namespace Michonne.Tests
             Check.That(synchExec.DoneTasks).Equals(1);
         }
 
-        [Test]
+        //[Test]
         public void Should_Be_Fast()
         {
             var factory = new UnitOfExecutionsFactory();
             var unitOfExec = factory.GetSynchronousUnitOfExecution();
             var sequencer = this.BuildSequencer(unitOfExec);
 
-            void Action()
-            {
-            }
+            void DummyAction()
+            {}
 
             Check.ThatCode(() =>
             {
                 for (var i = 0; i < 100000; i++)
                 {
-                    sequencer.Dispatch(Action);
+                    sequencer.Dispatch(DummyAction);
                 }
             }).LastsLessThan(400, TimeUnit.Milliseconds);
  

@@ -1,4 +1,4 @@
-# Configuration for CodeCov.io
+ # Configuration for CodeCov.io
 fixes:
-# specify Solution root
+ # specify Solution root
   - "::Solution/"

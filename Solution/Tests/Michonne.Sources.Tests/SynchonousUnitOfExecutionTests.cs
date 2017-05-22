@@ -29,8 +29,7 @@ namespace Michonne.Tests
         [Test]
         public void ShouldExecuteSynchro()
         {
-            var factory = new UnitOfExecutionsFactory();
-            var synchronousUnitOfExec = factory.GetSynchronousUnitOfExecution();
+            var synchronousUnitOfExec = TestHelpers.GetSynchronousUnitOfExecution();
             var synchro = new object();
 
             lock (synchro)

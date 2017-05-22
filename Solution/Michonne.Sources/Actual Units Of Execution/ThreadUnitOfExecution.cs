@@ -32,6 +32,7 @@ namespace Michonne.Implementation
         private readonly Thread myThread;
         private readonly object synchRoot = new object();
         private readonly Queue<Action> tasks = new Queue<Action>();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ThreadUnitOfExecution"/> class.
         /// </summary>
