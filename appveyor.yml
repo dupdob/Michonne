@@ -14,6 +14,11 @@ test: off
 environment:
   MICHONNE_NUGET_API_KEY: ad9c47dd-d3b9-4962-9df5-13eff5b1032f
 
+deploy:
+- provider: NuGet
+  api_key:
+    secure: 29tN7eFt0JJe5i9QlGyiy/30MnnH1tJOOPkFrNUUdnEG1p2KlVTAbigZ69bAXwLX
+
 assembly_info:
   patch: true
   file: version.cs

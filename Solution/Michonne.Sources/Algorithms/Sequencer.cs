@@ -14,13 +14,19 @@
 //   --------------------------------------------------------------------------------------------------------------------
 namespace Michonne.Implementation
 {
-    using System.Threading;
-    using Interfaces;
-#if NET20 || NET30 || NET35
-    using System.Collections.Generic;
-#if NET35
+#if !NET20 && !NET30
     using System;
 #endif
+#if NET40 || NET45 || NETSTANDARD1_3
+    using System.Collections.Concurrent;
+#else
+    using System.Collections.Generic;
+#endif
+    using System.Threading;
+
+    using Interfaces;
+
+#if NET20 || NET30 || NET35
 
     internal class ConcurrentQueue<T> where T: class
     {
@@ -47,9 +53,6 @@ namespace Michonne.Implementation
             }
         }
     }
-#else
-    using System;
-    using System.Collections.Concurrent;
 #endif
 
     /// <summary>
@@ -98,34 +101,27 @@ namespace Michonne.Implementation
 
         /// <summary>
         ///     Gives a task/item to the sequencer in order to execute it in an asynchronous manner, but respecting the
-        ///     order of the dispatch, and without concurrency among the sequencer's tasks.
+        ///     order of the dispatch, and without concurrency among the sequencer s tasks.
         /// </summary>
         /// <param name="action">The item to be executed</param>
         public void Dispatch(Action action)
         {
             this.orderedDispatchedTasks.Enqueue(action);
 
-            // Dispatches the sequenced task to the underlying rootUnitOfExecution
             this.rootUnitOfExecution.Dispatch(this.Execute);
         }
 
-        /// <summary>
-        ///     Executes this dispatched task.
-        /// </summary>
         private void Execute()
         {
             if (Interlocked.Increment(ref this.numberOfPendingTasksWhileRunning) > 1)
             {
-                // another threaid is already executing tasks, it will take care of ours
                 return;
             }
 
-            // single thread executing task
             while (true)
             {
-                Action action;
                 bool mustExit;
-                if (!this.orderedDispatchedTasks.TryDequeue(out action))
+                if (!this.orderedDispatchedTasks.TryDequeue(out Action action))
                 {
                     Interlocked.Decrement(ref this.numberOfPendingTasksWhileRunning);
                     break;

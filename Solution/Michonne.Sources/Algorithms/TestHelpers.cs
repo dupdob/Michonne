@@ -24,18 +24,18 @@ namespace Michonne.Implementation
         private static readonly UnitOfExecutionsFactory Factory = new UnitOfExecutionsFactory();
 
         /// <summary>
-        /// Gets an instance of IUnitOfExecution wrapping the CLR threadpool.
+        /// Gets an instance of IUnitOfExecution wrapping the CLR thread pool.
         /// </summary>
-        /// <returns>An instance of IUnitOfExecution wrapping the CLR threadpool.</returns>
+        /// <returns>An instance of IUnitOfExecution wrapping the CLR thread pool.</returns>
         public static IUnitOfExecution GetPool()
         {
             return Factory.GetPool();
         }
 
         /// <summary>
-        /// Gets an instance of IUnitOfExecution that executes tasks syncrhonously.
+        /// Gets an instance of IUnitOfExecution that executes tasks synchronously.
         /// </summary>
-        /// <returns>An instance of IUnitOfExecution wrapping the CLR threadpool.</returns>
+        /// <returns>An instance of IUnitOfExecution wrapping the CLR thread pool.</returns>
         public static IUnitOfExecution GetSynchronousUnitOfExecution()
         {
             return Factory.GetSynchronousUnitOfExecution();

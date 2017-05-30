@@ -58,7 +58,8 @@ namespace Michonne.Implementation
 #if !NET20 && !NET30
             this
 #endif
-            IUnitOfExecution executor, Action<T> action)
+            IUnitOfExecution executor,
+            Action<T> action)
         {
             var conflator = new DataConflator<T>(executor, action);
             return conflator.Post;
@@ -84,16 +85,15 @@ namespace Michonne.Implementation
 #if !NET20 && !NET30
             this
 #endif
-            IUnitOfExecution executor, Action<T> action, bool conflated)
+            IUnitOfExecution executor,
+            Action<T> action,
+            bool conflated)
         {
             if (conflated)
             {
                 return new DataConflator<T>(executor, action);
             }
-            else
-            {
-                return new DataProcessor<T>(executor, action);
-            }
+            return new DataProcessor<T>(executor, action);
         }
 
 #endregion
