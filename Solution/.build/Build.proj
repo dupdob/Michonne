@@ -99,7 +99,8 @@
     
   <!-- 1- Do the BUILD -->
   <Target Name="DotnetCoreRestore">
-    <Message Importance="high" Text="--------- DOTNET RESTORE  -------------------------------------------"/>     
+    <Message Importance="high" Text="--------- DOTNET RESTORE  -------------------------------------------"/>
+    <Exec Command="nuget sources add -Name myFeed -Source https://www.myget.org/F/dupdobnightly/api/v2/package" />
     <Exec Command="dotnet restore $(SolutionRoot)\Michonne.Assemblies\Michonne.Implementation.Standard" />
     <Exec Command="dotnet restore $(SolutionRoot)\Michonne.Assemblies\Michonne.Interfaces.Standard" />
     <Exec Command="dotnet restore $(SolutionRoot)\Tests\Michonne.Tests.Core\Michonne.Tests.Core.csproj" />
