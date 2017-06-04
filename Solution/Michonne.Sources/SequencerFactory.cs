@@ -19,7 +19,6 @@
 namespace Michonne.Implementation
 {
     using System;
-
     using Interfaces;
 
     /// <summary>
@@ -27,7 +26,7 @@ namespace Michonne.Implementation
     /// </summary>
     public static class SequencerFactory
     {
-        #region Public Methods and Operators
+#region Public Methods and Operators
 
         /// <summary>
         /// Build a sequencer on top of an <see cref="ISequencer"/>.
@@ -39,9 +38,7 @@ namespace Michonne.Implementation
         /// The <see cref="ISequencer"/>.
         /// </returns>
         public static ISequencer BuildSequencer(
-#if !NET20 && !NET30
             this 
-#endif
             IUnitOfExecution executor)
         {
             return executor.UnitOfExecutionsFactory.GetSequence(executor);
@@ -54,12 +51,7 @@ namespace Michonne.Implementation
         /// <param name="executor">The execution unit that will be used to execute conflated <paramref name="action"/>.</param>
         /// <param name="action">Action to be executed in a conflated fashion.</param>
         /// <returns>A wrapped <see cref="Action"/> that provide conflated execution.</returns>
-        public static Action<T> BuildConflator<T>(
-#if !NET20 && !NET30
-            this
-#endif
-            IUnitOfExecution executor,
-            Action<T> action)
+        public static Action<T> BuildConflator<T>(this IUnitOfExecution executor, Action<T> action)
         {
             var conflator = new DataConflator<T>(executor, action);
             return conflator.Post;
@@ -82,9 +74,7 @@ namespace Michonne.Implementation
         /// The <see cref="Action"/>.
         /// </returns>
         public static IDataProcessor<T> BuildProcessor<T>(
-#if !NET20 && !NET30
             this
-#endif
             IUnitOfExecution executor,
             Action<T> action,
             bool conflated)

@@ -1,8 +1,19 @@
-﻿using Michonne.Interfaces;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StepperUnit.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Defines the StepperUnit type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+using Michonne.Interfaces;
 
 namespace Michonne.Sources.Tests
 {
+#if !NET20 && !NET30
     using System;
+#endif
     using System.Collections.Concurrent;
 
     internal class StepperUnit : IUnitOfExecution

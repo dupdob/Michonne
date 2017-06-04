@@ -15,5 +15,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ISequencer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IUnitOfExecution.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IUnitOfExecutionsFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PolyFills.cs" />
   </ItemGroup>
 </Project>

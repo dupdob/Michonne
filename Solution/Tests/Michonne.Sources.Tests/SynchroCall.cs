@@ -14,7 +14,9 @@
 //   --------------------------------------------------------------------------------------------------------------------
 namespace Michonne.Tests
 {
+#if !NET20 && !NET30
     using System;
+#endif
     using Interfaces;
 
     /// <summary>
@@ -27,7 +29,7 @@ namespace Michonne.Tests
     {
         public int DoneTasks { get; private set; }
 
-        #region IUnitOfExecution Members
+#region IUnitOfExecution Members
 
         /// <summary>
         ///     Gets the unit of executions factory.
@@ -40,6 +42,6 @@ namespace Michonne.Tests
             this.DoneTasks++;
         }
 
-        #endregion
+#endregion
     }
 }

@@ -4,21 +4,20 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4995A042-5A56-4BA8-BDE8-A860C690DBF3}</ProjectGuid>
+    <ProjectGuid>{861BF70E-F339-4C39-985F-7181BD967995}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Michonne.Tests</RootNamespace>
     <AssemblyName>Michonne.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET20</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -26,16 +25,19 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;NET20</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NFluent, Version=2.0.0.58, Culture=neutral, PublicKeyToken=18828b37b84b1437, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NFluent.2.0.0-nightly-58\lib\net40\NFluent.dll</HintPath>
+      <HintPath>..\..\packages\NFluent.2.0.0-nightly-58\lib\net20\NFluent.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NUnit.3.6.1\lib\net40\nunit.framework.dll</HintPath>
+      <HintPath>..\..\packages\NUnit.3.6.1\lib\net20\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="NUnit.System.Linq, Version=0.6.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NUnit.3.6.1\lib\net20\NUnit.System.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -48,17 +50,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Michonne.Assemblies\Michonne.Implementation.40\Michonne.Implementation.40.csproj">
-      <Project>{226a0a4f-f995-47df-9523-4aa153252c18}</Project>
-      <Name>Michonne.Implementation.40</Name>
+    <ProjectReference Include="..\..\Michonne.Assemblies\Michonne.Implementation.20\Michonne.Implementation.20.csproj">
+      <Project>{2241e481-a708-4f08-a85e-3bd24d878097}</Project>
+      <Name>Michonne.Implementation.20</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Michonne.Assemblies\Michonne.Interfaces.40\Michonne.Interfaces.40.csproj">
-      <Project>{ccf60bc4-c070-4431-a4c3-8bf75b4484c8}</Project>
-      <Name>Michonne.Interfaces.40</Name>
+    <ProjectReference Include="..\..\Michonne.Assemblies\Michonne.Interfaces.20\Michonne.Interfaces.20.csproj">
+      <Project>{00e71163-7247-47e0-a30a-b5819948aed7}</Project>
+      <Name>Michonne.Interfaces.20</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="..\Michonne.Sources.Tests\Michonne.Sources.Tests.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

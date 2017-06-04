@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A8DBCE1E-186B-4E85-8F39-86BD87EEC592}"
 	ProjectSection(SolutionItems) = preProject
@@ -95,9 +95,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Tests.40", "Tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Tests.Core", "Tests\Michonne.Tests.Core\Michonne.Tests.Core.csproj", "{FC73C667-DBD3-4BC8-A18D-782CCE801AF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Tests.20", "Tests\Michonne.Tests.20\Michonne.Tests.20.csproj", "{861BF70E-F339-4C39-985F-7181BD967995}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Michonne.Tests.30", "Tests\Michonne.Tests.30\Michonne.Tests.30.csproj", "{0EE4D2BC-6056-4AA2-9C8C-611283F4993A}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.projitems*{00e71163-7247-47e0-a30a-b5819948aed7}*SharedItemsImports = 4
+		Tests\Michonne.Sources.Tests\Michonne.Sources.Tests.projitems*{0ee4d2bc-6056-4aa2-9c8c-611283f4993a}*SharedItemsImports = 4
 		Michonne.Sources\Michone.Sources.projitems*{121c0900-aacf-41a8-91dc-1b933206b990}*SharedItemsImports = 13
 		Michonne.Sources\Michone.Sources.projitems*{2241e481-a708-4f08-a85e-3bd24d878097}*SharedItemsImports = 4
 		Michonne.Sources\Michone.Sources.projitems*{226a0a4f-f995-47df-9523-4aa153252c18}*SharedItemsImports = 4
@@ -106,6 +111,7 @@ Global
 		Tests\Michonne.Sources.Tests\Michonne.Sources.Tests.projitems*{5e8f0aff-ae37-4876-aac0-d1ec1c513069}*SharedItemsImports = 13
 		Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.projitems*{61737dd3-8d76-4314-825c-f57924148e4d}*SharedItemsImports = 4
 		Michonne.Sources\Michone.Sources.projitems*{76d48e2e-e97d-46d1-81fc-7abaea8463ac}*SharedItemsImports = 4
+		Tests\Michonne.Sources.Tests\Michonne.Sources.Tests.projitems*{861bf70e-f339-4c39-985f-7181bd967995}*SharedItemsImports = 4
 		Michonne.Sources\Michone.Sources.projitems*{9f504831-4236-40c1-83fc-55a0878870ce}*SharedItemsImports = 4
 		Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.projitems*{b6047abd-5132-4f8e-9dd4-e759b8aed5c4}*SharedItemsImports = 13
 		Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.projitems*{b6ecb409-d38a-46e6-b88f-977dc91b5aec}*SharedItemsImports = 4
@@ -203,6 +209,14 @@ Global
 		{FC73C667-DBD3-4BC8-A18D-782CCE801AF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC73C667-DBD3-4BC8-A18D-782CCE801AF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC73C667-DBD3-4BC8-A18D-782CCE801AF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{861BF70E-F339-4C39-985F-7181BD967995}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{861BF70E-F339-4C39-985F-7181BD967995}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{861BF70E-F339-4C39-985F-7181BD967995}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{861BF70E-F339-4C39-985F-7181BD967995}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EE4D2BC-6056-4AA2-9C8C-611283F4993A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EE4D2BC-6056-4AA2-9C8C-611283F4993A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EE4D2BC-6056-4AA2-9C8C-611283F4993A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EE4D2BC-6056-4AA2-9C8C-611283F4993A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -232,5 +246,7 @@ Global
 		{BD356126-80A8-4BAE-805C-5F5F24485A8F} = {55A585FD-6B2B-42CD-83FC-44A8B0E1CC9B}
 		{4995A042-5A56-4BA8-BDE8-A860C690DBF3} = {55A585FD-6B2B-42CD-83FC-44A8B0E1CC9B}
 		{FC73C667-DBD3-4BC8-A18D-782CCE801AF1} = {55A585FD-6B2B-42CD-83FC-44A8B0E1CC9B}
+		{861BF70E-F339-4C39-985F-7181BD967995} = {55A585FD-6B2B-42CD-83FC-44A8B0E1CC9B}
+		{0EE4D2BC-6056-4AA2-9C8C-611283F4993A} = {55A585FD-6B2B-42CD-83FC-44A8B0E1CC9B}
 	EndGlobalSection
 EndGlobal
