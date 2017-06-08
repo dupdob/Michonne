@@ -27,9 +27,9 @@ namespace Seq
         
         private Task _task = Task.FromResult(0);
 
-        private IUnitOfExecutionsFactory unitOfExecutionsFactory;
+        private IExecutorFactory unitOfExecutionsFactory;
 
-        public TaskContinuationSequencer(IUnitOfExecution executor)
+        public TaskContinuationSequencer(IExecutor executor)
         {
             this._scheduler = new TaskSchedulerAdapter(executor);
         }
@@ -37,7 +37,7 @@ namespace Seq
         /// <summary>
         ///     Gets the unit of executions factory.
         /// </summary>
-        public IUnitOfExecutionsFactory UnitOfExecutionsFactory
+        public IExecutorFactory ExecutorFactory
         {
             get
             {

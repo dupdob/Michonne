@@ -24,24 +24,24 @@ namespace Michonne.Implementation
     using Interfaces;
 
     /// <summary>
-    ///     This is a <see cref="IUnitOfExecution" /> implementation that executes submitted <see cref="Action" /> in a
+    ///     This is a <see cref="IExecutor" /> implementation that executes submitted <see cref="Action" /> in a
     ///     dedicated thread.
     /// </summary>
-    internal class ThreadUnitOfExecution : IDisposableUnitOfExecution
+    internal class ThreadExecutor : IDisposableExecutor
     {
         private readonly Thread myThread;
         private readonly object synchRoot = new object();
         private readonly Queue<Action> tasks = new Queue<Action>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ThreadUnitOfExecution"/> class.
+        /// Initializes a new instance of the <see cref="ThreadExecutor"/> class.
         /// </summary>
         /// <param name="unitOfExecutionsFactory">
         /// Factory used to build the instance.
         /// </param>
-        public ThreadUnitOfExecution(IUnitOfExecutionsFactory unitOfExecutionsFactory)
+        public ThreadExecutor(IExecutorFactory unitOfExecutionsFactory)
         {
-            this.UnitOfExecutionsFactory = unitOfExecutionsFactory;
+            this.ExecutorFactory = unitOfExecutionsFactory;
             this.myThread = new Thread(this.Process) {IsBackground = true };
             this.myThread.Start();
         }
@@ -49,7 +49,7 @@ namespace Michonne.Implementation
         /// <summary>
         /// Gets the unit of executions factory.
         /// </summary>
-        public IUnitOfExecutionsFactory UnitOfExecutionsFactory { get; }
+        public IExecutorFactory ExecutorFactory { get; }
 
         /// <summary>
         /// The dispatch.

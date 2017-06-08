@@ -30,7 +30,7 @@ namespace PastaPricer.Tests.Acceptance
         public void Should_publish_price_once_started_and_when_MarketData_is_available()
         {
             // Mock and dependencies setup
-            var unitOfExecutionsFactory = new UnitOfExecutionsFactory();
+            var unitOfExecutionsFactory = new ExecutorFactory();
             
             var marketDataProvider = new MarketDataProvider();
             using (marketDataProvider)
@@ -83,7 +83,7 @@ namespace PastaPricer.Tests.Acceptance
                     "tagliatelle(eggs-premium flour-spinach)",
                 };
 
-                var unitOfExecutionsFactory = new UnitOfExecutionsFactory();
+                var unitOfExecutionsFactory = new ExecutorFactory();
 
                 var pastaPricer = new PastaPricerEngine(unitOfExecutionsFactory.GetPool(), pastasConfiguration, marketDataProvider, this);
                 pastaPricer.Start();

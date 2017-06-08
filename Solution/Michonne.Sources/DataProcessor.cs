@@ -39,7 +39,7 @@ namespace Michonne.Implementation
         /// <summary>
         /// The executor.
         /// </summary>
-        private readonly IUnitOfExecution executor;
+        private readonly IExecutor executor;
 
         #endregion
 
@@ -54,7 +54,7 @@ namespace Michonne.Implementation
         /// <param name="action">
         /// The action.
         /// </param>
-        public DataProcessor(IUnitOfExecution executor, Action<T> action)
+        public DataProcessor(IExecutor executor, Action<T> action)
         {
             this.executor = executor;
             this.action = action;

@@ -11,10 +11,10 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyAttributes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IDataProcessor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IDisposableUnitOfExecution.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IDisposableExecutor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ISequencer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IUnitOfExecution.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IUnitOfExecutionsFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IExecutor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IExecutorFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PolyFills.cs" />
   </ItemGroup>
 </Project>

@@ -39,9 +39,9 @@ namespace Michonne.Implementation
         /// </returns>
         public static ISequencer BuildSequencer(
             this 
-            IUnitOfExecution executor)
+            IExecutor executor)
         {
-            return executor.UnitOfExecutionsFactory.GetSequence(executor);
+            return executor.ExecutorFactory.GetSequence(executor);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Michonne.Implementation
         /// <param name="executor">The execution unit that will be used to execute conflated <paramref name="action"/>.</param>
         /// <param name="action">Action to be executed in a conflated fashion.</param>
         /// <returns>A wrapped <see cref="Action"/> that provide conflated execution.</returns>
-        public static Action<T> BuildConflator<T>(this IUnitOfExecution executor, Action<T> action)
+        public static Action<T> BuildConflator<T>(this IExecutor executor, Action<T> action)
         {
             var conflator = new DataConflator<T>(executor, action);
             return conflator.Post;
@@ -61,7 +61,7 @@ namespace Michonne.Implementation
         /// Creates <see cref="DataProcessor{T}"/> instance that will process incoming data asynchronously.
         /// </summary>
         /// <param name="executor">
-        /// An <see cref="IUnitOfExecution"/> instance that will ultimately execute the task.
+        /// An <see cref="IExecutor"/> instance that will ultimately execute the task.
         /// </param>
         /// <param name="action">
         /// <see cref="Action{T}"/> instance that will process the data.
@@ -75,7 +75,7 @@ namespace Michonne.Implementation
         /// </returns>
         public static IDataProcessor<T> BuildProcessor<T>(
             this
-            IUnitOfExecution executor,
+            IExecutor executor,
             Action<T> action,
             bool conflated)
         {

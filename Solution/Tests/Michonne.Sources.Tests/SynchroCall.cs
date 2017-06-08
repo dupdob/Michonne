@@ -20,12 +20,12 @@ namespace Michonne.Tests
     using Interfaces;
 
     /// <summary>
-    /// This implementation of <see cref="IUnitOfExecution"/> implements synchronous calls.
+    /// This implementation of <see cref="IExecutor"/> implements synchronous calls.
     ///  This means that submitted <see cref="System.Action()"/>s are immediately executed.
     ///  It does not offer scalability, as it relies on the calling thread.
     /// </summary>
     /// <remarks>Choose the <see cref="SynchroCall"/> to favor latency against throughput.</remarks>
-    public class SynchroCall : IUnitOfExecution
+    public class SynchroCall : IExecutor
     {
         public int DoneTasks { get; private set; }
 
@@ -34,7 +34,7 @@ namespace Michonne.Tests
         /// <summary>
         ///     Gets the unit of executions factory.
         /// </summary>
-        public IUnitOfExecutionsFactory UnitOfExecutionsFactory { get; private set; }
+        public IExecutorFactory ExecutorFactory { get; private set; }
 
         public void Dispatch(Action action)
         {

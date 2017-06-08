@@ -22,18 +22,16 @@ namespace Michonne
     /// Dispatcher that keeps only the latest dispatched task, discarding the other dispatched tasks
     /// that couldn't have been executed.
     /// </summary>
-    public sealed class BalkingDispatcher : IUnitOfExecution
+    public sealed class BalkingDispatcher : IExecutor
     {
-        private readonly IUnitOfExecution rootDispatcher;
+        private readonly IExecutor rootDispatcher;
         private Action lastTask;
-
-        private IUnitOfExecutionsFactory unitOfExecutionsFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BalkingDispatcher"/> class.
         /// </summary>
         /// <param name="rootDispatcher">The root dispatcher.</param>
-        public BalkingDispatcher(IUnitOfExecution rootDispatcher)
+        public BalkingDispatcher(IExecutor rootDispatcher)
         {
             this.rootDispatcher = rootDispatcher;
         }
@@ -41,7 +39,7 @@ namespace Michonne
         /// <summary>
         ///     Gets the unit of executions factory.
         /// </summary>
-        public IUnitOfExecutionsFactory UnitOfExecutionsFactory => this.unitOfExecutionsFactory;
+        public IExecutorFactory ExecutorFactory => this.rootDispatcher.ExecutorFactory;
 
         /// <summary>
         /// Dispatch an action to be executed.

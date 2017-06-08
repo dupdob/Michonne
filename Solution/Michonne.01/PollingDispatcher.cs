@@ -26,7 +26,7 @@ namespace Michonne
     /// or to deal with some third-party constraints (e.g. when you need to execute your
     /// callbacks in their threads/message pumps).
     /// </summary>
-    public sealed class PollingDispatcher : IUnitOfExecution
+    public sealed class PollingDispatcher : IExecutor
     {
         private readonly object syncRoot = new object();
         private readonly Queue<Action> dispatchedTasks = new Queue<Action>();
@@ -34,7 +34,7 @@ namespace Michonne
         /// <summary>
         ///     Gets the unit of executions factory.
         /// </summary>
-        public IUnitOfExecutionsFactory UnitOfExecutionsFactory { get; }
+        public IExecutorFactory ExecutorFactory { get; }
 
         /// <summary>
         /// Dispatch an action to be executed.

@@ -28,7 +28,7 @@ namespace Michonne.Tests
         [Test]
         public void Factory_should_detect_number_of_cores()
         {
-            var factory = new UnitOfExecutionsFactory();
+            var factory = new ExecutorFactory();
 
             Check.That(factory.CoreCount).IsEqualTo(Environment.ProcessorCount);
         }
@@ -36,7 +36,7 @@ namespace Michonne.Tests
         [Test]
         public void Factory_should_create_pool_unit()
         {
-            var factory = new UnitOfExecutionsFactory();
+            var factory = new ExecutorFactory();
             var poolExec = factory.GetPool();
             Check.That(poolExec).IsNotNull();
         }
@@ -44,16 +44,16 @@ namespace Michonne.Tests
         [Test]
         public void Factory_should_create_worker_unit()
         {
-            var factory = new UnitOfExecutionsFactory();
+            var factory = new ExecutorFactory();
             var threadExec = factory.GetDedicatedThread();
             Check.That(threadExec).IsNotNull();
-            Check.That(threadExec.UnitOfExecutionsFactory).IsSameReferenceThan(factory);
+            Check.That(threadExec.ExecutorFactory).IsSameReferenceThan(factory);
         }
 
         [Test]
         public void Factory_should_decrease_core_count()
         {
-            var factory = new UnitOfExecutionsFactory();
+            var factory = new ExecutorFactory();
             var initialCount = factory.AvailableCore;
             var threadExec = factory.GetDedicatedThread();
 

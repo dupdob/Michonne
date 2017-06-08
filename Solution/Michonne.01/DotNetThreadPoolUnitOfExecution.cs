@@ -22,14 +22,14 @@ namespace Michonne
     /// <summary>
     /// Allow to dispatch actions/tasks for asynchronous execution through the classical .NET thread pool.
     /// </summary>
-    public sealed class DotNetThreadPoolUnitOfExecution : IUnitOfExecution
+    public sealed class DotNetThreadPoolUnitOfExecution : IExecutor
     {
         #region Public Methods and Operators
 
         /// <summary>
         ///     Gets the unit of executions factory.
         /// </summary>
-        public IUnitOfExecutionsFactory UnitOfExecutionsFactory { get; }
+        public IExecutorFactory ExecutorFactory { get; }
 
         /// <summary>
         /// Dispatch an action to be executed.

@@ -22,7 +22,7 @@ namespace Michonne.Interfaces
     ///     and
     ///     http://dupdob.wordpress.com/2014/05/14/sequencer-part-2-1/
     /// </summary>
-    public interface ISequencer : IUnitOfExecution
+    public interface ISequencer : IExecutor
     {
     }
 }

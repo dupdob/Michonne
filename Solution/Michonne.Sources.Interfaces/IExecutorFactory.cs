@@ -1,7 +1,7 @@
 #region File header
 
 // --------------------------------------------------------------------------------------------------------------------
-//  <copyright file="IUnitOfExecutionsFactory.cs" company="No lock... no deadlock" product="Michonne">
+//  <copyright file="IExecutorFactory.cs" company="No lock... no deadlock" product="Michonne">
 //     Copyright 2014 Cyrille DUPUYDAUBY (@Cyrdup), Thomas PIERRAIN (@tpierrain)
 //     Licensed under the Apache License, Version 2.0 (the "License");
 //     you may not use this file except in compliance with the License.
@@ -18,38 +18,40 @@
 
 namespace Michonne.Interfaces
 {
+#if !NET20 && !NET30
     using System;
+#endif
 
     /// <summary>
-    /// The UnitOfExecutionsFactory interface.
+    /// The ExecutorFactory interface.
     /// </summary>
-    public interface IUnitOfExecutionsFactory
+    public interface IExecutorFactory
     {
         #region Public Methods and Operators
 
         /// <summary>
         ///     Get an execution unit based on the CLR thread pool.
         /// </summary>
-        /// <returns>An instance of <see cref="IUnitOfExecution" /> that executes <see cref="Action" /> on the CLR thread pool.</returns>
-        IDisposableUnitOfExecution GetDedicatedThread();
+        /// <returns>An instance of <see cref="IExecutor" /> that executes <see cref="Action" /> on the CLR thread pool.</returns>
+        IDisposableExecutor GetDedicatedThread();
 
         /// <summary>
         ///     Get an execution unit based on the CLR thread pool.
         /// </summary>
-        /// <returns>An instance of <see cref="IUnitOfExecution" /> that executes <see cref="Action" /> on the CLR thread pool.</returns>
-        IUnitOfExecution GetPool();
+        /// <returns>An instance of <see cref="IExecutor" /> that executes <see cref="Action" /> on the CLR thread pool.</returns>
+        IExecutor GetPool();
 
         /// <summary>
-        /// Build a <see cref="ISequencer"/> wrapping an <see cref="IUnitOfExecution"/>.
+        /// Build a <see cref="ISequencer"/> wrapping an <see cref="IExecutor"/>.
         /// </summary>
         /// <param name="execution">
-        /// <see cref="IUnitOfExecution"/> that will carry out sequenced task.
+        /// <see cref="IExecutor"/> that will carry out sequenced task.
         /// </param>
         /// <returns>
         /// A <see cref="ISequencer"/> instance.
         /// </returns>
-        ISequencer GetSequence(IUnitOfExecution execution);
+        ISequencer GetSequence(IExecutor execution);
 
-        #endregion
+#endregion
     }
 }

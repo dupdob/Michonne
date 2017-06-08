@@ -14,20 +14,23 @@
 //   --------------------------------------------------------------------------------------------------------------------
 namespace Michonne.Implementation
 {
+    using System.Diagnostics.CodeAnalysis;
+
     using Interfaces;
 
     /// <summary>
-    /// This static class hosts several methods to assist you in writing tests for classes using UnitOfExecution/Michonne.
+    /// This static class hosts several methods to assist you in writing tests for classes using IExecutor/Michonne.
     /// </summary>
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
     public static class TestHelpers
     {
-        private static readonly UnitOfExecutionsFactory Factory = new UnitOfExecutionsFactory();
+        private static readonly ExecutorFactory Factory = new ExecutorFactory();
 
         /// <summary>
         /// Gets an instance of IUnitOfExecution wrapping the CLR thread pool.
         /// </summary>
         /// <returns>An instance of IUnitOfExecution wrapping the CLR thread pool.</returns>
-        public static IUnitOfExecution GetPool()
+        public static IExecutor GetPool()
         {
             return Factory.GetPool();
         }
@@ -36,16 +39,16 @@ namespace Michonne.Implementation
         /// Gets an instance of IUnitOfExecution that executes tasks synchronously.
         /// </summary>
         /// <returns>An instance of IUnitOfExecution wrapping the CLR thread pool.</returns>
-        public static IUnitOfExecution GetSynchronousUnitOfExecution()
+        public static IExecutor GetSynchronousUnitOfExecution()
         {
             return Factory.GetSynchronousUnitOfExecution();
         }
 
         /// <summary>
-        /// Gets an instance of <see cref="IDisposableUnitOfExecution"/> to execute tasks on a dedicated thread.
+        /// Gets an instance of <see cref="IDisposableExecutor"/> to execute tasks on a dedicated thread.
         /// </summary>
-        /// <returns>An instance of <see cref="IDisposableUnitOfExecution"/></returns>
-        public static IDisposableUnitOfExecution GetThread()
+        /// <returns>An instance of <see cref="IDisposableExecutor"/></returns>
+        public static IDisposableExecutor GetThread()
         {
             return Factory.GetDedicatedThread();
         }

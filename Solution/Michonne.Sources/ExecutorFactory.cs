@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-//  <copyright file="UnitOfExecutionsFactory.cs" company="No lock... no deadlock" product="Michonne">
+//  <copyright file="ExecutorFactory.cs" company="No lock... no deadlock" product="Michonne">
 //     Copyright 2014 Cyrille DUPUYDAUBY (@Cyrdup)
 //     Licensed under the Apache License, Version 2.0 (the "License");
 //     you may not use this file except in compliance with the License.
@@ -21,10 +21,10 @@ namespace Michonne.Implementation
     using Interfaces;
 
     /// <summary>
-    ///     This class can create all <see cref="IUnitOfExecution" />.
+    ///     This class can create all <see cref="IExecutor" />.
     /// </summary>
     /// <remarks>This class follows the classic 'Factory' pattern.</remarks>
-    public class UnitOfExecutionsFactory : IUnitOfExecutionsFactory
+    public class ExecutorFactory : IExecutorFactory
     {
         /// <summary>
         /// The number of created threads.
@@ -34,12 +34,12 @@ namespace Michonne.Implementation
         /// <summary>
         /// The pool unit of execution.
         /// </summary>
-        private PoolUnitOfExecution poolUnitOfExecution;
+        private PoolExecutor poolUnitOfExecution;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UnitOfExecutionsFactory"/> class.
+        /// Initializes a new instance of the <see cref="ExecutorFactory"/> class.
         /// </summary>
-        public UnitOfExecutionsFactory()
+        public ExecutorFactory()
         {
             this.CoreCount = Environment.ProcessorCount;
             this.OverAllocationFactor = 2.0;
@@ -63,39 +63,39 @@ namespace Michonne.Implementation
         /// <summary>
         /// Get an execution unit based on the CLR thread pool.
         /// </summary>
-        /// <returns>An instance of <see cref="IUnitOfExecution" /> that executes <see cref="Action" /> on the CLR thread pool.</returns>
-        public IDisposableUnitOfExecution GetDedicatedThread()
+        /// <returns>An instance of <see cref="IExecutor" /> that executes <see cref="Action" /> on the CLR thread pool.</returns>
+        public IDisposableExecutor GetDedicatedThread()
         {
             // we decrease the number of available core.
             this.UseAThread();
-            return new ThreadUnitOfExecution(this);
+            return new ThreadExecutor(this);
         }
 
         /// <summary>
         /// Gets a synchronous execution unit.
         /// </summary>
-        /// <returns>An instance of <see cref="IUnitOfExecution" /> that executes <see cref="Action" /> synchronously.</returns>
-        public IUnitOfExecution GetSynchronousUnitOfExecution()
+        /// <returns>An instance of <see cref="IExecutor" /> that executes <see cref="Action" /> synchronously.</returns>
+        public IExecutor GetSynchronousUnitOfExecution()
         {
-            return new SynchronousUnitOfExecution(this);
+            return new SynchronousExecutor(this);
         }
 
         /// <summary>
         /// Get an execution unit based on the CLR thread pool.
         /// </summary>
-        /// <returns>An instance of <see cref="IUnitOfExecution" /> that executes <see cref="Action" /> on the CLR thread pool.</returns>
-        public IUnitOfExecution GetPool()
+        /// <returns>An instance of <see cref="IExecutor" /> that executes <see cref="Action" /> on the CLR thread pool.</returns>
+        public IExecutor GetPool()
         {
             // we use all remaining threads
-            return this.poolUnitOfExecution ?? (this.poolUnitOfExecution = new PoolUnitOfExecution(this));
+            return this.poolUnitOfExecution ?? (this.poolUnitOfExecution = new PoolExecutor(this));
         }
 
         /// <summary>
-        /// Build a <see cref="ISequencer"/> wrapping an <see cref="IUnitOfExecution"/>.
+        /// Build a <see cref="ISequencer"/> wrapping an <see cref="IExecutor"/>.
         /// </summary>
-        /// <param name="execution"><see cref="IUnitOfExecution"/> that will carry out sequenced task.</param>
+        /// <param name="execution"><see cref="IExecutor"/> that will carry out sequenced task.</param>
         /// <returns>A <see cref="ISequencer"/> instance.</returns>
-        public ISequencer GetSequence(IUnitOfExecution execution)
+        public ISequencer GetSequence(IExecutor execution)
         {
             return new Sequencer(execution);
         }
@@ -107,7 +107,7 @@ namespace Michonne.Implementation
         {
             this.createdThreadsCount++;
 #if !NETSTANDARD1_3
-            ThreadPool.SetMaxThreads(this.AvailableCore+this.CoreCount, this.CoreCount*2);
+            ThreadPool.SetMaxThreads(this.AvailableCore + this.CoreCount, this.CoreCount * 2);
 #endif
         }
     }

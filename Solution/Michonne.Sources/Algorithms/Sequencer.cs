@@ -22,6 +22,7 @@ namespace Michonne.Implementation
 #else
     using System.Collections.Generic;
 #endif
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading;
 
     using Interfaces;
@@ -67,6 +68,7 @@ namespace Michonne.Implementation
     ///         this particular implementation of the sequencer is not a lock-free.
     ///     </remarks>
     /// </summary>
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
     public sealed class Sequencer : ISequencer
     {
         /// <summary>
@@ -77,7 +79,7 @@ namespace Michonne.Implementation
         /// <summary>
         /// Underlying unit of execution that will actually execute tasks.
         /// </summary>
-        private readonly IUnitOfExecution rootUnitOfExecution;
+        private readonly IExecutor rootUnitOfExecution;
 
         /// <summary>
         /// Number of tasks to be executed (to prevent unfair draining of tasks).
@@ -88,7 +90,7 @@ namespace Michonne.Implementation
         ///     Initializes a new instance of the <see cref="Sequencer" /> class.
         /// </summary>
         /// <param name="rootUnitOfExecution">The root Dispatcher.</param>
-        public Sequencer(IUnitOfExecution rootUnitOfExecution)
+        public Sequencer(IExecutor rootUnitOfExecution)
         {
             this.rootUnitOfExecution = rootUnitOfExecution;
             this.numberOfPendingTasksWhileRunning = 0;
@@ -97,7 +99,7 @@ namespace Michonne.Implementation
         /// <summary>
         ///     Gets the unit of executions factory.
         /// </summary>
-        public IUnitOfExecutionsFactory UnitOfExecutionsFactory => this.rootUnitOfExecution.UnitOfExecutionsFactory;
+        public IExecutorFactory ExecutorFactory => this.rootUnitOfExecution.ExecutorFactory;
 
         /// <summary>
         ///     Gives a task/item to the sequencer in order to execute it in an asynchronous manner, but respecting the
@@ -114,7 +116,7 @@ namespace Michonne.Implementation
         private void Execute()
         {
             if (Interlocked.Increment(ref this.numberOfPendingTasksWhileRunning) > 1)
-            {
+            {   
                 return;
             }
 

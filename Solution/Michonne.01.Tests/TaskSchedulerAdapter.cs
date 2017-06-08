@@ -23,12 +23,12 @@ namespace Michonne.Tests
 
     public class TaskSchedulerAdapter : TaskScheduler
     {
-        private readonly IUnitOfExecution executor;
+        private readonly IExecutor executor;
 
         // The list of tasks to be executed  
         private readonly LinkedList<Task> tasks = new LinkedList<Task>(); // protected by lock(_tasks) 
         
-        public TaskSchedulerAdapter(IUnitOfExecution executor)
+        public TaskSchedulerAdapter(IExecutor executor)
         {
             this.executor = executor;
         }

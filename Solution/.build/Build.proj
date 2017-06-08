@@ -99,8 +99,11 @@
     
   <!-- 1- Do the BUILD -->
   <Target Name="DotnetCoreRestore">
+    <Message Importance="high" Text="--------- ADD FEED  -------------------------------------------"/>
+    <Exec Command="nuget sources add -Name myget.org -Source https://www.myget.org/F/dupdobnightly/api/v3/index.json" ContinueOnError="true"/>
+    <Message Importance="high" Text="--------- end ADD FEED  -------------------------------------------"/>
+
     <Message Importance="high" Text="--------- DOTNET RESTORE  -------------------------------------------"/>
-    <Exec Command="nuget sources add -Name myget.org -Source https://www.myget.org/F/dupdobnightly/api/v3/index.json" />
     <Exec Command="dotnet restore $(SolutionRoot)\Michonne.Assemblies\Michonne.Implementation.Standard" />
     <Exec Command="dotnet restore $(SolutionRoot)\Michonne.Assemblies\Michonne.Interfaces.Standard" />
     <Exec Command="dotnet restore $(SolutionRoot)\Tests\Michonne.Tests.Core\Michonne.Tests.Core.csproj" />

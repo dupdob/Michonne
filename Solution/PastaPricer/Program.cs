@@ -56,7 +56,7 @@ namespace PastaPricer
 
             var marketDataProvider = new AggresiveMarketDataProvider(aggressionFactor: 10, timerPeriodInMsec: 1);
 
-            var unitOfExecutionsFactory = new UnitOfExecutionsFactory();
+            var unitOfExecutionsFactory = new ExecutorFactory();
             ThreadPool.SetMaxThreads(Environment.ProcessorCount * 2, 0);
             ThreadPool.SetMinThreads(Environment.ProcessorCount * 2, 0);
 

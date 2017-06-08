@@ -32,11 +32,11 @@ namespace PastaPricer
         /// </summary>
         private readonly ISequencer pastaSequencer;
 
-        private readonly IUnitOfExecution eggUnitOfExecution;
-        private readonly IUnitOfExecution flourUnitOfExecution;
-        private readonly IUnitOfExecution flavorUnitOfExecution;
-        private readonly IUnitOfExecution packagingUnitOfExecution;
-        private readonly IUnitOfExecution sizeUnitOfExecution;
+        private readonly IExecutor eggUnitOfExecution;
+        private readonly IExecutor flourUnitOfExecution;
+        private readonly IExecutor flavorUnitOfExecution;
+        private readonly IExecutor packagingUnitOfExecution;
+        private readonly IExecutor sizeUnitOfExecution;
         private bool stopped;
 
         /// <summary>

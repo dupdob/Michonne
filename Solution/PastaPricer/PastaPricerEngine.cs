@@ -26,13 +26,13 @@ namespace PastaPricer
 
         private readonly bool conflationEnabled;
 
-        private readonly IUnitOfExecution unitOfExecution;
+        private readonly IExecutor unitOfExecution;
 
         private readonly IEnumerable<string> pastasConfiguration;
 
         private Dictionary<string, PastaPricingAgent> pastaAgents = new Dictionary<string, PastaPricingAgent>(); 
 
-        public PastaPricerEngine(IUnitOfExecution unitOfExecution, IEnumerable<string> pastasConfiguration, IMarketDataProvider marketDataProvider, IPastaPricerPublisher pastaPricerPublisher, bool conflationEnabled = false)
+        public PastaPricerEngine(IExecutor unitOfExecution, IEnumerable<string> pastasConfiguration, IMarketDataProvider marketDataProvider, IPastaPricerPublisher pastaPricerPublisher, bool conflationEnabled = false)
         {
             this.unitOfExecution = unitOfExecution;
             this.pastasConfiguration = pastasConfiguration;

@@ -60,7 +60,7 @@ namespace Michonne
         /// <summary>
         ///     Gets the unit of executions factory.
         /// </summary>
-        public IUnitOfExecutionsFactory UnitOfExecutionsFactory { get; }
+        public IExecutorFactory ExecutorFactory { get; }
 
         public void Dispatch(Action action)
         {

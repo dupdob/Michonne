@@ -61,7 +61,7 @@ namespace Michonne.Tests
         {
             // conflating is more about data than about calls
             // the API should reflect that
-            var factory = new UnitOfExecutionsFactory();
+            var factory = new ExecutorFactory();
             var dedicated = factory.GetDedicatedThread();
             var act = 0;
             Action<int> processing = _ => act++;
@@ -83,7 +83,7 @@ namespace Michonne.Tests
         {
             // conflating is more about data than about calls
             // the API should reflect that
-            var factory = new UnitOfExecutionsFactory();
+            var factory = new ExecutorFactory();
             var dedicated = factory.GetDedicatedThread();
             var act = 0;
             Action<int> processing = _ => act++;

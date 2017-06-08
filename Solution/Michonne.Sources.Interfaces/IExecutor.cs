@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-//  <copyright file="IUnitOfExecution.cs" company="No lock... no deadlock" product="Michonne">
+//  <copyright file="IExecutor.cs" company="No lock... no deadlock" product="Michonne">
 //     Copyright 2014 Cyrille DUPUYDAUBY (@Cyrdup)
 //     Licensed under the Apache License, Version 2.0 (the "License");
 //     you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
 namespace Michonne.Interfaces
 {
 #if NET20 || NET30
-    public delegate void Action();
 #else
     using System;
 #endif
@@ -23,12 +22,12 @@ namespace Michonne.Interfaces
     /// Allow to dispatch actions/tasks for execution. 
     /// A dispatcher may be whether asynchronous (more likely) or synchronous.
     /// </summary>
-    public interface IUnitOfExecution
+    public interface IExecutor
     {
         /// <summary>
         ///     Gets the unit of executions factory.
         /// </summary>
-        IUnitOfExecutionsFactory UnitOfExecutionsFactory { get; }
+        IExecutorFactory ExecutorFactory { get; }
 
         /// <summary>
         /// Dispatch an action to be executed.

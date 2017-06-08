@@ -33,7 +33,7 @@ namespace Michonne.Implementation
         /// <summary>
         /// The unit of execution.
         /// </summary>
-        private readonly IUnitOfExecution unitOfExecution;
+        private readonly IExecutor unitOfExecution;
 
         /// <summary>
         /// The nextAction.
@@ -50,7 +50,7 @@ namespace Michonne.Implementation
         /// <param name="unitOfExecution">
         /// The unit of execution.
         /// </param>
-        public ActionConflator(IUnitOfExecution unitOfExecution)
+        public ActionConflator(IExecutor unitOfExecution)
         {
             this.unitOfExecution = unitOfExecution;
         }

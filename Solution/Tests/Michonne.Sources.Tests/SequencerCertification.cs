@@ -18,6 +18,9 @@ namespace Michonne.Tests
     using System.Reflection;
     using Implementation;
     using Interfaces;
+
+    using Michonne.Sources.Tests;
+
     using NFluent;
     using NUnit.Framework;
 
@@ -49,7 +52,7 @@ namespace Michonne.Tests
         {
             get
             {
-                ConstructorInfo constructor = this.sequencerType.GetConstructor(new[] { typeof(IUnitOfExecution) });
+                ConstructorInfo constructor = this.sequencerType.GetConstructor(new[] { typeof(IExecutor) });
                 return constructor;
             }
         }
@@ -67,8 +70,8 @@ namespace Michonne.Tests
         [Test]
         public void Sequencer_should_process_fairly()
         {
-            var factory = new UnitOfExecutionsFactory();
-            IUnitOfExecution thread = factory.GetDedicatedThread();
+            var factory = new ExecutorFactory();
+            IExecutor thread = factory.GetDedicatedThread();
             var sequencer = this.BuildSequencer(thread);
             var context = new RaceConditionDetector();
 
@@ -177,28 +180,41 @@ namespace Michonne.Tests
         //[Test]
         public void Should_Be_Fast()
         {
-            var factory = new UnitOfExecutionsFactory();
+            var factory = new ExecutorFactory();
             var unitOfExec = factory.GetSynchronousUnitOfExecution();
             var sequencer = this.BuildSequencer(unitOfExec);
-
-            void DummyAction()
-            {}
 
             Check.ThatCode(() =>
             {
                 for (var i = 0; i < 100000; i++)
                 {
-                    sequencer.Dispatch(DummyAction);
+                    sequencer.Dispatch(() => { });
                 }
             }).LastsLessThan(400, TimeUnit.Milliseconds);
  
+        }
+
+        [Test]
+        public void ShouldNotExhibitKnownBugs()
+        {
+            var stepper = new StepperUnit();
+            var count = 0;
+            var sequencer = this.BuildSequencer(stepper);
+
+            sequencer.Dispatch(() => count++);
+            sequencer.Dispatch(() => count++);
+
+            stepper.Step();
+            Check.That(count).IsStrictlyGreaterThan(0);
+            stepper.Step();
+            Check.That(count).IsEqualTo(2);
         }
 
         #endregion
 
         // using a single thread unit of execution should lead to a sequential execution of Actions
 
-        private ISequencer BuildSequencer(IUnitOfExecution synchExec)
+        private ISequencer BuildSequencer(IExecutor synchExec)
         {
             var sequencer = this.Constructor.Invoke(new object[] { synchExec }) as ISequencer;
             Check.That(sequencer).IsNotNull();

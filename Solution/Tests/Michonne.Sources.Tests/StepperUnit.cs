@@ -16,11 +16,11 @@ namespace Michonne.Sources.Tests
 #endif
     using System.Collections.Concurrent;
 
-    internal class StepperUnit : IUnitOfExecution
+    internal class StepperUnit : IExecutor
     {
         private ConcurrentQueue<Action> actions = new ConcurrentQueue<Action>();
 
-        public IUnitOfExecutionsFactory UnitOfExecutionsFactory { get; }
+        public IExecutorFactory ExecutorFactory { get; }
 
         public void Dispatch(Action action)
         {
