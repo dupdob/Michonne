@@ -123,6 +123,7 @@
     </ItemGroup>
 
     <Message Importance="high" Text="--------- NUGET RESTORE  -------------------------------------------"/>
+    <Exec Command='nuget sources add -Name myget -Source https://www.myget.org/F/dupdobnightly/api/v3/index.json' ContinueOnError="true"/>
     <Exec Command='%(Prj.RestoreCommand)'/>
     <Message Importance="high" Text="--------- end of NUGET RESTORE  -------------------------------------"/>
   </Target>
