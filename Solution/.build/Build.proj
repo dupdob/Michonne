@@ -9,6 +9,7 @@
     <PackageStream>alpha</PackageStream>
     <NugetKey>$(MICHONNE_NUGET_API_KEY)</NugetKey>
     <NugetFeed>$(MICHONNE_NUGET_FEED)</NugetFeed>
+    <CodeCovKey>$(CODECOV_KEY)</CodeCovKey>
     <SolutionName>Michonne</SolutionName>
     <CodeCovURL>https://codecov.io/gh/dupdob/$(SolutionName)</CodeCovURL>
 
