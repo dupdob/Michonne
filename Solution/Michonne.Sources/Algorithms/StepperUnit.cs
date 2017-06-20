@@ -7,16 +7,18 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Michonne.Interfaces;
-
-namespace Michonne.Sources.Tests
+namespace Michonne.Implementation
 {
 #if !NET20 && !NET30
     using System;
-#endif
+#if !NET35
     using System.Collections.Concurrent;
+#endif
+#endif
 
-    internal class StepperUnit : IExecutor
+    using Michonne.Interfaces;
+
+    public class StepperUnit : IExecutor
     {
         private ConcurrentQueue<Action> actions = new ConcurrentQueue<Action>();
 
@@ -36,7 +38,7 @@ namespace Michonne.Sources.Tests
             }
         }
 
-        internal void Step(int v)
+        public void Step(int v)
         {
             Action result;
             while (this.actions.TryDequeue(out result) && v > 0)

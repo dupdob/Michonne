@@ -1,8 +1,0 @@
-<StyleCopSettings Version="105">
-  <GlobalSettings>
-    <CollectionProperty Name="RecognizedWords">
-      <Value>dupdob</Value>
-      <Value>wordpress</Value>
-    </CollectionProperty>
-  </GlobalSettings>
-</StyleCopSettings>

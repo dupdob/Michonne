@@ -125,8 +125,7 @@ namespace Michonne.Implementation
                 bool mustExit;
                 if (!this.orderedDispatchedTasks.TryDequeue(out Action action))
                 {
-                    Interlocked.Decrement(ref this.numberOfPendingTasksWhileRunning);
-                    break;
+                    throw new System.Exception("Invalidstate");
                 }
 
                 try

@@ -1,5 +1,7 @@
 ﻿namespace Michonne.Sources.Tests
 {
+    using Michonne.Implementation;
+
     using NFluent;
 
     using NUnit.Framework;

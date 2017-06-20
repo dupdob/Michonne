@@ -74,8 +74,7 @@ namespace Michonne.Implementation
         /// The <see cref="Action"/>.
         /// </returns>
         public static IDataProcessor<T> BuildProcessor<T>(
-            this
-            IExecutor executor,
+            this IExecutor executor,
             Action<T> action,
             bool conflated)
         {
@@ -83,6 +82,7 @@ namespace Michonne.Implementation
             {
                 return new DataConflator<T>(executor, action);
             }
+
             return new DataProcessor<T>(executor, action);
         }
 

@@ -39,7 +39,7 @@ namespace Michonne.Implementation
         /// Gets an instance of IUnitOfExecution that executes tasks synchronously.
         /// </summary>
         /// <returns>An instance of IUnitOfExecution wrapping the CLR thread pool.</returns>
-        public static IExecutor GetSynchronousUnitOfExecution()
+        public static IExecutor GetSynchronousExecutor()
         {
             return Factory.GetSynchronousUnitOfExecution();
         }

@@ -107,6 +107,7 @@ _TeamCity*
 
 # DotCover is a Code Coverage Tool
 *.dotCover
+CoverageReport/
 
 # NCrunch
 *.ncrunch*
@@ -150,7 +151,6 @@ AppPackages/
 sql/
 *.Cache
 ClientBin/
-[Ss]tyle[Cc]op.*
 ~$*
 *~
 *.dbmdl

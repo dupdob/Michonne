@@ -18,46 +18,48 @@
 
 namespace Michonne.Implementation
 {
+#if !NET20 && !NET30
     using System;
+#endif
     using System.Threading;
 
     using Interfaces;
 
     /// <summary>
-    /// This class implements a conflation logic on top of an <see cref="IUnitOfExecution"/>.
+    /// This class implements a conflation logic on top of an <see cref="IExecutor"/>.
     /// </summary>
     public sealed class ActionConflator
     {
-        #region Fields
+#region Fields
 
         /// <summary>
         /// The unit of execution.
         /// </summary>
-        private readonly IExecutor unitOfExecution;
+        private readonly IExecutor executor;
 
         /// <summary>
         /// The nextAction.
         /// </summary>
         private Action action;
 
-        #endregion
+#endregion
 
-        #region Constructors and Destructors
+#region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ActionConflator"/> class.
         /// </summary>
-        /// <param name="unitOfExecution">
+        /// <param name="executor">
         /// The unit of execution.
         /// </param>
-        public ActionConflator(IExecutor unitOfExecution)
+        public ActionConflator(IExecutor executor)
         {
-            this.unitOfExecution = unitOfExecution;
+            this.executor = executor;
         }
 
-        #endregion
+#endregion
 
-        #region Public Methods and Operators
+#region Public Methods and Operators
 
         /// <summary>
         /// Dispatch and conflate an action.
@@ -70,13 +72,13 @@ namespace Michonne.Implementation
             if (Interlocked.Exchange(ref this.action, nextAction) == null)
             {
                 // we need to dispatch
-                this.unitOfExecution.Dispatch(this.Execute);
+                this.executor.Dispatch(this.Execute);
             }
         }
 
-        #endregion
+#endregion
 
-        #region Methods
+#region Methods
 
         /// <summary>
         /// Internal execution logic.
@@ -87,6 +89,6 @@ namespace Michonne.Implementation
             Interlocked.Exchange(ref this.action, null)();
         }
 
-        #endregion
+#endregion
     }
 }

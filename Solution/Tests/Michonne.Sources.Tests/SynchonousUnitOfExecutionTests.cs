@@ -29,7 +29,7 @@ namespace Michonne.Tests
         [Test]
         public void ShouldExecuteSynchro()
         {
-            var synchronousUnitOfExec = TestHelpers.GetSynchronousUnitOfExecution();
+            var synchronousUnitOfExec = TestHelpers.GetSynchronousExecutor();
             var synchro = new object();
 
             lock (synchro)

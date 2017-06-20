@@ -9,34 +9,35 @@
     <PackageStream>alpha</PackageStream>
     <NugetKey>$(MICHONNE_NUGET_API_KEY)</NugetKey>
     <NugetFeed>$(MICHONNE_NUGET_FEED)</NugetFeed>
-
-    <SolutionRoot>$(MSBuildProjectDirectory)\..</SolutionRoot>
     <SolutionName>Michonne</SolutionName>
     <CodeCovURL>https://codecov.io/gh/dupdob/$(SolutionName)</CodeCovURL>
-    <ToolsPath>$(SolutionRoot)\tools\</ToolsPath>
+
+    <AttributeVersionFile>$(SolutionRoot)\Version.cs</AttributeVersionFile>
+    <SolutionRoot>$(MSBuildProjectDirectory)\..</SolutionRoot>
     <SourcePath>$(SolutionRoot)\</SourcePath>
     <PackagesPath>$(ArtifactsPath)\Packages</PackagesPath>
 
-    <AttributeVersionFile>$(SolutionRoot)\Version.cs</AttributeVersionFile>
     <AssemblyFileNameRoot>$(SolutionRoot)\Michonne.Assemblies\Michonne</AssemblyFileNameRoot>
     <ArtifactsPath>$(SolutionRoot)\Artifacts</ArtifactsPath>
     <BinariesPath>$(ArtifactsPath)\Binaries</BinariesPath>
     <NuGetTools>$(SolutionRoot)\Packages</NuGetTools>
     <DocPath>$(ArtifactsPath)\Docs</DocPath>
     
-    <NuGetToolsPath></NuGetToolsPath>
-    <NuGetExePath>$(NuGetToolsPath)nuget.exe</NuGetExePath>
-    <TestRunnerPath>$(NuGetTools)\NUnit.ConsoleRunner.3.6.1\tools\nunit3-console.exe</TestRunnerPath>
-    <CoverToolPath>$(NuGetTools)\OpenCover.4.6.519\tools</CoverToolPath>
-    <OpenCoverMSBuildTasksPath>$(NuGetTools)\OpenCover.4.6.519\MSBuild</OpenCoverMSBuildTasksPath>
+    <NuGetToolsPath>$(SolutionRoot)\Packages</NuGetToolsPath>
+    <NuGetExePath>nuget.exe</NuGetExePath>
+    <TestRunnerPath>$(SolutionRoot)\packages\NUnit.ConsoleRunner.3.6.1\tools\nunit3-console.exe</TestRunnerPath>
+    <CoverToolPath>$(NuGetToolsPath)\OpenCover.4.6.519\tools</CoverToolPath>
+    <MsTestRunnerPath>$(MSBuildProgramFiles32)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\</MsTestRunnerPath>
+    <AppVeyor>false</AppVeyor>
   </PropertyGroup>
  
 <!-- Specifics for appveyor: use env provided nunit runner for result publication-->
   <Choose>
     <When Condition="'$(APPVEYOR)'=='True'">
       <PropertyGroup>
-        <NunitOptions>--result=TestResults.xml;format=AppVeyor</NunitOptions>
+        <NunitOptions>--result="$(SolutionRoot)\TestResults.xml";format=AppVeyor</NunitOptions>
         <TestRunnerPath>nunit3-console.exe</TestRunnerPath>
+        <AppVeyor>true</AppVeyor>
       </PropertyGroup>
     </When>
   </Choose>
@@ -44,10 +45,11 @@
   <!--Targets-->
   
   <Target Name="RunAll" DependsOnTargets="Build; RunTests; Package" />
-  <Target Name="Nightly" DependsOnTargets="SetNightly; RunAll; Publish"/>
-  <Target Name="RC" DependsOnTargets="SetRC; RunAll; Publish"/>
-  <Target Name="Release" DependsOnTargets="SetRelease; RunAll; Publish"/>
-  <Target Name="CI" DependsOnTargets="Build;RunTests; Package" />
+  <Target Name="CI" DependsOnTargets="Build; RunTests; Package; CoverageReport" />
+  <Target Name="Nightly" DependsOnTargets="SetNightly; RunAll; Publish; CoverageReport"/>
+  <Target Name="Alpha" DependsOnTargets="SetAlpha; RunAll; Publish; CoverageReport"/>
+  <Target Name="RC" DependsOnTargets="SetRC; RunAll; Publish; CoverageReport"/>
+  <Target Name="Release" DependsOnTargets="SetRelease; RunAll; Publish; CoverageReport"/>
 
   <Target Name="SetNightly">
     <PropertyGroup>
@@ -97,37 +99,35 @@
       Value="$(AssemblyVersionMajor).$(AssemblyVersionMinor).$(AssemblyVersionPatch).$(AssemblyVersionPreRelease)" />
   </Target>
     
-  <!-- 1- Do the BUILD -->
-  <Target Name="DotnetCoreRestore">
-    <Message Importance="high" Text="--------- ADD FEED  -------------------------------------------"/>
-    <Exec Command="nuget sources add -Name myget.org -Source https://www.myget.org/F/dupdobnightly/api/v3/index.json" ContinueOnError="true"/>
-    <Message Importance="high" Text="--------- end ADD FEED  -------------------------------------------"/>
-
-    <Message Importance="high" Text="--------- DOTNET RESTORE  -------------------------------------------"/>
-    <Exec Command="dotnet restore $(SolutionRoot)\Michonne.Assemblies\Michonne.Implementation.Standard" />
-    <Exec Command="dotnet restore $(SolutionRoot)\Michonne.Assemblies\Michonne.Interfaces.Standard" />
-    <Exec Command="dotnet restore $(SolutionRoot)\Tests\Michonne.Tests.Core\Michonne.Tests.Core.csproj" />
-
-    <Message Importance="high" Text="--------- end of DOTNET RESTORE  -------------------------------------"/>
-  </Target>
-  
   <ItemGroup>
     <ProjectFolder Include="$(SolutionRoot)\Michonne.Assemblies\Michonne.Implementation.45"/>  
+    <ProjectFolder Include="$(SolutionRoot)\Michonne.Assemblies\Michonne.Implementation.Standard"><Fwk>core</Fwk></ProjectFolder>
+    <ProjectFolder Include="$(SolutionRoot)\Michonne.Assemblies\Michonne.Interfaces.Standard"><Fwk>core</Fwk></ProjectFolder>
     <ProjectFolder Include="$(SolutionRoot)\Tests\Michonne.Tests.45"/>  
     <ProjectFolder Include="$(SolutionRoot)\Tests\Michonne.Tests.40"/>  
     <ProjectFolder Include="$(SolutionRoot)\Tests\Michonne.Tests.35"/>  
     <ProjectFolder Include="$(SolutionRoot)\Michonne.01.Tests"/>  
     <ProjectFolder Include="$(SolutionRoot)\PastaPricer.Tests"/>  
+    <ProjectFolder Include="$(SolutionRoot)\Tests\Michonne.Tests.Core"><Fwk>core</Fwk></ProjectFolder>
   </ItemGroup>
-    
-  <Target Name="NugetRestore" DependsOnTargets="DotnetCoreRestore">
+
+  <!-- 0- Restore dependencies -->
+  <Target Name="NugetRestore">
+    <ItemGroup>
+      <Prj Include="ProjectFolder" Condition="'%(ProjectFolder.Fwk)'=='core'">
+        <RestoreCommand>dotnet restore %(ProjectFolder.FullPath)\</RestoreCommand>
+      </Prj>
+      <Prj Include="ProjectFolder" Condition="'%(ProjectFolder.Fwk)'!='core'">
+        <RestoreCommand>"$(NuGetExePath)" install "%(ProjectFolder.FullPath)\packages.config" -o "$(SolutionRoot)\packages" -verbosity quiet</RestoreCommand>
+      </Prj>
+    </ItemGroup>
+
     <Message Importance="high" Text="--------- NUGET RESTORE  -------------------------------------------"/>
-    
-    <Exec Command='"$(NuGetExePath)"  install "%(ProjectFolder.Identity)\packages.config" -o "$(SolutionRoot)\packages"'/>
-  
+    <Exec Command='%(Prj.RestoreCommand)'/>
     <Message Importance="high" Text="--------- end of NUGET RESTORE  -------------------------------------"/>
   </Target>
-  
+
+  <!-- 1- Do the BUILD -->  
   <Target Name="Build" DependsOnTargets="NugetRestore">
     <Message Importance="high" Text="--------- BUILD  -------------------------------------------"/>
     
@@ -138,7 +138,6 @@ BUILD PROJECT with MSBuildToolsVersion: '$(MSBuildToolsVersion)'
       "  />
 
 <Message Importance="normal" Text="--------- will run: $(SolutionRoot)\$(SolutionName).sln"/>
-
       <MSBuild Projects="$(SolutionRoot)\$(SolutionName).sln" 
                 Targets="Build" 
                 Properties="Configuration=$(Configuration)" />
@@ -174,44 +173,65 @@ GENERATING DOCS for:
       </TestProject>
       <TestProject Include='$(SolutionRoot)\Tests\Michonne.Tests.45\bin\$(Configuration)\Michonne.Tests.dll'>
         <Fwk>net-4.5</Fwk>
-        <Coverage>true</Coverage>
+        <coverage>true</coverage>
       </TestProject>
       <TestProject Include='$(SolutionRoot)\Michonne.01.Tests\bin\$(Configuration)\Michonne.01.Tests.dll'>
         <Fwk>net-4.5</Fwk>
+        <coverage>true</coverage>
       </TestProject>
       <TestProject Include='$(SolutionRoot)\PastaPricer.Tests\bin\$(Configuration)\PastaPricer.Tests.dll'>
         <Fwk>net-4.5</Fwk>
+        <coverage>true</coverage>
       </TestProject>
       <TestProject Include='$(SolutionRoot)\Tests\Michonne.Tests.Core\Michonne.Tests.Core.csproj'>
         <Fwk>core</Fwk>
       </TestProject>
     </ItemGroup>
+
+    <ItemGroup> 
+      <TestRun Include="@(TestProject)" Condition="'%(TestProject.Fwk)'=='core'">
+        <Runner>dotnet.exe</Runner>
+        <Args>test %(TestProject.FullPath) -c $(Configuration)</Args>
+        <Coverage>%(TestProject.Coverage)</Coverage>
+      </TestRun>
+      <TestRun Include="@(TestProject)" Condition="'%(TestProject.Fwk)'!='core' AND '%(TestProject.Runner)'=='MsTest'">
+        <Runner>"$(MsTestRunnerPath)$(MsTestRunner)"</Runner>
+        <Args>%(TestProject.Identity)</Args>
+        <Coverage>%(TestProject.Coverage)</Coverage>
+      </TestRun>
+      <TestRun Include="@(TestProject)" Condition="'%(TestProject.Fwk)'!='core' AND '%(TestProject.Runner)'!='MsTest'">
+        <Runner>"$(TestRunnerPath)"</Runner>
+        <Args>%(TestProject.FullPath) $(NunitOptions) /framework:%(TestProject.Fwk)</Args>
+        <Coverage>%(TestProject.Coverage)</Coverage>
+      </TestRun>
+    </ItemGroup>
+
+
     <Message Importance="high" Text="
 ---------------------------------------------------------------
 RUN ALL UNIT TESTS
 ---------------------------------------------------------------
           "  />
 
-    <Message Importance="high" Text="--------- RUN  TESTS ---------"/>
-
-    <Message Importance="normal" Text="Assemblies to test:"/>
-    <Message Importance="normal" Text="'%(TestProject.Identity)'"/>
-
-    <Exec Command='"$(TestRunnerPath)" %(TestProject.Identity) $(NunitOptions) /framework:%(TestProject.Fwk)' 
-          LogStandardErrorAsError="true" WorkingDirectory="../" Condition="'%(TestProject.Fwk)'!='core'"/>
-    <Exec Command='dotnet test %(TestProject.Identity) -c $(Configuration)' 
-          LogStandardErrorAsError="true" WorkingDirectory="../" Condition="'%(TestProject.Fwk)'=='core'"/>
-
+    <Message Importance="high" Text="--------- RUN TESTS ---------"/>
+    <Delete Files="$(SolutionRoot)\$(SolutionName)-coverage.xml"/>
+    <Exec Command='%(TestRun.Runner) %(TestRun.Args)' LogStandardErrorAsError="true" WorkingDirectory="$(SolutionRoot)"/>
     <Message Importance="high" Text="--------- end of RUN TESTS ---------"/>
 
     <Message Importance="high" Text="--------- Coverage ---------"/>
-    <Message Importance="high" Text="Cover for %(TestProject.Identity) : $(SolutionRoot)\%(filename)-coverage.xml" Condition="'%(TestProject.Coverage)'=='true'"/>
-    <Exec Command='"$(CoverToolPath)\OpenCover.Console" -target:"$(TestRunnerPath)" -register:user -filter:"+[*]* -[*.Tests]*" -output:"$(SolutionRoot)\%(filename)-coverage.xml" -targetargs:""%(TestProject.Identity)" -result="$(SolutionRoot)\results.xml" -framework:%(TestProject.Fwk)""' Condition="'%(TestProject.Coverage)'=='true'"/>
-    <Exec Command="pip install codecov"/>
-    <Exec  WorkingDirectory="$(SolutionRoot)" Command='codecov -f "$(SolutionRoot)\%(filename)-coverage.xml" -t 3298ef7c-a693-49a1-8781-12e8985ecd2b -X gcov'
-           Condition="'%(TestProject.Coverage)'=='true'"/>
+    <Exec Command='"$(CoverToolPath)\OpenCover.Console" -target:%(TestRun.Runner) -register:user -filter:"+[*]* -[*.Tests*]*" -excludebyattribute:*.Obsolete*  -output:"$(SolutionRoot)\$(SolutionName)-coverage.xml" -mergeoutput -targetargs:"%(TestRun.Args)"'
+          Condition="'%(TestRun.Coverage)'=='true'"/>
     <Message Importance="high" Text="--------- end of Coverage ---------"/>
+  </Target>
 
+  <Target Name="CoverageReport" DependsOnTargets="RunTests">
+    <Message Importance="high" Text="--------- Publish Coverage ---------"/>
+    <Exec Command ='"$(NuGetToolsPath)\ReportGenerator.2.5.9-beta1\tools\ReportGenerator.exe" -reports:$(SolutionRoot)\$(SolutionName)-coverage.xml -targetdir:"$(SolutionRoot)\CoverageReport"' Condition="'$(APPVEYOR)'!='True'"/>
+
+    <Exec Command="pip install codecov"/>
+    <Exec WorkingDirectory="$(SolutionRoot)" Command='codecov -f "$(SolutionRoot)\$(SolutionName)-coverage.xml" -t $(CodeCovKey) -X gcov -n $(SolutionName)'
+          Condition="('$(CodeCovKey)'!='') AND ('$(APPVEYOR)'=='True')"/>
+    <Message Importance="high" Text="--------- end of Publish Coverage ---------"/>
   </Target>
 
   <!-- 4- Then PACKAGE -->
