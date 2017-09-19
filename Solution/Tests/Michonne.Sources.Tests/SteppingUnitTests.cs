@@ -22,6 +22,7 @@
             Check.That(test).IsEqualTo(1);
             unit.Step();
             Check.That(test).IsEqualTo(2);
+
         }
     }
 }
