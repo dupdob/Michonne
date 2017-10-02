@@ -14,12 +14,12 @@
     <CodeCovURL>https://codecov.io/gh/dupdob/$(SolutionName)</CodeCovURL>
 
     <AttributeVersionFile>$(SolutionRoot)\Version.cs</AttributeVersionFile>
-    <SolutionRoot>$(MSBuildProjectDirectory)\..</SolutionRoot>
+    <SolutionRoot>$(MSBuildProjectDirectory)\..</SolutionRoot>  
     <SourcePath>$(SolutionRoot)\</SourcePath>
+    <ArtifactsPath>$(SolutionRoot)\Artifacts</ArtifactsPath>
     <PackagesPath>$(ArtifactsPath)\Packages</PackagesPath>
 
     <AssemblyFileNameRoot>$(SolutionRoot)\Michonne.Assemblies\Michonne</AssemblyFileNameRoot>
-    <ArtifactsPath>$(SolutionRoot)\Artifacts</ArtifactsPath>
     <BinariesPath>$(ArtifactsPath)\Binaries</BinariesPath>
     <NuGetTools>$(SolutionRoot)\Packages</NuGetTools>
     <DocPath>$(ArtifactsPath)\Docs</DocPath>

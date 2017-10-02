@@ -14,8 +14,8 @@
 using System.Reflection;
 
 [assembly: AssemblyProduct("Michonne")]
-[assembly: AssemblyCopyright("Copyright © Cyrille Dupuydauby 2015")]
+[assembly: AssemblyCopyright("Copyright © Cyrille Dupuydauby 2015-2017")]
 [assembly: AssemblyCompany("Cyrille Dupuydauby")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyVersion("0.5.0.12")]
-[assembly: AssemblyFileVersion("0.5.0.12")]
+[assembly: AssemblyVersion("0.5.1.12")]
+[assembly: AssemblyFileVersion("0.5.1.12")]
