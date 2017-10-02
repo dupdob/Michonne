@@ -31,15 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Atomic">
-      <HintPath>..\packages\Disruptor-DamageBoy-IH.2.8.0.1\lib\net40\Atomic.dll</HintPath>
-    </Reference>
-    <Reference Include="Disruptor">
-      <HintPath>..\packages\Disruptor-DamageBoy-IH.2.8.0.1\lib\net40\Disruptor.dll</HintPath>
-    </Reference>
-    <Reference Include="Disruptor.Scheduler">
-      <HintPath>..\packages\Disruptor-DamageBoy-IH.2.8.0.1\lib\net40\Disruptor.Scheduler.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -51,9 +42,6 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
