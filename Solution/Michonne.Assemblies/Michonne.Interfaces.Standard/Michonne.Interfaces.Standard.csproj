@@ -1,5 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
     <AssemblyName>Michonne.Interfaces</AssemblyName>
@@ -12,18 +11,14 @@
     <Copyright>Copyright © Cyrille Dupuydauby 2015</Copyright>
     <Company>Cyrille Dupuydauby</Company>
     <Authors>Cyrille Dupuydauby, Thomas Pierrain</Authors>
-    <Version>0.5.0</Version>
+    <Version>0.5.1.12</Version>
     <RepositoryUrl>https://github.com/dupdob/Michonne</RepositoryUrl>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>bin\Release\netstandard1.3\Michonne.Interfaces.xml</DocumentationFile>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove="Michonne.Interfaces.Standard.v3.ncrunchproject" />
   </ItemGroup>
-
   <Import Project="..\..\Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.projitems" Label="Shared" />
-
 </Project>

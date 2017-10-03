@@ -1,12 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
     <AssemblyName>Michonne.Implementation</AssemblyName>
     <RootNamespace>Michonne.Implementation</RootNamespace>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\MichonneKey.snk</AssemblyOriginatorKeyFile>
-    <Version>0.5.0</Version>
+    <Version>0.5.1.12</Version>
     <Authors>Cyrille Dupuydauby, Thomas Pierrain</Authors>
     <PackageId>Michonne.Implementation</PackageId>
     <Company>Cyrille Dupuydauby</Company>
@@ -15,28 +14,21 @@
     <Copyright>Copyright © Cyrille Dupuydauby 2015</Copyright>
     <RepositoryUrl>https://github.com/dupdob/Michonne</RepositoryUrl>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>bin\Release\netstandard1.3\Michonne.Implementation.xml</DocumentationFile>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove="Michonne.Implementation.Standard.v3.ncrunchproject" />
   </ItemGroup>
-
   <ItemGroup>
     <None Include="..\..\MichonneKey.snk" Link="MichonneKey.snk" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="System.Threading.Thread" Version="4.3.0" />
     <PackageReference Include="System.Threading.ThreadPool" Version="4.3.0" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Michonne.Interfaces.Standard\Michonne.Interfaces.Standard.csproj" />
   </ItemGroup>
-
   <Import Project="..\..\Michonne.Sources\Michone.Sources.projitems" Label="Shared" />
-
 </Project>

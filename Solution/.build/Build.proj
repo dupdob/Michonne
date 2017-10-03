@@ -13,8 +13,8 @@
     <SolutionName>Michonne</SolutionName>
     <CodeCovURL>https://codecov.io/gh/dupdob/$(SolutionName)</CodeCovURL>
 
-    <AttributeVersionFile>$(SolutionRoot)\Version.cs</AttributeVersionFile>
     <SolutionRoot>$(MSBuildProjectDirectory)\..</SolutionRoot>  
+    <AttributeVersionFile>$(SolutionRoot)\Version.cs</AttributeVersionFile>
     <SourcePath>$(SolutionRoot)\</SourcePath>
     <ArtifactsPath>$(SolutionRoot)\Artifacts</ArtifactsPath>
     <PackagesPath>$(ArtifactsPath)\Packages</PackagesPath>
@@ -76,8 +76,8 @@
   <Target Name="SynchroVersion">
     <!-- Ensure version number is propagated in new CsProj format file-->
     <ItemGroup>
-      <CoreCsproj Include="$(SolutionRoot)\Michonne.Assemblies\Michonne.Implementation.Standard.csproj"/>
-      <CoreCsproj Include="$(SolutionRoot)\Michonne.Assemblies\Michonne.Interfaces.Standard.csproj"/>
+      <CoreCsproj Include="$(SolutionRoot)\Michonne.Assemblies\Michonne.Implementation.Standard\Michonne.Implementation.Standard.csproj"/>
+      <CoreCsproj Include="$(SolutionRoot)\Michonne.Assemblies\Michonne.Interfaces.Standard\Michonne.Interfaces.Standard.csproj"/>
       <CoreCsproj Include="$(SolutionRoot)\Tests\Michonne.Tests.Core\Michonne.Tests.Core.csproj"/>
     </ItemGroup>
     <PropertyGroup>
@@ -88,11 +88,15 @@
       <AssemblyVersionPatch>$([System.Text.RegularExpressions.Regex]::Match($(In), $(Pattern), System.Text.RegularExpressions.RegexOptions.Multiline).Groups["Patch"].Value)</AssemblyVersionPatch>
       <AssemblyVersionPreRelease>$([System.Text.RegularExpressions.Regex]::Match($(In), $(Pattern), System.Text.RegularExpressions.RegexOptions.Multiline).Groups["PreReleaseInfo"].Value)</AssemblyVersionPreRelease>
     </PropertyGroup>
-    <Message Text="Output : $(AssemblyVersionMajor).$(AssemblyVersionMinor).$(AssemblyVersionPatch).$(AssemblyVersionPreRelease)"/>
-    
+    <Message Importance="high" Text="Output : $(AssemblyVersionMajor).$(AssemblyVersionMinor).$(AssemblyVersionPatch).$(AssemblyVersionPreRelease)"/>
+    <Message Importance="high" Text="Patching: %(CoreCsproj.FullPath)" />
     <XmlPoke 
       XmlInputPath="%(CoreCsproj.FullPath)"
       Query="//AssemblyVersion" 
+      Value="$(AssemblyVersionMajor).$(AssemblyVersionMinor).$(AssemblyVersionPatch).$(AssemblyVersionPreRelease)" />
+    <XmlPoke 
+      XmlInputPath="%(CoreCsproj.FullPath)"
+      Query="//Version" 
       Value="$(AssemblyVersionMajor).$(AssemblyVersionMinor).$(AssemblyVersionPatch).$(AssemblyVersionPreRelease)" />
     <XmlPoke 
       XmlInputPath="%(CoreCsproj.FullPath)"
@@ -130,7 +134,7 @@
   </Target>
 
   <!-- 1- Do the BUILD -->  
-  <Target Name="Build" DependsOnTargets="NugetRestore">
+  <Target Name="Build" DependsOnTargets="NugetRestore;SynchroVersion">
     <Message Importance="high" Text="--------- BUILD  -------------------------------------------"/>
     
       <Message Importance="high" Text="
