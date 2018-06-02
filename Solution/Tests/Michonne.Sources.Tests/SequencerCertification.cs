@@ -12,6 +12,9 @@
 //     limitations under the License.
 //   </copyright>
 //   --------------------------------------------------------------------------------------------------------------------
+
+using NUnit.Compatibility;
+
 namespace Michonne.Tests
 {
     using System;
@@ -52,7 +55,7 @@ namespace Michonne.Tests
         {
             get
             {
-                ConstructorInfo constructor = this.sequencerType.GetConstructor(new[] { typeof(IExecutor) });
+                var constructor = this.sequencerType.GetTypeInfo().GetConstructor(new[] { typeof(IExecutor) });
                 return constructor;
             }
         }

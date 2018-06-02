@@ -52,7 +52,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{208C2A78-6B8B-48A8-873D-501D8DBE202A}"
 	ProjectSection(SolutionItems) = preProject
 		.build\Build.proj = .build\Build.proj
-		.build\Build.tasks = .build\Build.tasks
+		.build\buildlogic.targets = .build\buildlogic.targets
 		Michonne.nuspec = Michonne.nuspec
 		Version.cs = Version.cs
 	EndProjectSection

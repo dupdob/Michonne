@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!--Configuration informations-->
+  <PropertyGroup>
+    <Configuration Condition="$(Configuration) == ''">Debug</Configuration>
+    <AssemblyFileNameRoot>$(SolutionRoot)\$(SolutionName)</AssemblyFileNameRoot>
+    
+    <CoverageDataFile>$(SolutionRoot)\$(SolutionName)-coverage.xml</CoverageDataFile>
+
+    <PackageStream>alpha</PackageStream>
+    <ArtifactsPath>$(SolutionRoot)\Artifacts</ArtifactsPath>
+    <BinariesPath>$(ArtifactsPath)\Binaries</BinariesPath>
+    <PackagesPath>$(ArtifactsPath)\Packages</PackagesPath>
+    
+    <NuGetToolsPath>$(SolutionRoot)\Packages</NuGetToolsPath>
+    <NuGetExePath>nuget.exe</NuGetExePath>
+    <MsTestRunner>vstest.console.exe</MsTestRunner>
+    <opencoverVersion Condition="'$(opencoverVersion)' == ''">4.6.519</opencoverVersion>
+    <reportGeneratorVersion Condition="'$(reportGeneratorVersion)' == ''">3.1.2</reportGeneratorVersion>
+    <nunitConsoleVersion Condition="'$(nunitConsoleVersion)' == ''">3.8.0</nunitConsoleVersion>
+    <TestRunnerPath>$(NuGetToolsPath)\NUnit.ConsoleRunner.$(nunitConsoleVersion)\tools\nunit3-console.exe</TestRunnerPath>
+    <MsTestRunnerPath>$(MSBuildProgramFiles32)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\</MsTestRunnerPath>
+  </PropertyGroup>
+
+  <!-- Specifics for appveyor: use env provided nunit runner for result publication-->
+  <Choose>
+    <When Condition="'$(APPVEYOR)'=='True'">
+      <PropertyGroup>
+        <NunitOptions>--result="$(SolutionRoot)\TestResults.xml";format=AppVeyor</NunitOptions>
+        <TestRunnerPath>nunit3-console.exe</TestRunnerPath>
+        <MsTestRunnerPath></MsTestRunnerPath>
+        <In>$(APPVEYOR_BUILD_VERSION)</In>
+        <Pattern>(?&lt;Major&gt;\d+)\.(?&lt;Minor&gt;\d+)\.(?&lt;Patch&gt;[\d]+)\.(?&lt;PreReleaseInfo&gt;[\d]+)?</Pattern>
+        <AssemblyVersionMajor>$([System.Text.RegularExpressions.Regex]::Match($(In), $(Pattern), System.Text.RegularExpressions.RegexOptions.Multiline).Groups["Major"].Value)</AssemblyVersionMajor>
+        <AssemblyVersionMinor>$([System.Text.RegularExpressions.Regex]::Match($(In), $(Pattern), System.Text.RegularExpressions.RegexOptions.Multiline).Groups["Minor"].Value)</AssemblyVersionMinor>
+        <AssemblyVersionPatch>$([System.Text.RegularExpressions.Regex]::Match($(In), $(Pattern), System.Text.RegularExpressions.RegexOptions.Multiline).Groups["Patch"].Value)</AssemblyVersionPatch>
+        <AssemblyVersionPreRelease>$([System.Text.RegularExpressions.Regex]::Match($(In), $(Pattern), System.Text.RegularExpressions.RegexOptions.Multiline).Groups["PreReleaseInfo"].Value)</AssemblyVersionPreRelease>
+      </PropertyGroup>
+    </When>
+    <When Condition="'$(AppVeyorFile)'!=''">
+      <PropertyGroup>
+        <In>$([System.IO.File]::ReadAllText('$(AppVeyorFile)'))</In>
+        <Pattern>version: *(?&lt;Major&gt;\d+)\.(?&lt;Minor&gt;\d+)\.(?&lt;Patch&gt;[\d]+)\.(?&lt;PreReleaseInfo&gt;[0-9A-Za-z-.]+)?</Pattern>
+        <AssemblyVersionMajor>$([System.Text.RegularExpressions.Regex]::Match($(In), $(Pattern), System.Text.RegularExpressions.RegexOptions.Multiline).Groups["Major"].Value)</AssemblyVersionMajor>
+        <AssemblyVersionMinor>$([System.Text.RegularExpressions.Regex]::Match($(In), $(Pattern), System.Text.RegularExpressions.RegexOptions.Multiline).Groups["Minor"].Value)</AssemblyVersionMinor>
+        <AssemblyVersionPatch>$([System.Text.RegularExpressions.Regex]::Match($(In), $(Pattern), System.Text.RegularExpressions.RegexOptions.Multiline).Groups["Patch"].Value)</AssemblyVersionPatch>
+        <AssemblyVersionPreRelease>0</AssemblyVersionPreRelease>
+      </PropertyGroup>
+    </When>
+    <Otherwise>    
+      <PropertyGroup>
+        <In>$([System.IO.File]::ReadAllText('$(AttributeVersionFile)'))</In>
+        <Pattern>\[assembly: AssemblyVersion\("(?&lt;Major&gt;\d+)\.(?&lt;Minor&gt;\d+)\.(?&lt;Patch&gt;[\d]+)\.(?&lt;PreReleaseInfo&gt;[0-9A-Za-z-.]+)?</Pattern>
+        <AssemblyVersionMajor>$([System.Text.RegularExpressions.Regex]::Match($(In), $(Pattern), System.Text.RegularExpressions.RegexOptions.Multiline).Groups["Major"].Value)</AssemblyVersionMajor>
+        <AssemblyVersionMinor>$([System.Text.RegularExpressions.Regex]::Match($(In), $(Pattern), System.Text.RegularExpressions.RegexOptions.Multiline).Groups["Minor"].Value)</AssemblyVersionMinor>
+        <AssemblyVersionPatch>$([System.Text.RegularExpressions.Regex]::Match($(In), $(Pattern), System.Text.RegularExpressions.RegexOptions.Multiline).Groups["Patch"].Value)</AssemblyVersionPatch>
+        <AssemblyVersionPreRelease>$([System.Text.RegularExpressions.Regex]::Match($(In), $(Pattern), System.Text.RegularExpressions.RegexOptions.Multiline).Groups["PreReleaseInfo"].Value)</AssemblyVersionPreRelease>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+
+  <Target Name="RunAll" DependsOnTargets="Build; RunTests; CoverageReport; Package" />
+  <Target Name="CI" DependsOnTargets="Build; RunTests; CoverageReport; Package;" />
+  <Target Name="Push" DependsOnTargets="RunAll; Publish"/>
+  <Target Name="Beta" DependsOnTargets="SetBeta; Push" />
+  <Target Name="Nightly" DependsOnTargets="SetNightly; RunAll"/>
+  <Target Name="Alpha" DependsOnTargets="SetAlpha; Push"/>
+  <Target Name="RC" DependsOnTargets="SetRC; RunAll; Push"/>
+  <Target Name="Release" DependsOnTargets="SetRelease; Push"/>
+  <Target Name="DebugBuild" DependsOnTargets="Package"/>
+
+  <!--Targets-->
+  <Target Name="SetNightly">
+    <PropertyGroup>
+      <PackageStream>nightly</PackageStream>
+    </PropertyGroup>
+  </Target>
+  <Target Name="SetRC">
+    <PropertyGroup>
+      <PackageStream>RC</PackageStream>
+    </PropertyGroup>
+  </Target>
+  <Target Name="SetRelease">
+    <PropertyGroup>
+      <PackageStream></PackageStream>
+    </PropertyGroup>
+  </Target>
+  <Target Name="SetAlpha">
+    <PropertyGroup>
+      <PackageStream>alpha</PackageStream>
+    </PropertyGroup>
+  </Target>
+  <Target Name="SetBeta">
+    <PropertyGroup>
+      <PackageStream>beta</PackageStream>
+    </PropertyGroup>
+  </Target>
+
+  <!--Scan framework in csproj files-->
+  <!--This is an experimentation in progress that aims at capturing info from csproj files. Not used in active script-->
+  <Target Name="Scan">
+    <ItemGroup>
+      <FullProjectDescription Include="@(ProjectFolder)" Condition="'%(ProjectFolder.CSproj)'!=''">
+        <CSProjFullName>%(ProjectFolder.FullPath)\%(ProjectFolder.CsProj)</CSProjFullName>
+        <Framework />
+      </FullProjectDescription>
+    </ItemGroup>
+    <XmlPeek Query="//TargetFramework" XmlInputPath="%(FullProjectDescription.CSProjFullName)" Result="%(Framework)">
+    </XmlPeek>
+    <Message Importance="high" Text="detected: %(Framework) in %(FullProjectDescription.CSProjFullName)"/>
+  </Target>
+
+  <!-- 0- Align version numners -->
+  <Target Name="SynchroVersion">
+    <!-- Ensure version number is propagated in new CsProj format file-->
+    <!-- Capture version number -->
+    <PropertyGroup>
+      <NumericalVersion>$(AssemblyVersionMajor).$(AssemblyVersionMinor).$(AssemblyVersionPatch).$(AssemblyVersionPreRelease)</NumericalVersion>
+
+    </PropertyGroup>
+    <VersionBuilding version ="$(NumericalVersion)" stream="$(PackageStream)">
+      <Output PropertyName="PrettyVersion" TaskParameter="fullVersion" />
+    </VersionBuilding>
+    <Message Importance="high" Text="Pretty Version= $(PrettyVersion)" />
+
+    <ItemGroup>
+      <RegexTransform Include="$(AttributeVersionFile)">
+        <Find>(?&lt;major&gt;\d+)\.(?&lt;minor&gt;\d+)\.\d+\.(?&lt;revision&gt;\d+)</Find>
+        <ReplaceWith>$(NumericalVersion)</ReplaceWith>
+      </RegexTransform>
+      <RegexTransform Include="$(AttributeVersionFile)">
+        <Find>InformationalVersion\("(?&lt;major&gt;\d+)\.(?&lt;minor&gt;\d+)\.\d+[\.-](?&lt;revision&gt;[^)"]*)</Find>
+        <ReplaceWith>InformationalVersion("$(PrettyVersion)</ReplaceWith>
+      </RegexTransform>
+    </ItemGroup>
+    <RegexTransform Items="@(RegexTransform)" />
+
+    <ItemGroup>
+      <CSProjToPatch Include="@(ProjectFolder)" Condition="'%(ProjectFolder.Fwk)'=='core'">
+        <FullName>%(ProjectFolder.FullPath)\%(ProjectFolder.CsProj)</FullName>
+      </CSProjToPatch>
+    </ItemGroup>
+    <Message Importance="high" Text="--------- VERSION NUMBER SYNCHRO  -------------------------------------"/>
+    <Message Text="Version : $(NumericalVersion)"/>
+    <Message Text="Informal Version : $(PrettyVersion)"/>
+    <Message Importance="high" Text="Patching versions in %(CSProjToPatch.FullName) to $(PrettyVersion)"/>
+    <XmlPoke
+      XmlInputPath="%(CSProjToPatch.FullName)"
+      Query="//AssemblyVersion" 
+      Value="$(NumericalVersion)" />
+    <XmlPoke
+      XmlInputPath="%(CSProjToPatch.FullName)"
+      Query="//FileVersion" 
+      Value="$(NumericalVersion)" />
+    <XmlPoke
+      XmlInputPath="%(CSProjToPatch.FullName)"
+      Query="//Version" 
+      Value="$(PrettyVersion)" />
+    <XmlPoke
+      XmlInputPath="%(CSProjToPatch.FullName)"
+      Query="//InformationalVersion" 
+      Value="$(PrettyVersion)" />
+    <Message Importance="high" Text="--------- end of VERSION NUMBER SYNCHRO  ------------------------------"/>
+  </Target>
+
+  <!-- 1- Restore dependencies -->
+  <Target Name="NugetRestore" DependsOnTargets="SynchroVersion">
+
+    <Message Importance="high" Text="--------- NUGET RESTORE  -------------------------------------------"/>
+    <Message Importance="high" Text="Restoring $(SolutionRoot)\$(SolutionName)"/>
+    <Exec Command='"$(NuGetExePath)" restore $(SolutionRoot)\$(SolutionName).sln -o "$(SolutionRoot)\packages" -verbosity quiet'/>
+    <Message Importance="high" Text="--------- end of NUGET RESTORE  -------------------------------------"/>
+  </Target>
+  
+  <!-- 2- Do the BUILD -->
+  <Target Name="Build" DependsOnTargets="NugetRestore">
+    <Message Importance="high" Text="--------- BUILD  -------------------------------------------"/>
+    <Message Importance="high" Text="
+---------------------------------------------------------------
+BUILD PROJECT with MSBuildToolsVersion: '$(MSBuildToolsVersion)'
+---------------------------------------------------------------
+      "  />
+
+    <Message Importance="normal" Text="--------- will run: $(SolutionRoot)\$(SolutionName).sln"/>
+    <MSBuild Projects="$(SolutionRoot)\$(SolutionName).sln" 
+             Targets="Build" 
+             Properties="Configuration=$(Configuration)"/>
+
+    <Message Importance="high" Text="--------- end of BUILD  -------------------------------------"/>
+  </Target>
+    
+
+  <!-- 3- Run the TESTS -->
+  <Target Name="ListTestProjects">
+    <ItemGroup>
+      <TestRun Include="@(TestProjects)" Condition="'%(TestProjects.Framework)'!='netstandard1.3' AND '%(TestProjects.Framework)'!='netstandard2.0' AND '%(TestProjects.Runner)'==''">
+        <Runner>"$(TestRunnerPath)"</Runner>
+        <Args>%(TestProjects.FullPath) $(NunitOptions) /framework:%(TestProjects.Framework)</Args>
+        <Coverage>%(TestProjects.Coverage)</Coverage>
+      </TestRun>
+      <TestRun Include="@(TestProjects)" Condition="'%(TestProjects.Framework)'=='netstandard1.3' OR '%(TestProjects.Framework)'=='netstandard2.0'">
+        <Runner>dotnet.exe</Runner>
+        <Args>test %(TestProjects.FullPath) -c $(Configuration)</Args>
+        <Coverage>%(TestProjects.Coverage)</Coverage>
+      </TestRun>
+      <TestRun Include="@(TestProjects)" Condition="'%(TestProjects.Framework)'!='netstandard1.3' AND '%(TestProjects.Framework)'!='netstandard2.0' AND '%(TestProjects.Runner)'=='MsTest'">
+        <Runner>"$(MsTestRunnerPath)$(MsTestRunner)"</Runner>
+        <Args>%(TestProjects.Identity)</Args>
+        <Coverage>%(TestProjects.Coverage)</Coverage>
+      </TestRun>
+      <TestRun Include="@(TestProjects)" Condition="'%(TestProjects.Runner)'=='Self'">
+        <Runner>"%(TestProjects.Identity)"</Runner>
+        <Args></Args>
+        <Coverage>%(TestProjects.Coverage)</Coverage>
+      </TestRun>
+      </ItemGroup>
+  </Target>
+
+  <Target Name="RunTests" DependsOnTargets="Build; ListTestProjects">
+
+    <Message Importance="high" Text="
+---------------------------------------------------------------
+RUN ALL UNIT TESTS
+---------------------------------------------------------------
+          "  />
+    <PropertyGroup>
+      <CoverToolPath>$(NuGetToolsPath)\NUnit.Console.$(opencoverVersion)\tools</CoverToolPath>
+    </PropertyGroup>
+    <Exec Command='"$(NuGetExePath)" install nunit.console -o "$(NuGetToolsPath)" -version $(nunitConsoleVersion)'/>
+
+    <Message Importance="high" Text="--------- RUN TESTS ---------"/>
+    <Exec Command='%(TestRun.Runner) %(TestRun.Args)' LogStandardErrorAsError="true" WorkingDirectory="$(SolutionRoot)"/>
+    <Message Importance="high" Text="--------- end of RUN TESTS ---------"/>
+  </Target>
+
+  <!-- 4- Tests coverage -->
+  <Target Name="Coverage" DependsOnTargets="ListTestProjects">
+    <Message Importance="high" Text="--------- Coverage ---------"/>
+    <Delete Files="$(CoverageDataFile)"/>
+    <PropertyGroup>
+      <CoverToolPath>$(NuGetToolsPath)\OpenCover.$(opencoverVersion)\tools</CoverToolPath>
+    </PropertyGroup>
+    <Exec Command='"$(NuGetExePath)" install opencover -o "$(NuGetToolsPath)" -version $(opencoverVersion)'/>
+    <Message Importance="normal" Text="Cover for %(TestProjects.Identity) : $(CoverageDataFile) -mergeoutput " Condition="'%(TestProjects.Coverage)'=='true'"/>
+    <Exec Command='"$(CoverToolPath)\OpenCover.Console" -target:%(TestRun.Runner) -register:user -filter:"+[*]* -[*.Tests*]* -[*]NUnit.*" -excludebyattribute:*.Obsolete*  -output:"$(CoverageDataFile)" -mergeoutput -mergebyhash -targetargs:"%(TestRun.Args)"'
+          Condition="'%(TestRun.Coverage)'=='true'"/>
+    <Message Importance="high" Text="--------- end of Coverage ---------"/>
+  </Target>
+  
+  <!-- 5- Tests coverage report-->
+  <Target Name="CheckCoverage" DependsOnTargets="Coverage">
+    <!--Scan result for partial coverage-->
+    <XmlPeek XmlInputPath='$(CoverageDataFile)'
+             Query="//Class[Summary/@sequenceCoverage&lt;100 and Summary/@numSequencePoints>0]/FullName/text()">
+      <Output TaskParameter="Result" ItemName="Peeked" />
+    </XmlPeek>
+    <XmlPeek XmlInputPath='$(CoverageDataFile)'
+             Query="//Class[Summary/@branchCoverage&lt;100 and Summary/@numBranchPoints>0]/FullName/text()">
+      <Output TaskParameter="Result" ItemName="BranchPeeked" />
+    </XmlPeek>
+    <Warning Text="Insufficient line coverage on @(Peeked) "/>
+    <Warning Text="Insufficient branch coverage on @(BranchPeeked) "/>
+  </Target>
+
+  <Target Name="CoverageReport" DependsOnTargets="Coverage;CheckCoverage">
+    <PropertyGroup>
+      <CoverReportToolPath>$(NuGetToolsPath)\ReportGenerator.$(reportGeneratorVersion)\tools</CoverReportToolPath>
+    </PropertyGroup>
+    <Exec Command='"$(NuGetExePath)" install reportgenerator -o "$(NuGetToolsPath)" -version $(reportGeneratorVersion)'/>
+
+    <Message Importance="high" Text="--------- Publish Coverage ---------"/>
+    <Message Importance="high" Text="Get Tools"/>
+
+    <Exec Command ='"$(CoverReportToolPath)\ReportGenerator.exe" -reports:$(CoverageDataFile) -targetdir:"$(SolutionRoot)\CoverageReport"' Condition="'$(APPVEYOR)'!='True'"/>
+
+    <Exec Command="pip install codecov"/>
+    <Exec WorkingDirectory="$(SolutionRoot)" Command='codecov -f "$(CoverageDataFile)" -t $(CodeCovKey) -X gcov -n $(SolutionName)'
+           Condition="('$(CodeCovKey)'!='') AND ('$(APPVEYOR)'=='True')"/>
+   <Message Importance="high" Text="--------- end of Publish Coverage ---------"/>
+  </Target>
+
+ <!-- 5- Then PACKAGE -->
+  <Target Name="Package" DependsOnTargets="SynchroVersion">
+    <Message Importance="high" Text="---------- PACKAGE ---------"/>
+    <ItemGroup>
+      <FilesForNuget Include="@(ProjectFolder)" Condition="'%(ProjectFolder.Package)'!='' AND '%(ProjectFolder.Fwk)'!='core'">
+        <TargetFwk>%(ProjectFolder.Package)</TargetFwk>
+        <SourceDir>%(ProjectFolder.FullPath)\bin\$(Configuration)\*.*</SourceDir>
+      </FilesForNuget>
+      <FilesForNuget Include="@(ProjectFolder)" Condition="'%(ProjectFolder.Package)'!='' AND '%(ProjectFolder.Fwk)'=='core'">
+        <TargetFwk>%(ProjectFolder.Package)</TargetFwk>
+        <SourceDir>%(ProjectFolder.FullPath)\bin\$(Configuration)\%(ProjectFolder.Package)\*.*</SourceDir>
+      </FilesForNuget>
+    </ItemGroup>
+      <!-- Copies the dll into an easy path targeted by the .nuspec file. -->
+      <Message Text="xcopy %(FilesForNuget.SourceDir) $(BinariesPath)\%(FilesForNuget.TargetFwk)\ /E /Y" />
+      <Exec Command='xcopy "%(FilesForNuget.SourceDir)" "$(BinariesPath)\%(FilesForNuget.TargetFwk)\" /E /Y /Q' />
+    
+      <!-- Get the version number of the main FV assembly to insert into the nuspec files -->
+      <Message Importance="high" Text="[Print] PackageVersion: '$(NumericalVersion)'" />
+      <Message Importance="high" Text="[Print] NuspecFilePath: '$(NuspecFilePath)'" />
+
+     <!-- insert the version number into the nuspec file -->
+      <XmlPoke 
+        XmlInputPath="$(NuspecFilePath)"
+          Namespaces="&lt;Namespace Prefix='x' Uri='http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd' /&gt;"
+        Query="x:package/x:metadata/x:version" 
+        Value="$(PrettyVersion)" />
+
+      <!-- Gets the release note content from the proper file -->
+      <ReadLinesFromFile File="$(ReleaseNoteFile)">
+        <Output TaskParameter="Lines" ItemName="FileContents" />
+      </ReadLinesFromFile>
+      
+      <!-- Sets its content into a variable with n/a as the default value -->
+      <PropertyGroup>
+        <ReleaseNoteContent>n/a</ReleaseNoteContent>
+      </PropertyGroup>
+
+      <PropertyGroup Condition=" '@(FileContents,'%0a%0d')' != '' ">
+        <ReleaseNoteContent>@(FileContents,'%0a%0d')</ReleaseNoteContent>
+      </PropertyGroup>
+
+      <!-- Updates the nuspec file with this variable content -->
+      <XmlPoke
+        XmlInputPath="$(NuspecFilePath)"
+          Namespaces="&lt;Namespace Prefix='x' Uri='http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd' /&gt;"
+        Query="x:package/x:metadata/x:releaseNotes"
+        Value="$(ReleaseNoteContent.Replace('&amp;', '&amp;&amp;').Replace('&lt;', '&amp;lt;').Replace('&gt;', '&amp;gt;'))" />
+
+      <Message Importance="high" Text="
+---------------------------------------------------------------
+CREATING NUGET PACKAGE IN:
+    - $(PackagesPath)
+---------------------------------------------------------------
+            "  />
+      <MakeDir Directories="$(PackagesPath)" Condition="!Exists('$(PackagesPath)')" />
+      <Delete Files="$(PackagesPath)\*.*"/>
+      <Exec Command='"$(NuGetExePath)" pack "$(NuspecFilePath)" -OutputDirectory "$(PackagesPath)"' LogStandardErrorAsError="true" />
+
+        <Message Importance="high" Text="--------- End of PACKAGE ---------"/>
+  </Target>
+
+  <!-- 6- Then Publish (but not for PR)-->
+  <Target Name="Publish" DependsOnTargets="Package">
+    <PropertyGroup>
+      <PackageFileName>$(PackagesPath)\$(SolutionName).$(PrettyVersion).nupkg</PackageFileName>
+    </PropertyGroup>
+    <!--= Publish the package on Nuget-->
+    <Message Importance="high" Text="--------- NUGET PUBLISH  -------------------------------------------"/>
+
+    <Exec Command='"$(NuGetExePath)" setApiKey $(NugetKey) -source $(NugetFeed) -verbosity quiet' EchoOff='true' Condition="'$(NugetKey)'!='' AND '$(APPVEYOR_PULL_REQUEST_NUMBER)'==''"/>
+    <Exec Command='"$(NuGetExePath)" push "$(PackageFileName)" -Source $(NugetFeed)' Condition="'$(NugetKey)'!='' AND '$(APPVEYOR_PULL_REQUEST_NUMBER)'==''"/>
+
+    <Message Importance="high" Text="--------- end of NUGET PUBLISH  -------------------------------------"/>
+  </Target>
+  
+  <UsingTask TaskName="VersionBuilding" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+    <ParameterGroup>
+      <version ParameterType="System.String" Required="true"/>
+      <stream ParameterType="System.String" Required="false"/>
+      <fullVersion ParameterType="System.String" Output="true"/>
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System.Text" />
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[ 
+            var builder = new StringBuilder(version.Length);
+            var parts = (version+".0.0").Split('.');
+            var buildId = int.Parse(parts[3]);
+            if (buildId < 10000)
+            {
+                parts[3] = buildId.ToString("0000");
+            }
+            else
+            {
+                parts[3] = buildId.ToString("00000");
+            }
+            if (string.IsNullOrEmpty(stream))
+            {
+              builder.AppendFormat("{0}.{1}.{2}", parts[0], parts[1], parts[2]);
+            }
+            else
+            {
+              builder.AppendFormat("{0}.{1}.{2}-{4}-{3}", parts[0], parts[1], parts[2], parts[3], stream);
+            }
+            fullVersion=builder.ToString();
+        ]]>
+      </Code>
+    </Task>
+  </UsingTask>
+
+  <UsingTask TaskName="RegexTransform" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+    <ParameterGroup>
+      <Items ParameterType="Microsoft.Build.Framework.ITaskItem[]" />
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System.IO" />
+      <Using Namespace="System.Text.RegularExpressions" />
+      <Using Namespace="Microsoft.Build.Framework" />
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
+            foreach(ITaskItem item in Items) {
+              string fileName = item.GetMetadata("FullPath");
+              string find = item.GetMetadata("Find");
+              string replaceWith = item.GetMetadata("ReplaceWith");
+              
+              if(!File.Exists(fileName)) {
+                Log.LogError(null, null, null, null, 0, 0, 0, 0, String.Format("Could not find version file: {0}", fileName), new object[0]);
+              }
+              string content = File.ReadAllText(fileName);
+              File.WriteAllText(
+                fileName,
+                Regex.Replace(
+                  content,
+                  find,
+                  replaceWith
+                )
+              );
+            }
+          ]]>
+      </Code>
+    </Task>
+  </UsingTask>
+
+  </Project>
+                                                                                             

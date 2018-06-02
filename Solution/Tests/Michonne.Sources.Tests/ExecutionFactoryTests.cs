@@ -47,7 +47,7 @@ namespace Michonne.Tests
             var factory = new ExecutorFactory();
             var threadExec = factory.GetDedicatedThread();
             Check.That(threadExec).IsNotNull();
-            Check.That(threadExec.ExecutorFactory).IsSameReferenceThan(factory);
+            Check.That(threadExec.ExecutorFactory).IsSameReferenceAs(factory);
         }
 
         [Test]
