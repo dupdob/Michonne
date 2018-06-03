@@ -252,27 +252,28 @@ RUN ALL UNIT TESTS
   <Target Name="CheckCoverage" DependsOnTargets="Coverage">
     <!--Scan result for partial coverage-->
     <XmlPeek XmlInputPath='$(CoverageDataFile)'
-             Query="//Class[Summary/@sequenceCoverage&lt;100 and Summary/@numSequencePoints>0]/FullName/text()">
+             Query="//Class[Summary/@sequenceCoverage&lt;100 and Summary/@numSequencePoints>0]/FullName/text()" Condition="Exists($(CoverageDataFile))">
       <Output TaskParameter="Result" ItemName="Peeked" />
     </XmlPeek>
     <XmlPeek XmlInputPath='$(CoverageDataFile)'
-             Query="//Class[Summary/@branchCoverage&lt;100 and Summary/@numBranchPoints>0]/FullName/text()">
+             Query="//Class[Summary/@branchCoverage&lt;100 and Summary/@numBranchPoints>0]/FullName/text()" Condition="Exists($(CoverageDataFile))">
       <Output TaskParameter="Result" ItemName="BranchPeeked" />
     </XmlPeek>
-    <Warning Text="Insufficient line coverage on @(Peeked) "/>
-    <Warning Text="Insufficient branch coverage on @(BranchPeeked) "/>
+    <Warning Text="Insufficient line coverage on @(Peeked)" Condition="'@(Peeked)'!=''"/>
+    <Warning Text="Insufficient branch coverage on @(BranchPeeked)" Condition="'@(BranchPeeked)'!=''"/>
+    <Warning Text="No coverage data generated" Condition="!Exists($(CoverageDataFile))"/>
   </Target>
 
   <Target Name="CoverageReport" DependsOnTargets="Coverage;CheckCoverage">
     <PropertyGroup>
       <CoverReportToolPath>$(NuGetToolsPath)\ReportGenerator.$(reportGeneratorVersion)\tools</CoverReportToolPath>
     </PropertyGroup>
-    <Exec Command='"$(NuGetExePath)" install reportgenerator -o "$(NuGetToolsPath)" -version $(reportGeneratorVersion)'/>
+    <Exec Command='"$(NuGetExePath)" install reportgenerator -o "$(NuGetToolsPath)" -version $(reportGeneratorVersion)' />
 
     <Message Importance="high" Text="--------- Publish Coverage ---------"/>
     <Message Importance="high" Text="Get Tools"/>
 
-    <Exec Command ='"$(CoverReportToolPath)\ReportGenerator.exe" -reports:$(CoverageDataFile) -targetdir:"$(SolutionRoot)\CoverageReport"' Condition="'$(APPVEYOR)'!='True'"/>
+    <Exec Command ='"$(CoverReportToolPath)\ReportGenerator.exe" -reports:$(CoverageDataFile) -targetdir:"$(SolutionRoot)\CoverageReport"' Condition="('$(APPVEYOR)'!='True') and (Exists($(CoverageDataFile)))"/>
 
     <Exec Command="pip install codecov"/>
     <Exec WorkingDirectory="$(SolutionRoot)" Command='codecov -f "$(CoverageDataFile)" -t $(CodeCovKey) -X gcov -n $(SolutionName)'

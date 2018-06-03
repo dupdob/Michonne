@@ -93,7 +93,7 @@
       </TestProjects>
       <TestProjects Include='$(TestsPath)\Michonne.Tests.45\bin\$(Configuration)\$(SolutionName).Tests.dll'>
         <Framework>net-4.5</Framework>
-        <Coverage>true</Coverage>
+        <Coverage>false</Coverage>
       </TestProjects>
       <TestProjects Include='$(TestsPath)\Michonne.Tests.Core\Michonne.Tests.Core.csproj'>
         <Framework>netstandard1.3</Framework>
