@@ -7,8 +7,7 @@ configuration: Release
 platform: Any CPU
 build_script:
   - cmd: Nightly.cmd
-build:
-  verbosity: minimal
+
 test: off
 
 environment:
@@ -19,10 +18,15 @@ artifacts:
   name: Package
 
 assembly_info:
+  
   patch: true
+  
   file: version.cs
+  
   assembly_version: '{version}'
+  
   assembly_file_version: '{version}'
+  
   assembly_informational_version: '{version}'
 
 notifications:
