@@ -23,33 +23,25 @@ namespace Seq
     public class TaskContinuationSequencer : ISequencer
     {
         private readonly object _lock = new object();
-        private readonly TaskScheduler _scheduler;
+        private readonly TaskScheduler scheduler;
         
-        private Task _task = Task.FromResult(0);
-
-        private IExecutorFactory unitOfExecutionsFactory;
+        private Task task = Task.FromResult(0);
 
         public TaskContinuationSequencer(IExecutor executor)
         {
-            this._scheduler = new TaskSchedulerAdapter(executor);
+            this.scheduler = new TaskSchedulerAdapter(executor);
         }
 
         /// <summary>
         ///     Gets the unit of executions factory.
         /// </summary>
-        public IExecutorFactory ExecutorFactory
-        {
-            get
-            {
-                return this.unitOfExecutionsFactory;
-            }
-        }
+        public IExecutorFactory ExecutorFactory => null;
 
         public void Dispatch(Action action)
         {
             lock (this._lock)
             {
-                this._task = this._task.ContinueWith(_ => action(), this._scheduler);
+                this.task = this.task.ContinueWith(_ => action(), this.scheduler);
             }
         }
     }

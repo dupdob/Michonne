@@ -19,12 +19,9 @@
 
 namespace Michonne.Tests
 {
-    using System;
     using System.Threading;
 
-    using Michonne.Implementation;
-    using Michonne.Sources.Tests;
-
+    using Implementation;
     using NFluent;
 
     using NUnit.Framework;
@@ -41,7 +38,6 @@ namespace Michonne.Tests
         public void ShouldConflateActions()
         {
             var dedicated = new StepperUnit();
-            var go = true;
             var ranTasks = 0;
 
             var conflator = new ActionConflator(dedicated);
@@ -64,9 +60,9 @@ namespace Michonne.Tests
             var factory = new ExecutorFactory();
             var dedicated = factory.GetDedicatedThread();
             var act = 0;
-            Action<int> processing = _ => act++;
+            void Processing(int _) => act++;
 
-            var conflatedProcessor = dedicated.BuildConflator(processing);
+            var conflatedProcessor = dedicated.BuildConflator((System.Action<int>) Processing);
 
             dedicated.Dispatch(() => Thread.Sleep(10));
             conflatedProcessor(1);
@@ -86,9 +82,9 @@ namespace Michonne.Tests
             var factory = new ExecutorFactory();
             var dedicated = factory.GetDedicatedThread();
             var act = 0;
-            Action<int> processing = _ => act++;
+            void Processing(int _) => act++;
 
-            var conflatedProcessor = dedicated.BuildProcessor(processing, true);
+            var conflatedProcessor = dedicated.BuildProcessor((System.Action<int>) Processing, true);
 
             dedicated.Dispatch(() => Thread.Sleep(10));
             conflatedProcessor.Post(1);
