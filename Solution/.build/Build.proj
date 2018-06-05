@@ -20,7 +20,7 @@
     <NuspecFilePath>$(SolutionRoot)\$(SolutionName).nuspec</NuspecFilePath>
     <ReleaseNoteFile>$(SolutionRoot)\ReleaseNoteContentToBeInsertedWithinNuspecFile.txt</ReleaseNoteFile>
     <AppVeyorFile>$(SolutionRoot)\..\appveyor.yml</AppVeyorFile>
-   <NugetSource>https://www.myget.org/F/dupdobnightly/api/v2/package</NugetSource>
+   <NugetSource>https://www.myget.org/F/dupdobnightly/api/v3/index.json</NugetSource>
   </PropertyGroup>
 
   
