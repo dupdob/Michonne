@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30128.74
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Solution Items", ".Solution Items", "{A8DBCE1E-186B-4E85-8F39-86BD87EEC592}"
 	ProjectSection(SolutionItems) = preProject
@@ -108,6 +108,7 @@ Global
 		Tests\Michonne.Sources.Tests\Michonne.Sources.Tests.projitems*{4995a042-5a56-4ba8-bde8-a860c690dbf3}*SharedItemsImports = 4
 		Tests\Michonne.Sources.Tests\Michonne.Sources.Tests.projitems*{5e8f0aff-ae37-4876-aac0-d1ec1c513069}*SharedItemsImports = 13
 		Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.projitems*{61737dd3-8d76-4314-825c-f57924148e4d}*SharedItemsImports = 4
+		Michonne.Sources\Michone.Sources.projitems*{72babc4f-2f9e-4891-8cde-f7542f805a44}*SharedItemsImports = 5
 		Michonne.Sources\Michone.Sources.projitems*{76d48e2e-e97d-46d1-81fc-7abaea8463ac}*SharedItemsImports = 4
 		Tests\Michonne.Sources.Tests\Michonne.Sources.Tests.projitems*{861bf70e-f339-4c39-985f-7181bd967995}*SharedItemsImports = 4
 		Michonne.Sources\Michone.Sources.projitems*{9f504831-4236-40c1-83fc-55a0878870ce}*SharedItemsImports = 4
@@ -116,7 +117,9 @@ Global
 		Tests\Michonne.Sources.Tests\Michonne.Sources.Tests.projitems*{bd356126-80a8-4bae-805c-5f5f24485a8f}*SharedItemsImports = 4
 		Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.projitems*{ccf60bc4-c070-4431-a4c3-8bf75b4484c8}*SharedItemsImports = 4
 		Michonne.Sources\Michone.Sources.projitems*{f152b0bf-7ea0-44d5-b026-987d6312a7bd}*SharedItemsImports = 4
+		Michonne.Sources.Interfaces\Michonne.Sources.Interfaces.projitems*{f1ce45fd-a927-4fa2-b7bc-ba72c7c91378}*SharedItemsImports = 5
 		Tests\Michonne.Sources.Tests\Michonne.Sources.Tests.projitems*{f7d77346-0d41-41e8-8662-a6c2a0654a34}*SharedItemsImports = 4
+		Tests\Michonne.Sources.Tests\Michonne.Sources.Tests.projitems*{fc73c667-dbd3-4bc8-a18d-782cce801af1}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
