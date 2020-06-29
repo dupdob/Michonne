@@ -13,7 +13,15 @@
     <Description>Contains implementation classes for Michonne</Description>
     <Copyright>Copyright © Cyrille Dupuydauby 2015</Copyright>
     <RepositoryUrl>https://github.com/dupdob/Michonne</RepositoryUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>bin\Release\netstandard1.3\Michonne.Implementation.xml</DocumentationFile>
   </PropertyGroup>
